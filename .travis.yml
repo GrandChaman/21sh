@@ -5,3 +5,11 @@ before-install:
     echo "Making project..."
 install:
     make
+script:
+    echo "No Script Yet"
+
+notifications:
+  email: false
+  slack: 42born2code:cgvUOkdMpA1a8HqpKAQQz62J
+    on_success: always
+    on_failure: always
