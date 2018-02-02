@@ -2,8 +2,10 @@ language: C
 os: osx
 install:
     make
-script:
-    echo "No Script Yet"
+jobs:
+  include:
+    - stage: Basics
+      script: ./test/author.sh
 notifications:
   email: false
   slack: 42born2code:cgvUOkdMpA1a8HqpKAQQz62J
