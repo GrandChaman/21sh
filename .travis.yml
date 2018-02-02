@@ -1,0 +1,7 @@
+language: C
+os: osx
+
+before-install:
+    echo "Making project..."
+install:
+    make
