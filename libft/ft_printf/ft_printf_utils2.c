@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 09:53:42 by fle-roy           #+#    #+#             */
-/*   Updated: 2017/12/02 17:28:41 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/01/24 18:20:56 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@
 #include <stdlib.h>
 #include "ft_printf_format_list.h"
 
-int							handle_padding(int fd, t_ptf_param param, int len,
-	int att)
+void						handle_padding(t_ptf_buf *buf, t_ptf_param param,
+	int len, int att)
 {
-	int res;
-
-	res = 0;
 	if (((att == BEFORE && !param.minus) || (att == AFTER && param.minus))
 		&& param.padding > 0 && param.padding > (param.precision - len))
-		res += print_padding(fd, (param.zero ? '0' : ' '), param.padding -
+		print_padding(buf, (param.zero ? '0' : ' '), param.padding -
 		((param.precision - len <= 0 ? 0 : param.precision - len) + param.neg)
 		- len);
-	return (res);
 }
 
 unsigned long long			absolute_value(long long i)
@@ -35,12 +31,15 @@ unsigned long long			absolute_value(long long i)
 	return ((~0 ^ (unsigned long long)i) + 1);
 }
 
-void						ft_putll(int fd, unsigned long long n, int *i)
+void						ft_putll(t_ptf_buf *buf, unsigned long long n)
 {
+	char tmp[2];
+
+	tmp[1] = 0;
 	if (n > 9)
-		ft_putll(fd, n / 10, i);
-	ft_putchar_fd((n % 10) + '0', fd);
-	(*i)++;
+		ft_putll(buf, n / 10);
+	tmp[0] = (n % 10) + '0';
+	dbuf_append(&buf->buf, tmp);
 }
 
 unsigned long long			extract_nb(t_ptf_param param, va_list ap)

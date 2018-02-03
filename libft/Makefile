@@ -6,17 +6,19 @@
 #    By: bluff <bluff@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/19 19:26:33 by bluff             #+#    #+#              #
-#    Updated: 2018/01/23 11:48:13 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/03 17:00:57 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT_DIR = libft
 PRINTF_DIR = ft_printf
 GNL_DIR = gnl
+LIBFT_DEP_DIR = libft_dep
+PRINTF_DEP_DIR = printf_dep
+GNL_DEP_DIR = gnl_dep
+SRC_GNL = $(addprefix $(GNL_DIR)/, get_next_line.c)
 
-SRCS_GNL = $(addprefix $(GNL_DIR)/, get_next_line.c)
-
-SRCS_LIBFT = $(addprefix $(LIBFT_DIR)/, ft_any.c ft_atoi.c ft_bzero.c \
+SRC_LIBFT = $(addprefix $(LIBFT_DIR)/, ft_any.c ft_atoi.c ft_bzero.c \
 ft_count_if.c ft_factorial.c ft_find_next_prime.c ft_foreach.c ft_isalnum.c \
 ft_isalpha.c ft_isascii.c ft_isdigit.c ft_islowercase.c ft_isprime.c \
 ft_isprint.c ft_issort.c ft_isuppercase.c ft_itoa.c ft_lstat.c \
@@ -36,50 +38,75 @@ ft_swap.c ft_tolower.c ft_toupper.c ft_atoi_base.c ft_iswhitespace.c \
 ft_btree_apply_infix.c ft_btree_apply_suffix.c ft_btree_apply_prefix.c \
 ft_btree_create_node.c ft_btree_insert_data.c ft_perror.c ft_btree_destroy.c \
 ft_btree_count_node.c ft_itoa_base.c ft_numlen.c ft_getenv.c ft_free2d.c \
-ft_str2ddup.c ft_haschar.c ft_free.c ft_strsplit_multi.c ft_lstdestroy.c)
+ft_str2ddup.c ft_haschar.c ft_free.c ft_strsplit_multi.c ft_lstdestroy.c \
+dbuf_init.c dbuf_append.c dbuf_clear.c dbuf_insert.c dbuf_remove.c \
+dbuf_destroy.c dbuf_substract.c dbuf_print.c)
 
-SRCS_PRINTF = $(addprefix $(PRINTF_DIR)/, ft_printf.c ft_printf_utils.c \
-		ft_printf_string.c ft_printf_parser.c \
+SRC_PRINTF = $(addprefix $(PRINTF_DIR)/, ft_printf_routine.c ft_printf.c \
+		ft_printf_utils.c ft_printf_string.c ft_printf_parser.c \
 		ft_printf_parameters.c ft_printf_utils2.c ft_printf_numbers.c \
 		ft_printf_utils3.c ft_printf_numbers_upper.c ft_printf_wstring.c \
 		ft_printf_utils4.c ft_printf_extract_dynamic_param.c \
 		ft_printf_numbers2.c)
 
-INCLUDES = include
-CFLAGS =-c -Wall -Wextra -Werror -I $(INCLUDES)
-OBJS = objs
+INCLUDE = include
+CFLAG =-g3 -c -Wall -Wextra -Werror -I $(INCLUDE)
+OBJ = obj
 CC = cc
 LN = ar
 LFLAGS = rsc
 BIN = bin
-OBJS_GNL = $(SRCS_GNL:$(GNL_DIR)/%.c=$(OBJS)/%.o)
-OBJS_PRINTF = $(SRCS_PRINTF:$(PRINTF_DIR)/%.c=$(OBJS)/%.o)
-OBJS_LIBFT = $(SRCS_LIBFT:$(LIBFT_DIR)/%.c=$(OBJS)/%.o)
+OBJ_GNL = $(SRC_GNL:$(GNL_DIR)/%.c=$(OBJ)/%.o)
+OBJ_PRINTF = $(SRC_PRINTF:$(PRINTF_DIR)/%.c=$(OBJ)/%.o)
+OBJ_LIBFT = $(SRC_LIBFT:$(LIBFT_DIR)/%.c=$(OBJ)/%.o)
+DEP_LIBFT = $(SRC_LIBFT:$(LIBFT_DIR)/%.c=$(LIBFT_DEP_DIR)/%.d)
+DEP_PRINTF = $(SRC_PRINTF:$(PRINTF_DIR)/%.c=$(PRINTF_DEP_DIR)/%.d)
+DEP_GNL = $(SRC_GNL:$(GNL_DIR)/%.c=$(GNL_DEP_DIR)/%.d)
+
 NAME = $(addprefix ./$(BIN)/, libft.a)
 all: $(NAME)
 test:
-	echo $(NAME)
-$(OBJS)/%.o: $(LIBFT_DIR)/%.c
+	@echo $(DEP_LIBFT)
+	@echo $(LIBFT_DEP_DIR)
+$(LIBFT_DEP_DIR)/%.d: $(LIBFT_DIR)/%.c
+	@printf "\r\033[K[LIBFT] \033[1;32mGenerating deps - $<\033[0m"
+	@$(CC) $(CFLAG) -MM $^ | sed -e '1s/^/$(OBJ)\//' > $@
+$(PRINTF_DEP_DIR)/%.d: $(PRINTF_DIR)/%.c
+	@printf "\r\033[K[PRINTF] \033[1;32mGenerating deps - $<\033[0m"
+	@$(CC) $(CFLAG) -MM $^ | sed -e '1s/^/$(OBJ)\//' > $@
+$(GNL_DEP_DIR)/%.d: $(GNL_DIR)/%.c
+	@printf "\r\033[K[GNL] \033[1;32mGenerating deps - $<\033[0m"
+	@$(CC) $(CFLAG) -MM $^ | sed -e '1s/^/$(OBJ)\//' > $@
+$(OBJ)/%.o: $(LIBFT_DIR)/%.c
 	@printf "\r\033[K[LIBFT] \033[1;32mBuilding $<\033[0m"
-	@$(CC) $(CFLAGS) $< -o $@
-$(OBJS)/%.o: $(PRINTF_DIR)/%.c
+	@$(CC) $(CFLAG) $< -o $@
+$(OBJ)/%.o: $(PRINTF_DIR)/%.c
 	@printf "\r\033[K[PRINTF] \033[1;32mBuilding $<\033[0m"
-	@$(CC) $(CFLAGS) $< -o $@
-$(OBJS)/%.o: $(GNL_DIR)/%.c
+	@$(CC) $(CFLAG) $< -o $@
+$(OBJ)/%.o: $(GNL_DIR)/%.c
 	@printf "\r\033[K[GNL] \033[1;32mBuilding $<\033[0m"
-	@$(CC) $(CFLAGS) $< -o $@
-$(NAME): $(OBJS_LIBFT) $(OBJS_PRINTF) $(OBJS_GNL)
-	@printf "\r\033[K[LIBFT_TOTAL] \033[1;32mLinking...\033[0m\n"
-	@$(LN) $(LFLAGS) $(NAME) $(OBJS_LIBFT) $(OBJS_PRINTF) $(OBJS_GNL)
-	@printf "\n[LIBFT_TOTAL] \033[1;32mDone!\033[0m\n"
+	@$(CC) $(CFLAG) $< -o $@
+$(NAME): $(OBJ_LIBFT) $(OBJ_PRINTF) $(OBJ_GNL)
+	@printf "\r\033[K[LIBFT_TOTAL] \033[1;32mLinking...\033[0m"
+	@$(LN) $(LFLAGS) $(NAME) $(OBJ_LIBFT) $(OBJ_PRINTF) $(OBJ_GNL)
+	@printf "\r\033[K[LIBFT_TOTAL] \033[1;32mDone!\033[0m\n"
 clean:
-	@rm -f $(OBJS_LIBFT) $(OBJS_PRINTF) $(OBJS_GNL)
-	@printf "[LIBFT_TOTAL] \033[1;31mCleaned .o!\033[0m\n"
-
+	@rm -f $(OBJ_LIBFT) $(OBJ_PRINTF) $(OBJ_GNL)
+	@printf "\r\033[K[LIBFT_TOTAL] \033[1;31mCleaned .o!\033[0m\n"
+dclean:
+	@rm -f $(DEP_LIBFT)
+	@rm -f $(DEP_PRINTF)
+	@rm -f $(DEP_GNL)
+	@printf "\r\033[K[LIBFT_TOTAL] \033[1;31mCleaned .d!\033[0m\n"
 fclean: clean
 	@rm -f $(NAME)
-	@printf "[LIBFT_TOTAL] \033[1;31mCleaned .a!\033[0m\n"
+	@printf "\r\033[K[LIBFT_TOTAL] \033[1;31mCleaned .a!\033[0m\n"
 re:
+	@$(MAKE) dclean
 	@$(MAKE) fclean
 	@$(MAKE) all
+-include $(DEP_LIBFT)
+-include $(DEP_PRINTF)
+-include $(DEP_GNL)
+
 .PHONY: all clean fclean re libft gnl printf

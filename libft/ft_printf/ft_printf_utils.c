@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 09:53:42 by fle-roy           #+#    #+#             */
-/*   Updated: 2017/12/02 17:06:11 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/01/24 22:45:04 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,16 @@ int					ft_nblen(unsigned long long nb)
 	return (ft_nblen(nb / 10) + 1);
 }
 
-int					print_padding(int fd, char c, int len)
+void				print_padding(t_ptf_buf *buf, char c, int len)
 {
-	char	tmp[PADDING_BUF_SIZE + 1];
-	int		res;
+	char tmp[2];
 
-	res = 0;
 	if (len <= 0)
-		return (0);
-	if (len > PADDING_BUF_SIZE)
-	{
-		res += print_padding(fd, c, (len - PADDING_BUF_SIZE));
-		len -= (len - PADDING_BUF_SIZE);
-	}
-	ft_memset(tmp, c, len);
-	tmp[len] = '\0';
-	write(fd, tmp, len);
-	return (res + len);
+		return ;
+	tmp[0] = c;
+	tmp[1] = 0;
+	while (len--)
+		dbuf_append(&buf->buf, tmp);
 }
 
 int					ft_strccmp(const char *lhs, const char *rhs)
@@ -61,13 +54,18 @@ int					ft_strnccmp(const char *lhs, const char *rhs, int max)
 	return (i);
 }
 
-int					ft_putnstr(int fd, const char *str, int stop)
+void				ft_putnstr(t_ptf_buf *buf, const char *str, int stop)
 {
-	int i;
+	char	tmp[2];
+	int		i;
 
-	i = 0;
-	while (str[i] && (!stop || i < stop))
-		i++;
-	write(fd, str, i);
-	return (i);
+	i = -1;
+	tmp[1] = 0;
+	if (!stop)
+		stop = ft_strlen(str);
+	while (++i < stop)
+	{
+		tmp[0] = str[i];
+		dbuf_append(&buf->buf, tmp);
+	}
 }

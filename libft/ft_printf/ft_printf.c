@@ -6,90 +6,79 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 09:38:11 by fle-roy           #+#    #+#             */
-/*   Updated: 2017/12/02 17:35:43 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/01/25 17:03:19 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "ft_printf_utils.h"
-#include "ft_printf_parser.h"
 #include "libft.h"
 #include <stdarg.h>
-
-int		handle_colors(int fd, const char *format, int *li, int *i)
-{
-	int ii;
-	int len;
-	int res;
-
-	res = 0;
-	ii = -1;
-	len = *i + 1;
-	while (format[len] && format[len] != '}')
-		len++;
-	while (g_color_list[++ii].trigger && format[len] == '}')
-		if (!ft_strncmp(g_color_list[ii].trigger, format + *i + 1,
-			len - *i - 1))
-		{
-			if ((*i) - *li)
-				res += ft_putnstr(fd, format + *li, (*i) - *li);
-			res += ft_putnstr(fd, g_color_list[ii].code, 0);
-			*li = len + 1;
-			*i = len;
-			break ;
-		}
-	return (res);
-}
-
-int		ft_printf_routine(int fd, const char *ft, va_list ap)
-{
-	int		i;
-	int		li;
-	int		tmp;
-	int		res;
-
-	res = 0;
-	li = 0;
-	i = -1;
-	while (ft[++i])
-		if (ft[i] == '%')
-		{
-			if ((tmp = format_handler(fd, get_toprint(ft, li, i), &i, ap)) >= 0)
-				res += tmp;
-			else
-				return (-1);
-			li = i;
-			i--;
-		}
-		else if (ft[i] == '{')
-			res += handle_colors(fd, ft, &li, &i);
-	res += ft_putnstr(fd, ft + li,
-		(i && ft[i - 1] == '%' ? (i - li) - 1 : 0));
-	return (res);
-}
+#include <unistd.h>
+#include <stdlib.h>
 
 int		ft_printf(const char *format, ...)
 {
-	va_list	ap;
-	int		res;
+	int			res;
+	t_ptf_buf	buf;
 
 	if (!format)
 		return (-1);
-	va_start(ap, format);
-	res = ft_printf_routine(1, format, ap);
-	va_end(ap);
+	va_start(buf.ap, format);
+	dbuf_init(&buf.buf);
+	res = ft_printf_routine(&buf, format);
+	dbuf_print(&buf.buf, STDOUT_FILENO);
+	dbuf_destroy(&buf.buf);
+	va_end(buf.ap);
 	return (res);
 }
 
 int		ft_fprintf(int fd, const char *format, ...)
 {
-	va_list	ap;
-	int		res;
+	int			res;
+	t_ptf_buf	buf;
 
-	if (!format)
+	if (!format || fd < 0)
 		return (-1);
-	va_start(ap, format);
-	res = ft_printf_routine(fd, format, ap);
-	va_end(ap);
+	va_start(buf.ap, format);
+	dbuf_init(&buf.buf);
+	res = ft_printf_routine(&buf, format);
+	dbuf_print(&buf.buf, fd);
+	dbuf_destroy(&buf.buf);
+	va_end(buf.ap);
+	return (res);
+}
+
+int		ft_asprintf(char **ret, const char *format, ...)
+{
+	int			res;
+	t_ptf_buf	buf;
+
+	if (!format || !ret)
+		return (-1);
+	va_start(buf.ap, format);
+	dbuf_init(&buf.buf);
+	res = ft_printf_routine(&buf, format);
+	*ret = buf.buf.buf;
+	va_end(buf.ap);
+	return (res);
+}
+
+int		ft_snprintf(char *ret, size_t size, const char *format, ...)
+{
+	int			res;
+	t_ptf_buf	buf;
+	size_t		stop;
+
+	if (!format || !ret)
+		return (-1);
+	va_start(buf.ap, format);
+	dbuf_init(&buf.buf);
+	res = ft_printf_routine(&buf, format);
+	stop = (size < buf.buf.cursor ? size : buf.buf.cursor);
+	ft_memcpy(ret, buf.buf.buf, stop - 1);
+	ret[stop - 1] = 0;
+	dbuf_destroy(&buf.buf);
+	va_end(buf.ap);
 	return (res);
 }

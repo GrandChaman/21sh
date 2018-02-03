@@ -6,13 +6,12 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 17:46:22 by fle-roy           #+#    #+#             */
-/*   Updated: 2017/11/30 15:13:01 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/01/25 13:56:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_utils.h"
 #include "libft.h"
-#include "ft_printf_parser.h"
 #include "ft_printf_extract_dynamic_param.h"
 #include <stdarg.h>
 
@@ -46,84 +45,76 @@ int				skip_to_format(const char *str)
 	return (i);
 }
 
-void			parse_length_modifier(const char *fmt, t_ptf_param *param)
+void			parse_length_modifier(const char *c, t_ptf_param *p,
+	int *i, va_list ap)
 {
-	int i;
+	int tmp;
+
+	(void)ap;
+	tmp = 0;
+	if ((tmp = ft_strccmp(c, "hh")) == 2)
+		p->lm = HH;
+	else if ((tmp = ft_strccmp(c, "ll")) == 2)
+		p->lm = LL;
+	else if ((tmp = ft_strccmp(c, "h")))
+		p->lm = H;
+	else if ((tmp = ft_strccmp(c, "l")))
+		p->lm = L;
+	else if ((tmp = ft_strccmp(c, "j")))
+		p->lm = J;
+	else if ((tmp = ft_strccmp(c, "z")))
+		p->lm = Z;
+	*i += tmp;
+}
+
+void			parse_flags(const char *c, t_ptf_param *p,
+	int *i, va_list ap)
+{
+	(void)ap;
+	if (*c == '#')
+		p->hashtag = 1;
+	else if (*c == ' ')
+		p->space = 1;
+	else if (*c == '-')
+	{
+		p->minus = 1;
+		p->zero = 0;
+	}
+	else if (*c == '+')
+		p->plus = 1;
+	else if (*c == '0' && !p->zero && p->precision < 0)
+		p->zero = 1;
+	if (p->plus)
+		p->space = 0;
+	(*i)++;
+}
+
+void			parse_numbers(const char *c, t_ptf_param *p,
+	int *i, va_list ap)
+{
 	int len;
-	int ii;
-	int t;
 
-	i = 0;
-	param->lm = NONE;
-	while (is_arguments(fmt + i) && (!i || !is_format_identifier(fmt + i - 1)))
+	len = 0;
+	if (ft_isdigit(*c))
 	{
-		ii = -1;
-		len = 0;
-		while (g_length_modifier_list[++ii].trigger)
-		{
-			t = ft_strccmp(g_length_modifier_list[ii].trigger, fmt + i);
-			if (t - ft_strlen(g_length_modifier_list[ii].trigger) == 0
-				&& t > len)
-			{
-				len = t;
-				param->lm = g_length_modifier_list[ii].code;
-			}
-		}
-		i += len + (!len ? 1 : 0);
+		p->padding = ft_atoi(c);
+		len = ft_nblen(p->padding);
 	}
-}
-
-void			parse_flags(const char *fmt, t_ptf_param *param)
-{
-	int i;
-
-	i = 0;
-	while (is_arguments(fmt + i) && (!i || !is_format_identifier(fmt + i - 1)))
+	else if (*c == '.')
 	{
-		if (fmt[i] == '#')
-			param->hashtag = 1;
-		else if (fmt[i] == ' ')
-			param->space = 1;
-		else if (fmt[i] == '-')
-			param->minus = 1;
-		else if (fmt[i] == '+')
-			param->plus = 1;
-		else if (fmt[i] == '0' && (!i || (!ft_isdigit(fmt[i - 1]) &&
-				fmt[i - 1] != '.')))
-			param->zero = 1;
-		i++;
+		p->zero = 0;
+		if (*(c + 1) == '*')
+			p->precision = extract_dyn_param(NULL, ap);
+		else if (ft_isdigit(*(c + 1)))
+			p->precision = ft_atoi(c + 1);
+		else
+			p->precision = 0;
+		len = ft_nblen(p->precision) + 1;
 	}
-	if (param->plus)
-		param->space = 0;
-	if ((param->minus || param->precision >= 0) && i &&
-		!should_override_zero(fmt[i - 1]))
-		param->zero = 0;
-}
-
-void			parse_numbers(const char *fmt, t_ptf_param *param, va_list ap)
-{
-	int i;
-	int in_nb;
-
-	in_nb = 0;
-	i = 0;
-	param->precision = -1;
-	param->padding = -1;
-	while (is_arguments(fmt + i) && (!i || !is_format_identifier(fmt + i - 1)))
+	else if (*c == '*')
 	{
-		if (!(ft_isdigit(fmt[i])))
-			in_nb = 0;
-		if (!in_nb && ft_isdigit(fmt[i]) &&
-			(!i || fmt[i - 1] != '.'))
-			param->padding = ft_atoi(fmt + i);
-		else if (i && fmt[i - 1] == '.')
-			param->precision = (ft_isdigit(fmt[i]) ? ft_atoi(fmt + i) : 0);
-		if (fmt[i] == '*' && fmt[i - 1] != '.')
-			param->padding = extract_dyn_param(&(param->minus), ap);
-		if (fmt[i] == '*' && fmt[i - 1] == '.')
-			param->precision = extract_dyn_param(NULL, ap);
-		if (ft_isdigit(fmt[i]))
-			in_nb = 1;
-		i++;
+		p->padding = extract_dyn_param(&(p->minus), ap);
+		len = 1;
 	}
+	*i += len;
 }

@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/02/02 10:55:48 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/03 16:37:04 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,10 @@ SRC_DIR = src
 OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
-SRC = $(addprefix $(SRC_DIR)/, main.c cli.c)
+SRC = $(addprefix $(SRC_DIR)/, main.c cli.c cli_init.c terminal_settings.c \
+path_utils.c term_command.c special_touch.c error.c)
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
-CFLAG =-Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
+CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc
 LFLAG = -ltermcap
 BIN = bin

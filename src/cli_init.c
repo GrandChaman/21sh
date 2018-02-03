@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   cli_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/15 09:39:32 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/01/25 15:52:50 by fle-roy          ###   ########.fr       */
+/*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
+/*   Updated: 2018/02/03 16:28:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <stdlib.h>
+#include "ft_sh.h"
 
-int		ft_printf(const char *format, ...);
-int		ft_fprintf(int fd, const char *format, ...);
-int		ft_asprintf(char **ret, const char *format, ...);
-int		ft_snprintf(char *ret, size_t size, const char *format, ...);
+int		is_env_correct(void)
+{
+	int res;
 
-#endif
+	res = tgetent(NULL, getenv("TERM"));
+	if (res == -1)
+		return (!ft_fprintf(2,
+			"TERM environment variable is not set or is incorrect.\n"));
+	else if (res == 0)
+		return (!ft_fprintf(2,
+			"TERM info database not found.\n"));
+	return (1);
+}

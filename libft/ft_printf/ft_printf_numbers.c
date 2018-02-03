@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 15:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2017/12/02 17:36:29 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/01/24 22:09:24 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,105 +15,84 @@
 #include "ft_printf_format_list.h"
 #include "libft.h"
 
-int		print_signed(int fd, t_ptf_toprint format, t_ptf_param p, va_list ap)
+void	print_signed(t_ptf_buf *buf, t_ptf_toprint format, t_ptf_param p)
 {
 	unsigned long long	n;
-	int					res;
 	int					len;
 
-	res = 0;
 	if (format.len)
-		res += ft_putnstr(fd, format.str, format.len);
-	n = extract_nb_signed(&p, ap);
+		ft_putnstr(buf, format.str, format.len);
+	n = extract_nb_signed(&p, buf->ap);
 	len = ft_nblen(n) + (!n ? 1 : 0);
 	p.padding += (!p.precision && !n ? 1 : 0);
 	p.padding -= (((p.plus || (p.space && (len < p.padding
 					|| p.padding <= 0))) && !p.neg) ? 1 : 0);
 	if (p.space)
-		res += print_padding(fd, (p.neg ? '-' : ' '), 1);
+		print_padding(buf, (p.neg ? '-' : ' '), 1);
 	if ((p.plus || p.neg) && p.zero && !p.space)
-		res += print_padding(fd, (p.neg ? '-' : '+'), 1);
-	res += handle_padding(fd, p, len, BEFORE);
+		print_padding(buf, (p.neg ? '-' : '+'), 1);
+	handle_padding(buf, p, len, BEFORE);
 	if ((p.plus || p.neg) && !p.zero && !p.space)
-		res += print_padding(fd, (p.neg ? '-' : '+'), 1);
+		print_padding(buf, (p.neg ? '-' : '+'), 1);
 	if (p.precision > 0)
-		res += print_padding(fd, '0', p.precision - len);
+		print_padding(buf, '0', p.precision - len);
 	if (!(!p.precision && !n))
-		ft_putll(fd, n, &res);
-	res += handle_padding(fd, p, len, AFTER);
-	return (res);
+		ft_putll(buf, n);
+	handle_padding(buf, p, len, AFTER);
 }
 
-int		print_unsigned(int fd, t_ptf_toprint format, t_ptf_param param,
-	va_list ap)
+void	print_unsigned(t_ptf_buf *buf, t_ptf_toprint format, t_ptf_param param)
 {
 	unsigned long long	n;
-	int					res;
 	int					len;
 
-	res = 0;
 	if (format.len)
-		res += ft_putnstr(fd, format.str, format.len);
-	n = extract_nb(param, ap);
+		ft_putnstr(buf, format.str, format.len);
+	n = extract_nb(param, buf->ap);
 	len = ft_nblen(n);
 	len = (n ? len : 1);
-	res += handle_padding(fd, param, len, BEFORE);
+	handle_padding(buf, param, len, BEFORE);
 	if (param.hashtag)
-		res += print_padding(fd, '0', 1);
+		print_padding(buf, '0', 1);
 	if (param.precision > 0)
-		res += print_padding(fd, '0', param.precision - len);
+		print_padding(buf, '0', param.precision - len);
 	if (param.precision || n)
-		ft_putll(fd, n, &res);
-	res += handle_padding(fd, param, len, AFTER);
-	return (res);
+		ft_putll(buf, n);
+	handle_padding(buf, param, len, AFTER);
 }
 
-int		print_octal(int fd, t_ptf_toprint format, t_ptf_param param, va_list ap)
+void	print_octal(t_ptf_buf *buf, t_ptf_toprint format, t_ptf_param param)
 {
 	unsigned long long	n;
-	int					res;
 	int					len;
 	char				*istr;
 
-	res = 0;
 	if (format.len)
-		res += ft_putnstr(fd, format.str, format.len);
-	n = extract_nb(param, ap);
+		ft_putnstr(buf, format.str, format.len);
+	n = extract_nb(param, buf->ap);
 	istr = ft_itoa_base(n, 8);
 	len = ft_strlen(istr);
 	param.padding += (!param.precision && !n ? 1 : 0);
-	if (param.precision > 0)
-		param.hashtag = 0;
 	param.padding -= (param.hashtag && n ? 1 : 0);
-	res += handle_padding(fd, param, len, BEFORE);
-	if (param.hashtag && (n || !param.precision))
-		res += print_padding(fd, '0', 1);
+	handle_padding(buf, param, len, BEFORE);
+	if (param.hashtag && ((n && param.precision <= len) || !param.precision))
+		print_padding(buf, '0', 1);
 	if (param.precision > 0)
-		res += print_padding(fd, '0', param.precision - len);
+		print_padding(buf, '0', param.precision - len);
 	if (n || param.precision)
-		res += ft_putnstr(fd, istr, len);
-	res += handle_padding(fd, param, len, AFTER);
+		ft_putnstr(buf, istr, len);
+	handle_padding(buf, param, len, AFTER);
 	free(istr);
-	return (res);
 }
 
-int		print_hex(int fd, t_ptf_toprint format, t_ptf_param param, va_list ap)
+void	print_hex(t_ptf_buf *buf, t_ptf_toprint format, t_ptf_param param)
 {
-	int fd_n_mode[2];
-
-	fd_n_mode[0] = fd;
-	fd_n_mode[1] = LR;
-	return (hex_handler(fd_n_mode, format, param, ap));
+	hex_handler(LR, buf, format, param);
 }
 
-int		print_pointer(int fd, t_ptf_toprint format, t_ptf_param param,
-	va_list ap)
+void	print_pointer(t_ptf_buf *buf, t_ptf_toprint format, t_ptf_param param)
 {
-	int fd_n_mode[2];
-
-	fd_n_mode[0] = fd;
-	fd_n_mode[1] = PTR;
 	param.hashtag = 1;
 	param.lm = L;
-	return (hex_handler(fd_n_mode, format, param, ap));
+	hex_handler(PTR, buf, format, param);
 }
