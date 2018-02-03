@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   dbuf_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/15 09:39:32 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/01/25 15:52:50 by fle-roy          ###   ########.fr       */
+/*   Created: 2018/01/24 11:02:25 by fle-roy           #+#    #+#             */
+/*   Updated: 2018/01/24 11:44:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <stdlib.h>
+#include "libft.h"
+#include <stdlib.h>
 
-int		ft_printf(const char *format, ...);
-int		ft_fprintf(int fd, const char *format, ...);
-int		ft_asprintf(char **ret, const char *format, ...);
-int		ft_snprintf(char *ret, size_t size, const char *format, ...);
-
-#endif
+int		dbuf_init(t_dbuf *buf)
+{
+	if (!buf)
+		return (LIBFT_ERR);
+	buf->buf = ft_strnew(BUFF_SIZE);
+	buf->len = BUFF_SIZE;
+	buf->cursor = 0;
+	return (LIBFT_OK);
+}

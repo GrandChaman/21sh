@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:25:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2017/12/02 17:35:21 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/01/25 17:07:22 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define UP 1
 # define PTR 2
 # include <stdlib.h>
+# include "libft.h"
 # define ANSI_COLOR_RED        "\x1b[31m"
 # define ANSI_COLOR_GREEN      "\x1b[32m"
 # define ANSI_COLOR_YELLOW     "\x1b[33m"
@@ -49,6 +50,12 @@ typedef struct					s_color_code
 
 }								t_color_code;
 
+typedef struct					s_ptf_buf
+{
+	t_dbuf						buf;
+	va_list						ap;
+}								t_ptf_buf;
+
 typedef struct					s_ptf_param
 {
 	int							hashtag;
@@ -75,54 +82,152 @@ typedef struct					s_ptf_toprint
 typedef struct					s_ptf_format
 {
 	const char					*trigger;
-	int							(*f)(int fd, t_ptf_toprint format,
-		t_ptf_param param, va_list ap);
+	void						(*f)(t_ptf_buf *buf, t_ptf_toprint format,
+		t_ptf_param param);
 
 }								t_ptf_format;
 
-static const t_length_modifier	g_length_modifier_list[] = {
-	{"hh", HH},
-	{"h", H},
-	{"ll", LL},
-	{"l", L},
-	{"j", J},
-	{"z", Z},
-	{NULL, NONE}
+typedef void					(*t_ft_printf_param)(const char *c,
+	t_ptf_param *p, int *i, va_list ap);
+
+void							parse_flags(const char *c, t_ptf_param *p,
+	int *i, va_list ap);
+void							parse_length_modifier(const char *c,
+	t_ptf_param *p, int *i, va_list ap);
+void							parse_numbers(const char *c, t_ptf_param *p,
+	int *i, va_list ap);
+int								skip_to_format(const char *str);
+void							init_param(t_ptf_param *param);
+t_ptf_toprint					get_toprint(const char *format, int start,
+	int stop);
+
+static t_ft_printf_param		g_param_list[] = {
+	parse_flags,
+	NULL,
+	NULL,
+	parse_flags,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	parse_numbers,
+	parse_flags,
+	NULL,
+	parse_flags,
+	parse_numbers,
+	NULL,
+	parse_flags,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	parse_numbers,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	parse_length_modifier,
+	NULL,
+	parse_length_modifier,
+	NULL,
+	parse_length_modifier,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	parse_length_modifier
 };
 
-int								hex_handler(int fd[2], t_ptf_toprint format,
-	t_ptf_param p, va_list ap);
+void							hex_handler(int mode, t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param p);
 
-int								print_string(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_char(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_pourcent(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_octal(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_unsigned(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_signed(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_hex(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_hex_upper(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_unsigned_upper(int fd,
-	t_ptf_toprint format, t_ptf_param param, va_list ap);
-int								print_signed_upper(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_wchar(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_wstring(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_octal_upper(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_pointer(int fd, t_ptf_toprint format,
-	t_ptf_param param, va_list ap);
-int								print_binary(int fd, t_ptf_toprint format,
-	t_ptf_param p, va_list ap);
+void							print_string(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_char(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_pourcent(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_octal(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_unsigned(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_signed(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_hex(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_hex_upper(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_unsigned_upper(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_signed_upper(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_wchar(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_wstring(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_octal_upper(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_pointer(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param param);
+void							print_binary(t_ptf_buf *buf,
+	t_ptf_toprint format, t_ptf_param p);
 
 static const t_ptf_format g_format_list[] = {
 	{"c", print_char},
