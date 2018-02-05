@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/03 18:07:27 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/05 13:05:38 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,14 @@
 # define TC_MOVERIGHT "nd"
 # define TC_DELETE "dc"
 # define TC_NDELETE "DC"
-# define TC_ENTER_INSERT "im"
-# define TC_LEAVE_INSERT "ei"
+# define TC_MOVENLEFT "LE"
+# define TC_INSERTNCHAR "IC"
+# define TC_GOTONEXTLINE "nw"
+# define TC_SAVECURPOS "sc"
+# define TC_RESETCURPOS "rc"
+# define TC_MOVEDOWN "do"
+# define TC_MOVEUP "up"
+# define TC_MOVENRIGHT "RI"
 
 typedef struct			s_ft_sh
 {
@@ -48,6 +54,7 @@ typedef struct			s_ft_sh
 	unsigned int		prompt_size;
 	t_dbuf				buf;
 	unsigned int		cursor;
+	int					debug_tty;
 }						t_ft_sh;
 
 typedef	struct			s_ft_touch
@@ -67,6 +74,8 @@ void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_backspace(unsigned long touch);
 void		spt_arrow(unsigned long touch);
+void	get_screen_size(void);
+int		ft_nputstr(char *str, int n);
 
 static t_ft_touch		g_ft_touch_list[] =
 {

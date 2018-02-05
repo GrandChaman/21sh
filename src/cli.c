@@ -6,11 +6,54 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/03 18:14:50 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/05 13:16:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+void		insert_normal_touch(t_ft_sh *sh)
+{
+	int len;
+	int tmp;
+	int ncursor;
+	int substr_len;
+
+	ncursor = sh->cursor;
+	len = sh->buf.cursor - sh->cursor;
+	sh->cursor--;
+	exec_term_command(TC_SAVECURPOS);
+	while (len > 0)
+	{
+		tmp = sh->x_size - ((sh->prompt_size + ncursor) % sh->x_size);
+		substr_len = ft_strlen((sh->buf.buf + (ncursor - 1)));
+		if (tmp > substr_len)
+			tmp = substr_len;
+		exec_term_command_p(TC_NDELETE, 0, tmp);
+		exec_term_command_p(TC_INSERTNCHAR, 0, tmp);
+		write(1, (sh->buf.buf + (ncursor - 1)), tmp);
+		len -= tmp;
+		if (len > 0)
+			exec_term_command(TC_GOTONEXTLINE);
+		ncursor += tmp;
+	}
+	exec_term_command(TC_RESETCURPOS);
+	spt_arrow(T_RARR);
+}
+
+static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
+{
+	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
+	if (!((sh->prompt_size + sh->cursor - 1) % sh->x_size))
+	{
+		ft_fprintf(sh->debug_tty, "Going next line\n");
+		exec_term_command(TC_GOTONEXTLINE);
+	}
+	if (sh->cursor < sh->buf.cursor)
+		insert_normal_touch(sh);
+	else
+		ft_putchar((char)rchar);
+}
 
 void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 {
@@ -18,21 +61,7 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 
 	i = -1;
 	if (ft_isprint(rchar))
-	{
-		dbuf_insert(&shell->buf, shell->cursor++, (char)rchar);
-		if (shell->cursor < shell->buf.cursor)
-		{
-			exec_term_command_p(TC_NDELETE, 0,
-				shell->buf.cursor - shell->cursor);
-			i = ft_strlen(shell->buf.buf + (shell->cursor - 1));
-			exec_term_command_p("IC", 0, i);
-			ft_putstr(shell->buf.buf + (shell->cursor - 1));
-			exec_term_command_p("LE", 0, i - 1);
-
-		}
-		else
-			ft_putchar((char)rchar);
-	}
+		print_normal_touch(shell, rchar);
 	else
 		while (++i < 14)
 			if (g_ft_touch_list[i].touch == rchar)
