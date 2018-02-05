@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/05 13:16:05 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/05 18:28:03 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void		insert_normal_touch(t_ft_sh *sh)
 static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 {
 	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
-	if (!((sh->prompt_size + sh->cursor - 1) % sh->x_size))
+	if (!((sh->prompt_size + sh->cursor - 1) % (sh->x_size)))
 	{
 		ft_fprintf(sh->debug_tty, "Going next line\n");
-		exec_term_command(TC_GOTONEXTLINE);
+		ft_putchar('\n');
 	}
 	if (sh->cursor < sh->buf.cursor)
 		insert_normal_touch(sh);
