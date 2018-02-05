@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/05 13:05:38 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/05 18:09:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,16 @@ void		spt_backspace(unsigned long touch);
 void		spt_arrow(unsigned long touch);
 void	get_screen_size(void);
 int		ft_nputstr(char *str, int n);
+void		spt_delete(unsigned long touch);
+void		move_in_terminal(unsigned int touch, int should_update_buf);
+void		backspace_command(void);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
 	{T_ESCAPE, spt_backspace},
 	{T_TAB, NULL},
 	{T_BACKSPACE, spt_backspace},
-	{T_DELETE, NULL},
+	{T_DELETE, spt_delete},
 	{T_END, NULL},
 	{T_HOME, NULL},
 	{T_LARR, spt_arrow},
