@@ -6,16 +6,11 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:58:16 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 17:05:31 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 17:26:54 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-void		delete_and_rewrite(t_ft_sh *sh)
-{
-	update_stdout(sh, --sh->cursor, 0);
-}
 
 void		backspace_command(unsigned long touch)
 {
@@ -32,7 +27,7 @@ void		backspace_command(unsigned long touch)
 	if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == sh->x_size - 1)
 		exec_term_command(TC_MOVERIGHT);
 	if (sh->cursor < sh->buf.cursor)
-		update_stdout(sh, sh->cursor, 1);
+		update_stdout(sh, 1, 0);
 }
 
 void		delete_command(unsigned long touch)
@@ -50,5 +45,5 @@ void		delete_command(unsigned long touch)
 		exec_term_command(TC_MOVENLEFT);
 	}
 	else if (sh->cursor < sh->buf.cursor)
-		update_stdout(sh, sh->cursor, 1);
+		update_stdout(sh, 1, 0);
 }
