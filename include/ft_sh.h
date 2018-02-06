@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 12:46:31 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 16:29:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ int		ft_nputstr(char *str, int n);
 void		spt_delete(unsigned long touch);
 void		move_in_terminal(unsigned int touch, int should_update_buf);
 void		backspace_command(unsigned long touch);
+void		update_stdout(t_ft_sh *sh, int ncur, int offset);
+void		delete_command(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
 	{T_ESCAPE, backspace_command},
 	{T_TAB, NULL},
 	{T_BACKSPACE, backspace_command},
-	{T_DELETE, spt_delete},
+	{T_DELETE, delete_command},
 	{T_END, NULL},
 	{T_HOME, NULL},
 	{T_LARR, spt_arrow},
