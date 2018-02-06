@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/02/06 10:15:45 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/06 10:18:32 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAG) -c $< -o $@
 $(DEP_DIR)/%.d: %.c
 	@printf "\r\033[K[$(NAME_UP)] \033[1;32mGenerating dependencies - $<\033[0m"
-	$(CC) $(CFLAG) -MM $^ | sed -e '1s/^/$(OBJ_DIR)\//' > $@
+	@$(CC) $(CFLAG) -MM $^ | sed -e '1s/^/$(OBJ_DIR)\//' > $@
 $(NAME): $(LIBFT) $(OBJ)
 	@printf "\r\033[K[$(NAME_UP)] \033[1;32mLinking...\033[0m"
 	@$(CC) $(LFLAG) -o $(NAME) $(LIBFT) $(OBJ)

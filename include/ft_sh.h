@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 09:46:57 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 12:46:31 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define TC_MOVEDOWN "do"
 # define TC_MOVEUP "up"
 # define TC_MOVENRIGHT "RI"
+# define TC_CARRIAGERETURN "cr"
 
 typedef struct			s_ft_sh
 {
@@ -72,19 +73,18 @@ int				display_prompt(int last_result);
 char		*read_command(void);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
-void		spt_backspace(unsigned long touch);
 void		spt_arrow(unsigned long touch);
 void	get_screen_size(void);
 int		ft_nputstr(char *str, int n);
 void		spt_delete(unsigned long touch);
 void		move_in_terminal(unsigned int touch, int should_update_buf);
-void		backspace_command(void);
+void		backspace_command(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
-	{T_ESCAPE, spt_backspace},
+	{T_ESCAPE, backspace_command},
 	{T_TAB, NULL},
-	{T_BACKSPACE, spt_backspace},
+	{T_BACKSPACE, backspace_command},
 	{T_DELETE, spt_delete},
 	{T_END, NULL},
 	{T_HOME, NULL},
