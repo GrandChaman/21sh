@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 11:22:29 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 14:09:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,23 @@ void		insert_normal_touch(t_ft_sh *sh)
 	int ncursor;
 	int substr_len;
 
-	ncursor = sh->cursor - 1;
+	ncursor = --sh->cursor;
 	len = sh->buf.cursor - sh->cursor;
 	exec_term_command(TC_SAVECURPOS);
 	while (len > 0)
 	{
 		tmp = sh->x_size - ((sh->prompt_size + ncursor) % sh->x_size);
-		substr_len = ft_strlen((sh->buf.buf + (ncursor - 1)));
+		substr_len = ft_strlen((sh->buf.buf + (ncursor)));
 		if (tmp > substr_len)
 			tmp = substr_len;
-		exec_term_command_p(TC_NDELETE, 0, tmp);
+		ft_fprintf(sh->debug_tty, "Tmp : %d - \n", tmp);
+		ft_printf("%*s", tmp, " ");
+		exec_term_command_p(TC_MOVENLEFT, 0, tmp);
 		exec_term_command_p(TC_INSERTNCHAR, 0, tmp);
-		write(1, (sh->buf.buf + (ncursor - 1)), tmp);
+		write(1, (sh->buf.buf + ncursor), tmp);
 		len -= tmp;
 		if (len > 0)
-			exec_term_command(TC_GOTONEXTLINE);
+			ft_putchar('\n');
 		ncursor += tmp;
 	}
 	exec_term_command(TC_RESETCURPOS);
