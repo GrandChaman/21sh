@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 14:09:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 16:13:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,7 @@
 
 void		insert_normal_touch(t_ft_sh *sh)
 {
-	int len;
-	int tmp;
-	int ncursor;
-	int substr_len;
-
-	ncursor = --sh->cursor;
-	len = sh->buf.cursor - sh->cursor;
-	exec_term_command(TC_SAVECURPOS);
-	while (len > 0)
-	{
-		tmp = sh->x_size - ((sh->prompt_size + ncursor) % sh->x_size);
-		substr_len = ft_strlen((sh->buf.buf + (ncursor)));
-		if (tmp > substr_len)
-			tmp = substr_len;
-		ft_fprintf(sh->debug_tty, "Tmp : %d - \n", tmp);
-		ft_printf("%*s", tmp, " ");
-		exec_term_command_p(TC_MOVENLEFT, 0, tmp);
-		exec_term_command_p(TC_INSERTNCHAR, 0, tmp);
-		write(1, (sh->buf.buf + ncursor), tmp);
-		len -= tmp;
-		if (len > 0)
-			ft_putchar('\n');
-		ncursor += tmp;
-	}
-	exec_term_command(TC_RESETCURPOS);
+	update_stdout(sh, --sh->cursor, 0);
 	spt_arrow(T_RARR);
 }
 
@@ -49,12 +25,10 @@ static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 	if (sh->cursor < sh->buf.cursor)
 		insert_normal_touch(sh);
 	else
-		ft_putchar((char)rchar);
-	ft_fprintf(sh->debug_tty, "INSERTING : Prompt : %d, Cursor : %d, Size : %d, Result : %d\n", sh->prompt_size, sh->cursor, sh->x_size, (sh->prompt_size + sh->cursor) % (sh->x_size));
-	if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
 	{
-		ft_fprintf(sh->debug_tty, "Going next line\n");
-		ft_putchar('\n');
+		ft_putchar((char)rchar);
+		if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
+			ft_putchar('\n');
 	}
 }
 

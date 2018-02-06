@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 10:54:08 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 16:13:33 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void		move_in_terminal(unsigned int touch, int should_update_buf)
 	sh = get_ft_shell();
 	if (touch == T_LARR && sh->cursor > 0)
 	{
-		ft_fprintf(sh->debug_tty, "Prompt : %d, Cursor : %d, Size : %d, Result : %d\n", sh->prompt_size, sh->cursor, sh->x_size, (sh->prompt_size + sh->cursor) % (sh->x_size));
 		if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
 		{
 			exec_term_command(TC_MOVEUP);
@@ -31,8 +30,6 @@ void		move_in_terminal(unsigned int touch, int should_update_buf)
 	}
 	else if (touch == T_RARR && sh->cursor < sh->buf.cursor)
 	{
-		ft_fprintf(sh->debug_tty, "Prompt : %d, Cursor : %d, Size : %d, Result : %d\n", sh->prompt_size, sh->cursor, sh->x_size, (sh->prompt_size + sh->cursor) % (sh->x_size));
-
 		if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == sh->x_size - 1)
 		{
 			exec_term_command_p(TC_MOVENLEFT, 0, sh->x_size - 1);
