@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 13:37:56 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/03 15:26:46 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/06 13:01:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void		set_terminal_setting(struct termios *old, struct termios *new)
 	new->c_lflag &= (~(ICANON | ECHO) | ISIG);
 	new->c_cc[VMIN] = 1;
 	new->c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSAFLUSH, new))
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, new))
 	{
 		free(old);
 		print_error("tcsetattr", "system call failed.");
@@ -54,7 +54,7 @@ void			apply_terminal_setting(int def)
 	default_settings = retrieve_term_settings();
 	if (*default_settings && def)
 	{
-		if ((tmp = tcsetattr(0, TCSANOW, *default_settings)))
+		if ((tmp = tcsetattr(STDIN_FILENO, TCSANOW, *default_settings)))
 			print_error("tcsetattr", "system call failed.");
 		free(*default_settings);
 		*default_settings = NULL;
