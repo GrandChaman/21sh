@@ -6,48 +6,48 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/07 15:00:50 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/07 17:49:36 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void		update_stdout(t_ft_sh *sh, int offset, int upt_on_scroll)
+static void	roll_back_cursor(t_ft_sh *sh, int ncur, int ocur)
+{
+	sh->cursor = --ncur;
+	exec_term_command(TC_MOVELEFT);
+	while (ncur-- > ocur + 100)
+	{
+		usleep(100000);
+		move_in_terminal(T_LARR, 1);
+	}
+}
+
+void		update_stdout(t_ft_sh *sh, int isdelsert)
 {
 	int len;
 	int tmp;
-	int substr_len;
 	int ncur;
 	int ocur;
 
-	(void)upt_on_scroll;
-	len = sh->buf.cursor - sh->cursor;
-	ncur = sh->cursor + offset;
+	len = (sh->buf.cursor - sh->cursor);
+	ncur = sh->cursor + (isdelsert ? 1 : 0);
 	ocur = ncur;
-	substr_len = ft_strlen((sh->buf.buf + (ncur)));
 	while (len > 0)
 	{
-		tmp = ((sh->x_size) - ((sh->prompt_size + ncur) % sh->x_size)) + offset;
-		ft_fprintf(sh->debug_tty, "SUB VS TMP : %d | %d \n", substr_len, tmp);
-		if (tmp > substr_len)
-			tmp = substr_len;
-		usleep(500000);
+		tmp = ((sh->x_size) - ((sh->prompt_size + ncur) % sh->x_size)) + isdelsert;
+		if (tmp > len + 1)
+			tmp = len + 1;
 		ft_printf("%*s", tmp, " ");
-		usleep(500000);
 		exec_term_command_p(TC_MOVENLEFT, 0, tmp);
+		ft_fprintf(sh->debug_tty, "LEN : %d TMP : %d\n", len, tmp);
 		exec_term_command_p(TC_INSERTNCHAR, 0, tmp);
-		write(1, (sh->buf.buf + ncur - offset), tmp);
+		write(1, (sh->buf.buf + ncur - isdelsert), tmp);
 		len -= tmp;
 		ncur += tmp;
-		ft_fprintf(sh->debug_tty, "DEBUG : %d | %d | %d\n", len, sh->buf.cursor + sh->prompt_size, ((sh->buf.cursor + sh->prompt_size) % sh->x_size));
-		if (len > 0 || (len == 0 && ((sh->buf.cursor + sh->prompt_size) % sh->x_size) == 0))
+		if (len >= 0)
 			ft_putchar('\n');
-		substr_len -= tmp;
 	}
-	sh->cursor = ncur;
-	while (ncur-- > ocur)
-	{
-		move_in_terminal(T_LARR, 1);
-		usleep(100000);
-	}
+	if (!isdelsert)
+		roll_back_cursor(sh, ncur, ocur);
 }
