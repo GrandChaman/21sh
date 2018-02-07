@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 17:43:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/07 15:00:50 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,36 @@ void		update_stdout(t_ft_sh *sh, int offset, int upt_on_scroll)
 	int tmp;
 	int substr_len;
 	int ncur;
+	int ocur;
 
+	(void)upt_on_scroll;
 	len = sh->buf.cursor - sh->cursor;
 	ncur = sh->cursor + offset;
-	exec_term_command(TC_SAVECURPOS);
+	ocur = ncur;
+	substr_len = ft_strlen((sh->buf.buf + (ncur)));
 	while (len > 0)
 	{
-		tmp = (sh->x_size - ((sh->prompt_size + ncur) % sh->x_size)) + offset;
-		substr_len = ft_strlen((sh->buf.buf + (ncur - offset))) + offset;
+		tmp = ((sh->x_size) - ((sh->prompt_size + ncur) % sh->x_size)) + offset;
+		ft_fprintf(sh->debug_tty, "SUB VS TMP : %d | %d \n", substr_len, tmp);
 		if (tmp > substr_len)
 			tmp = substr_len;
+		usleep(500000);
 		ft_printf("%*s", tmp, " ");
-		ft_fprintf(sh->debug_tty, "TMP : %d LEN : %d\n", tmp, len);
-		sleep(1);
+		usleep(500000);
 		exec_term_command_p(TC_MOVENLEFT, 0, tmp);
-		sleep(1);
-
 		exec_term_command_p(TC_INSERTNCHAR, 0, tmp);
-		sleep(1);
 		write(1, (sh->buf.buf + ncur - offset), tmp);
-		sleep(1);
 		len -= tmp;
-		if (len > 0)
-			ft_putchar('\n');
 		ncur += tmp;
+		ft_fprintf(sh->debug_tty, "DEBUG : %d | %d | %d\n", len, sh->buf.cursor + sh->prompt_size, ((sh->buf.cursor + sh->prompt_size) % sh->x_size));
+		if (len > 0 || (len == 0 && ((sh->buf.cursor + sh->prompt_size) % sh->x_size) == 0))
+			ft_putchar('\n');
+		substr_len -= tmp;
 	}
-	exec_term_command(TC_RESETCURPOS);
-	ft_fprintf(sh->debug_tty, "DEBUG : %d\n", (sh->prompt_size + sh->buf.cursor) % sh->x_size);
-	if (upt_on_scroll && (sh->prompt_size + sh->buf.cursor) % sh->x_size == 1)
-		exec_term_command(TC_MOVEUP);
+	sh->cursor = ncur;
+	while (ncur-- > ocur)
+	{
+		move_in_terminal(T_LARR, 1);
+		usleep(100000);
+	}
 }
