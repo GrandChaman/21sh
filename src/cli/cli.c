@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 17:27:03 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/07 17:50:41 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void		insert_normal_touch(t_ft_sh *sh)
 {
 	sh->cursor--;
-	update_stdout(sh, 0, 1);
-	spt_arrow(T_RARR);
+	update_stdout(sh, 0);
 }
 
 static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)

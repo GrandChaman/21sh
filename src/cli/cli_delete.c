@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:58:16 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/06 17:26:54 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/07 16:57:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ void		backspace_command(unsigned long touch)
 	if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == sh->x_size - 1)
 		exec_term_command(TC_MOVERIGHT);
 	if (sh->cursor < sh->buf.cursor)
-		update_stdout(sh, 1, 0);
+	{
+		exec_term_command(TC_SAVECURPOS);
+		update_stdout(sh, 1);
+		exec_term_command(TC_RESETCURPOS);
+	}
 }
 
 void		delete_command(unsigned long touch)
@@ -45,5 +49,10 @@ void		delete_command(unsigned long touch)
 		exec_term_command(TC_MOVENLEFT);
 	}
 	else if (sh->cursor < sh->buf.cursor)
-		update_stdout(sh, 1, 0);
+	{
+		exec_term_command(TC_SAVECURPOS);
+		update_stdout(sh, 1);
+		exec_term_command(TC_RESETCURPOS);
+		exec_term_command(TC_MOVELEFT);
+	}
 }
