@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/05 12:24:25 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/08 15:02:48 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,29 @@ void	init_debug(t_ft_sh *shell, const char *path)
 	ft_fprintf(shell->debug_tty, "-------------------------------------\n");
 }
 
+void main_routine(void)
+{
+	int is_a_tty;
+	char *cmd;
+	t_ft_sh *shell;
+
+	shell = get_ft_shell();
+	is_a_tty = isatty(0);
+	if (is_a_tty)
+	{
+		apply_terminal_setting(0);
+		get_screen_size();
+		display_prompt(0);
+	}
+	ft_fprintf(shell->debug_tty, "YAY\n");
+	cmd = read_command();
+	ft_fprintf(shell->debug_tty, "YAY\n");
+	ft_printf("\nTyped : %s\n", cmd);
+	free(cmd);
+	if (is_a_tty)
+		apply_terminal_setting(1);
+}
+
 int		main(int argc, const char **argv, const char **environ)
 {
 	t_ft_sh *shell;
@@ -39,13 +62,7 @@ int		main(int argc, const char **argv, const char **environ)
 		init_debug(shell, argv[2]);
 	if (!is_env_correct())
 		return (1);
-	apply_terminal_setting(0);
-	get_screen_size();
-	display_prompt(0);
-	char *res = read_command();
-	ft_printf("\nTyped : %s\n", res);
-	free(res);
-	apply_terminal_setting(1);
+	main_routine();
 	if (shell->debug_tty > 0)
 		close(shell->debug_tty);
 	return (0);
