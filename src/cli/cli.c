@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/07 17:50:41 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/08 16:17:26 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,29 @@ char		*read_command(void)
 {
 	t_dbuf			*buf;
 	unsigned long	rchar;
+	int				rvalue;
+	unsigned char	tmp[8];
+	unsigned char	i;
 
 	buf = &get_ft_shell()->buf;
 	rchar = 0;
-	while (rchar != '\n')
+	rvalue = 1;
+	i = 0;
+	ft_bzero(tmp, 8);
+	while (42)
 	{
-		rchar = 0;
-		read(0, &rchar, 8);
-		execute_touch(get_ft_shell(), rchar);
+		rvalue = read(0, &tmp[i], 1);
+		if (rvalue == -1 || *(tmp + i) == '\n')
+			break ;
+		if (tmp[0] != 27 && rvalue)
+			rchar = tmp[0];
+		if ((!rvalue && i) || (tmp[0] != 27 && rvalue))
+		{
+			rchar = *((unsigned long*)tmp);
+			execute_touch(get_ft_shell(), rchar);
+			ft_bzero(tmp, (i ? i : 1));
+		}
+		i = (rvalue && tmp[0] == 27 ? i + 1 : 0);
 	}
 	return (buf->buf);
 }
