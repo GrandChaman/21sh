@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/07 16:39:57 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/08 18:34:31 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct			s_ft_sh
 	t_dbuf				buf;
 	unsigned int		cursor;
 	int					debug_tty;
+	unsigned char		is_a_tty;
 }						t_ft_sh;
 
 typedef	struct			s_ft_touch
@@ -76,15 +77,14 @@ void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
 void	get_screen_size(void);
 int		ft_nputstr(char *str, int n);
-void		spt_delete(unsigned long touch);
 void		move_in_terminal(unsigned int touch, int should_update_buf);
 void		backspace_command(unsigned long touch);
 void		update_stdout(t_ft_sh *sh, int offset);
 void		delete_command(unsigned long touch);
+void (*get_special_char_f(unsigned long val))(unsigned long);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
-	{T_ESCAPE, backspace_command},
 	{T_TAB, NULL},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
