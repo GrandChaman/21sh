@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/08 11:47:35 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/08 18:35:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	cursor_repositionning(t_ft_sh *sh, int ncur, int ocur, int is_del)
 {
 	int has_print_a_nl;
 
-	has_print_a_nl = (sh->buf.cursor + sh->prompt_size) % sh->x_size == 0;
+	has_print_a_nl = ((sh->buf.cursor + sh->prompt_size) % sh->x_size == 0);
 	if (is_del && has_print_a_nl)
 		ft_putchar(' ');
 	if (is_del)
@@ -64,4 +64,15 @@ void		update_stdout(t_ft_sh *sh, int isdel)
 			ft_putchar('\n');
 	}
 	cursor_repositionning(sh, ncur, ocur, isdel);
+}
+
+void		(*get_special_char_f(unsigned long val))(unsigned long)
+{
+	int i;
+
+	i = -1;
+	while (++i < 14)
+		if (g_ft_touch_list[i].touch == val)
+			return (g_ft_touch_list[i].f);
+	return (NULL);
 }

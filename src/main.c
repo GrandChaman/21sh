@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/08 15:02:48 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/08 17:15:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ void	init_debug(t_ft_sh *shell, const char *path)
 
 void main_routine(void)
 {
-	int is_a_tty;
 	char *cmd;
 	t_ft_sh *shell;
 
 	shell = get_ft_shell();
-	is_a_tty = isatty(0);
-	if (is_a_tty)
+	shell->is_a_tty = isatty(0);
+	if (shell->is_a_tty)
 	{
 		apply_terminal_setting(0);
 		get_screen_size();
@@ -44,9 +43,9 @@ void main_routine(void)
 	ft_fprintf(shell->debug_tty, "YAY\n");
 	cmd = read_command();
 	ft_fprintf(shell->debug_tty, "YAY\n");
-	ft_printf("\nTyped : %s\n", cmd);
+	ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 	free(cmd);
-	if (is_a_tty)
+	if (shell->is_a_tty)
 		apply_terminal_setting(1);
 }
 
