@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:58:16 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/07 16:57:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/08 11:51:15 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ void		backspace_command(unsigned long touch)
 	if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == sh->x_size - 1)
 		exec_term_command(TC_MOVERIGHT);
 	if (sh->cursor < sh->buf.cursor)
-	{
-		exec_term_command(TC_SAVECURPOS);
 		update_stdout(sh, 1);
-		exec_term_command(TC_RESETCURPOS);
-	}
 }
 
 void		delete_command(unsigned long touch)
@@ -40,19 +36,8 @@ void		delete_command(unsigned long touch)
 
 	(void)touch;
 	sh = get_ft_shell();
-	if (sh->cursor <= 0)
-		return ;
-	dbuf_remove(&sh->buf, sh->cursor);
 	if (sh->cursor == sh->buf.cursor)
-	{
-		ft_putchar(' ');
-		exec_term_command(TC_MOVENLEFT);
-	}
-	else if (sh->cursor < sh->buf.cursor)
-	{
-		exec_term_command(TC_SAVECURPOS);
-		update_stdout(sh, 1);
-		exec_term_command(TC_RESETCURPOS);
-		exec_term_command(TC_MOVELEFT);
-	}
+		return ;
+	move_in_terminal(T_RARR, 1);
+	backspace_command(T_BACKSPACE);
 }
