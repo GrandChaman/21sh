@@ -65,23 +65,57 @@ typedef	struct			s_ft_touch
 	void				(*f)(unsigned long);
 }						t_ft_touch;
 
-t_ft_sh	*get_ft_shell(void);
-int		is_env_correct(void);
-char		*ft_getcwd(void);
-int		print_error(const char *title, const char *message);
+//Me here
+
+typedef struct			s_parser
+{
+	char				*name_cmd;
+	char				**argument;
+	t_entree_cmd		entree_cmd;
+	t_sortie_cmd		sortie_cmd;
+}						t_parser;
+
+typedef struct			s_argument
+{
+	char				**name;
+	int					special;
+}						t_argument;
+
+typedef	struct			s_entree_cmd
+{
+	int					exist;
+	int					pipe;
+	char				*name_file;
+}						t_entree_cmd;
+
+typedef	struct			s_sortie_cmd
+{
+	int					standart;
+	int					erreur;
+	int					to_next_cmd;
+	char				*name_file;
+	int					double_chevron;
+}						t_sortie_cmd;
+
+//end Me
+
+t_ft_sh			*get_ft_shell(void);
+int				is_env_correct(void);
+char			*ft_getcwd(void);
+int				print_error(const char *title, const char *message);
 void			apply_terminal_setting(int def);
 int				display_prompt(int last_result);
-char		*read_command(void);
+char			*read_command(void);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
-void		spt_arrow(unsigned long touch);
-void	get_screen_size(void);
-int		ft_nputstr(char *str, int n);
-void		move_in_terminal(unsigned int touch, int should_update_buf);
-void		backspace_command(unsigned long touch);
-void		update_stdout(t_ft_sh *sh, int offset);
-void		delete_command(unsigned long touch);
-void (*get_special_char_f(unsigned long val))(unsigned long);
+void			spt_arrow(unsigned long touch);
+void			get_screen_size(void);
+int				ft_nputstr(char *str, int n);
+void			move_in_terminal(unsigned int touch, int should_update_buf);
+void			backspace_command(unsigned long touch);
+void			update_stdout(t_ft_sh *sh, int offset);
+void			delete_command(unsigned long touch);
+void 			(*get_special_char_f(unsigned long val))(unsigned long);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
