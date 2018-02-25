@@ -16,8 +16,7 @@ OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
 VPATH = src:src/cli:src/term
-SRC = main.c cli.c cli_init.c terminal_settings.c \
-path_utils.c term_command.c cli_utils.c special_touch.c cli_nav.c cli_delete.c error.c
+SRC = main.c
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc
