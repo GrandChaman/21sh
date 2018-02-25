@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/08 18:44:34 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/25 18:14:41 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,14 @@ char		*read_command(void)
 	while (42)
 	{
 		rvalue = read(0, &tmp[i], 1);
+		if (!rvalue && *((unsigned long*)tmp))
+			ft_bzero(tmp, 8);
 		if (rvalue == -1 || tmp[0] == '\n')
 			break ;
 		rchar = *((unsigned long*)tmp);
 		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 27 && rvalue))
 		{
+			ft_fprintf(get_ft_shell()->debug_tty, "rchar : %U\n", *((unsigned long*)tmp));
 			execute_touch(get_ft_shell(), rchar);
 			ft_bzero(tmp, 8);
 		}

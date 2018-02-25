@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/08 18:34:31 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/25 18:10:37 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@
 # define T_LARR 4479771
 # define T_RARR 4414235
 # define T_BARR 4348699
-# define T_TARR 4243163
+# define T_TARR 4283163
 # define T_SLARR 74982532143899
 # define T_SRARR 73883020516123
 # define T_SBARR 72783508888347
 # define T_STARR 71683997260571
+# define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
 # define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
 # define TC_MOVELEFT "le"
@@ -77,27 +78,28 @@ void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
 void	get_screen_size(void);
 int		ft_nputstr(char *str, int n);
-void		move_in_terminal(unsigned int touch, int should_update_buf);
+void		move_in_terminal(unsigned long touch, int should_update_buf);
 void		backspace_command(unsigned long touch);
 void		update_stdout(t_ft_sh *sh, int offset);
 void		delete_command(unsigned long touch);
 void (*get_special_char_f(unsigned long val))(unsigned long);
+void		nav_touch_received(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
 	{T_TAB, NULL},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
-	{T_END, NULL},
-	{T_HOME, NULL},
-	{T_LARR, spt_arrow},
-	{T_RARR, spt_arrow},
-	{T_BARR, NULL},
-	{T_TARR, NULL},
-	{T_SLARR, NULL},
-	{T_SRARR, NULL},
-	{T_SBARR, NULL},
-	{T_STARR, NULL}
+	{T_END, nav_touch_received},
+	{T_HOME, nav_touch_received},
+	{T_LARR, nav_touch_received},
+	{T_RARR, nav_touch_received},
+	{T_BARR, nav_touch_received},
+	{T_TARR, nav_touch_received},
+	{T_SLARR, nav_touch_received},
+	{T_SRARR, nav_touch_received},
+	{T_SBARR, nav_touch_received},
+	{T_STARR, nav_touch_received}
 };
 
 #endif
