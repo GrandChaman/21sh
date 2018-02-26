@@ -67,20 +67,6 @@ typedef	struct			s_ft_touch
 
 //Me here
 
-typedef struct			s_parser
-{
-	char				*name_cmd;
-	char				**argument;
-	t_entree_cmd		entree_cmd;
-	t_sortie_cmd		sortie_cmd;
-}						t_parser;
-
-typedef struct			s_argument
-{
-	char				**name;
-	int					special;
-}						t_argument;
-
 typedef	struct			s_entree_cmd
 {
 	int					exist;
@@ -97,6 +83,23 @@ typedef	struct			s_sortie_cmd
 	int					double_chevron;
 }						t_sortie_cmd;
 
+typedef struct			s_argument
+{
+	char				**name;
+	int					special;
+}						t_argument;
+
+
+typedef struct			s_parser
+{
+	char				*name_cmd;
+	char				**argument;
+	t_entree_cmd		entree_cmd;
+	t_sortie_cmd		sortie_cmd;
+}						t_parser;
+
+int		checkquote2(int *i, int *o, char *original, char c);
+void	split_evoluted(char *original,  char *ptr_need_quote);
 //end Me
 
 t_ft_sh			*get_ft_shell(void);

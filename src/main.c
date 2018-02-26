@@ -2,7 +2,8 @@
 
 int main(int argc, char **argv)
 {
-	t_parser *parser;
+	//t_parser *parser;
+	char ptr_need_quote;
 	
 	if (argc == 3)
 	{
@@ -14,6 +15,7 @@ int main(int argc, char **argv)
 		printf("ta oublier un truc\n");
 		return (0);
 	}
+	split_evoluted(argv[1], &ptr_need_quote);
 }
 
 /*
