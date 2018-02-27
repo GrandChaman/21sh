@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 13:36:59 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 15:50:16 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define T_SRARR 73883020516123
 # define T_SBARR 72783508888347
 # define T_STARR 71683997260571
-# define T_CTRL_LEFT 1146821403
-# define T_CTRL_RIGHT 1130044187
+# define T_ALT_LEFT 1146821403
+# define T_ALT_RIGHT 1130044187
 # define T_CTRL_A 1
 # define T_CTRL_Z 26
 # define T_CTRL_X 24
@@ -111,8 +111,8 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_SRARR, nav_touch_received},
 	{T_SBARR, nav_touch_received},
 	{T_STARR, nav_touch_received},
-	{T_CTRL_LEFT, move_select},
-	{T_CTRL_RIGHT, move_select},
+	{T_ALT_LEFT, move_select},
+	{T_ALT_RIGHT, move_select},
 	{0, NULL}
 };
 
