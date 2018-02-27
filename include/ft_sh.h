@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 17:10:33 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 18:03:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char		*ft_getcwd(void);
 int		print_error(const char *title, const char *message);
 void			apply_terminal_setting(int def);
 int				display_prompt(int last_result);
-char		*read_command(void);
+char		*read_command(char *prompt, int *status);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
@@ -97,6 +97,7 @@ void		nav_touch_received(unsigned long touch);
 void		move_select(unsigned long touch);
 void		copy_select(unsigned long touch);
 void		paste_select(unsigned long touch);
+void		cut_select(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -116,6 +117,7 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_ALT_LEFT, move_select},
 	{T_ALT_RIGHT, move_select},
 	{T_ALT_C, copy_select},
+	{T_ALT_X, cut_select},
 	{T_ALT_V, paste_select},
 	{0, NULL}
 };

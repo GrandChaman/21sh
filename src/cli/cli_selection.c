@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 17:28:38 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 17:49:16 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,31 @@ void		paste_select(unsigned long touch)
 	while (--i > 0)
 		move_in_terminal(T_RARR, 1);
 	ft_fprintf(sh->debug_tty, "Paste is : %s\n", sh->select);
+}
 
+void		cut_select(unsigned long touch)
+{
+	t_ft_sh	*sh;
+	int		len;
+	int		tmp;
+
+	(void)touch;
+	sh = get_ft_shell();
+	free(sh->select);
+	if (sh->select_size < 0)
+		sh->select = ft_strsub(sh->buf.buf, sh->select_start + sh->select_size,
+			sh->select_size * -1);
+	else
+		sh->select = ft_strsub(sh->buf.buf, sh->select_start, sh->select_size);
+	len = ft_strlen(sh->select);
+	tmp = len;
+	while (len-- > 0)
+		if (sh->cursor == sh->buf.cursor)
+			backspace_command(T_BACKSPACE);
+		else
+			delete_command(T_DELETE);
+	sh->select_start = 0;
+	sh->select_size = 0;
+	ft_fprintf(sh->debug_tty, "Cut is : %d %s\n",
+		sh->select_start + sh->select_size, sh->select);
 }
