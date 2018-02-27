@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/25 18:10:37 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 13:36:59 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 # define T_SRARR 73883020516123
 # define T_SBARR 72783508888347
 # define T_STARR 71683997260571
+# define T_CTRL_LEFT 1146821403
+# define T_CTRL_RIGHT 1130044187
+# define T_CTRL_A 1
+# define T_CTRL_Z 26
+# define T_CTRL_X 24
 # define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
 # define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
@@ -47,7 +52,9 @@
 # define TC_MOVEUP "up"
 # define TC_MOVENRIGHT "RI"
 # define TC_CARRIAGERETURN "cr"
-
+# define TC_REVERSEVIDEO "mr"
+# define TC_RESETGRAPHICS "me"
+# define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 typedef struct			s_ft_sh
 {
 	t_list				*env;
@@ -56,6 +63,9 @@ typedef struct			s_ft_sh
 	unsigned int		prompt_size;
 	t_dbuf				buf;
 	unsigned int		cursor;
+	unsigned int		select_start;
+	int					select_size;
+	char				*select;
 	int					debug_tty;
 	unsigned char		is_a_tty;
 }						t_ft_sh;
@@ -84,6 +94,7 @@ void		update_stdout(t_ft_sh *sh, int offset);
 void		delete_command(unsigned long touch);
 void (*get_special_char_f(unsigned long val))(unsigned long);
 void		nav_touch_received(unsigned long touch);
+void		move_select(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -99,7 +110,10 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_SLARR, nav_touch_received},
 	{T_SRARR, nav_touch_received},
 	{T_SBARR, nav_touch_received},
-	{T_STARR, nav_touch_received}
+	{T_STARR, nav_touch_received},
+	{T_CTRL_LEFT, move_select},
+	{T_CTRL_RIGHT, move_select},
+	{0, NULL}
 };
 
 #endif
