@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 13:13:41 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 15:54:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ int		main(int argc, const char **argv, const char **environ)
 	main_routine();
 	if (shell->debug_tty > 0)
 		close(shell->debug_tty);
+	free(shell->select);
 	return (0);
 }

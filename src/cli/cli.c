@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 15:50:16 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 17:13:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 	void	(*f)(unsigned long);
 
 	i = shell->cursor;
-	if (rchar != T_ALT_LEFT && rchar != T_ALT_RIGHT && shell->select_size)
+	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
+		rchar != T_ALT_LEFT && rchar != T_ALT_RIGHT && shell->select_size)
 	{
 		exec_term_command(TC_SAVECURPOS);
 		while (i--)
@@ -51,7 +52,6 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 		update_stdout(shell, 0);
 		shell->select_start = 0;
 		shell->select_size = 0;
-		shell->select = NULL;
 		exec_term_command(TC_RESETCURPOS);
 		shell->cursor = i;
 	}
@@ -76,20 +76,17 @@ char		*read_command(void)
 	while (42)
 	{
 		rvalue = read(0, &tmp[i], 1);
-		if (rvalue)
-			ft_fprintf(get_ft_shell()->debug_tty, "%U\n", *((unsigned long*)tmp));
-		if (!rvalue && *((unsigned long*)tmp))
-			ft_bzero(tmp, 8);
 		if (rvalue == -1 || tmp[0] == '\n')
 			break ;
 		rchar = *((unsigned long*)tmp);
-		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 27 && rvalue))
+		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 0 && !rvalue))
 		{
 			ft_fprintf(get_ft_shell()->debug_tty, "rchar : %U\n", *((unsigned long*)tmp));
 			execute_touch(get_ft_shell(), rchar);
 			ft_bzero(tmp, 8);
+			i = 0;
 		}
-		i = (rvalue && tmp[0] == 27 && i < 7 ? i + 1 : 0);
+		i = (rvalue && i < 7 ? i + 1 : 0);
 	}
 	return (get_ft_shell()->buf.buf);
 }
