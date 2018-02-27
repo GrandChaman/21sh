@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/02/25 13:09:46 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/27 11:28:35 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ DEP_DIR = dep
 INCLUDE = include
 VPATH = src:src/cli:src/term
 SRC = main.c cli.c cli_init.c terminal_settings.c \
-path_utils.c term_command.c cli_utils.c cli_nav.c cli_delete.c error.c
+path_utils.c cli_selection.c term_command.c cli_utils.c cli_nav.c cli_delete.c error.c
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc

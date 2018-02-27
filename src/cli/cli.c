@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/25 18:14:41 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 13:05:55 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 	else
 		if ((f = get_special_char_f(rchar)))
 			f(rchar);
+	if (rchar != T_CTRL_LEFT && rchar != T_CTRL_RIGHT)
+	{
+		shell->select_start = 0;
+		shell->select_size = 0;
+		shell->select = NULL;
+	}
 }
 
 char		*read_command(void)
@@ -62,6 +68,8 @@ char		*read_command(void)
 	while (42)
 	{
 		rvalue = read(0, &tmp[i], 1);
+		if (rvalue)
+			ft_fprintf(get_ft_shell()->debug_tty, "%U\n", *((unsigned long*)tmp));
 		if (!rvalue && *((unsigned long*)tmp))
 			ft_bzero(tmp, 8);
 		if (rvalue == -1 || tmp[0] == '\n')

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/25 13:20:07 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 11:51:18 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		(*get_special_char_f(unsigned long val))(unsigned long)
 	int i;
 
 	i = -1;
-	while (++i < 14)
+	while (g_ft_touch_list[++i].touch)
 		if (g_ft_touch_list[i].touch == val)
 			return (g_ft_touch_list[i].f);
 	return (NULL);
