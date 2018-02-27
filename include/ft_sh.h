@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 15:50:16 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 17:10:33 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@
 # define T_STARR 71683997260571
 # define T_ALT_LEFT 1146821403
 # define T_ALT_RIGHT 1130044187
-# define T_CTRL_A 1
-# define T_CTRL_Z 26
-# define T_CTRL_X 24
+# define T_ALT_C 42947
+# define T_ALT_V 10127586
+# define T_ALT_X 8948194
 # define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
 # define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
@@ -95,6 +95,8 @@ void		delete_command(unsigned long touch);
 void (*get_special_char_f(unsigned long val))(unsigned long);
 void		nav_touch_received(unsigned long touch);
 void		move_select(unsigned long touch);
+void		copy_select(unsigned long touch);
+void		paste_select(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -113,6 +115,8 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_STARR, nav_touch_received},
 	{T_ALT_LEFT, move_select},
 	{T_ALT_RIGHT, move_select},
+	{T_ALT_C, copy_select},
+	{T_ALT_V, paste_select},
 	{0, NULL}
 };
 
