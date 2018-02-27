@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 15:54:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/27 18:04:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void main_routine(void)
 	{
 		apply_terminal_setting(0);
 		get_screen_size();
-		display_prompt(0);
 	}
 	ft_fprintf(shell->debug_tty, "YAY\n");
-	cmd = read_command();
+	cmd = read_command(NULL, NULL);
 	ft_fprintf(shell->debug_tty, "YAY\n");
 	ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 	free(cmd);
