@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/02/27 11:28:35 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/28 15:57:10 by vbaudot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,11 @@ SRC_DIR = src
 OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
-VPATH = src:src/cli:src/term
+VPATH = src:src/cli:src/term:src/env:src/builtins
 SRC = main.c cli.c cli_init.c terminal_settings.c \
-path_utils.c cli_selection.c term_command.c cli_utils.c cli_nav.c cli_delete.c error.c
+path_utils.c cli_selection.c term_command.c cli_utils.c cli_nav.c cli_delete.c \
+cd.c echo.c env.c exit.c getenv.c help.c setenv.c ft_list_del.c ft_list.c \
+error.c execute.c launch.c utils_env.c
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc

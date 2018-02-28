@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 20:24:12 by bluff             #+#    #+#             */
-/*   Updated: 2018/02/02 15:26:05 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/28 15:55:32 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct			s_dbuf {
 	unsigned long		len;
 }						t_dbuf;
 
+void					ft_lstappend(t_list **head, t_list *new);
+char					*ft_str3join(char const *s1, char const *s2, char const *s3);
 void					ft_bzero(void *s, size_t n);
 void					*ft_memset(void *dest, int ch, size_t count);
 void					*ft_memcpy(void *dest, const void *src, size_t count);
@@ -172,7 +174,6 @@ int						ft_btree_count_node(t_btree *tree);
 void					ft_perror(char *title, char *error);
 char					*ft_itoa_base(unsigned long long nb, int base);
 unsigned int			ft_numlen(unsigned int nb);
-const char				*ft_getenv(char *search, const char **env);
 void					ft_free2d(void **arr);
 char					**ft_str2ddup(char **arr);
 int						ft_haschar(char *c, char ch);
