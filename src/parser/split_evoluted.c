@@ -1,14 +1,21 @@
 #include "ft_sh.h"
 
-int				is_correct(char *original) //return -1 si a completer, 0 si fails
+int		ft_isatoken(char c)
+{
+	if (c == ';' || c == '&' || c == '<' || c == '>')
+		return (1);
+	return (0);
+}
+
+int		split_evoluted(t_parser *parser, char *original)
 {
 	int i;
 	int o;
 	int z;
 	int b;
-	int boite;
 	char stock;
 	int nbr_argv;
+	int boite;
 
 	b = 0;
 	z = 0;
@@ -19,11 +26,6 @@ int				is_correct(char *original) //return -1 si a completer, 0 si fails
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
-		if (ft_isatoken(original[i]))
-		{
-			printf("Unexpected token %c\n", original[i]);
-			return (0);
-		}
 		nbr_argv = count_argv(i, original);
 		printf("\nnbr_argv = %d\n", nbr_argv);
 		while (original[i] && original[i] != ';' && original[i] != '|')
@@ -35,32 +37,45 @@ int				is_correct(char *original) //return -1 si a completer, 0 si fails
 			while ((original[i] != ' ' && original[i] != '\t' &&
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
-				boite = redirections3(&i, original);
-				if (boite == 0)
-				{
-					printf("Error de syntax\n");
-					return (0);
-				}
-				if (boite == -1)
-				{
-					printf("je gere pas now\n");
-					return (-4);
-				}
+				boite = redirections2(&i, original, parser, b);
+				printf("boite = %d\n", boite);
 				while ((original[i] == ' ' || original[i] == '\t') && original[i])
 					i++;
 				stock = checkquote(&i, &o, original);
 				if (stock == 'k')
-					break;
-				else if (stock > '\0' && stock != 'n')
-				{
-					printf("Manque une quote %c \n", stock);
-					if (stock == '"')
-						return (-1);
-					else
-						return (-2);
-				}
+					break ;
 				i++;
 				o++;
+			}
+			if (z == 0)
+			{
+				if (!(parser[b].name_cmd = malloc(sizeof(char) * o)))
+					return (0);
+			}
+			else
+			{
+				if (z == 1 && boite == 1)
+				{
+					if (!(parser[b].argument = malloc(sizeof(char *) * nbr_argv + 1)))
+						return (0);
+				}
+				if (boite == 1)
+				{
+					if (!(parser[b].argument[z - 1] = malloc(sizeof(char) * o + 1)))
+						return (0);
+				}
+				if (boite == 2)
+				{
+					printf("Yep\n");
+					if (!(parser[b].sortie_cmd.name_file = malloc(sizeof(char) * o + 1)))
+						return (0);
+				}
+				if (boite == 3)
+				{
+					printf("Here\n");
+					if (!(parser[b].entree_cmd.name_file = malloc(sizeof(char) * o + 1)))
+						return (0);
+				}
 			}
 			printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
@@ -76,25 +91,16 @@ int				is_correct(char *original) //return -1 si a completer, 0 si fails
 		if (original[i] == '|')
 		{
 			printf("Ya un pipe\n"); //Faut un truc apres
+			parser[b].sortie_cmd.to_next_cmd = 1;
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
-			if (original[i] == '\0')
-			{
-				printf("faut une commande !\n");
-				return (-3);
-			}
+			parser[b + 1].entree_cmd.pipe = 1; //Peux segfault
 		}
 		if (original[i] == ';')
 			i++;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
-		if (original[i] && ft_isatoken(original[i]))
-		{
-			printf("Unexpected token %c\n", original[i]);
-			return (0);
-		}
-		//Pas gere || et &&
 		b++;
 	}
 	return (1);
