@@ -54,7 +54,7 @@ int				is_correct(char *original) //return -1 si a completer, 0 si fails
 				else if (stock > '\0' && stock != 'n')
 				{
 	//				printf("Manque une quote %c \n", stock);
-					if (c == '"')
+					if (stock == '"')
 						return (-1);
 					else
 						return (-2);
