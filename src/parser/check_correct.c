@@ -19,17 +19,17 @@ char	*check_correct(char *str)
 			prompt = "here-doc>";
 		//ta_fonction(prompt);
 		//Faire un strjoint
-		printf("\nAppel a Francis !\n");
+//		printf("\nAppel a Francis !\n");
 		return (prompt);
 	}
 	if (stock == 0)
 	{
-		printf("\nFails\n");
+//		printf("\nFails\n");
 		return (NULL);
 	}
 	if (stock == 1)
 	{
-		printf("\nOK\n");
+//		printf("\nOK\n");
 		return (NULL);
 	}
 	return (NULL);
