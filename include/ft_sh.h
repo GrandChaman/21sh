@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 19:06:41 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/28 19:31:07 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,62 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
-t_ft_sh	*get_ft_shell(void);
-int		is_env_correct(void);
-char		*ft_getcwd(void);
-int		print_error(const char *title, const char *message);
+typedef	struct			s_entree_cmd
+{
+	int					exist;
+	int					pipe;
+	char				*name_file;
+}						t_entree_cmd;
+
+typedef	struct			s_sortie_cmd
+{
+	int					standart;
+	int					erreur;
+	int					to_next_cmd;
+	char				*name_file;
+	int					double_chevron;
+}						t_sortie_cmd;
+
+typedef struct			s_argument
+{
+	char				**name;
+	int					special;
+}						t_argument;
+
+
+typedef struct			s_parser
+{
+	char				*name_cmd;
+	char				**argument;
+	t_entree_cmd		entree_cmd;
+	t_sortie_cmd		sortie_cmd;
+}						t_parser;
+
+char			*check_correct(char *original);
+int				is_correct(char *original);
+void			print_parser(t_parser *parser, int nb);
+int				redirections3(int *i, char *original);
+void			fill_parser(t_parser *parser, char *original);
+int				ft_isatoken(char c);
+int 			count_argv(int i, char *original);
+int				count_cmd(char *original);
+void			init_parser(t_parser *parser, int nb);
+int				redirections2(int *i, char *original, t_parser *parser, int b);
+int				redirections(int *i, int *increment_something, char *original);
+int				count_argv(int i, char *original);
+char			checkquote(int *i, int *o, char *original);
+int				checkquote2(int *i, int *o, char *original, char c);
+void			chevron(int *i, int *increment_something, char *original);
+int				checkquote2(int *i, int *o, char *original, char c);
+int				split_evoluted(t_parser *parser, char *original);
+
+t_ft_sh			*get_ft_shell(void);
+int				is_env_correct(void);
+char			*ft_getcwd(void);
+int				print_error(const char *title, const char *message);
 void			apply_terminal_setting(int def);
 int				display_prompt(int last_result);
+
 char		*read_command(char *prompt, int *status);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
