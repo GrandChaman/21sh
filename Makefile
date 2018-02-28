@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/02/06 15:30:10 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/26 12:07:03 by rfautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
 VPATH = src:src/cli:src/term
-SRC = main.c
+SRC = main.c split_evoluted.c count.c init_parser.c quote.c redirection.c\
+ fill_struct.c is_correct.c check_correct.c
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc
