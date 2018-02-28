@@ -105,16 +105,15 @@ typedef struct			s_parser
 {
 	char				*name_cmd;
 	char				**argument;
-	int					exist;
 	t_entree_cmd		entree_cmd;
 	t_sortie_cmd		sortie_cmd;
 }						t_parser;
 
-char			*check_correct(char *str);
+char			*check_correct(char *original);
 int				is_correct(char *original);
-void			print_parser(t_parser *parser);
+void			print_parser(t_parser *parser, int nb);
 int				redirections3(int *i, char *original);
-int				fill_parser(t_parser *parser, char *original);
+void			fill_parser(t_parser *parser, char *original);
 int				ft_isatoken(char c);
 int 			count_argv(int i, char *original);
 int				count_cmd(char *original);
@@ -126,7 +125,7 @@ char			checkquote(int *i, int *o, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
 void			chevron(int *i, int *increment_something, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
-int				split_evoluted(char *original,  char *ptr_need_quote, t_parser *parser);
+int				split_evoluted(t_parser *parser, char *original);
 //end Me
 
 t_ft_sh			*get_ft_shell(void);

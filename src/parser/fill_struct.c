@@ -1,6 +1,6 @@
 #include "ft_sh.h"
 
-int		fill_parser(t_parser *parser, char *original)
+void		fill_parser(t_parser *parser, char *original)
 {
 	int i;
 	int o;
@@ -20,11 +20,6 @@ int		fill_parser(t_parser *parser, char *original)
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
-		if (ft_isatoken(original[i]))
-		{
-			printf("Unexpected token %c\n", original[i]);
-			return (0);
-		}
 		while (original[i] && original[i] != ';' && original[i] != '|')
 		{
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -35,32 +30,34 @@ int		fill_parser(t_parser *parser, char *original)
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
 				boite = redirections3(&i, original);
-				if (boite == 0)
-				{
-					printf("Error de syntax\n");
-					return (0);
-				}
 				while ((original[i] == ' ' || original[i] == '\t') && original[i])
 					i++;
 				stock = checkquote(&i, &o, original);
 				if (stock == 'k')
 					break;
-				else if (stock > '\0' && stock != 'n')
-				{
-					printf("Manque une quote %c \n", stock);
-					return (-1);
-				}
 				if (z == 0)
 					parser[b].name_cmd[o] = original[i];
+				if (z >= 1) //sale + gere pas les guillemets
+					parser[b].argument[j][o] = original[i];
 				i++;
 				o++;
 			}
-	//		printf("commande [%d] mot[%d] = %d\n", b, z, o);
+			printf("juste pour voir\n");
+			if (z == 0)
+				parser[b].name_cmd[o] = '\0';
+			if (z >= 1 && o != 0)
+			{
+				parser[b].argument[j][o] = '\0';
+				j++;
+			}
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
 				break ;
 			o = 0;
 			z++;
 		}
+		if (z > 1 || (z == 1 && original[i] == '\0'))
+			parser[b].argument[j] = NULL;
+		j = 0;
 		z = 0;
 		if (original[i] == '\0')
 			break ;
@@ -70,24 +67,11 @@ int		fill_parser(t_parser *parser, char *original)
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
-			if (original[i] == '\0')
-			{
-				printf("faut une commande !\n");
-				return (-1);
-			}
 		}
 		else
 			i++;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
-		if (original[i] && ft_isatoken(original[i]))
-		{
-			printf("Unexpected token %c\n", original[i]);
-			return (0);
-		}
-		//Pas gere || et &&
 		b++;
 	}
-	printf("name_cmd = %s\n", parser[0].name_cmd);
-	return (1);
 }

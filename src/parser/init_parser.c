@@ -7,7 +7,6 @@ void	init_parser(t_parser *parser, int nb)
 	i = 0;
 	while (i < nb)
 	{
-		parser[i].exist = 1;
 		parser[i].name_cmd = NULL;
 		parser[i].argument = NULL;
 		parser[i].entree_cmd.exist = 0;
@@ -20,10 +19,9 @@ void	init_parser(t_parser *parser, int nb)
 		parser[i].sortie_cmd.name_file = NULL;
 		i++;
 	}
-	parser[i].exist = 0;
 }
 
-void	print_parser(t_parser *parser)
+void	print_parser(t_parser *parser, int nb)
 {
 	int i;
 	int o;
@@ -31,15 +29,20 @@ void	print_parser(t_parser *parser)
 	o = 0;
 	i = 0;
 	printf("\n\n	Structure du parser		\n\n");
-	while (parser[i].exist)
+	while (i < nb)
 	{
 		printf("\nparser[%d].name_cmd = %s\n", i, parser[i].name_cmd);
-		o = 0;
-		/*while (parser[i].argument[o])
+		if (parser[i].argument != NULL)
 		{
-			printf("parser[%d].argument[%d] = %s\n", i, o, parser[i].argument[o]);
-			o++;
-		}*/
+			o = 0;
+			while (parser[i].argument[o] != '\0')
+			{
+				printf("parser[%d].argument[%d] = %s\n", i, o, parser[i].argument[o]);
+				o++;
+			}
+		}
+		else
+			printf("Pas d argument\n");
 		printf("\nparser[%d].entree_cmd.exist = %d\n", i, parser[i].entree_cmd.exist);
 		printf("parser[%d].entree_cmd.pipe = %d\n", i, parser[i].entree_cmd.pipe);
 		printf("parser[%d].entree_cmd.name_file = %s\n\n", i, parser[i].entree_cmd.name_file);
