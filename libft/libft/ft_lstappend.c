@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_utils.c                                       :+:      :+:    :+:   */
+/*   ft_lstappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/03 12:57:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 15:22:52 by vbaudot          ###   ########.fr       */
+/*   Created: 2017/11/14 12:10:18 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/02/28 15:55:41 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-char		*ft_getcwd(void)
+void	ft_lstappend(t_list **head, t_list *new)
 {
-	char	*res;
+	t_list	*lst;
 
-	res = ft_strnew(MAXPATHLEN);
-	return (getcwd(res, MAXPATHLEN));
+	lst = *head;
+	if (new)
+	{
+		if (!lst)
+			lst = new;
+		else
+		{
+			while (lst && lst->next)
+				lst = lst->next;
+			lst->next = new;
+		}
+	}
 }

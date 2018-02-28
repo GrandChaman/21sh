@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_utils.c                                       :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/03 12:57:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 15:22:52 by vbaudot          ###   ########.fr       */
+/*   Created: 2017/12/28 12:38:38 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/02/28 15:19:44 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char		*ft_getcwd(void)
+int	mini_echo(char **args)
 {
-	char	*res;
+	int	i;
 
-	res = ft_strnew(MAXPATHLEN);
-	return (getcwd(res, MAXPATHLEN));
+	i = 0;
+	while (args[++i])
+	{
+		ft_putstr(args[i]);
+		if (args[i + 1])
+			ft_putchar(' ');
+	}
+	ft_putendl("");
+	return (1);
 }
