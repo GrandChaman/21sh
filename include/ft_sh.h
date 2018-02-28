@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 18:03:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/28 19:06:41 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <term.h>
 # include <unistd.h>
+# include <time.h>
+# include <fcntl.h>
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
@@ -55,6 +57,7 @@
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
+# define SH_HIST_MAX_SIZE 10
 typedef struct			s_ft_sh
 {
 	t_list				*env;
@@ -68,6 +71,8 @@ typedef struct			s_ft_sh
 	char				*select;
 	int					debug_tty;
 	unsigned char		is_a_tty;
+	t_list				*history;
+	int					history_size;
 }						t_ft_sh;
 
 typedef	struct			s_ft_touch
@@ -75,6 +80,12 @@ typedef	struct			s_ft_touch
 	unsigned long		touch;
 	void				(*f)(unsigned long);
 }						t_ft_touch;
+
+typedef	struct			s_ft_hist_entry
+{
+	char				*command;
+	int					timestamp;
+}						t_ft_hist_entry;
 
 t_ft_sh	*get_ft_shell(void);
 int		is_env_correct(void);
@@ -98,6 +109,10 @@ void		move_select(unsigned long touch);
 void		copy_select(unsigned long touch);
 void		paste_select(unsigned long touch);
 void		cut_select(unsigned long touch);
+void		cli_loader(int destroy);
+int 		load_history(t_ft_sh *sh, int unload);
+void		add_to_history(t_ft_sh *sh, char *cmd);
+
 
 static t_ft_touch		g_ft_touch_list[] =
 {

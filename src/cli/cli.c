@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 18:04:08 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/28 12:54:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,5 @@ char		*read_command(char *prompt, int *status)
 		}
 		i = (rvalue && i < 7 ? i + 1 : 0);
 	}
-	return (get_ft_shell()->buf.buf);
+	return (ft_strdup(get_ft_shell()->buf.buf));
 }
