@@ -8,7 +8,6 @@ char	*check_correct(char *str)
 	stock = is_correct(str);
 	if (stock < 0)
 	{
-		prompt = malloc(sizeof(char) * 10);
 		if (stock == -1) //double quote
 			prompt = "d-quotes>";
 		if (stock == -2) //simple quote
