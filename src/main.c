@@ -2,8 +2,8 @@
 
 int main(int argc, char **argv)
 {
-	//t_parser *parser;
-	char ptr_need_quote;
+	//t_parser	*parser;
+//	char		ptr_need_quote;
 	
 	if (argc == 3)
 	{
@@ -15,9 +15,10 @@ int main(int argc, char **argv)
 		printf("ta oublier un truc\n");
 		return (0);
 	}
-	split_evoluted(argv[1], &ptr_need_quote);
+	check_correct(argv[1]);
+	return (0);
 }
-
+									//refaire des exemple avec la structure finale
 /*
 
 	1 verifier que tt est bon avec les cotes...
@@ -27,11 +28,11 @@ int main(int argc, char **argv)
 */
 
 /*
-orginal = cat -e file | grep "ligne" > other
+original = cat -e file | grep "ligne la" > other
 
 parser[0].name_cmd = cat
 parser[0].argument[0].name = -e
-					  special = 0;
+					  special = 0; (quote '' )
 		  argument[1].name = file
 		  			  special = 0;
 parser[0].entree_cmd.
@@ -47,7 +48,7 @@ parser[0].sortie_cmd.
 					continue_if_fail = 1;
 
 parser[1].name_cmd = grep
-parser[1].argument[0].name = ligne
+parser[1].argument[0].name = ligne la
 		  			  special = 0;
 parser[1].entree_cmd.
 					exist = 1;

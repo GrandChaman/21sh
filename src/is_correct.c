@@ -1,24 +1,15 @@
 #include "ft_sh.h"
 
-int		ft_isatoken(char c)
-{
-	if (c == ';' || c == '&' || c == '<' || c == '>')
-		return (1);
-	return (0);
-}
-
-int		split_evoluted(char *original, char *ptr_need_quote, t_parser *parser)
+int				is_correct(char *original) //return -1 si a completer, 0 si fails
 {
 	int i;
 	int o;
 	int z;
 	int b;
-	int increment_something;
 	int boite;
 	char stock;
 	int nbr_argv;
 
-	increment_something = 0;
 	b = 0;
 	z = 0;
 	o = 0;
@@ -44,11 +35,16 @@ int		split_evoluted(char *original, char *ptr_need_quote, t_parser *parser)
 			while ((original[i] != ' ' && original[i] != '\t' &&
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
-				boite = redirections2(&i, original, parser, b);
+				boite = redirections3(&i, original);
 				if (boite == 0)
 				{
 					printf("Error de syntax\n");
 					return (0);
+				}
+				if (boite == -1)
+				{
+					printf("je gere pas now\n");
+					return (-1);
 				}
 				while ((original[i] == ' ' || original[i] == '\t') && original[i])
 					i++;
@@ -58,34 +54,17 @@ int		split_evoluted(char *original, char *ptr_need_quote, t_parser *parser)
 				else if (stock > '\0' && stock != 'n')
 				{
 					printf("Manque une quote %c \n", stock);
-					*ptr_need_quote = stock;
 					return (-1);
 				}
 				i++;
 				o++;
 			}
-			printf("Here o = %d et z = %d\n", o, z);
-			if (z == 0)
-			{
-				if (!(parser[b].name_cmd = malloc(sizeof(char) * o)))
-					return (0);
-			}
-			else
-			{
-				if (z == 1 && boite == 1)
-					parser[b].argument = malloc(sizeof(char *) * nbr_argv + 1);
-				if (boite == 1)
-					parser[b].argument[z - 1] = malloc(sizeof(char) * o + 1);
-				if (boite == 2)
-					parser[b].sortie_cmd.name_file = malloc(sizeof(char) * o + 1);
-				if (boite == 3)
-					parser[b].entree_cmd.name_file = malloc(sizeof(char) * o + 1);
-			}
-			printf("la\n");
 			printf("commande [%d] mot[%d] = %d\n", b, z, o);
+			o = 0;
+			while ((original[i] == ' ' || original[i] == '\t') && original[i])
+				i++;
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
 				break ;
-			o = 0;
 			z++;
 		}
 		z = 0;
@@ -94,7 +73,6 @@ int		split_evoluted(char *original, char *ptr_need_quote, t_parser *parser)
 		if (original[i] == '|')
 		{
 			printf("Ya un pipe\n"); //Faut un truc apres
-			parser[b].sortie_cmd.to_next_cmd = 1;
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
@@ -103,9 +81,8 @@ int		split_evoluted(char *original, char *ptr_need_quote, t_parser *parser)
 				printf("faut une commande !\n");
 				return (-1);
 			}
-			parser[b + 1].entree_cmd.pipe = 1; //Peux segfault
 		}
-		else
+		if (original[i] == ';')
 			i++;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
