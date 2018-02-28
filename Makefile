@@ -15,7 +15,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
-VPATH = src:src/cli:src/term
+VPATH = src:src/cli:src/term:src/parser
 SRC = main.c split_evoluted.c count.c init_parser.c quote.c redirection.c\
  fill_struct.c is_correct.c check_correct.c main.c cli.c cli_init.c terminal_settings.c \
 path_utils.c cli_selection.c term_command.c cli_utils.c cli_nav.c cli_delete.c error.c
