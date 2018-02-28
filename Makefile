@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/02/28 19:30:13 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/02/28 19:38:39 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
 VPATH = src:src/cli:src/term:src/parser
-SRC = main.c split_evoluted.c count.c init_parser.c quote.c redirection.c\
+SRC = split_evoluted.c count.c init_parser.c quote.c redirection.c\
  fill_struct.c is_correct.c check_correct.c main.c cli.c cli_init.c terminal_settings.c \
 path_utils.c cli_selection.c term_command.c cli_utils.c cli_nav.c cli_delete.c error.c history_loader.c
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
