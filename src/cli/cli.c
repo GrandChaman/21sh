@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 13:08:44 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 16:09:04 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ int		display_prompt(int last_result)
 	free(path);
 	shell = get_ft_shell();
 	shell->prompt_size = res;
-	dbuf_clear(&shell->buf);
-	shell->cursor = 0;
 	return (res);
 }
 
@@ -116,6 +114,7 @@ char		*read_command(char *prompt, int *status)
 {
 	char *nprompt;
 	t_ft_sh *sh;
+	char *res;
 
 	sh = get_ft_shell();
 	if (prompt)
@@ -126,13 +125,15 @@ char		*read_command(char *prompt, int *status)
 	else
 		display_prompt((status ? *status : 1));
 	read_command_routine();
-	if (!(nprompt = check_correct(get_ft_shell()->buf.buf)))
-		return (ft_strdup(get_ft_shell()->buf.buf));
-	else
+	if ((nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
-		dbuf_insert(&sh->buf, sh->cursor++, '\n');
 		sh->cursor = sh->buf.cursor;
+		dbuf_insert(&sh->buf, sh->cursor++, '\n');
 		ft_putchar('\n');
 		return (read_command(nprompt, status));
 	}
+	res = ft_strdup(get_ft_shell()->buf.buf);
+	sh->cursor = 0;
+	dbuf_clear(&sh->buf);
+	return (res);
 }
