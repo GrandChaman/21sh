@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 09:11:56 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 09:16:57 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,6 @@ void					ft_lst_add_or_modify(int flag, t_list **head,
 	char *name, char *value);
 int						mini_setenv(char **args, t_list **head);
 int						mini_unsetenv(char **args, t_list **head);
-void					ft_error(void);
 int						ft_problem_dir(char *arg);
 int						too_many_args(char *cmd);
 

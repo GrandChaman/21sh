@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 09:05:17 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 09:15:40 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		main(int argc, const char **argv, char **env)
 		return (1);
 	head = create_list_from_env(env);
 	cli_loader(0);
-	main_routine();
+	main_routine(&head, 1);
 	cli_loader(1);
 	ft_lsterase(&head);
 	if (shell->debug_tty > 0)
