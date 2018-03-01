@@ -15,7 +15,7 @@ void		fill_parser(t_parser *parser, char *original)
 	z = 0;
 	o = 0;
 	i = 0;
-//	printf("\noriginal = %s\n\n", original);
+	printf("ici fill_parser\n");
 	while (original[i])
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -42,7 +42,7 @@ void		fill_parser(t_parser *parser, char *original)
 				i++;
 				o++;
 			}
-//			printf("juste pour voir\n");
+			printf("juste pour voir z = %d\n", z);
 			if (z == 0)
 				parser[b].name_cmd[o] = '\0';
 			if (z >= 1 && o != 0)
@@ -55,8 +55,10 @@ void		fill_parser(t_parser *parser, char *original)
 			o = 0;
 			z++;
 		}
-		if (z > 1 || (z == 1 && original[i] == '\0'))
+		printf("Ici\n");
+		if ((z > 1 || (z == 1 && original[i] == '\0')) && j)
 			parser[b].argument[j] = NULL;
+		printf("Here\n");
 		j = 0;
 		z = 0;
 		if (original[i] == '\0')
@@ -74,4 +76,5 @@ void		fill_parser(t_parser *parser, char *original)
 			i++;
 		b++;
 	}
+	printf("End\n");
 }
