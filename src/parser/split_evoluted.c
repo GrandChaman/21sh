@@ -67,13 +67,13 @@ void	split_evoluted(t_parser *parser, char *original)
 				if (boite == 2)
 				{
 	//				printf("Yep\n");
-					if (!(parser[b].sortie_cmd.name_file = malloc(sizeof(char) * o + 1)))
+					if (!(parser[b].output.name_file = malloc(sizeof(char) * o + 1)))
 						exit(0);
 				}
 				if (boite == 3)
 				{
 	//				printf("Here\n");
-					if (!(parser[b].entree_cmd.name_file = malloc(sizeof(char) * o + 1)))
+					if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
 						exit(0);
 				}
 			}
@@ -91,11 +91,11 @@ void	split_evoluted(t_parser *parser, char *original)
 		if (original[i] == '|')
 		{
 	//		printf("Ya un pipe\n"); //Faut un truc apres
-			parser[b].sortie_cmd.to_next_cmd = 1;
+			parser[b].output.to_next_cmd = 1;
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
-			parser[b + 1].entree_cmd.pipe = 1; //Peux segfault
+			parser[b + 1].input.pipe = 1; //Peux segfault
 		}
 		if (original[i] == ';')
 			i++;
