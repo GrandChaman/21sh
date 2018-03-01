@@ -36,6 +36,7 @@ void main_routine(void)
 	load_history(shell, 0);
 	ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 	cmd = read_command(NULL, NULL);
+	get_parser(cmd);
 	add_to_history(shell, cmd);
 	load_history(shell, 1);
 	ft_fprintf(shell->debug_tty, "YAY\n");

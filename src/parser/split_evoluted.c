@@ -7,7 +7,7 @@ int		ft_isatoken(char c)
 	return (0);
 }
 
-int		split_evoluted(t_parser *parser, char *original)
+void	split_evoluted(t_parser *parser, char *original)
 {
 	int i;
 	int o;
@@ -50,31 +50,31 @@ int		split_evoluted(t_parser *parser, char *original)
 			if (z == 0)
 			{
 				if (!(parser[b].name_cmd = malloc(sizeof(char) * o)))
-					return (0);
+					exit(0);
 			}
 			else
 			{
 				if (z == 1 && boite == 1)
 				{
 					if (!(parser[b].argument = malloc(sizeof(char *) * nbr_argv + 1)))
-						return (0);
+						exit(0);
 				}
 				if (boite == 1)
 				{
 					if (!(parser[b].argument[z - 1] = malloc(sizeof(char) * o + 1)))
-						return (0);
+						exit(0);
 				}
 				if (boite == 2)
 				{
 	//				printf("Yep\n");
 					if (!(parser[b].sortie_cmd.name_file = malloc(sizeof(char) * o + 1)))
-						return (0);
+						exit(0);
 				}
 				if (boite == 3)
 				{
 	//				printf("Here\n");
 					if (!(parser[b].entree_cmd.name_file = malloc(sizeof(char) * o + 1)))
-						return (0);
+						exit(0);
 				}
 			}
 	//		printf("commande [%d] mot[%d] = %d\n", b, z, o);
@@ -103,5 +103,4 @@ int		split_evoluted(t_parser *parser, char *original)
 			i++;
 		b++;
 	}
-	return (1);
 }
