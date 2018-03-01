@@ -55,7 +55,7 @@ void		fill_parser(t_parser *parser, char *original)
 			o = 0;
 			z++;
 		}
-		if (z > 1 || (z == 1 && original[i] == '\0'))
+		if ((z > 1 || (z == 1 && original[i] == '\0')) && j)
 			parser[b].argument[j] = NULL;
 		j = 0;
 		z = 0;
