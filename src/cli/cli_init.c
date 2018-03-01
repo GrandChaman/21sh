@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 13:14:19 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 16:40:35 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	cli_loader(int destroy)
 	t_ft_sh *shell;
 
 	shell = get_ft_shell();
+	shell->history_pos = 0;
+	shell->history_last = NULL;
 	if (destroy)
 	{
 		if (shell->is_a_tty)

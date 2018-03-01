@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 15:48:48 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 16:41:54 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct			s_ft_sh
 	unsigned char		is_a_tty;
 	t_list				*history;
 	int					history_size;
-	int					history_pos;	
+	int					history_pos;
 	t_dbuf				*history_last;
 }						t_ft_sh;
 
@@ -169,7 +169,7 @@ void		cut_select(unsigned long touch);
 void		cli_loader(int destroy);
 int 		load_history(t_ft_sh *sh, int unload);
 void		add_to_history(t_ft_sh *sh, char *cmd);
-
+int			is_last_char_a_nl(void);
 
 static t_ft_touch		g_ft_touch_list[] =
 {

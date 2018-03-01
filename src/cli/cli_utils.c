@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 11:51:18 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 17:17:27 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,20 @@ void		update_stdout(t_ft_sh *sh, int isdel)
 		exec_term_command(TC_SAVECURPOS);
 	while (len > 0)
 	{
+		sleep(1);
 		tmp = ((sh->x_size) - ((sh->prompt_size + ncur) % sh->x_size)) + isdel;
 		tmp = (tmp > len + isdel ? len + isdel : tmp);
+		sleep(1);
+		ft_fprintf(sh->debug_tty, "%d", tmp);
+		sleep(1);
 		ft_printf("%*s", tmp, " ");
+		sleep(1);
 		exec_term_command_p(TC_MOVENLEFT, 0, tmp);
+		sleep(1);
 		exec_term_command_p(TC_INSERTNCHAR, 0, tmp);
+		sleep(1);
 		write(1, (sh->buf.buf + ncur - isdel), tmp);
+		sleep(1);
 		len -= tmp;
 		ncur += tmp;
 		if ((isdel && len >= 0) || (!isdel && (len > 0
