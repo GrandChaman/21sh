@@ -17,6 +17,7 @@ void	init_parser(t_parser *parser, int nb)
 		parser[i].output.to_next_cmd = 0;
 		parser[i].output.double_chevron = 0;
 		parser[i].output.name_file = NULL;
+		parser[i].output.exist = 0;
 		i++;
 	}
 }
@@ -63,6 +64,7 @@ void	print_parser(t_parser *parser, int nb)
 	printf("\n\n	Structure du parser		\n\n");
 	while (i < nb)
 	{
+		printf("\n\n");
 		if (parser[i].cmd != NULL)
 		{
 			o = 0;
