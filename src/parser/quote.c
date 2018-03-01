@@ -16,7 +16,6 @@ char	checkquote(int *i, int *o, char *original) // effet '' ?
 				return ('k');
 			if (stock == -1)
 			{
-				printf("Here\n");
 				return (tableau[var]);
 			}
 		}
