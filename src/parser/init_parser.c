@@ -30,7 +30,7 @@ void	free_parser(t_parser *parser)
 
 	i = 0;
 	nb = 0;
-	if (parser[i].nb_cmd)
+	if (parser != NULL)
 	{
 		if (nb == 0)
 			nb = parser[0].nb_cmd;
