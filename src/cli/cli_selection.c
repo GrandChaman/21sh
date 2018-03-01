@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/27 17:49:16 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 17:04:07 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,26 @@ void		move_select(unsigned long touch)
 	int		tmp;
 
 	sh = get_ft_shell();
-	if ((sh->cursor == 0 && touch == T_ALT_LEFT) || (sh->cursor == sh->buf.cursor && touch == T_ALT_RIGHT))
+	ft_fprintf(sh->debug_tty, "Is LC 1 : %d\n", is_last_char_a_nl());
+	if (((sh->cursor == 0 || is_last_char_a_nl()) && touch == T_ALT_LEFT)
+		|| (sh->cursor == sh->buf.cursor && touch == T_ALT_RIGHT))
 		return ;
 	if (!sh->select_size)
 		sh->select_start = sh->cursor;
 	tmp = sh->select_size + (touch == T_ALT_LEFT ? -1 : 1);
 	ft_fprintf(sh->debug_tty, "Start : %u\nSize : %d\nCursor : %u\nTest : %d\n", sh->select_start, sh->select_size, sh->cursor, tmp);
+	ft_fprintf(sh->debug_tty, "Is LC 2 : %d\n", is_last_char_a_nl());
+
 	if (sh->select_start + tmp - 1 != sh->cursor)
 		move_in_terminal((touch == T_ALT_LEFT ? T_LARR : T_RARR), 1);
 	else
 		ft_fprintf(sh->debug_tty, "BAM\n");
+		ft_fprintf(sh->debug_tty, "Is LC 3 : %d\n", is_last_char_a_nl());
+
 	if (ABS(tmp) > ABS(sh->select_size))
 		exec_term_command(TC_REVERSEVIDEO);
 	ft_putchar(sh->buf.buf[sh->cursor]);
-	if (sh->cursor == 0)
+	if (sh->cursor == 0 || is_last_char_a_nl())
 		exec_term_command(TC_MOVELEFT);
 	else
 		move_in_terminal(T_LARR, 0);
