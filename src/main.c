@@ -30,17 +30,20 @@ void main_routine(void)
 {
 	char *cmd;
 	t_ft_sh *shell;
+	t_parser *parser;
 
 	shell = get_ft_shell();
 	ft_fprintf(shell->debug_tty, "YAY\n");
 	load_history(shell, 0);
 	ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 	cmd = read_command(NULL, NULL);
-	get_parser(cmd);
+	parser = get_parser(cmd);
+	//Tu peux faire joue-joue ici victor
 	add_to_history(shell, cmd);
 	load_history(shell, 1);
 	ft_fprintf(shell->debug_tty, "YAY\n");
 	ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
+	free_parser(parser);
 	free(cmd);
 }
 
