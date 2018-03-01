@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 13:37:56 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/25 13:19:54 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/28 19:20:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	get_screen_size(void)
 
 	shell = get_ft_shell();
 	ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
-	shell->x_size = w.ws_col;
-	shell->y_size = w.ws_row;
+	shell->x_size = (w.ws_col ? w.ws_col : 80);
+	shell->y_size = (w.ws_row ? w.ws_row : 60);
 }
 
 static void		set_terminal_setting(struct termios *old, struct termios *new)
