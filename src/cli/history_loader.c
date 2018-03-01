@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 19:24:55 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 13:50:21 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,29 @@ static void	delete_hist_entry(void *entry, size_t size)
 static int read_history(t_ft_sh *sh, int fd)
 {
 	int				gnl_res;
+	t_dbuf			dbuf;
 	char			*line;
 	char			*tmp;
 	t_ft_hist_entry entry;
 
+	dbuf_init(&dbuf);
 	while ((gnl_res = get_next_line(fd, &line)) > 0)
 	{
-		tmp = ft_strchr(line, ' ') + 1;
-		entry.command = ft_strdup((tmp ? tmp : "(null)"));
-		entry.timestamp = ft_atoi(line);
+		dbuf_append(&dbuf, line);
 		free(line);
-		ft_lstpush_back(&sh->history, &entry, sizeof(entry));
-		sh->history_size++;
+		if (check_correct(dbuf.buf) && dbuf_append(&dbuf, "\n") == LIBFT_OK)
+			continue ;
+		if ((tmp = ft_strchr(dbuf.buf, ' ')))
+		{
+			tmp++;
+			entry.command = ft_strdup((tmp ? tmp : "(null)"));
+			entry.timestamp = ft_atoi(dbuf.buf);
+			ft_lstpush_back(&sh->history, &entry, sizeof(entry));
+			sh->history_size++;
+		}
+		dbuf_clear(&dbuf);
 	}
+	dbuf_destroy(&dbuf);
 	return (gnl_res);
 }
 
@@ -97,6 +107,8 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 {
 	t_ft_hist_entry entry;
 
+	if (!cmd || !ft_strlen(cmd))
+		return ;
 	entry.command = ft_strdup(cmd);
 	entry.timestamp = time(NULL);
 	while (sh->history_size-- >= SH_HIST_MAX_SIZE)

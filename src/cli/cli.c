@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 12:54:02 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 13:08:44 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		display_prompt(int last_result)
 	return (res);
 }
 
-char		*read_command(char *prompt, int *status)
+void		read_command_routine(void)
 {
 	unsigned long	rchar;
 	int				rvalue;
@@ -95,17 +95,10 @@ char		*read_command(char *prompt, int *status)
 	rvalue = 1;
 	i = 0;
 	ft_bzero(tmp, 8);
-	if (prompt)
-	{
-		ft_printf(prompt);
-		get_ft_shell()->prompt_size = ft_strlen(prompt);
-	}
-	else
-		display_prompt((status ? *status : 1));
 	while (42)
 	{
 		rvalue = read(0, &tmp[i], 1);
-		if (rvalue == -1 || tmp[0] == '\n')
+		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D)
 			break ;
 		rchar = *((unsigned long*)tmp);
 		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 0 && !rvalue))
@@ -117,5 +110,29 @@ char		*read_command(char *prompt, int *status)
 		}
 		i = (rvalue && i < 7 ? i + 1 : 0);
 	}
-	return (ft_strdup(get_ft_shell()->buf.buf));
+}
+
+char		*read_command(char *prompt, int *status)
+{
+	char *nprompt;
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
+	if (prompt)
+	{
+		ft_printf(prompt);
+		get_ft_shell()->prompt_size = ft_strlen(prompt);
+	}
+	else
+		display_prompt((status ? *status : 1));
+	read_command_routine();
+	if (!(nprompt = check_correct(get_ft_shell()->buf.buf)))
+		return (ft_strdup(get_ft_shell()->buf.buf));
+	else
+	{
+		dbuf_insert(&sh->buf, sh->cursor++, '\n');
+		sh->cursor = sh->buf.cursor;
+		ft_putchar('\n');
+		return (read_command(nprompt, status));
+	}
 }
