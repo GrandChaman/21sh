@@ -112,7 +112,7 @@ int		redirections3(int *i, char *original)
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
 				return (0);
 			return (-1);
-			 juste recupere un char * et le passer a victor ^^ avec pipe avoir quoi ecrire
+	//		 juste recupere un char * et le passer a victor ^^ avec pipe avoir quoi ecrire
 		}
 		else
 		{
