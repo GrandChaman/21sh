@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 15:57:39 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 09:11:56 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include <stdlib.h>
 # include <term.h>
 # include <unistd.h>
-# include <fcntl.h>
+# include <time.h>
 # include <sys/param.h>
+# include <fcntl.h>
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
@@ -57,6 +58,7 @@
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
+# define SH_HIST_MAX_SIZE 10
 
 typedef struct			s_ft_sh
 {
@@ -71,6 +73,8 @@ typedef struct			s_ft_sh
 	char				*select;
 	int					debug_tty;
 	unsigned char		is_a_tty;
+	t_list				*history;
+	int					history_size;
 }						t_ft_sh;
 
 typedef	struct			s_ft_touch
@@ -79,12 +83,68 @@ typedef	struct			s_ft_touch
 	void				(*f)(unsigned long);
 }						t_ft_touch;
 
+typedef	struct			s_ft_hist_entry
+{
+	char				*command;
+	int					timestamp;
+}						t_ft_hist_entry;
+
+typedef	struct			s_entree_cmd
+{
+	int					exist;
+	int					pipe;
+	char				*name_file;
+}						t_entree_cmd;
+
+typedef	struct			s_sortie_cmd
+{
+	int					standart;
+	int					erreur;
+	int					to_next_cmd;
+	char				*name_file;
+	int					double_chevron;
+}						t_sortie_cmd;
+
+typedef struct			s_argument
+{
+	char				**name;
+	int					special;
+}						t_argument;
+
+
+typedef struct			s_parser
+{
+	char				*name_cmd;
+	char				**argument;
+	t_entree_cmd		entree_cmd;
+	t_sortie_cmd		sortie_cmd;
+}						t_parser;
+
+char					*check_correct(char *original);
+int						is_correct(char *original);
+void					print_parser(t_parser *parser, int nb);
+int						redirections3(int *i, char *original);
+void					fill_parser(t_parser *parser, char *original);
+int						ft_isatoken(char c);
+int 					count_argv(int i, char *original);
+int						count_cmd(char *original);
+void					init_parser(t_parser *parser, int nb);
+int						redirections2(int *i, char *original, t_parser *parser, int b);
+int						redirections(int *i, int *increment_something, char *original);
+int						count_argv(int i, char *original);
+char					checkquote(int *i, int *o, char *original);
+int						checkquote2(int *i, int *o, char *original, char c);
+void					chevron(int *i, int *increment_something, char *original);
+int						checkquote2(int *i, int *o, char *original, char c);
+int						split_evoluted(t_parser *parser, char *original);
+
 t_ft_sh					*get_ft_shell(void);
 int						is_env_correct(void);
 char					*ft_getcwd(void);
 int						print_error(const char *title, const char *message);
 void					apply_terminal_setting(int def);
 int						display_prompt(int last_result);
+
 char					*read_command(char *prompt, int *status);
 void					exec_term_command(const char *code);
 void					exec_term_command_p(const char *code, int p1, int p2);
@@ -101,6 +161,9 @@ void					move_select(unsigned long touch);
 void					copy_select(unsigned long touch);
 void					paste_select(unsigned long touch);
 void					cut_select(unsigned long touch);
+void					cli_loader(int destroy);
+int 					load_history(t_ft_sh *sh, int unload);
+void					add_to_history(t_ft_sh *sh, char *cmd);
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
