@@ -18,8 +18,8 @@ char	*check_correct(char *original)
 			prompt = "commands>";
 		if (stock == -4) //heredocs
 			prompt = "here-docs>";
-	//	printf("\nAppel a Francis !\n");
-	//	printf("prompt = %s\n", prompt);
+		printf("\nAppel a Francis !\n");
+		printf("prompt = %s\n", prompt);
 		return (prompt);
 	}
 	if (stock == 0)
@@ -29,7 +29,7 @@ char	*check_correct(char *original)
 	}
 	if (stock == 1)
 	{
-	//	printf("\nOK\n");
+		printf("\nOK\n");
 		stock = count_cmd(original);
 		parser = malloc(sizeof(t_parser) * stock);
 		init_parser(parser, stock);
@@ -37,7 +37,7 @@ char	*check_correct(char *original)
 			return (NULL);					//Faut quitter
 		//print_parser(parser, stock);
 		fill_parser(parser, original);       //remplissage des mallocs
-	//	print_parser(parser, stock);
+		print_parser(parser, stock);
 		return (NULL);
 	}
 	return (NULL);
