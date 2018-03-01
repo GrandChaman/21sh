@@ -118,6 +118,7 @@ typedef struct			s_parser
 	t_sortie_cmd		sortie_cmd;
 }						t_parser;
 
+t_parser		*get_parser(char *original);
 char			*check_correct(char *original);
 int				is_correct(char *original);
 void			print_parser(t_parser *parser, int nb);
@@ -134,7 +135,7 @@ char			checkquote(int *i, int *o, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
 void			chevron(int *i, int *increment_something, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
-int				split_evoluted(t_parser *parser, char *original);
+void			split_evoluted(t_parser *parser, char *original);
 
 t_ft_sh			*get_ft_shell(void);
 int				is_env_correct(void);
