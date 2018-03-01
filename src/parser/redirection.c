@@ -69,7 +69,7 @@ int		redirections2(int *i, char *original, t_parser *parser, int b)
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
 				return (0);
-			parser[b].entree_cmd.exist = 1;
+			parser[b].input.exist = 1;
 			return (3);
 		}
 	}
@@ -83,7 +83,7 @@ int		redirections2(int *i, char *original, t_parser *parser, int b)
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
 				return (0);
-			parser[b].sortie_cmd.double_chevron = 1;
+			parser[b].output.double_chevron = 1;
 			return (2);
 		}
 		else

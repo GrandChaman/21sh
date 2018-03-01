@@ -2,13 +2,13 @@
 
 int				is_correct(char *original) //return -1 si a completer, 0 si fails
 {
-	int i;
-	int o;
-	int z;
-	int b;
-	int boite;
-	char stock;
-	int nbr_argv;
+	int		i;
+	int		o;
+	int		z;
+	int		b;
+	int		boite;
+	char	stock;
+	int		nbr_argv;
 
 	b = 0;
 	z = 0;

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 13:01:14 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 13:50:30 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,21 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
-typedef	struct			s_entree_cmd
+typedef	struct			s_input
 {
 	int					exist;
 	int					pipe;
 	char				*name_file;
-}						t_entree_cmd;
+}						t_input;
 
-typedef	struct			s_sortie_cmd
+typedef	struct			s_output
 {
 	int					standart;
 	int					erreur;
 	int					to_next_cmd;
 	char				*name_file;
 	int					double_chevron;
-}						t_sortie_cmd;
+}						t_output;
 
 typedef struct			s_argument
 {
@@ -118,8 +118,8 @@ typedef struct			s_parser
 	char				*name_cmd;
 	char				**argument;
 	int					nb_cmd;
-	t_entree_cmd		entree_cmd;
-	t_sortie_cmd		sortie_cmd;
+	t_input		input;
+	t_output		output;
 }						t_parser;
 
 void					free_parser(t_parser *parser);
@@ -140,7 +140,7 @@ char					checkquote(int *i, int *o, char *original);
 int						checkquote2(int *i, int *o, char *original, char c);
 void					chevron(int *i, int *increment_something, char *original);
 int						checkquote2(int *i, int *o, char *original, char c);
-int						split_evoluted(t_parser *parser, char *original);
+void					split_evoluted(t_parser *parser, char *original);
 
 t_ft_sh					*get_ft_shell(void);
 int						is_env_correct(void);
@@ -171,9 +171,9 @@ void					add_to_history(t_ft_sh *sh, char *cmd);
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute_env(char **args, t_list **head);
-int						execute(char **args, t_list **head);
-int						launch(char **args, t_list **head);
+int						execute_env(t_parser parser, t_list **head);
+int						execute(t_parser parser, t_list **head);
+int						launch(t_parser parser, t_list **head);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
