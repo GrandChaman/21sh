@@ -6,7 +6,7 @@
 #    By: bluff <bluff@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/19 19:26:33 by bluff             #+#    #+#              #
-#    Updated: 2018/02/28 15:55:57 by vbaudot          ###   ########.fr        #
+#    Updated: 2018/03/01 11:34:42 by vbaudot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ ft_btree_create_node.c ft_btree_insert_data.c ft_perror.c ft_btree_destroy.c \
 ft_btree_count_node.c ft_itoa_base.c ft_numlen.c ft_getenv.c ft_free2d.c \
 ft_str2ddup.c ft_haschar.c ft_free.c ft_strsplit_multi.c ft_lstdestroy.c \
 dbuf_init.c dbuf_append.c dbuf_clear.c dbuf_insert.c dbuf_remove.c \
-dbuf_destroy.c dbuf_substract.c dbuf_print.c ft_str3join.c ft_lstappend.c)
+dbuf_destroy.c dbuf_substract.c dbuf_print.c ft_str3join.c ft_lstappend.c \
+ft_split_whitespaces.c)
 
 SRC_PRINTF = $(addprefix $(PRINTF_DIR)/, ft_printf_routine.c ft_printf.c \
 		ft_printf_utils.c ft_printf_string.c ft_printf_parser.c \

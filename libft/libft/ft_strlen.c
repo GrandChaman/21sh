@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 20:31:08 by bluff             #+#    #+#             */
-/*   Updated: 2017/12/19 14:08:20 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 11:57:03 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ size_t	ft_strlen(const char *str)
 {
 	unsigned int i;
 
-	if (!str)
-		return (0);
 	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	if (str)
+	{
+		while (str[i])
+			i++;
+		return (i);
+	}
+	return (-1);
 }
