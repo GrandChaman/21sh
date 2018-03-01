@@ -114,10 +114,12 @@ typedef struct			s_parser
 {
 	char				*name_cmd;
 	char				**argument;
+	int					nb_cmd;
 	t_entree_cmd		entree_cmd;
 	t_sortie_cmd		sortie_cmd;
 }						t_parser;
 
+void	free_parser(t_parser *parser);
 t_parser		*get_parser(char *original);
 char			*check_correct(char *original);
 int				is_correct(char *original);
