@@ -2,7 +2,7 @@
 
 int		ft_isatoken(char c)
 {
-	if (c == ';' || c == '&' || c == '<' || c == '>')
+	if (c == ';' || c == '&' || c == '<' || c == '>' || c == '|')
 		return (1);
 	return (0);
 }
@@ -68,7 +68,7 @@ void	split_evoluted(t_parser *parser, char *original)
 					exit(0);
 			}
 			
-	//		printf("commande [%d] mot[%d] = %d\n", b, z, o);
+			printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;

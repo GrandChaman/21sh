@@ -101,6 +101,7 @@ typedef	struct			s_output
 	int					to_next_cmd;
 	char				*name_file;
 	int					double_chevron;
+	int					exist;
 }						t_output;
 
 typedef struct			s_cmd
@@ -118,7 +119,9 @@ typedef struct			s_parser
 	t_output			output;
 }						t_parser;
 
-void	free_parser(t_parser *parser);
+int				checkquote2_fill(int *i, char *original, char c, t_parser *parser, int *b, int *j);
+char			checkquote_fill(int *i, char *original, t_parser *parser, int *b, int *j);
+void			free_parser(t_parser *parser);
 t_parser		*get_parser(char *original);
 char			*check_correct(char *original);
 int				is_correct(char *original);
@@ -130,7 +133,6 @@ int 			count_argv(int i, char *original);
 int				count_cmd(char *original);
 void			init_parser(t_parser *parser, int nb);
 int				redirections2(int *i, char *original, t_parser *parser, int b);
-int				redirections(int *i, int *increment_something, char *original);
 int				count_argv(int i, char *original);
 char			checkquote(int *i, int *o, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
