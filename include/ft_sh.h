@@ -87,36 +87,35 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
-typedef	struct			s_entree_cmd
+typedef	struct			s_input
 {
 	int					exist;
 	int					pipe;
 	char				*name_file;
-}						t_entree_cmd;
+}						t_input;
 
-typedef	struct			s_sortie_cmd
+typedef	struct			s_output
 {
 	int					standart;
 	int					erreur;
 	int					to_next_cmd;
 	char				*name_file;
 	int					double_chevron;
-}						t_sortie_cmd;
+}						t_output;
 
-typedef struct			s_argument
+typedef struct			s_cmd
 {
 	char				**name;
 	int					special;
-}						t_argument;
+}						t_cmd;
 
 
 typedef struct			s_parser
 {
-	char				*name_cmd;
-	char				**argument;
-	int					nb_cmd;
-	t_entree_cmd		entree_cmd;
-	t_sortie_cmd		sortie_cmd;
+	char				**cmd;
+	int					nb;
+	t_input				input;
+	t_output			output;
 }						t_parser;
 
 void	free_parser(t_parser *parser);
