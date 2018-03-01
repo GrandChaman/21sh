@@ -21,13 +21,13 @@ int		split_evoluted(t_parser *parser, char *original)
 	z = 0;
 	o = 0;
 	i = 0;
-	printf("\noriginal = %s\n\n", original);
+//	printf("\noriginal = %s\n\n", original);
 	while (original[i])
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
 		nbr_argv = count_argv(i, original);
-		printf("\nnbr_argv = %d\n", nbr_argv);
+//		printf("\nnbr_argv = %d\n", nbr_argv);
 		while (original[i] && original[i] != ';' && original[i] != '|')
 		{
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -38,7 +38,7 @@ int		split_evoluted(t_parser *parser, char *original)
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
 				boite = redirections2(&i, original, parser, b);
-				printf("boite = %d\n", boite);
+	//			printf("boite = %d\n", boite);
 				while ((original[i] == ' ' || original[i] == '\t') && original[i])
 					i++;
 				stock = checkquote(&i, &o, original);
@@ -66,18 +66,18 @@ int		split_evoluted(t_parser *parser, char *original)
 				}
 				if (boite == 2)
 				{
-					printf("Yep\n");
+	//				printf("Yep\n");
 					if (!(parser[b].sortie_cmd.name_file = malloc(sizeof(char) * o + 1)))
 						return (0);
 				}
 				if (boite == 3)
 				{
-					printf("Here\n");
+	//				printf("Here\n");
 					if (!(parser[b].entree_cmd.name_file = malloc(sizeof(char) * o + 1)))
 						return (0);
 				}
 			}
-			printf("commande [%d] mot[%d] = %d\n", b, z, o);
+	//		printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
@@ -90,7 +90,7 @@ int		split_evoluted(t_parser *parser, char *original)
 			break ;
 		if (original[i] == '|')
 		{
-			printf("Ya un pipe\n"); //Faut un truc apres
+	//		printf("Ya un pipe\n"); //Faut un truc apres
 			parser[b].sortie_cmd.to_next_cmd = 1;
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
