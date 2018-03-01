@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 12:52:10 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 13:00:27 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void main_routine(t_list **head, int status)
 {
 	char *cmd;
 	t_ft_sh *shell;
+	t_parser *parser;
 	char	**args;
 	int		x;
 
@@ -41,12 +42,14 @@ void main_routine(t_list **head, int status)
 		ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 		cmd = read_command(NULL, NULL);
 		args = ft_split_whitespaces(cmd);
+		parser = get_parser(cmd);
 		ft_putendl("");
 		status = execute(args, head);
 		//add_to_history(shell, cmd);
 		//load_history(shell, 1);
 		ft_fprintf(shell->debug_tty, "YAY\n");
 		//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
+		free_parser(parser);
 		free(cmd);
 		x = -1;
 		while (args[++x])

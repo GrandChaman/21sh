@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 11:24:49 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 13:01:14 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,13 @@ typedef struct			s_parser
 {
 	char				*name_cmd;
 	char				**argument;
+	int					nb_cmd;
 	t_entree_cmd		entree_cmd;
 	t_sortie_cmd		sortie_cmd;
 }						t_parser;
 
+void					free_parser(t_parser *parser);
+t_parser				*get_parser(char *original);
 char					*check_correct(char *original);
 int						is_correct(char *original);
 void					print_parser(t_parser *parser, int nb);

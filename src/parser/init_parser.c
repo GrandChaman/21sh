@@ -7,6 +7,7 @@ void	init_parser(t_parser *parser, int nb)
 	i = 0;
 	while (i < nb)
 	{
+		parser[i].nb_cmd = nb;
 		parser[i].name_cmd = NULL;
 		parser[i].argument = NULL;
 		parser[i].entree_cmd.exist = 0;
@@ -18,6 +19,39 @@ void	init_parser(t_parser *parser, int nb)
 		parser[i].sortie_cmd.double_chevron = 0;
 		parser[i].sortie_cmd.name_file = NULL;
 		i++;
+	}
+}
+
+void	free_parser(t_parser *parser)
+{
+	int i;
+	int nb;
+	int o;
+
+	i = 0;
+	nb = 0;
+	if (parser != NULL)
+	{
+		if (nb == 0)
+			nb = parser[0].nb_cmd;
+		while (i < nb)
+		{
+			o = 0;
+			free(parser[i].name_cmd);
+			if (parser[i].argument)
+			{
+				while (parser[i].argument[o])
+				{
+					free(parser[i].argument[o]);
+					o++;
+				}
+			}
+			if (parser[i].entree_cmd.name_file)
+				free(parser[i].entree_cmd.name_file);
+			if (parser[i].sortie_cmd.name_file)
+				free(parser[i].sortie_cmd.name_file);
+			i++;
+		}
 	}
 }
 
