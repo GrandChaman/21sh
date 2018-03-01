@@ -26,7 +26,7 @@ void	split_evoluted(t_parser *parser, char *original)
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
-		nbr_argv = count_argv(i, original);
+		nbr_argv = count_argv(i, original) + 2;
 //		printf("\nnbr_argv = %d\n", nbr_argv);
 		while (original[i] && original[i] != ';' && original[i] != '|')
 		{
@@ -38,7 +38,6 @@ void	split_evoluted(t_parser *parser, char *original)
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
 				boite = redirections2(&i, original, parser, b);
-	//			printf("boite = %d\n", boite);
 				while ((original[i] == ' ' || original[i] == '\t') && original[i])
 					i++;
 				stock = checkquote(&i, &o, original);
@@ -47,36 +46,28 @@ void	split_evoluted(t_parser *parser, char *original)
 				i++;
 				o++;
 			}
-			if (z == 0)
+			if (z == 0 && boite == 1)
 			{
-				if (!(parser[b].name_cmd = malloc(sizeof(char) * o)))
+		//		printf("nbr_argv = %d\n", nbr_argv);
+				if (!(parser[b].cmd = malloc(sizeof(char *) * nbr_argv)))
 					exit(0);
 			}
-			else
+			if (boite == 1)
 			{
-				if (z == 1 && boite == 1)
-				{
-					if (!(parser[b].argument = malloc(sizeof(char *) * nbr_argv + 1)))
-						exit(0);
-				}
-				if (boite == 1)
-				{
-					if (!(parser[b].argument[z - 1] = malloc(sizeof(char) * o + 1)))
-						exit(0);
-				}
-				if (boite == 2)
-				{
-	//				printf("Yep\n");
-					if (!(parser[b].sortie_cmd.name_file = malloc(sizeof(char) * o + 1)))
-						exit(0);
-				}
-				if (boite == 3)
-				{
-	//				printf("Here\n");
-					if (!(parser[b].entree_cmd.name_file = malloc(sizeof(char) * o + 1)))
-						exit(0);
-				}
+				if (!(parser[b].cmd[z] = malloc(sizeof(char) * o + 1)))
+					exit(0);
 			}
+			if (boite == 2)
+			{
+				if (!(parser[b].output.name_file = malloc(sizeof(char) * o + 1)))
+					exit(0);
+			}
+			if (boite == 3)
+			{
+				if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
+					exit(0);
+			}
+			
 	//		printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -90,12 +81,11 @@ void	split_evoluted(t_parser *parser, char *original)
 			break ;
 		if (original[i] == '|')
 		{
-	//		printf("Ya un pipe\n"); //Faut un truc apres
-			parser[b].sortie_cmd.to_next_cmd = 1;
+			parser[b].output.to_next_cmd = 1;
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
-			parser[b + 1].entree_cmd.pipe = 1; //Peux segfault
+			parser[b + 1].input.pipe = 1;
 		}
 		if (original[i] == ';')
 			i++;

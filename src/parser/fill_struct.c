@@ -15,7 +15,7 @@ void		fill_parser(t_parser *parser, char *original)
 	z = 0;
 	o = 0;
 	i = 0;
-//	printf("\noriginal = %s\n\n", original);
+//	printf("ici fill_parser\n");
 	while (original[i])
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -35,19 +35,16 @@ void		fill_parser(t_parser *parser, char *original)
 				stock = checkquote(&i, &o, original);
 				if (stock == 'k')
 					break;
-				if (z == 0)
-					parser[b].name_cmd[o] = original[i];
-				if (z >= 1) //sale + gere pas les guillemets
-					parser[b].argument[j][o] = original[i];
+				if (z >= 0) //sale + gere pas les guillemets
+				{
+					parser[b].cmd[j][o] = original[i];
+				}
 				i++;
 				o++;
 			}
-//			printf("juste pour voir\n");
-			if (z == 0)
-				parser[b].name_cmd[o] = '\0';
-			if (z >= 1 && o != 0)
+			if (z >= 0 && o != 0)
 			{
-				parser[b].argument[j][o] = '\0';
+				parser[b].cmd[j][o] = '\0';
 				j++;
 			}
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
@@ -74,4 +71,5 @@ void		fill_parser(t_parser *parser, char *original)
 			i++;
 		b++;
 	}
+//	printf("End\n");
 }
