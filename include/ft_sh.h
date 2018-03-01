@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 09:16:57 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 11:24:49 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
+# define T_CTRL_C 3
 # define T_BACKSPACE 127
 # define T_DELETE 2117294875
 # define T_END 4610843

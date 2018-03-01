@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 09:15:40 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/01 12:52:10 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,28 @@ void main_routine(t_list **head, int status)
 {
 	char *cmd;
 	t_ft_sh *shell;
+	char	**args;
+	int		x;
 
 	shell = get_ft_shell();
+	//load_history(shell, 0);
 	while (status)
 	{
 		ft_fprintf(shell->debug_tty, "YAY\n");
-		load_history(shell, 0);
 		ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 		cmd = read_command(NULL, NULL);
-		status = execute(&cmd, head);
-		add_to_history(shell, cmd);
-		load_history(shell, 1);
+		args = ft_split_whitespaces(cmd);
+		ft_putendl("");
+		status = execute(args, head);
+		//add_to_history(shell, cmd);
+		//load_history(shell, 1);
 		ft_fprintf(shell->debug_tty, "YAY\n");
-		ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
+		//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 		free(cmd);
+		x = -1;
+		while (args[++x])
+			free(args[x]);
+		free(args);
 	}
 }
 
@@ -59,6 +67,7 @@ int		main(int argc, const char **argv, char **env)
 	if (!is_env_correct())
 		return (1);
 	head = create_list_from_env(env);
+	//ft_lstprint(&head);
 	cli_loader(0);
 	main_routine(&head, 1);
 	cli_loader(1);

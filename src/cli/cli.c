@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 12:54:02 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/01 11:25:15 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 	void	(*f)(unsigned long);
 
 	i = shell->cursor + 1;
+	if (rchar == T_CTRL_C)
+		exit(0);
 	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
 		rchar != T_ALT_LEFT && rchar != T_ALT_RIGHT && shell->select_size)
 	{
