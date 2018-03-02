@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 11:25:15 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 13:52:10 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ char		*read_command(char *prompt, int *status)
 	while (42)
 	{
 		rvalue = read(0, &tmp[i], 1);
-		if (rvalue == -1 || tmp[0] == '\n')
+		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == 3)
 			break ;
+		if (tmp[0] == 4)
+			exit(0);
 		rchar = *((unsigned long*)tmp);
 		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 0 && !rvalue))
 		{
