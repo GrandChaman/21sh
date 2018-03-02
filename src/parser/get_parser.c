@@ -11,6 +11,11 @@ t_parser	*get_parser(char *original) //Pour victor
 		printf("\nFails\n");
 		return (NULL);
 	}
+	if (stock < 0)
+	{
+		printf("Francis complet\n");
+		return (NULL);
+	}
 	if (stock == 1)
 	{
 		printf("\nOK\n");
