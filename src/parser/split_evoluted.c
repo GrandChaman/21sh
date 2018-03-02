@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 10:16:51 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 10:16:52 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 11:34:20 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	split_evoluted(t_parser *parser, char *original)
 					exit(0);
 			}
 
-			ft_printf("commande [%d] mot[%d] = %d\n", b, z, o);
+			//ft_printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 11:17:02 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 12:05:14 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void main_routine(t_list **head, int status)
 		cmd = read_command(NULL, NULL);
 		parser = get_parser(cmd);
 		nb = parser[0].nb;
+		ft_putendl("");
 		x = -1;
+		//(void)head;
 		while (++x < nb)
 			status = execute(parser[x], head);
 		//add_to_history(shell, cmd);

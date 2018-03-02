@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 10:16:35 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 11:50:09 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,9 +172,9 @@ void					add_to_history(t_ft_sh *sh, char *cmd);
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute_env(t_parser parser, t_list **head);
+int						execute_env(char **args, t_list **head);
 int						execute(t_parser parser, t_list **head);
-int						launch(t_parser parser, t_list **head);
+int						launch(char **args, t_list **head);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
