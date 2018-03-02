@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 16:41:54 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/02 16:39:12 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct			s_ft_sh
 	unsigned int		prompt_size;
 	t_dbuf				buf;
 	unsigned int		cursor;
+	unsigned int		alt_cursor;
 	unsigned int		select_start;
 	int					select_size;
 	char				*select;
@@ -170,6 +171,7 @@ void		cli_loader(int destroy);
 int 		load_history(t_ft_sh *sh, int unload);
 void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_last_char_a_nl(void);
+unsigned int get_sh_cursor(void);
 
 static t_ft_touch		g_ft_touch_list[] =
 {

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 15:20:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/02 16:49:21 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,14 @@ void		insert_normal_touch(t_ft_sh *sh)
 
 static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 {
-	int lastnl;
-	char *tmp;
-
-	lastnl = sh->cursor;
 	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
 	if (sh->cursor < sh->buf.cursor)
 		insert_normal_touch(sh);
 	else
 		if (sh->is_a_tty)
 		{
-			tmp = ft_strrchr(sh->buf.buf, '\n');
-			if (tmp)
-				lastnl = ft_strlen(tmp + 1);
 			ft_putchar((char)rchar);
-			if (((sh->prompt_size + lastnl) % (sh->x_size)) == 0)
+			if (((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
 				ft_putchar('\n');
 		}
 }
@@ -106,7 +99,7 @@ void		read_command_routine(void)
 		rchar = *((unsigned long*)tmp);
 		if (get_special_char_f(rchar) || ft_isprint(rchar) || (tmp[0] != 0 && !rvalue))
 		{
-			ft_fprintf(get_ft_shell()->debug_tty, "rchar : %U\n", *((unsigned long*)tmp));
+			ft_fprintf(get_ft_shell()->debug_tty, "Cursor : %d - rchar : %U\n", get_sh_cursor(), *((unsigned long*)tmp));
 			execute_touch(get_ft_shell(), rchar);
 			ft_bzero(tmp, 8);
 			i = 0;
@@ -134,12 +127,14 @@ char		*read_command(char *prompt, int *status)
 	if ((nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
 		sh->cursor = sh->buf.cursor;
+		sh->alt_cursor = sh->cursor + 1;
 		dbuf_insert(&sh->buf, sh->cursor++, '\n');
 		ft_putchar('\n');
 		return (read_command(nprompt, status));
 	}
 	res = ft_strdup(get_ft_shell()->buf.buf);
 	sh->cursor = 0;
+	sh->alt_cursor = 0;
 	dbuf_clear(&sh->buf);
 	return (res);
 }
