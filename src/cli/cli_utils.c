@@ -6,11 +6,19 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 14:42:30 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/02 16:39:15 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+unsigned int get_sh_cursor(void)
+{
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
+	return (sh->cursor - sh->alt_cursor);
+}
 
 static void	cursor_repositionning(t_ft_sh *sh, int ncur, int ocur, int is_del)
 {

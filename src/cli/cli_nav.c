@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 16:41:49 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/02 16:47:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			is_last_char_a_nl(void)
 	t_ft_sh *sh;
 
 	sh = get_ft_shell();
-	return (sh->buf.buf[sh->cursor - 1] == '\n');
+	return (sh->cursor > 0 && sh->buf.buf[sh->cursor - 1] == '\n');
 }
 
 static void	skip_in_terminal(unsigned long touch)
@@ -69,7 +69,7 @@ void		move_in_terminal(unsigned long touch, int should_update_buf)
 	sh = get_ft_shell();
 	if (touch == T_LARR && sh->cursor > 0 && !is_last_char_a_nl())
 	{
-		if (sh->is_a_tty && ((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
+		if (sh->is_a_tty && ((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
 		{
 			exec_term_command(TC_MOVEUP);
 			exec_term_command_p(TC_MOVENRIGHT, 0, sh->x_size - 1);
@@ -80,7 +80,7 @@ void		move_in_terminal(unsigned long touch, int should_update_buf)
 	}
 	else if (touch == T_RARR && sh->cursor < sh->buf.cursor)
 	{
-		if (sh->is_a_tty && ((sh->prompt_size + sh->cursor) % (sh->x_size)) == sh->x_size - 1)
+		if (sh->is_a_tty && ((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == sh->x_size - 1)
 		{
 			exec_term_command_p(TC_MOVENLEFT, 0, sh->x_size - 1);
 			exec_term_command(TC_MOVEDOWN);
