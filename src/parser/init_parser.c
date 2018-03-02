@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 10:16:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 10:16:56 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 10:38:17 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	print_parser(t_parser *parser, int nb)
 
 	o = 0;
 	i = 0;
-	ft_printf("\n\n	Structure du parser		\n\n");
 	while (i < nb)
 	{
 		ft_printf("\n\n");

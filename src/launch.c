@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:22 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 10:35:32 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 10:40:01 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int			launch(t_parser parser, t_list **head)
 		env = create_env_from_list(head);
 		path = (check_slash(parser.cmd[0]) == 1) ? ft_strdup(parser.cmd[0]) :
 		ft_strdup(ft_path(head, parser.cmd[0]));
+		ft_printf("Check\n");
 		execve(path, parser.cmd, env);
 		free(path);
 		return (0);
