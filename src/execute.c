@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/01 13:41:48 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 10:35:19 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		execute(t_parser parser, t_list **head)
 {
 	//t_list	*copy;
 
-	if (!parser.name_cmd)
+	if (!parser.cmd[0])
 		return (1);/*
 	if (ft_strcmp(args[0], "help") == 0)
 		return (mini_help(args));

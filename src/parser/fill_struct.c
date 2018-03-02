@@ -15,7 +15,7 @@ void		fill_parser(t_parser *parser, char *original)
 	z = 0;
 	o = 0;
 	i = 0;
-	printf("\noriginal = %s\n", original);
+	ft_printf("\noriginal = %s\n", original);
 	while (original[i])
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -57,7 +57,7 @@ void		fill_parser(t_parser *parser, char *original)
 			break ;
 		if (original[i] == '|')
 		{
-//			printf("Ya un pipe\n"); //Faut un truc apres
+//			ft_printf("Ya un pipe\n"); //Faut un truc apres
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
@@ -68,5 +68,5 @@ void		fill_parser(t_parser *parser, char *original)
 			i++;
 		b++;
 	}
-//	printf("End\n");
+//	ft_printf("End\n");
 }
