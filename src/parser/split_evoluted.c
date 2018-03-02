@@ -25,9 +25,9 @@ void	split_evoluted(t_parser *parser, char *original)
 	int o;
 	int z;
 	int b;
-	char stock;
 	int nbr_argv;
 	int boite;
+	int box;
 
 	b = 0;
 	z = 0;
@@ -36,6 +36,7 @@ void	split_evoluted(t_parser *parser, char *original)
 //	ft_printf("\noriginal = %s\n\n", original);
 	while (original[i])
 	{
+		box = 1;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
 		nbr_argv = count_argv(i, original) + 2;
@@ -49,33 +50,51 @@ void	split_evoluted(t_parser *parser, char *original)
 			while ((original[i] != ' ' && original[i] != '\t' &&
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
+				checkquote(&i, &o, original);
 				boite = redirections2(&i, original, parser, b);
-				while ((original[i] == ' ' || original[i] == '\t') && original[i])
-					i++;
-				stock = checkquote(&i, &o, original);
-				if (stock == 'k')
+				if (boite != 1)
+				{
+					checkquote(&i, &o, original);
+					box = boite;
 					break ;
+				}
 				i++;
 				o++;
 			}
-			if (z == 0 && boite == 1)
+	//		printf("box = %d\n", box);
+			if (z == 0 && box == 1)
 			{
-		//		ft_printf("nbr_argv = %d\n", nbr_argv);
-				if (!(parser[b].cmd = malloc(sizeof(char *) * nbr_argv)))
+	//			printf("nombre de mot dans la commande = %d\n", nbr_argv);
+				if (!(parser[b].cmd = malloc(sizeof(char *) * nbr_argv + 1)))
 					exit(0);
 			}
-			if (boite == 1)
+			if (box == 1)
 			{
+	//			printf("malloc parser[%d].cmd[%d] = %d\n", b, z, o);
 				if (!(parser[b].cmd[z] = malloc(sizeof(char) * o + 1)))
 					exit(0);
 			}
-			if (boite == 2)
+			if (box == 2)
 			{
+				while ((original[i] != ' ' && original[i] != '\t' &&
+				original[i] != ';' && original[i] != '|') && original[i])
+				{
+					i++;
+					o++;
+				}
+	//			printf("malloc parser[%d].output.name_file = %d\n", b, o);
 				if (!(parser[b].output.name_file = malloc(sizeof(char) * o + 1)))
 					exit(0);
 			}
-			if (boite == 3)
+			if (box == 3)
 			{
+				while ((original[i] != ' ' && original[i] != '\t' &&
+				original[i] != ';' && original[i] != '|') && original[i])
+				{
+					i++;
+					o++;
+				}
+	//			printf("malloc parser[%d].input.name_file = %d\n", b , o);
 				if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
 					exit(0);
 			}
@@ -87,6 +106,7 @@ void	split_evoluted(t_parser *parser, char *original)
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
 				break ;
 			z++;
+			box = 1;
 		}
 		z = 0;
 		if (original[i] == '\0')

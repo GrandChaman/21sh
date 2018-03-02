@@ -122,8 +122,13 @@ typedef struct			s_parser
 	t_output			output;
 }						t_parser;
 
-int				checkquote2_fill(int *i, char *original, char c, t_parser *parser, int *b, int *j);
-char			checkquote_fill(int *i, char *original, t_parser *parser, int *b, int *j);
+int				checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b);
+char			checkquote_fill_input(int *i, char *original, t_parser *parser, int *b);
+int				redirections4(int *i, char *original);
+int				checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b);
+char			checkquote_fill_output(int *i, char *original, t_parser *parser, int *b);
+int				checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int *b, int *j);
+char			checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j);
 void			free_parser(t_parser *parser);
 t_parser		*get_parser(char *original);
 char			*check_correct(char *original);
