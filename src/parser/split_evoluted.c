@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_evoluted.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/02 10:16:51 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/03/02 10:16:52 by vbaudot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_sh.h"
 
 int		ft_isatoken(char c)
@@ -54,30 +66,6 @@ void	split_evoluted(t_parser *parser, char *original)
 			}
 			if (boite == 1)
 			{
-<<<<<<< HEAD
-				if (z == 1 && boite == 1)
-				{
-					if (!(parser[b].argument = malloc(sizeof(char *) * nbr_argv + 1)))
-						exit(0);
-				}
-				if (boite == 1)
-				{
-					if (!(parser[b].argument[z - 1] = malloc(sizeof(char) * o + 1)))
-						exit(0);
-				}
-				if (boite == 2)
-				{
-	//				printf("Yep\n");
-					if (!(parser[b].output.name_file = malloc(sizeof(char) * o + 1)))
-						exit(0);
-				}
-				if (boite == 3)
-				{
-	//				printf("Here\n");
-					if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
-						exit(0);
-				}
-=======
 				if (!(parser[b].cmd[z] = malloc(sizeof(char) * o + 1)))
 					exit(0);
 			}
@@ -90,9 +78,8 @@ void	split_evoluted(t_parser *parser, char *original)
 			{
 				if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
 					exit(0);
->>>>>>> master
 			}
-			
+
 			printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -106,19 +93,11 @@ void	split_evoluted(t_parser *parser, char *original)
 			break ;
 		if (original[i] == '|')
 		{
-<<<<<<< HEAD
-	//		printf("Ya un pipe\n"); //Faut un truc apres
-=======
->>>>>>> master
 			parser[b].output.to_next_cmd = 1;
 			i++;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
-<<<<<<< HEAD
-			parser[b + 1].input.pipe = 1; //Peux segfault
-=======
 			parser[b + 1].input.pipe = 1;
->>>>>>> master
 		}
 		if (original[i] == ';')
 			i++;
