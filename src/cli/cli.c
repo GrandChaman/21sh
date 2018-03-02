@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 16:09:04 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/02 15:20:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,21 @@ void		insert_normal_touch(t_ft_sh *sh)
 
 static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 {
-	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
+	int lastnl;
+	char *tmp;
 
+	lastnl = sh->cursor;
+	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
 	if (sh->cursor < sh->buf.cursor)
 		insert_normal_touch(sh);
 	else
 		if (sh->is_a_tty)
 		{
+			tmp = ft_strrchr(sh->buf.buf, '\n');
+			if (tmp)
+				lastnl = ft_strlen(tmp + 1);
 			ft_putchar((char)rchar);
-			if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
+			if (((sh->prompt_size + lastnl) % (sh->x_size)) == 0)
 				ft_putchar('\n');
 		}
 }
@@ -49,7 +55,6 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 		cur_save = shell->cursor;
 		while (i-- > 0)
 			move_in_terminal(T_LARR, 1);
-		shell->cursor = 0;
 		update_stdout(shell, 0);
 		shell->select_start = 0;
 		shell->select_size = 0;
@@ -99,12 +104,13 @@ void		read_command_routine(void)
 		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D)
 			break ;
 		rchar = *((unsigned long*)tmp);
-		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 0 && !rvalue))
+		if (get_special_char_f(rchar) || ft_isprint(rchar) || (tmp[0] != 0 && !rvalue))
 		{
 			ft_fprintf(get_ft_shell()->debug_tty, "rchar : %U\n", *((unsigned long*)tmp));
 			execute_touch(get_ft_shell(), rchar);
 			ft_bzero(tmp, 8);
 			i = 0;
+			continue ;
 		}
 		i = (rvalue && i < 7 ? i + 1 : 0);
 	}
