@@ -49,9 +49,12 @@ int count_argv(int i, char *original)
 			i++;
 		while ((original[i] != ' ' && original[i] != '\t') && original[i])
 		{
+			checkquote(&i, &o, original);
 			stock = redirections3(&i, original);
-			stock = checkquote(&i, &o, original);
-			if (original[i] == '|' || original[i] == ';') //peux etre a proteger
+			checkquote(&i, &o, original);
+			if (stock != 1)
+				nb = nb - 2;
+			if (original[i] == '|' || original[i] == ';')
 				return (nb);
 			i++;
 		}
@@ -59,7 +62,7 @@ int count_argv(int i, char *original)
 			i++;
 		if (original[i] == '\0')
 			break ;
-		if (original[i] == '|' || original[i] == ';') //peux etre a proteger
+		if (original[i] == '|' || original[i] == ';')
 			return (nb);
 		nb++;
 	}
