@@ -39,11 +39,9 @@ int count_argv(int i, char *original)
 {
 	int nb;
 	int stock;
-	int increment_something;
 	int o;
 
 	o = 0;
-	increment_something = 0;
 	nb = 0;
 	while (original[i])
 	{
@@ -51,7 +49,7 @@ int count_argv(int i, char *original)
 			i++;
 		while ((original[i] != ' ' && original[i] != '\t') && original[i])
 		{
-			stock = redirections(&i, &increment_something, original);
+			stock = redirections3(&i, original);
 			stock = checkquote(&i, &o, original);
 			if (original[i] == '|' || original[i] == ';') //peux etre a proteger
 				return (nb);

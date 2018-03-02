@@ -7,9 +7,14 @@ void	init_parser(t_parser *parser, int nb)
 	i = 0;
 	while (i < nb)
 	{
+<<<<<<< HEAD
 		parser[i].nb_cmd = nb;
 		parser[i].name_cmd = NULL;
 		parser[i].argument = NULL;
+=======
+		parser[i].nb = nb;
+		parser[i].cmd = NULL;
+>>>>>>> master
 		parser[i].input.exist = 0;
 		parser[i].input.pipe = 0;
 		parser[i].input.name_file = NULL;
@@ -18,6 +23,10 @@ void	init_parser(t_parser *parser, int nb)
 		parser[i].output.to_next_cmd = 0;
 		parser[i].output.double_chevron = 0;
 		parser[i].output.name_file = NULL;
+<<<<<<< HEAD
+=======
+		parser[i].output.exist = 0;
+>>>>>>> master
 		i++;
 	}
 }
@@ -33,16 +42,15 @@ void	free_parser(t_parser *parser)
 	if (parser != NULL)
 	{
 		if (nb == 0)
-			nb = parser[0].nb_cmd;
+			nb = parser[0].nb;
 		while (i < nb)
 		{
 			o = 0;
-			free(parser[i].name_cmd);
-			if (parser[i].argument)
+			if (parser[i].cmd)
 			{
-				while (parser[i].argument[o])
+				while (parser[i].cmd[o])
 				{
-					free(parser[i].argument[o]);
+					free(parser[i].cmd[o]);
 					o++;
 				}
 			}
@@ -65,13 +73,13 @@ void	print_parser(t_parser *parser, int nb)
 	printf("\n\n	Structure du parser		\n\n");
 	while (i < nb)
 	{
-		printf("\nparser[%d].name_cmd = %s\n", i, parser[i].name_cmd);
-		if (parser[i].argument != NULL)
+		printf("\n\n");
+		if (parser[i].cmd != NULL)
 		{
 			o = 0;
-			while (parser[i].argument[o] != '\0')
+			while (parser[i].cmd[o] != NULL)
 			{
-				printf("parser[%d].argument[%d] = %s\n", i, o, parser[i].argument[o]);
+				printf("parser[%d].cmd[%d] = %s\n", i, o, parser[i].cmd[o]);
 				o++;
 			}
 		}
