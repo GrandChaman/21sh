@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 19:31:07 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/02 11:50:09 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include <term.h>
 # include <unistd.h>
 # include <time.h>
+# include <sys/param.h>
 # include <fcntl.h>
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
+# define T_CTRL_C 3
 # define T_BACKSPACE 127
 # define T_DELETE 2117294875
 # define T_END 4610843
@@ -58,6 +60,7 @@
 # define TC_RESETGRAPHICS "me"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
+
 typedef struct			s_ft_sh
 {
 	t_list				*env;
@@ -145,33 +148,55 @@ void			chevron(int *i, int *increment_something, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
 void			split_evoluted(t_parser *parser, char *original);
 
-t_ft_sh			*get_ft_shell(void);
-int				is_env_correct(void);
-char			*ft_getcwd(void);
-int				print_error(const char *title, const char *message);
-void			apply_terminal_setting(int def);
-int				display_prompt(int last_result);
+t_ft_sh					*get_ft_shell(void);
+int						is_env_correct(void);
+char					*ft_getcwd(void);
+int						print_error(const char *title, const char *message);
+void					apply_terminal_setting(int def);
+int						display_prompt(int last_result);
 
-char		*read_command(char *prompt, int *status);
-void			exec_term_command(const char *code);
-void			exec_term_command_p(const char *code, int p1, int p2);
-void		spt_arrow(unsigned long touch);
-void	get_screen_size(void);
-int		ft_nputstr(char *str, int n);
-void		move_in_terminal(unsigned long touch, int should_update_buf);
-void		backspace_command(unsigned long touch);
-void		update_stdout(t_ft_sh *sh, int offset);
-void		delete_command(unsigned long touch);
-void (*get_special_char_f(unsigned long val))(unsigned long);
-void		nav_touch_received(unsigned long touch);
-void		move_select(unsigned long touch);
-void		copy_select(unsigned long touch);
-void		paste_select(unsigned long touch);
-void		cut_select(unsigned long touch);
-void		cli_loader(int destroy);
-int 		load_history(t_ft_sh *sh, int unload);
-void		add_to_history(t_ft_sh *sh, char *cmd);
+char					*read_command(char *prompt, int *status);
+void					exec_term_command(const char *code);
+void					exec_term_command_p(const char *code, int p1, int p2);
+void					spt_arrow(unsigned long touch);
+void					get_screen_size(void);
+int						ft_nputstr(char *str, int n);
+void					move_in_terminal(unsigned long touch, int should_update_buf);
+void					backspace_command(unsigned long touch);
+void					update_stdout(t_ft_sh *sh, int offset);
+void					delete_command(unsigned long touch);
+void					(*get_special_char_f(unsigned long val))(unsigned long);
+void					nav_touch_received(unsigned long touch);
+void					move_select(unsigned long touch);
+void					copy_select(unsigned long touch);
+void					paste_select(unsigned long touch);
+void					cut_select(unsigned long touch);
+void					cli_loader(int destroy);
+int 					load_history(t_ft_sh *sh, int unload);
+void					add_to_history(t_ft_sh *sh, char *cmd);
 
+t_list					*ft_lstcopy(t_list **head);
+void					ft_lstprint(t_list **head);
+int						execute_env(char **args, t_list **head);
+int						execute(t_parser parser, t_list **head);
+int						launch(char **args, t_list **head);
+t_list					*create_list_from_env(char **env);
+char					**create_env_from_list(t_list **head);
+void					ft_lsterase(t_list **head);
+void					ft_lstdelthis(t_list **head, char *str);
+int						mini_cd(char **args, t_list **head);
+int						mini_echo(char **args);
+int						mini_env(char **args, t_list **head);
+int						mini_exit(char **args);
+char					*ft_getenv(t_list **head, char *elem);
+char					*ft_path(t_list **head, char *cmd);
+int						mini_help(char **args);
+void					ft_lst_add_or_modify(int flag, t_list **head,
+	char *name, char *value);
+int						mini_setenv(char **args, t_list **head);
+int						mini_unsetenv(char **args, t_list **head);
+int						ft_problem_dir(char *arg);
+int						too_many_args(char *cmd);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
