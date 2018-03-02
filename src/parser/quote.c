@@ -42,7 +42,7 @@ int		checkquote2(int *i, int *o, char *original, char c)
 	return (1);
 }
 
-char	checkquote_fill(int *i, char *original, t_parser *parser, int *b, int *j)
+char	checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j)
 {
 	char tableau[4] = "\"'`";
 	int var;
@@ -53,7 +53,7 @@ char	checkquote_fill(int *i, char *original, t_parser *parser, int *b, int *j)
 	{
 		if (original[*i] == tableau[var])
 		{
-			stock = checkquote2_fill(i, original, tableau[var], parser, b, j);
+			stock = checkquote2_fill_cmd(i, original, tableau[var], parser, b, j);
 			if (stock == 0)
 				return ('k'); //sert a rien, peux return un int
 		}
@@ -62,7 +62,7 @@ char	checkquote_fill(int *i, char *original, t_parser *parser, int *b, int *j)
 	return ('n');
 }
 
-int		checkquote2_fill(int *i, char *original, char c, t_parser *parser, int *b, int *j)
+int		checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int *b, int *j)
 {
 	int o;
 
@@ -84,3 +84,84 @@ int		checkquote2_fill(int *i, char *original, char c, t_parser *parser, int *b, 
 	return (1);
 }
 
+char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b)
+{
+	char tableau[4] = "\"'`";
+	int var;
+	int stock;
+
+	var = 0;
+	while (tableau[var])
+	{
+		if (original[*i] == tableau[var])
+		{
+			stock = checkquote2_fill_output(i, original, tableau[var], parser, b);
+			if (stock == 0)
+				return ('k'); //sert a rien, peux return un int
+		}
+		var++;
+	}
+	return ('n');
+}
+
+int		checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b)
+{
+	int o;
+
+	o = 0;
+	if (original[*i] && original[*i] == c)
+	{
+		*i = *i + 1;
+		while (original[*i] && original[*i] != c)
+		{
+			parser[*b].output.name_file[o] = original[*i];
+			*i = *i + 1;
+			o = o + 1;
+		}
+		parser[*b].output.name_file[o] = '\0';
+		*i = *i + 1;
+		return (0) ;
+	}
+	return (1);
+}
+
+char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b)
+{
+	char tableau[4] = "\"'`";
+	int var;
+	int stock;
+
+	var = 0;
+	while (tableau[var])
+	{
+		if (original[*i] == tableau[var])
+		{
+			stock = checkquote2_fill_intput(i, original, tableau[var], parser, b);
+			if (stock == 0)
+				return ('k'); //sert a rien, peux return un int
+		}
+		var++;
+	}
+	return ('n');
+}
+
+int		checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b)
+{
+	int o;
+
+	o = 0;
+	if (original[*i] && original[*i] == c)
+	{
+		*i = *i + 1;
+		while (original[*i] && original[*i] != c)
+		{
+			parser[*b].input.name_file[o] = original[*i];
+			*i = *i + 1;
+			o = o + 1;
+		}
+		parser[*b].input.name_file[o] = '\0';
+		*i = *i + 1;
+		return (0) ;
+	}
+	return (1);
+}
