@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_lstappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/20 20:31:08 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/01 11:57:03 by vbaudot          ###   ########.fr       */
+/*   Created: 2017/11/14 12:10:18 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/02/28 15:55:41 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_lstappend(t_list **head, t_list *new)
 {
-	unsigned int i;
+	t_list	*lst;
 
-	i = 0;
-	if (str)
+	lst = *head;
+	if (new)
 	{
-		while (str[i])
-			i++;
-		return (i);
+		if (!lst)
+			lst = new;
+		else
+		{
+			while (lst && lst->next)
+				lst = lst->next;
+			lst->next = new;
+		}
 	}
-	return (-1);
 }

@@ -98,5 +98,5 @@ void		fill_parser(t_parser *parser, char *original)
 			i++;
 		b++;
 	}
-//	printf("End\n");
+//	ft_printf("End\n");
 }

@@ -20,12 +20,12 @@ char	*check_correct(char *original) //Pour francis complet
 	}
 	if (stock == 0)
 	{
-//		printf("\nFails\n");
+//		ft_printf("\nFails\n");
 		return (NULL);
 	}
 	if (stock == 1)
 	{
-		//printf( ok ) !
+		//ft_printf( ok ) !
 		return (NULL);
 	}
 	return (NULL);

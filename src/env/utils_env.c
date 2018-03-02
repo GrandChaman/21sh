@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/20 20:31:08 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/01 11:57:03 by vbaudot          ###   ########.fr       */
+/*   Created: 2018/01/02 12:53:19 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/02/28 15:58:10 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_sh.h"
 
-size_t	ft_strlen(const char *str)
+int	too_many_args(char *cmd)
 {
-	unsigned int i;
-
-	i = 0;
-	if (str)
-	{
-		while (str[i])
-			i++;
-		return (i);
-	}
-	return (-1);
+	ft_printf("minishell: %s: too many arguments\n", cmd);
+	return (1);
 }

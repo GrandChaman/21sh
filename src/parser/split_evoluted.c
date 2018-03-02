@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_evoluted.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/02 10:16:51 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/03/02 11:34:20 by vbaudot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_sh.h"
 
 int		ft_isatoken(char c)
@@ -21,13 +33,14 @@ void	split_evoluted(t_parser *parser, char *original)
 	z = 0;
 	o = 0;
 	i = 0;
-	printf("\noriginal = %s\n\n", original);
+//	ft_printf("\noriginal = %s\n\n", original);
 	while (original[i])
 	{
 		box = 1;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
 		nbr_argv = count_argv(i, original) + 2;
+//		ft_printf("\nnbr_argv = %d\n", nbr_argv);
 		while (original[i] && original[i] != ';' && original[i] != '|')
 		{
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -85,7 +98,8 @@ void	split_evoluted(t_parser *parser, char *original)
 				if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
 					exit(0);
 			}
-			printf("commande [%d] mot[%d] = %d\n\n", b, z, o);
+
+			//ft_printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
@@ -111,5 +125,4 @@ void	split_evoluted(t_parser *parser, char *original)
 			i++;
 		b++;
 	}
-	printf("End\n");
 }

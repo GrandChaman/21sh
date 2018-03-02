@@ -6,12 +6,11 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 12:57:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/03 13:10:12 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/02/28 15:22:52 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-#include <sys/param.h>
 
 char		*ft_getcwd(void)
 {
