@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 10:35:19 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 10:40:23 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void main_routine(t_list **head, int status)
 	//load_history(shell, 0);
 	while (status)
 	{
+		ft_printf("\\\\\\\\\\\\\\\\\\\\\\\\\\\n");
 		ft_fprintf(shell->debug_tty, "YAY\n");
 		ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 		cmd = read_command(NULL, NULL);
@@ -72,7 +73,7 @@ int		main(int argc, const char **argv, char **env)
 	if (!is_env_correct())
 		return (1);
 	head = create_list_from_env(env);
-	//ft_lstprint(&head);
+	ft_lstprint(&head);
 	cli_loader(0);
 	main_routine(&head, 1);
 	cli_loader(1);
