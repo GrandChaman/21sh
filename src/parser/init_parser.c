@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_parser.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/02 10:16:54 by vbaudot           #+#    #+#             */
+/*   Updated: 2018/03/02 10:16:56 by vbaudot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_sh.h"
 
 void	init_parser(t_parser *parser, int nb)
@@ -7,14 +19,8 @@ void	init_parser(t_parser *parser, int nb)
 	i = 0;
 	while (i < nb)
 	{
-<<<<<<< HEAD
-		parser[i].nb_cmd = nb;
-		parser[i].name_cmd = NULL;
-		parser[i].argument = NULL;
-=======
 		parser[i].nb = nb;
 		parser[i].cmd = NULL;
->>>>>>> master
 		parser[i].input.exist = 0;
 		parser[i].input.pipe = 0;
 		parser[i].input.name_file = NULL;
@@ -23,10 +29,7 @@ void	init_parser(t_parser *parser, int nb)
 		parser[i].output.to_next_cmd = 0;
 		parser[i].output.double_chevron = 0;
 		parser[i].output.name_file = NULL;
-<<<<<<< HEAD
-=======
 		parser[i].output.exist = 0;
->>>>>>> master
 		i++;
 	}
 }

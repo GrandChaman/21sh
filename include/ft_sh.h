@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 13:50:30 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 10:16:35 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,7 @@ typedef	struct			s_output
 	int					to_next_cmd;
 	char				*name_file;
 	int					double_chevron;
-<<<<<<< HEAD
-=======
 	int					exist;
->>>>>>> master
 }						t_output;
 
 typedef struct			s_cmd
@@ -119,34 +116,6 @@ typedef struct			s_cmd
 
 typedef struct			s_parser
 {
-<<<<<<< HEAD
-	char				*name_cmd;
-	char				**argument;
-	int					nb_cmd;
-	t_input		input;
-	t_output		output;
-}						t_parser;
-
-void					free_parser(t_parser *parser);
-t_parser				*get_parser(char *original);
-char					*check_correct(char *original);
-int						is_correct(char *original);
-void					print_parser(t_parser *parser, int nb);
-int						redirections3(int *i, char *original);
-void					fill_parser(t_parser *parser, char *original);
-int						ft_isatoken(char c);
-int 					count_argv(int i, char *original);
-int						count_cmd(char *original);
-void					init_parser(t_parser *parser, int nb);
-int						redirections2(int *i, char *original, t_parser *parser, int b);
-int						redirections(int *i, int *increment_something, char *original);
-int						count_argv(int i, char *original);
-char					checkquote(int *i, int *o, char *original);
-int						checkquote2(int *i, int *o, char *original, char c);
-void					chevron(int *i, int *increment_something, char *original);
-int						checkquote2(int *i, int *o, char *original, char c);
-void					split_evoluted(t_parser *parser, char *original);
-=======
 	char				**cmd;
 	int					nb;
 	t_input				input;
@@ -173,7 +142,6 @@ int				checkquote2(int *i, int *o, char *original, char c);
 void			chevron(int *i, int *increment_something, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
 void			split_evoluted(t_parser *parser, char *original);
->>>>>>> master
 
 t_ft_sh					*get_ft_shell(void);
 int						is_env_correct(void);
