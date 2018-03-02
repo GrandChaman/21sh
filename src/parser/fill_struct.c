@@ -17,7 +17,7 @@ void		fill_parser(t_parser *parser, char *original)
 	o = 0;
 	i = 0;
 	box = 1;
-	printf("\noriginal = %s\n", original);
+//	printf("\noriginal = %s\n", original);
 	while (original[i])
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -49,17 +49,17 @@ void		fill_parser(t_parser *parser, char *original)
 				}
 				if (boite == 1 && box == 1)
 				{
-					printf("fill_cmd = %c\n", original[i]);
+	//				printf("fill_cmd = %c\n", original[i]);
 					parser[b].cmd[j][o] = original[i];
 				}
 				if (box == 3)
 				{
-					printf("fill_input = %c\n", original[i]);
+//					printf("fill_input = %c\n", original[i]);
 					parser[b].input.name_file[o] = original[i];
 				}
 				if (box == 2)
 				{
-					printf("fill_output = %c\n", original[i]);
+//					printf("fill_output = %c\n", original[i]);
 					parser[b].output.name_file[o] = original[i];
 				}
 				i++;
