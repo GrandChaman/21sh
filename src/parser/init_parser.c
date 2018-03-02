@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 10:16:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 10:38:17 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/02 12:04:00 by vbaudot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	free_parser(t_parser *parser)
 					free(parser[i].cmd[o]);
 					o++;
 				}
+				free(parser[i].cmd);
 			}
 			if (parser[i].input.name_file)
 				free(parser[i].input.name_file);
@@ -63,6 +64,8 @@ void	free_parser(t_parser *parser)
 				free(parser[i].output.name_file);
 			i++;
 		}
+		free(parser);
+		parser = NULL;
 	}
 }
 
@@ -75,7 +78,7 @@ void	print_parser(t_parser *parser, int nb)
 	i = 0;
 	while (i < nb)
 	{
-		ft_printf("\n\n");
+		ft_printf("\n--------------------------------------\n");
 		if (parser[i].cmd != NULL)
 		{
 			o = 0;
@@ -95,7 +98,7 @@ void	print_parser(t_parser *parser, int nb)
 		ft_printf("parser[%d].output.erreur = %d\n", i, parser[i].output.erreur);
 		ft_printf("parser[%d].output.to_next_cmd = %d\n", i, parser[i].output.to_next_cmd);
 		ft_printf("parser[%d].output.double_chevron = %d\n", i, parser[i].output.double_chevron);
-		ft_printf("parser[%d].output.name_file = %s\n", i, parser[i].output.name_file);
+		ft_printf("parser[%d].output.name_file = %s\n\n", i, parser[i].output.name_file);
 		i++;
 	}
 }
