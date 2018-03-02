@@ -38,6 +38,8 @@ void	split_evoluted(t_parser *parser, char *original)
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
 				checkquote(&i, &o, original);
+				if (original[i] == '\0')
+					break;
 				boite = redirections2(&i, original, parser, b);
 				if (boite != 1)
 				{
@@ -91,7 +93,8 @@ void	split_evoluted(t_parser *parser, char *original)
 				i++;
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
 				break ;
-			z++;
+			if (box == 1)
+				z++;
 			box = 1;
 		}
 		z = 0;

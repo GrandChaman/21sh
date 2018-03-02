@@ -32,6 +32,10 @@ void		fill_parser(t_parser *parser, char *original)
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
 				checkquote_fill_cmd(&i, original, parser, &b, &j);
+				while ((original[i] == ' ' || original[i] == '\t') && original[i])
+					i++;
+				if (original[i] == '\0')
+					break ;
 				boite = redirections4(&i, original);
 				if (boite == 2)
 				{
@@ -71,9 +75,15 @@ void		fill_parser(t_parser *parser, char *original)
 				j++;
 			}
 			if (box == 2 && o != 0)
+			{
 				parser[b].output.name_file[o] = '\0';
+				box = 1;
+			}
 			if (box == 3 && o != 0)
+			{
 				parser[b].input.name_file[o] = '\0';
+				box = 1;
+			}
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
 				break ;
 			o = 0;
