@@ -33,13 +33,13 @@ void	split_evoluted(t_parser *parser, char *original)
 	z = 0;
 	o = 0;
 	i = 0;
-//	printf("\noriginal = %s\n\n", original);
+//	ft_printf("\noriginal = %s\n\n", original);
 	while (original[i])
 	{
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
 		nbr_argv = count_argv(i, original) + 2;
-//		printf("\nnbr_argv = %d\n", nbr_argv);
+//		ft_printf("\nnbr_argv = %d\n", nbr_argv);
 		while (original[i] && original[i] != ';' && original[i] != '|')
 		{
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
@@ -60,7 +60,7 @@ void	split_evoluted(t_parser *parser, char *original)
 			}
 			if (z == 0 && boite == 1)
 			{
-		//		printf("nbr_argv = %d\n", nbr_argv);
+		//		ft_printf("nbr_argv = %d\n", nbr_argv);
 				if (!(parser[b].cmd = malloc(sizeof(char *) * nbr_argv)))
 					exit(0);
 			}
@@ -80,7 +80,7 @@ void	split_evoluted(t_parser *parser, char *original)
 					exit(0);
 			}
 
-			printf("commande [%d] mot[%d] = %d\n", b, z, o);
+			ft_printf("commande [%d] mot[%d] = %d\n", b, z, o);
 			o = 0;
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
