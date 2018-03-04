@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 16:39:12 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/04 11:11:02 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int 		load_history(t_ft_sh *sh, int unload);
 void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_last_char_a_nl(void);
 unsigned int get_sh_cursor(void);
+void	history_nav(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -182,8 +183,8 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_HOME, nav_touch_received},
 	{T_LARR, nav_touch_received},
 	{T_RARR, nav_touch_received},
-	{T_BARR, nav_touch_received},
-	{T_TARR, nav_touch_received},
+	{T_BARR, history_nav},
+	{T_TARR, history_nav},
 	{T_SLARR, nav_touch_received},
 	{T_SRARR, nav_touch_received},
 	{T_SBARR, nav_touch_received},
