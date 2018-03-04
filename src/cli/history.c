@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/04 18:42:04 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/04 19:55:36 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	*search_in_history(char *search, t_ft_sh *sh, int up, int *pos)
 
 	len = ft_strlen(search);
 	list = ft_lstat(sh->history, sh->history_pos);
-	*pos = -1;
+	*pos = 0;
 	i = 0;
 	max_size = 0;
 	if (!len)
-		return (up ? ((t_ft_hist_entry*)ft_lstat(sh->history,
-			sh->history_pos + 1)->content)->command : NULL);
+		return (((t_ft_hist_entry*)ft_lstat(sh->history,
+			(up ? sh->history_pos++ : sh->history_pos--))->content)->command);
 	while (list)
 	{
 		if ((tmp = ft_strcommon(((t_ft_hist_entry*)list->content)->command,
