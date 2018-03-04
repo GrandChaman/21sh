@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/04 11:11:02 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/04 17:12:43 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct			s_ft_sh
 	t_list				*history;
 	int					history_size;
 	int					history_pos;
-	t_dbuf				*history_last;
+	char				*history_last;
 }						t_ft_sh;
 
 typedef	struct			s_ft_touch

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 13:50:21 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/04 17:24:18 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int read_history(t_ft_sh *sh, int fd)
 			tmp++;
 			entry.command = ft_strdup((tmp ? tmp : "(null)"));
 			entry.timestamp = ft_atoi(dbuf.buf);
-			ft_lstpush_back(&sh->history, &entry, sizeof(entry));
+			ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 			sh->history_size++;
 		}
 		dbuf_clear(&dbuf);
@@ -116,6 +116,6 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 		ft_fprintf(sh->debug_tty, "\nDeleting : %s.\n", ((t_ft_hist_entry*)sh->history->content)->command);
 		ft_lstdelone(&sh->history, delete_hist_entry);
 	}
-	ft_lstpush_back(&sh->history, &entry, sizeof(entry));
+	ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 	sh->history_size++;
 }
