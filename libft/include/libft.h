@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 20:24:12 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/04 10:52:26 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/04 19:40:07 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int						ft_find_next_prime(int nb);
 void					ft_foreach(int *tab, int length, void (*f)(int));
 int						ft_isprime(int nb);
 int						ft_issort(int *tab, int length, int (*f)(int, int));
-t_list					*ft_lstat(t_list *begin_list, unsigned int nbr);
+t_list					*ft_lstat(t_list *begin_list, int nbr);
 t_list					*ft_lstfind(t_list *begin_list,
 	void *data_ref, int (*cmp)());
 void					ft_lstforeach_if(t_list *begin_list,
