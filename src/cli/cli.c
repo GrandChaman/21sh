@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/04 17:01:58 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/05 15:42:37 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 	void	(*f)(unsigned long);
 
 	i = shell->cursor + 1;
-	if (shell->history_last)
-		ft_free((void**)&shell->history_last);
 	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
 		rchar != T_ALT_LEFT && rchar != T_ALT_RIGHT && shell->select_size)
 	{
@@ -139,7 +137,7 @@ char		*read_command(char *prompt, int *status)
 	res = ft_strdup(get_ft_shell()->buf.buf);
 	sh->cursor = 0;
 	sh->alt_cursor = 0;
-	free(sh->history_last);
+	ft_free((void**)&sh->history_last);
 	dbuf_clear(&sh->buf);
 	return (res);
 }

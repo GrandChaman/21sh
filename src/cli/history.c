@@ -6,92 +6,63 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/05 13:45:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/05 18:54:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char	*search_history_nav(char *search, t_ft_sh *sh, int up, int *pos)
+char	*search_history_nav(t_ft_sh *sh, char *search, int up)
 {
 	t_list *list;
-	int		tmp;
-	int		i;
-	int		max_size;
-	int		len;
+	int		slen;
+	int		clen;
+	int		pos_save;
 
-	len = ft_strlen(search);
-	list = ft_lstat(sh->history, sh->history_pos);
-	*pos = 0;
-	i = 0;
-	max_size = 0;
-	if (!len)
-		return (((t_ft_hist_entry*)ft_lstat(sh->history,
-			(up ? sh->history_pos++ : sh->history_pos--))->content)->command);
+	pos_save = sh->history_pos;
+	slen = ft_strlen(search);
+	clen = ft_strlen(sh->buf.buf);
+	list = (sh->history_pos >= 0 && sh->history_pos < sh->history_size ?
+		ft_lstat(sh->history, sh->history_pos) : sh->history);
+	sh->history_pos = (sh->history_pos < 0 && up ? 0 : sh->history_pos);
 	while (list)
 	{
-		if ((tmp = ft_strcommon(((t_ft_hist_entry*)list->content)->command,
-		search)) > max_size && ft_strcmp(sh->buf.buf, ((t_ft_hist_entry*)list->content)->command))
-		{
-			ft_fprintf(sh->debug_tty, "Possible match : %s\n", ((t_ft_hist_entry*)list->content)->command);
-			max_size = tmp;
-			*pos = i;
-		}
-		else
-			ft_fprintf(sh->debug_tty, "NO match : %s\n", ((t_ft_hist_entry*)list->content)->command);
-		ft_fprintf(sh->debug_tty, "%d >= %d\n", max_size, *pos);
-
-		if (max_size >= *pos && *pos > 0)
-			break ;
-		i++;
+		if (!ft_strncmp(search, ((t_ft_hist_entry*)list->content)->command,
+			slen) && (int)ft_strlen(
+				((t_ft_hist_entry*)list->content)->command) != clen)
+				return (((t_ft_hist_entry*)list->content)->command);
+			sh->history_pos += (up ? 1 : -1);
 		list = (up ? list->next : list->prev);
 	}
-	if (*pos >= 0)
-		return (((t_ft_hist_entry*)ft_lstat(sh->history, sh->history_pos +
-			(up ? *pos : -1 * (*pos)))->content)->command);
+	sh->history_pos = pos_save;
+	if (!up)
+		sh->history_pos = -1;
 	return (NULL);
 }
 
-static void print_hist(void)
-{
-	t_list *list;
-
-	list = get_ft_shell()->history;
-	while (list)
-	{
-		ft_fprintf(get_ft_shell()->debug_tty, "%s\n", ((t_ft_hist_entry*)list->content)->command);
-		list = list->next;
-	}
-}
-
-void	replace_command(char *newcommand, int npos, int saveold)
+void	replace_command(char *newcommand)
 {
 	t_ft_sh *sh;
+	size_t len;
 
 	sh = get_ft_shell();
 	while (sh->cursor < sh->buf.cursor)
 		move_in_terminal(T_RARR, 1);
 	while (sh->cursor > 0)
 		backspace_command(0);
-	sh->history_pos += (T_TARR ? npos : -1 * npos);
-	if (saveold)
-	{
-		free(sh->history_last);
-		sh->history_last = ft_strdup(sh->buf.buf);
-	}
 	dbuf_clear(&sh->buf);
-	if (sh->history_pos >= 0)
-		dbuf_append(&sh->buf, newcommand);
-	update_stdout(sh, 0);
-	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
+	if (!newcommand)
+		return ;
+	len = ft_strlen(newcommand);
+	dbuf_append(&sh->buf, newcommand);
+	write(1, newcommand, len);
+	sh->cursor = sh->buf.cursor;
 }
 
 char	*normal_history_nav(t_ft_sh *sh, int up)
 {
 	if (!up && sh->history_pos <= 0)
 	{
-		ft_fprintf(sh->debug_tty, "BLA2\n");
 		while (sh->cursor < sh->buf.cursor)
 			move_in_terminal(T_RARR, 1);
 		while (sh->cursor > 0)
@@ -100,51 +71,39 @@ char	*normal_history_nav(t_ft_sh *sh, int up)
 		return (NULL);
 	}
 	else if (up && sh->history_pos >= sh->history_size - 1)
-	{
-		ft_fprintf(sh->debug_tty, "BLA2\n");
 		return (((t_ft_hist_entry*)ft_lstat(sh->history,
 			sh->history_size - 1)->content)->command);
-	}
 	else
-	{
-		ft_fprintf(sh->debug_tty, "BLA3 %d - %d\n", sh->history_pos, sh->history_size);
 		return (((t_ft_hist_entry*)ft_lstat(sh->history, (up ?
 			++sh->history_pos : --sh->history_pos))->content)->command);
-	}
 }
 
 void	history_nav(unsigned long touch)
 {
 	t_ft_sh *sh;
 	char	*tmp;
-	int		pos;
 
 	sh = get_ft_shell();
-	print_hist();
-	pos = 0;
-	ft_fprintf(sh->debug_tty, "BLA\n");
-	if (sh->history_pos >= 0 && sh->history_pos < sh->history_size && ft_strcmp(sh->buf.buf,
+	if (sh->history_pos >= sh->history_size || ft_strcmp(sh->buf.buf,
 		((t_ft_hist_entry*)ft_lstat(sh->history, sh->history_pos)->content)->command))
 		{
-			ft_fprintf(sh->debug_tty, "RESETING HISTORY POS\n");
+			ft_free((void**)&sh->history_last);
 			sh->history_pos = -1;
 		}
 	if ((!sh->history_last && sh->history_pos >= 0) || (!sh->buf.buf[0]
 		&& sh->history_pos < 0))
-	{
-		ft_fprintf(sh->debug_tty, "BLA1\n");
 		tmp = normal_history_nav(sh, (touch == T_TARR ? 1 : 0));
-		ft_fprintf(sh->debug_tty, "Normal hist : %s\n", tmp);
-	}
 	else
 	{
-		tmp = search_history_nav(sh->buf.buf, sh, (touch == T_TARR ? 1 : 0), &pos);
-		ft_fprintf(sh->debug_tty, "Search mode : %s\n", tmp);
-
+		if (!sh->history_last)
+			sh->history_last = ft_strdup(sh->buf.buf);
+		tmp = search_history_nav(sh, sh->history_last, (touch == T_TARR ? 1 : 0));
 	}
-	ft_fprintf(sh->debug_tty, "Touch : %s, pos : %d, Size : %d\n",
-	(touch == T_TARR ? "TOP" : "BOT"), sh->history_pos, sh->history_size);
-	if (pos >= 0 && tmp)
-		replace_command(tmp, pos, 1);
-	ft_fprintf(sh->debug_tty, "POS : %d\n", sh->history_pos);
+	if (sh->history_pos >= 0 && tmp)
+		replace_command(tmp);
+	else if (sh->history_pos < 0 && !tmp)
+	{
+		replace_command(sh->history_last);
+		ft_free((void**)&sh->history_last);
+	}
 }
