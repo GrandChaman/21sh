@@ -6,13 +6,13 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/04 19:55:36 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/05 13:45:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char	*search_in_history(char *search, t_ft_sh *sh, int up, int *pos)
+char	*search_history_nav(char *search, t_ft_sh *sh, int up, int *pos)
 {
 	t_list *list;
 	int		tmp;
@@ -64,6 +64,55 @@ static void print_hist(void)
 	}
 }
 
+void	replace_command(char *newcommand, int npos, int saveold)
+{
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
+	while (sh->cursor < sh->buf.cursor)
+		move_in_terminal(T_RARR, 1);
+	while (sh->cursor > 0)
+		backspace_command(0);
+	sh->history_pos += (T_TARR ? npos : -1 * npos);
+	if (saveold)
+	{
+		free(sh->history_last);
+		sh->history_last = ft_strdup(sh->buf.buf);
+	}
+	dbuf_clear(&sh->buf);
+	if (sh->history_pos >= 0)
+		dbuf_append(&sh->buf, newcommand);
+	update_stdout(sh, 0);
+	while (sh->cursor < sh->buf.cursor)
+		move_in_terminal(T_RARR, 1);
+}
+
+char	*normal_history_nav(t_ft_sh *sh, int up)
+{
+	if (!up && sh->history_pos <= 0)
+	{
+		ft_fprintf(sh->debug_tty, "BLA2\n");
+		while (sh->cursor < sh->buf.cursor)
+			move_in_terminal(T_RARR, 1);
+		while (sh->cursor > 0)
+			backspace_command(0);
+		sh->history_pos = -1;
+		return (NULL);
+	}
+	else if (up && sh->history_pos >= sh->history_size - 1)
+	{
+		ft_fprintf(sh->debug_tty, "BLA2\n");
+		return (((t_ft_hist_entry*)ft_lstat(sh->history,
+			sh->history_size - 1)->content)->command);
+	}
+	else
+	{
+		ft_fprintf(sh->debug_tty, "BLA3 %d - %d\n", sh->history_pos, sh->history_size);
+		return (((t_ft_hist_entry*)ft_lstat(sh->history, (up ?
+			++sh->history_pos : --sh->history_pos))->content)->command);
+	}
+}
+
 void	history_nav(unsigned long touch)
 {
 	t_ft_sh *sh;
@@ -72,26 +121,30 @@ void	history_nav(unsigned long touch)
 
 	sh = get_ft_shell();
 	print_hist();
-	if (ft_strcmp(sh->buf.buf,
+	pos = 0;
+	ft_fprintf(sh->debug_tty, "BLA\n");
+	if (sh->history_pos >= 0 && sh->history_pos < sh->history_size && ft_strcmp(sh->buf.buf,
 		((t_ft_hist_entry*)ft_lstat(sh->history, sh->history_pos)->content)->command))
-		sh->history_pos = 0;
-	ft_fprintf(sh->debug_tty, "Touch : %s, pos : %d\n",
-	(touch == T_TARR ? "TOP" : "BOT"), sh->history_pos);
-	tmp = search_in_history(sh->buf.buf, sh, (touch == T_TARR ? 1 : 0), &pos);
-	if (pos >= 0)
+		{
+			ft_fprintf(sh->debug_tty, "RESETING HISTORY POS\n");
+			sh->history_pos = -1;
+		}
+	if ((!sh->history_last && sh->history_pos >= 0) || (!sh->buf.buf[0]
+		&& sh->history_pos < 0))
 	{
-		while (sh->cursor < sh->buf.cursor)
-			move_in_terminal(T_RARR, 1);
-		while (sh->cursor > 0)
-			backspace_command(0);
-		sh->history_pos += (T_TARR ? pos : -1 * pos);
-		free(sh->history_last);
-		sh->history_last = ft_strdup(sh->buf.buf);
-		dbuf_clear(&sh->buf);
-		dbuf_append(&sh->buf, tmp);
-		update_stdout(sh, 0);
-		while (sh->cursor < sh->buf.cursor)
-			move_in_terminal(T_RARR, 1);
+		ft_fprintf(sh->debug_tty, "BLA1\n");
+		tmp = normal_history_nav(sh, (touch == T_TARR ? 1 : 0));
+		ft_fprintf(sh->debug_tty, "Normal hist : %s\n", tmp);
 	}
+	else
+	{
+		tmp = search_history_nav(sh->buf.buf, sh, (touch == T_TARR ? 1 : 0), &pos);
+		ft_fprintf(sh->debug_tty, "Search mode : %s\n", tmp);
+
+	}
+	ft_fprintf(sh->debug_tty, "Touch : %s, pos : %d, Size : %d\n",
+	(touch == T_TARR ? "TOP" : "BOT"), sh->history_pos, sh->history_size);
+	if (pos >= 0 && tmp)
+		replace_command(tmp, pos, 1);
 	ft_fprintf(sh->debug_tty, "POS : %d\n", sh->history_pos);
 }
