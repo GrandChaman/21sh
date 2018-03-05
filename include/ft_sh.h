@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/04 17:12:43 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/05 12:59:21 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ typedef struct			s_ft_sh
 	int					debug_tty;
 	unsigned char		is_a_tty;
 	t_list				*history;
-	int					history_size;
-	int					history_pos;
+	long				history_size;
+	long				history_pos;
 	char				*history_last;
 }						t_ft_sh;
 
