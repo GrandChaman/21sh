@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/05 15:42:37 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/06 16:38:06 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char		*read_command(char *prompt, int *status)
 	}
 	else
 		display_prompt((status ? *status : 1));
+	sh->is_alt_shell = (prompt ? 1 : 0);
 	read_command_routine();
 	if ((nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
