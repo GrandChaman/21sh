@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/05 12:59:08 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/06 13:03:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	cli_loader(int destroy)
 	shell->history_last = NULL;
 	if (destroy)
 	{
+		load_history(shell, 1);
 		if (shell->is_a_tty)
 			apply_terminal_setting(destroy);
 		dbuf_destroy(&shell->buf);
@@ -49,6 +50,7 @@ void	cli_loader(int destroy)
 			apply_terminal_setting(destroy);
 			get_screen_size();
 		}
+		load_history(shell, 0);
 		dbuf_init(&shell->buf);
 	}
 }
