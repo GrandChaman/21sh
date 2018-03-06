@@ -49,22 +49,34 @@ int count_argv(int i, char *original)
 			i++;
 		while ((original[i] != ' ' && original[i] != '\t') && original[i])
 		{
-			checkquote(&i, &o, original);
+			if ((checkquote(&i, &o, original)) == 'k')
+				nb++;
+			while ((original[i] == ' ' || original[i] == '\t') && original[i])
+				i++;
+			if (original[i] == '|' || original[i] == ';')
+				return (nb);
+			if (original[i] == '\0')
+			{
+				nb--;
+				break ;
+			}
 			stock = redirections3(&i, original);
-			checkquote(&i, &o, original);
 			if (stock != 1)
+			{
+				checkquote(&i, &o, original);			
 				nb = nb - 2;
+			}
 			if (original[i] == '|' || original[i] == ';')
 				return (nb);
 			i++;
 		}
+		nb++;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
 		if (original[i] == '\0')
 			break ;
 		if (original[i] == '|' || original[i] == ';')
 			return (nb);
-		nb++;
 	}
 	return (nb);
 }

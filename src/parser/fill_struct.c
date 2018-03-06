@@ -34,7 +34,7 @@ void		fill_parser(t_parser *parser, char *original)
 				checkquote_fill_cmd(&i, original, parser, &b, &j);
 				while ((original[i] == ' ' || original[i] == '\t') && original[i])
 					i++;
-				if (original[i] == '\0')
+				if (original[i] == '\0'|| original[i] == ';' || original[i] == '|')
 					break ;
 				boite = redirections4(&i, original);
 				if (boite == 2)
@@ -71,6 +71,7 @@ void		fill_parser(t_parser *parser, char *original)
 			}
 			if (z >= 0 && o != 0 && box == 1)
 			{
+				printf("rajoute cmd backslash\n");
 				parser[b].cmd[j][o] = '\0';
 				j++;
 			}
