@@ -27,19 +27,21 @@ void	split_evoluted(t_parser *parser, char *original)
 		box = 1;
 		while ((original[i] == ' ' || original[i] == '\t') && original[i])
 			i++;
-		nbr_argv = count_argv(i, original) + 2;
+		nbr_argv = count_argv(i, original);
+		printf("---------------Ici nb = %d\n", nbr_argv);
 		while (original[i] && original[i] != ';' && original[i] != '|')
 		{
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
 			if (original[i] == '\0')
-				break;
+				break ;
 			while ((original[i] != ' ' && original[i] != '\t' &&
 			original[i] != ';' && original[i] != '|') && original[i])
 			{
-				checkquote(&i, &o, original);
+				if ((checkquote(&i, &o, original)) == 'k')
+					break ;
 				if (original[i] == '\0')
-					break;
+					break ;
 				boite = redirections2(&i, original, parser, b);
 				if (boite != 1)
 				{

@@ -2,7 +2,7 @@
 
 char	checkquote(int *i, int *o, char *original) // effet '' ?
 {
-	char tableau[4] = "\"'`";
+	char tableau[4] = "\"'";
 	int var;
 	int stock;
 
@@ -44,7 +44,7 @@ int		checkquote2(int *i, int *o, char *original, char c)
 
 char	checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j)
 {
-	char tableau[4] = "\"'`";
+	char tableau[4] = "\"'";
 	int var;
 	int stock;
 
@@ -86,7 +86,7 @@ int		checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int 
 
 char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b)
 {
-	char tableau[4] = "\"'`";
+	char tableau[4] = "\"'";
 	int var;
 	int stock;
 
@@ -127,7 +127,7 @@ int		checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, i
 
 char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b)
 {
-	char tableau[4] = "\"'`";
+	char tableau[4] = "\"'";
 	int var;
 	int stock;
 
