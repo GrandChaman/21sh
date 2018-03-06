@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 14:46:00 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/06 16:43:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		move_select(unsigned long touch)
 	int		tmp;
 
 	sh = get_ft_shell();
-	if (((sh->cursor == 0 || is_last_char_a_nl()) && touch == T_ALT_LEFT)
+	if (((sh->cursor == 0 || is_alt_shell_begin()) && touch == T_ALT_LEFT)
 		|| (sh->cursor == sh->buf.cursor && touch == T_ALT_RIGHT))
 		return ;
 	if (!sh->select_size)
@@ -29,7 +29,7 @@ void		move_select(unsigned long touch)
 	if (ABS(tmp) > ABS(sh->select_size))
 		exec_term_command(TC_REVERSEVIDEO);
 	ft_putchar(sh->buf.buf[sh->cursor]);
-	if (sh->cursor == 0 || is_last_char_a_nl())
+	if (sh->cursor == 0 || is_alt_shell_begin())
 		exec_term_command(TC_MOVELEFT);
 	else
 		move_in_terminal(T_LARR, 0);
