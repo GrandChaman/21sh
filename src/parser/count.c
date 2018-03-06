@@ -64,7 +64,7 @@ int count_argv(int i, char *original)
 			if (stock != 1)
 			{
 				checkquote(&i, &o, original);			
-				nb = nb - 2;
+				nb = nb - 1;
 			}
 			if (original[i] == '|' || original[i] == ';')
 				return (nb);
