@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/06 18:39:58 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/07 13:32:25 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int			column_offset(t_ft_sh *sh, unsigned long touch)
 	char *tmp;
 	int res;
 
-	ft_fprintf(sh->debug_tty, "Is prev : %d, Is next : %d\n", sh->buf.buf[sh->cursor - 1] == '\n', sh->buf.buf[sh->cursor] == '\n');
 	if (touch == T_LARR && sh->is_a_tty &&
 		((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
 		return (sh->x_size - 1);

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:58:16 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 17:04:50 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/07 12:18:49 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void		backspace_command(unsigned long touch)
 	sh = get_ft_shell();
 	if (get_sh_cursor() <= 0)
 		return ;
-	dbuf_remove(&sh->buf, sh->cursor - 1);
 	move_in_terminal(T_LARR, 1);
+	dbuf_remove(&sh->buf, sh->cursor);
 	if (!sh->is_a_tty)
 		return ;
 	ft_putchar(' ');
