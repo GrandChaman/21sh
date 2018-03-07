@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/06 16:43:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/07 13:32:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 # define TC_MOVEUP "up"
 # define TC_MOVENRIGHT "RI"
 # define TC_CARRIAGERETURN "cr"
+# define TC_CLEAR_FROM_HERE "cd"
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
