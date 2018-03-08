@@ -87,43 +87,59 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
+typedef struct			s_meta_output
+{
+	char				*name;
+	int					stdin;
+	int 				stdout;
+	int					stderr;
+	int					double_chevron;
+	int					next_exist;
+}						t_meta_output;
+
+typedef struct			s_meta_input
+{
+	char				*name;
+	int					stdin;
+	int 				stdout;
+	int					stderr;
+	int					next_exist;
+}						t_meta_input;
+
 typedef	struct			s_input
 {
-	int					exist;
 	int					pipe;
-	char				*name_file;
+	t_meta_input		*meta;
 }						t_input;
 
 typedef	struct			s_output
 {
-	int					standart;
-	int					erreur;
-	int					to_next_cmd;
-	char				*name_file;
-	int					double_chevron;
-	int					exist;
+	int					pipe;
+	t_meta_output		*meta;
 }						t_output;
-
-typedef struct			s_cmd
-{
-	char				**name;
-	int					special;
-}						t_cmd;
-
 
 typedef struct			s_parser
 {
 	char				**cmd;
 	int					nb;
+	int					close_stdin;
+	int					close_stdout;
+	int					close_stderr;
 	t_input				input;
 	t_output			output;
 }						t_parser;
 
-int				checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b);
-char			checkquote_fill_input(int *i, char *original, t_parser *parser, int *b);
+void			init_meta_output(t_parser *parser, int b, int nb);
+void			init_meta_input(t_parser *parser, int b, int nb);
+int				count_redirection_output(int i, char *original);
+int				redirections_output(int *i, char *original);
+int				count_redirection_input(int i, char *original);
+int				redirections_input(int *i, char *original);
+int				checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b, int *i_input);
+char			checkquote_fill_input(int *i, char *original, t_parser *parser, int *b, int *i_input);
 int				redirections4(int *i, char *original);
-int				checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b);
-char			checkquote_fill_output(int *i, char *original, t_parser *parser, int *b);
+int				checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b, int *i_output);
+char			checkquote_fill_output(int *i, char *original, t_parser *parser, int *b, int *i_output);
 int				checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int *b, int *j);
 char			checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j);
 void			free_parser(t_parser *parser);
@@ -137,7 +153,7 @@ int				ft_isatoken(char c);
 int 			count_argv(int i, char *original);
 int				count_cmd(char *original);
 void			init_parser(t_parser *parser, int nb);
-int				redirections2(int *i, char *original, t_parser *parser, int b);
+int				redirections2(int *i, char *original, t_parser *parser, int b, int result);
 int				count_argv(int i, char *original);
 char			checkquote(int *i, int *o, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);

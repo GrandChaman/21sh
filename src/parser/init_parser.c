@@ -9,15 +9,13 @@ void	init_parser(t_parser *parser, int nb)
 	{
 		parser[i].nb = nb;
 		parser[i].cmd = NULL;
-		parser[i].input.exist = 0;
+		parser[i].close_stdin = 0;
+		parser[i].close_stdout = 0;
+		parser[i].close_stderr = 0;
 		parser[i].input.pipe = 0;
-		parser[i].input.name_file = NULL;
-		parser[i].output.standart = 0;
-		parser[i].output.erreur = 0;
-		parser[i].output.to_next_cmd = 0;
-		parser[i].output.double_chevron = 0;
-		parser[i].output.name_file = NULL;
-		parser[i].output.exist = 0;
+		parser[i].input.meta = NULL; // a initialiser plus tard
+		parser[i].output.pipe = 0;
+		parser[i].output.meta = NULL; // a initialiser plus tard
 		i++;
 	}
 }
@@ -45,10 +43,28 @@ void	free_parser(t_parser *parser)
 					o++;
 				}
 			}
-			if (parser[i].input.name_file)
-				free(parser[i].input.name_file);
-			if (parser[i].output.name_file)
-				free(parser[i].output.name_file);
+			if (parser[i].input.meta)
+			{
+				o = 0;
+				while (parser[i].input.meta)
+				{
+					free(parser[i].input.meta[o].name);
+					if (parser[i].input.meta[o].next_exist == 0)
+						break ;
+					o++;
+				}
+			}
+			if (parser[i].output.meta)
+			{
+				o = 0;
+				while (parser[i].output.meta)
+				{
+					free(parser[i].output.meta[o].name);
+					if (parser[i].output.meta[o].next_exist == 0)
+						break ;
+					o++;
+				}
+			}
 			i++;
 		}
 	}
@@ -74,17 +90,41 @@ void	print_parser(t_parser *parser, int nb)
 				o++;
 			}
 		}
-		else
-			printf("Pas d argument\n");
-		printf("\nparser[%d].input.exist = %d\n", i, parser[i].input.exist);
-		printf("parser[%d].input.pipe = %d\n", i, parser[i].input.pipe);
-		printf("parser[%d].input.name_file = %s\n\n", i, parser[i].input.name_file);
+		printf("parser[%d].close_stdin = %d\n", i, parser[i].close_stdin);
+		printf("parser[%d].close_stdout = %d\n", i, parser[i].close_stdout);
+		printf("parser[%d].close_stderr = %d\n\n", i, parser[i].close_stderr);
 
-		printf("parser[%d].output.standart = %d\n", i, parser[i].output.standart);
-		printf("parser[%d].output.erreur = %d\n", i, parser[i].output.erreur);
-		printf("parser[%d].output.to_next_cmd = %d\n", i, parser[i].output.to_next_cmd);
-		printf("parser[%d].output.double_chevron = %d\n", i, parser[i].output.double_chevron);
-		printf("parser[%d].output.name_file = %s\n", i, parser[i].output.name_file);
+		printf("parser[%d].input.pipe = %d\n\n", i, parser[i].input.pipe);
+
+		if (parser[i].input.meta)
+		{
+			o = 0;
+			while (parser[i].input.meta)
+			{
+				printf("parser[%d].input.meta[%d].name = %s\n", i, o, parser[i].input.meta[o].name);
+				printf("parser[%d].input.meta[%d].stdin = %d\n", i, o, parser[i].input.meta[o].stdin);
+				printf("parser[%d].input.meta[%d].stdout = %d\n", i, o, parser[i].input.meta[o].stdout);
+				printf("parser[%d].input.meta[%d].stderr = %d\n", i, o, parser[i].input.meta[o].stderr);
+				if (parser[i].input.meta[o].next_exist == 0)
+					break;
+				o++;
+			}
+		}
+		printf("parser[%d].output.pipe = %d\n", i, parser[i].output.pipe);
+		if (parser[i].output.meta)
+		{
+			o = 0;
+			while (parser[i].output.meta)
+			{
+				printf("parser[%d].output.meta[%d].name = %s\n", i, o, parser[i].output.meta[o].name);
+				printf("parser[%d].output.meta[%d].stdin = %d\n", i, o, parser[i].output.meta[o].stdin);
+				printf("parser[%d].output.meta[%d].stdout = %d\n", i, o, parser[i].output.meta[o].stdout);
+				printf("parser[%d].output.meta[%d].stderr = %d\n", i, o, parser[i].output.meta[o].stderr);
+				if (parser[i].output.meta[o].next_exist == 0)
+					break;
+				o++;
+			}
+		}
 		i++;
 	}
 }
