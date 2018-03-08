@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/06 16:38:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/08 17:01:36 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	replace_command(char *newcommand)
 	dbuf_append(&sh->buf, newcommand);
 	write(1, newcommand, len);
 	sh->cursor = sh->buf.cursor;
+	if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
+		ft_putchar('\n');
 }
 
 char	*normal_history_nav(t_ft_sh *sh, int up)

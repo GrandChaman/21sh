@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/07 13:32:25 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/08 18:59:56 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,10 @@ int			column_offset(t_ft_sh *sh, unsigned long touch)
 	char *tmp;
 	int res;
 
-	if (touch == T_LARR && sh->is_a_tty &&
-		((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
-		return (sh->x_size - 1);
-	else if (touch == T_RARR && sh->is_a_tty &&
-		((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == sh->x_size - 1)
-		return (-1 * sh->x_size - 1);
-	else if (touch == T_RARR && sh->is_a_tty && sh->buf.buf[sh->cursor] == '\n')
+	ft_fprintf(sh->debug_tty, "DEBUUUG : %s - PROMPT : %d - CURSOR : %d - SIZE : %d\n", touch == T_LARR ? "LEFT" : "RIGHT", sh->prompt_size, get_sh_cursor(), sh->x_size);
+	if (touch == T_LARR && sh->is_a_tty && sh->cursor > 1 && sh->buf.buf[sh->cursor - 1] == '\n')
 	{
-		ft_putchar('\n');
-		return (1);
-	}
-	else if (touch == T_LARR && sh->is_a_tty && sh->cursor > 1 && sh->buf.buf[sh->cursor - 1] == '\n')
-	{
-		ft_fprintf(sh->debug_tty, "PARTIAL LEFT\n");
+		ft_fprintf(sh->debug_tty, "HERE 4\n");
 		tmp = ft_strchr(sh->buf.buf, '\n');
 		fline_limit = (!tmp ? sh->buf.cursor : (int)(tmp - sh->buf.buf));
 		i = sh->cursor - 1;
@@ -43,6 +33,25 @@ int			column_offset(t_ft_sh *sh, unsigned long touch)
 		res = (res == fline_limit ? res + sh->prompt_size : res);
 		ft_fprintf(sh->debug_tty, "res : %d\n", sh->cursor - 1 - i);
 		return (res);
+	}
+	else if (touch == T_LARR && sh->is_a_tty &&
+		((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
+		{
+			ft_fprintf(sh->debug_tty, "HERE 1\n");
+			return (sh->x_size - 1);
+		}
+	else if (touch == T_RARR && sh->is_a_tty &&
+		((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == sh->x_size - 1)
+	{
+		ft_fprintf(sh->debug_tty, "HERE 2\n");
+		ft_putchar('\n');
+		return (1);
+	}
+	else if (touch == T_RARR && sh->is_a_tty && sh->buf.buf[sh->cursor] == '\n')
+	{
+		ft_fprintf(sh->debug_tty, "HERE 3\n");
+		ft_putchar('\n');
+		return (1);
 	}
 	return (0);
 }
