@@ -84,7 +84,7 @@ int		checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int 
 	return (1);
 }
 
-char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b)
+char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b, int *i_output)
 {
 	char tableau[4] = "\"'";
 	int var;
@@ -95,7 +95,7 @@ char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b)
 	{
 		if (original[*i] == tableau[var])
 		{
-			stock = checkquote2_fill_output(i, original, tableau[var], parser, b);
+			stock = checkquote2_fill_output(i, original, tableau[var], parser, b, i_output);
 			if (stock == 0)
 				return ('k'); //sert a rien, peux return un int
 		}
@@ -104,7 +104,7 @@ char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b)
 	return ('n');
 }
 
-int		checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b)
+int		checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b, int *i_output)
 {
 	int o;
 
@@ -114,18 +114,19 @@ int		checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, i
 		*i = *i + 1;
 		while (original[*i] && original[*i] != c)
 		{
-			parser[*b].output.name_file[o] = original[*i];
+			parser[*b].output.meta[*i_output].name[o] = original[*i];
 			*i = *i + 1;
 			o = o + 1;
 		}
-		parser[*b].output.name_file[o] = '\0';
+		parser[*b].output.meta[*i_output].name[o] = '\0';
 		*i = *i + 1;
+		*i_output = *i_output + 1;
 		return (0) ;
 	}
 	return (1);
 }
 
-char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b)
+char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b, int *i_input)
 {
 	char tableau[4] = "\"'";
 	int var;
@@ -136,7 +137,7 @@ char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b)
 	{
 		if (original[*i] == tableau[var])
 		{
-			stock = checkquote2_fill_intput(i, original, tableau[var], parser, b);
+			stock = checkquote2_fill_intput(i, original, tableau[var], parser, b, i_input);
 			if (stock == 0)
 				return ('k'); //sert a rien, peux return un int
 		}
@@ -145,7 +146,7 @@ char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b)
 	return ('n');
 }
 
-int		checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b)
+int		checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b, int *i_input)
 {
 	int o;
 
@@ -155,11 +156,12 @@ int		checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, i
 		*i = *i + 1;
 		while (original[*i] && original[*i] != c)
 		{
-			parser[*b].input.name_file[o] = original[*i];
+			parser[*b].input.meta[*i_input].name[o] = original[*i];
 			*i = *i + 1;
 			o = o + 1;
 		}
-		parser[*b].input.name_file[o] = '\0';
+		parser[*b].input.meta[*i_input].name[o] = '\0';
+		*i_input = *i_input + 1;
 		*i = *i + 1;
 		return (0) ;
 	}

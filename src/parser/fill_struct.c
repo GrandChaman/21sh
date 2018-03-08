@@ -10,7 +10,11 @@ void		fill_parser(t_parser *parser, char *original)
 	int box;
 	int j;
 	char stock;
+	int i_output;
+	int i_input;
 
+	i_output = 0;
+	i_input = 0;
 	j = 0;
 	b = 0;
 	z = 0;
@@ -40,14 +44,14 @@ void		fill_parser(t_parser *parser, char *original)
 				if (boite == 2)
 				{
 					box = boite;
-					stock = checkquote_fill_output(&i, original, parser, &b);
+					stock = checkquote_fill_output(&i, original, parser, &b, &i_output);
 					if (stock == 'n' || stock == 'k')
 						break ;
 				}
 				if (boite == 3)
 				{
 					box = boite;
-					stock = checkquote_fill_input(&i, original, parser, &b);
+					stock = checkquote_fill_input(&i, original, parser, &b, &i_input);
 					if (stock == 'n' || stock == 'k')
 						break ;
 				}
@@ -59,12 +63,12 @@ void		fill_parser(t_parser *parser, char *original)
 				if (box == 3)
 				{
 					printf("fill_input = %c\n", original[i]);
-					parser[b].input.name_file[o] = original[i];
+					parser[b].input.meta[i_input].name[o] = original[i];
 				}
 				if (box == 2)
 				{
 					printf("fill_output = %c\n", original[i]);
-					parser[b].output.name_file[o] = original[i];
+					parser[b].output.meta[i_output].name[o] = original[i];
 				}
 				i++;
 				o++;
@@ -77,12 +81,14 @@ void		fill_parser(t_parser *parser, char *original)
 			}
 			if (box == 2 && o != 0)
 			{
-				parser[b].output.name_file[o] = '\0';
+				parser[b].output.meta[i_output].name[o] = '\0';
+				i_output++;
 				box = 1;
 			}
 			if (box == 3 && o != 0)
 			{
-				parser[b].input.name_file[o] = '\0';
+				parser[b].input.meta[i_input].name[o] = '\0';
+				i_input++;
 				box = 1;
 			}
 			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
@@ -90,9 +96,16 @@ void		fill_parser(t_parser *parser, char *original)
 			o = 0;
 			z++;
 		}
+
 		box = 1;
 		if ((z > 0 || (z == 0 && original[i] == '\0')) && j)
 			parser[b].cmd[j] = NULL;
+		/*if (i_input > 0) // a rajouter des trucs
+			parser[b].input.meta[i_input] = NULL;
+		if (i_output > 0)// a rajouter des trucs
+			parser[b].output.meta[i_output] = NULL;*/
+		i_input = 0;
+		i_output = 0;
 		j = 0;
 		z = 0;
 		if (original[i] == '\0')

@@ -16,11 +16,11 @@ OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
 VPATH = src/cli:src/term:src/parser
-SRC = split_evoluted.c count.c init_parser.c quote.c redirection.c\
+SRC = split_evoluted.c count.c quote.c redirection.c\
 	  main.c get_parser.c check_correct.c fill_struct.c init_parser.c\
-	  is_correct.c
+	  is_correct.c init_meta.c
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
-CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
+CFLAG =-g3 -Wall -Wextra -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc
 LFLAG = -ltermcap
 BIN = bin
