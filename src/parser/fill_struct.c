@@ -2,125 +2,105 @@
 
 void		fill_parser(t_parser *parser, char *original)
 {
-	int i;
-	int o;
-	int z;
-	int b;
-	int boite;
-	int box;
-	int j;
-	char stock;
-	int i_output;
-	int i_input;
+	t_vari var;
 
-	i_output = 0;
-	i_input = 0;
-	j = 0;
-	b = 0;
-	z = 0;
-	o = 0;
-	i = 0;
-	box = 1;
+	init_var(&var);
 	printf("\noriginal = %s\n", original);
-	while (original[i])
+	while (original[var.i])
 	{
-		while ((original[i] == ' ' || original[i] == '\t') && original[i])
-			i++;
-		while (original[i] && original[i] != ';' && original[i] != '|')
+		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+			var.i++;
+		while (original[var.i] && original[var.i] != ';' && original[var.i] != '|')
 		{
-			while ((original[i] == ' ' || original[i] == '\t') && original[i])
-				i++;
-			if (original[i] == '\0')
+			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+				var.i++;
+			if (original[var.i] == '\0')
 				break;
-			while ((original[i] != ' ' && original[i] != '\t' &&
-			original[i] != ';' && original[i] != '|') && original[i])
+			while ((original[var.i] != ' ' && original[var.i] != '\t' &&
+			original[var.i] != ';' && original[var.i] != '|') && original[var.i])
 			{
-				checkquote_fill_cmd(&i, original, parser, &b, &j);
-				while ((original[i] == ' ' || original[i] == '\t') && original[i])
-					i++;
-				if (original[i] == '\0'|| original[i] == ';' || original[i] == '|')
+				checkquote_fill_cmd(&var.i, original, parser, &var.b, &var.j);
+				while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+					var.i++;
+				if (original[var.i] == '\0'|| original[var.i] == ';' || original[var.i] == '|')
 					break ;
-				boite = redirections4(&i, original);
-				if (boite == 2)
+				var.boite = redirections4(original, parser, &var);
+				if (var.boite == 2)
 				{
-					box = boite;
-					stock = checkquote_fill_output(&i, original, parser, &b, &i_output);
-					if (stock == 'n' || stock == 'k')
+					var.box = var.boite;
+					var.stock = checkquote_fill_output(&var, original, parser);
+					if (var.stock == 'n' || var.stock == 'k')
 						break ;
 				}
-				if (boite == 3)
+				if (var.boite == 3)
 				{
-					box = boite;
-					stock = checkquote_fill_input(&i, original, parser, &b, &i_input);
-					if (stock == 'n' || stock == 'k')
+					var.box = var.boite;
+					var.stock = checkquote_fill_input(&var, original, parser);
+					if (var.stock == 'n' || var.stock == 'k')
 						break ;
 				}
-				if (boite == 1 && box == 1)
+				if (var.boite == 1 && var.box == 1)
 				{
-					printf("fill_cmd = %c\n", original[i]);
-					parser[b].cmd[j][o] = original[i];
+					printf("fill_cmd = %c\n", original[var.i]);
+					parser[var.b].cmd[var.j][var.o] = original[var.i];
 				}
-				if (box == 3)
+				if (var.box == 3)
 				{
-					printf("fill_input = %c\n", original[i]);
-					parser[b].input.meta[i_input].name[o] = original[i];
+					printf("fill_input = %c\n", original[var.i]);
+					parser[var.b].input.meta[var.i_input].name[var.o] = original[var.i];
 				}
-				if (box == 2)
+				if (var.box == 2)
 				{
-					printf("fill_output = %c\n", original[i]);
-					parser[b].output.meta[i_output].name[o] = original[i];
+					printf("fill_output = %c\n", original[var.i]);
+					parser[var.b].output.meta[var.i_output].name[var.o] = original[var.i];
 				}
-				i++;
-				o++;
+				var.i++;
+				var.o++;
 			}
-			if (z >= 0 && o != 0 && box == 1)
+			if (var.z >= 0 && var.o != 0 && var.box == 1)
 			{
 				printf("rajoute cmd backslash\n");
-				parser[b].cmd[j][o] = '\0';
-				j++;
+				parser[var.b].cmd[var.j][var.o] = '\0';
+				var.j++;
 			}
-			if (box == 2 && o != 0)
+			if (var.box == 2 && var.o != 0)
 			{
-				parser[b].output.meta[i_output].name[o] = '\0';
-				i_output++;
-				box = 1;
+				parser[var.b].output.meta[var.i_output].name[var.o] = '\0';
+				var.i_output++;
+				var.box = 1;
 			}
-			if (box == 3 && o != 0)
+			if (var.box == 3 && var.o != 0)
 			{
-				parser[b].input.meta[i_input].name[o] = '\0';
-				i_input++;
-				box = 1;
+				parser[var.b].input.meta[var.i_input].name[var.o] = '\0';
+				var.i_input++;
+				var.box = 1;
 			}
-			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
+			if (original[var.i] == '\0' || original[var.i] == ';' || original[var.i] == '|')
 				break ;
-			o = 0;
-			z++;
+			var.o = 0;
+			var.z++;
 		}
 
-		box = 1;
-		if ((z > 0 || (z == 0 && original[i] == '\0')) && j)
-			parser[b].cmd[j] = NULL;
-		/*if (i_input > 0) // a rajouter des trucs
-			parser[b].input.meta[i_input] = NULL;
-		if (i_output > 0)// a rajouter des trucs
-			parser[b].output.meta[i_output] = NULL;*/
-		i_input = 0;
-		i_output = 0;
-		j = 0;
-		z = 0;
-		if (original[i] == '\0')
+		var.box = 1;
+		if ((var.z > 0 || (var.z == 0 && original[var.i] == '\0')) && var.j)
+			parser[var.b].cmd[var.j] = NULL;
+		var.i_input = 0;
+		var.i_output = 0;
+		var.j = 0;
+		var.z = 0;
+		if (original[var.i] == '\0')
 			break ;
-		if (original[i] == '|')
+		if (original[var.i] == '|')
 		{
-			i++;
-			while ((original[i] == ' ' || original[i] == '\t') && original[i])
-				i++;
+			var.i++;
+			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+				var.i++;
 		}
 		else
-			i++;
-		while ((original[i] == ' ' || original[i] == '\t') && original[i])
-			i++;
-		b++;
+			var.i++;
+		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+			var.i++;
+		var.b++;
 	}
 //	printf("End\n");
 }
