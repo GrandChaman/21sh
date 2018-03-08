@@ -1,46 +1,44 @@
 #include "ft_sh.h"
 
-int		redirections2(int *i, char *original, t_parser *parser, int b, int result)
+int		redirections2(char *original, t_vari *var)
 {
-	if (original[*i] && original[*i] == '<') //a gere les erreurs
+	if (original[var->i] && original[var->i] == '<') //a gere les erreurs
 	{
-		*i = *i + 1;
-		if (original[*i] && original[*i] == '<')
+		var->i++;
+		if (original[var->i] && original[var->i] == '<')
 		{
-			*i = *i + 1;
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			var->i++;
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 		}
 		else
 		{
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 			return (3);
 		}
 	}
-	if (original[*i] && original[*i] == '>')
+	if (original[var->i] && original[var->i] == '>')
 	{
-		*i = *i + 1;
-		if (original[*i] && original[*i] == '>')
+		var->i++;
+		if (original[var->i] && original[var->i] == '>')
 		{
-			*i = *i + 1;
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			var->i++;
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
-	/*		if (result == 1)
-				parser[b].output.double_chevron = 1;*/ // a modifier dans le futur, manque 1 valeur
 			return (2);
 		}
 		else
 		{
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 			return (2);
 		}
@@ -50,7 +48,7 @@ int		redirections2(int *i, char *original, t_parser *parser, int b, int result)
 
 int		redirections3(int *i, char *original)
 {
-	if (original[*i] && original[*i] == '<') //a gere les erreurs
+	if (original[*i] && original[*i] == '<')
 	{
 		*i = *i + 1;
 		if (original[*i] && original[*i] == '<')
@@ -95,46 +93,52 @@ int		redirections3(int *i, char *original)
 	return (1);
 }
 
-int		redirections4(int *i, char *original)
+int		redirections4(char *original, t_parser *parser, t_vari *var)
 {
-	if (original[*i] && original[*i] == '<') //a gere les erreurs
+	if (original[var->i] && original[var->i + 1] && (ft_isstd(original[var->i])) &&
+			(original[var->i + 1] == '<' || original[var->i + 1] == '>'))
+		var->i++;
+	if (original[var->i] && original[var->i] == '<')
 	{
-		*i = *i + 1;
-		if (original[*i] && original[*i] == '<')
+		fill_std_i(var, parser, original);
+		var->i++;
+		if (original[var->i] && original[var->i] == '<')
 		{
-			*i = *i + 1;
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			var->i++;
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 			return (-1);
 		}
 		else
 		{
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 			return (3);
 		}
 	}
-	if (original[*i] && original[*i] == '>')
+	if (original[var->i] && original[var->i] == '>')
 	{
-		*i = *i + 1;
-		if (original[*i] && original[*i] == '>')
+		fill_std_o(var, parser, original);
+		var->i++;
+		if (original[var->i] && original[var->i] == '>')
 		{
-			*i = *i + 1;
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			var->i++;
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
+				parser[var->b].output.meta[var->i_input].double_chevron = 1;	
 			return (2);
 		}
 		else
 		{
-			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
-				*i = *i + 1;
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+				var->i++;
+			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 			return (2);
 		}

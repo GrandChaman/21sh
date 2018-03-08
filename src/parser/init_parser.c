@@ -90,7 +90,7 @@ void	print_parser(t_parser *parser, int nb)
 				o++;
 			}
 		}
-		printf("parser[%d].close_stdin = %d\n", i, parser[i].close_stdin);
+		printf("\nparser[%d].close_stdin = %d\n", i, parser[i].close_stdin);
 		printf("parser[%d].close_stdout = %d\n", i, parser[i].close_stdout);
 		printf("parser[%d].close_stderr = %d\n\n", i, parser[i].close_stderr);
 
@@ -104,7 +104,7 @@ void	print_parser(t_parser *parser, int nb)
 				printf("parser[%d].input.meta[%d].name = %s\n", i, o, parser[i].input.meta[o].name);
 				printf("parser[%d].input.meta[%d].stdin = %d\n", i, o, parser[i].input.meta[o].stdin);
 				printf("parser[%d].input.meta[%d].stdout = %d\n", i, o, parser[i].input.meta[o].stdout);
-				printf("parser[%d].input.meta[%d].stderr = %d\n", i, o, parser[i].input.meta[o].stderr);
+				printf("parser[%d].input.meta[%d].stderr = %d\n\n", i, o, parser[i].input.meta[o].stderr);
 				if (parser[i].input.meta[o].next_exist == 0)
 					break;
 				o++;
@@ -120,6 +120,7 @@ void	print_parser(t_parser *parser, int nb)
 				printf("parser[%d].output.meta[%d].stdin = %d\n", i, o, parser[i].output.meta[o].stdin);
 				printf("parser[%d].output.meta[%d].stdout = %d\n", i, o, parser[i].output.meta[o].stdout);
 				printf("parser[%d].output.meta[%d].stderr = %d\n", i, o, parser[i].output.meta[o].stderr);
+				printf("parser[%d].output.meta[%d].double_chevron = %d\n\n", i, o, parser[i].output.meta[o].double_chevron);
 				if (parser[i].output.meta[o].next_exist == 0)
 					break;
 				o++;

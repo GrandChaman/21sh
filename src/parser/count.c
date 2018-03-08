@@ -149,7 +149,7 @@ int count_argv(int i, char *original)
 			stock = redirections3(&i, original);
 			if (stock != 1)
 			{
-				checkquote(&i, &o, original);			
+				checkquote(&i, &o, original);
 				nb = nb - 1;
 			}
 			if (original[i] == '|' || original[i] == ';')
