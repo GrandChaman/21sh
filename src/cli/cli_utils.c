@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/08 18:49:31 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/08 21:05:07 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static unsigned int			cursor_new_origin(t_ft_sh *sh)
 	unsigned int i;
 	unsigned int res;
 
-	res = 0;
-	i = 0;
+	res = sh->cursor;
+	i = 1;
 	while ((int)(sh->cursor - i) > 0)
 	{
 		if (sh->buf.buf[sh->cursor - i] == '\n')
 		{
-			res = sh->cursor - (sh->cursor - i + sh->prompt_size) - 1;
+			res = i - 1;
+			ft_fprintf(sh->debug_tty, "Founded : %u !\n", res);
 			break ;
 		}
 		i++;
 	}
-	res = (i < sh->x_size ? res + sh->x_size : res);
 	return (res);
 }
 
@@ -39,9 +39,7 @@ unsigned int get_sh_cursor(void)
 
 	sh = get_ft_shell();
 	norig_cur = cursor_new_origin(sh);
-	if (norig_cur < sh->cursor)
-		return (norig_cur - sh->alt_cursor);
-	return (sh->cursor - sh->alt_cursor);
+	return (norig_cur - sh->alt_cursor);
 }
 
 void		update_stdout(t_ft_sh *sh, int isdel)
