@@ -72,6 +72,7 @@ int		checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int 
 		*i = *i + 1;
 		while (original[*i] && original[*i] != c)
 		{
+			printf("quote fill = %c\n", original[*i]);
 			parser[*b].cmd[*j][o] = original[*i];
 			*i = *i + 1;
 			o = o + 1;

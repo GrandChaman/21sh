@@ -2,6 +2,9 @@
 
 int		redirections2(char *original, t_vari *var)
 {
+	if (original[var->i] && original[var->i + 1] && (ft_isstd(original[var->i])) &&
+		(original[var->i + 1] == '<' || original[var->i + 1] == '>'))
+		var->i++;
 	if (original[var->i] && original[var->i] == '<') //a gere les erreurs
 	{
 		var->i++;

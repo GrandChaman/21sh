@@ -32,9 +32,9 @@ void	split_evoluted(t_parser *parser, char *original)
 					break ;
 				if (original[var.i] == '\0')
 					break ;
-				printf("la i = %d\n", var.i);
+				printf("la original[i] = %c\n", original[var.i]);
 				var.boite = redirections2(original, &var);
-				printf("ici i = %d\n", var.i);
+				printf("ici original[i] = %c\n", original[var.i]);
 				if (var.boite != 1)
 				{
 					if (var.boite == 2)
