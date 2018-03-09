@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 13:37:56 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/02/28 19:20:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/04 16:22:22 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		set_terminal_setting(struct termios *old, struct termios *new)
 {
 	*new = *old;
 	new->c_lflag &= (~(ICANON | ECHO | ISIG));
-	new->c_cc[VMIN] = 0;
+	new->c_cc[VMIN] = 1;
 	new->c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, new))
 	{
