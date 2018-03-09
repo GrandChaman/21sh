@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/06 13:02:36 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/09 13:42:26 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void main_routine(void)
 
 	shell = get_ft_shell();
 	ft_fprintf(shell->debug_tty, "YAY\n");
-	cmd = read_command(NULL, NULL);
+	cmd = read_command(NULL, NULL, 0);
 	add_to_history(shell, cmd);
 	ft_fprintf(shell->debug_tty, "YAY\n");
 	ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
