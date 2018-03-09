@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/09 12:02:39 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/09 13:55:45 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
-# define T_CTRL_C 3
 # define T_BACKSPACE 127
 # define T_DELETE 2117294875
 # define T_END 4610843
@@ -40,7 +39,7 @@
 # define T_ALT_C 42947
 # define T_ALT_V 10127586
 # define T_ALT_X 8948194
-# define T_CTRL_C 4
+# define T_CTRL_C 3
 # define T_CTRL_D 4
 # define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
