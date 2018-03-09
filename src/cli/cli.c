@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/06 16:38:06 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/09 11:59:14 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,29 +111,30 @@ void		read_command_routine(void)
 	}
 }
 
-char		*read_command(char *prompt, int *status)
+char		*read_command(char *prompt, int *status, int heredoc)
 {
 	char *nprompt;
 	t_ft_sh *sh;
 	char *res;
 
 	sh = get_ft_shell();
-	if (prompt)
+	if (prompt || heredoc)
 	{
+		prompt = (prompt ? prompt : "heredoc> ");
 		ft_printf(prompt);
 		get_ft_shell()->prompt_size = ft_strlen(prompt);
 	}
 	else
 		display_prompt((status ? *status : 1));
-	sh->is_alt_shell = (prompt ? 1 : 0);
+	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
 	read_command_routine();
-	if ((nprompt = check_correct(get_ft_shell()->buf.buf)))
+	if (!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
 		sh->cursor = sh->buf.cursor;
 		sh->alt_cursor = sh->cursor + 1;
 		dbuf_insert(&sh->buf, sh->cursor++, '\n');
 		ft_putchar('\n');
-		return (read_command(nprompt, status));
+		return (read_command(nprompt, status, 0));
 	}
 	res = ft_strdup(get_ft_shell()->buf.buf);
 	sh->cursor = 0;
