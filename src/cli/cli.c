@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/01 11:25:15 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/09 12:02:39 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@ void		insert_normal_touch(t_ft_sh *sh)
 static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 {
 	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
-
 	if (sh->cursor < sh->buf.cursor)
 		insert_normal_touch(sh);
 	else
 		if (sh->is_a_tty)
 		{
 			ft_putchar((char)rchar);
-			if (((sh->prompt_size + sh->cursor) % (sh->x_size)) == 0)
+			if (((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
 				ft_putchar('\n');
 		}
 }
@@ -51,7 +50,6 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 		cur_save = shell->cursor;
 		while (i-- > 0)
 			move_in_terminal(T_LARR, 1);
-		shell->cursor = 0;
 		update_stdout(shell, 0);
 		shell->select_start = 0;
 		shell->select_size = 0;
@@ -81,12 +79,10 @@ int		display_prompt(int last_result)
 	free(path);
 	shell = get_ft_shell();
 	shell->prompt_size = res;
-	dbuf_clear(&shell->buf);
-	shell->cursor = 0;
 	return (res);
 }
 
-char		*read_command(char *prompt, int *status)
+void		read_command_routine(void)
 {
 	unsigned long	rchar;
 	int				rvalue;
@@ -97,27 +93,55 @@ char		*read_command(char *prompt, int *status)
 	rvalue = 1;
 	i = 0;
 	ft_bzero(tmp, 8);
-	if (prompt)
+	while (42)
 	{
+		rvalue = read(0, &tmp[i], 1);
+		if (!rvalue && !rchar)
+			continue ;
+		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D)
+			break ;
+		rchar = *((unsigned long*)tmp);
+		if (get_special_char_f(rchar) || ft_isprint(rchar) || (tmp[0] != 0 && !rvalue))
+		{
+			ft_fprintf(get_ft_shell()->debug_tty, "Cursor : %d - rchar : %U\n", get_sh_cursor(), *((unsigned long*)tmp));
+			execute_touch(get_ft_shell(), rchar);
+			ft_bzero(tmp, 8);
+			i = 0;
+			continue ;
+		}
+		i = (rvalue && i < 7 ? i + 1 : 0);
+	}
+}
+
+char		*read_command(char *prompt, int *status, int heredoc)
+{
+	char *nprompt;
+	t_ft_sh *sh;
+	char *res;
+
+	sh = get_ft_shell();
+	if (prompt || heredoc)
+	{
+		prompt = (prompt ? prompt : "heredoc> ");
 		ft_printf(prompt);
 		get_ft_shell()->prompt_size = ft_strlen(prompt);
 	}
 	else
 		display_prompt((status ? *status : 1));
-	while (42)
+	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
+	read_command_routine();
+	if (!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
-		rvalue = read(0, &tmp[i], 1);
-		if (rvalue == -1 || tmp[0] == '\n')
-			break ;
-		rchar = *((unsigned long*)tmp);
-		if ((tmp[0] == 27 && get_special_char_f(rchar)) || (tmp[0] != 0 && !rvalue))
-		{
-			ft_fprintf(get_ft_shell()->debug_tty, "rchar : %U\n", *((unsigned long*)tmp));
-			execute_touch(get_ft_shell(), rchar);
-			ft_bzero(tmp, 8);
-			i = 0;
-		}
-		i = (rvalue && i < 7 ? i + 1 : 0);
+		sh->cursor = sh->buf.cursor;
+		sh->alt_cursor = sh->cursor + 1;
+		dbuf_insert(&sh->buf, sh->cursor++, '\n');
+		ft_putchar('\n');
+		return (read_command(nprompt, status, 0));
 	}
-	return (ft_strdup(get_ft_shell()->buf.buf));
+	res = ft_strdup(get_ft_shell()->buf.buf);
+	sh->cursor = 0;
+	sh->alt_cursor = 0;
+	ft_free((void**)&sh->history_last);
+	dbuf_clear(&sh->buf);
+	return (res);
 }

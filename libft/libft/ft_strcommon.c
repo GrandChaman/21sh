@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strcommon.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/22 01:11:03 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/09 12:02:39 by bluff            ###   ########.fr       */
+/*   Created: 2018/03/04 10:50:27 by bluff             #+#    #+#             */
+/*   Updated: 2018/03/04 11:14:01 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strcmp(const char *s1, const char *s2)
+#include "libft.h"
+
+int		ft_strcommon(char *s1, char *s2)
 {
-	if (!lhs || !rhs)
-		return (-1);
-	while (*lhs == *rhs && *lhs && *rhs)
+	int res;
+
+	res = 0;
+	if (!s1 || !s2)
+		return (0);
+	while (*s1 == *s2 && *s1 && *s2)
 	{
-		lhs++;
-		rhs++;
+		res++;
+		s1++;
+		s2++;
 	}
-	return ((unsigned char)*lhs - (unsigned char)*rhs);
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 20:24:12 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/01 11:34:19 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/09 12:02:39 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void					ft_putnbr_fd(int n, int fd);
 void					ft_putstr(const char *s);
 void					ft_putnbr(int n);
 void					ft_putendl(const char *s);
+int						ft_strcommon(char *s1, char *s2);
 char					**ft_strsplit(char const *s, char c);
 char					**ft_strsplit_multi(const char *s, int (*c)(int));
 char					*ft_strsub(char const *s, unsigned int start,
@@ -132,7 +133,7 @@ int						ft_find_next_prime(int nb);
 void					ft_foreach(int *tab, int length, void (*f)(int));
 int						ft_isprime(int nb);
 int						ft_issort(int *tab, int length, int (*f)(int, int));
-t_list					*ft_lstat(t_list *begin_list, unsigned int nbr);
+t_list					*ft_lstat(t_list *begin_list, int nbr);
 t_list					*ft_lstfind(t_list *begin_list,
 	void *data_ref, int (*cmp)());
 void					ft_lstforeach_if(t_list *begin_list,
