@@ -6,9 +6,9 @@ static int				this_is_word(t_vari *var, char *original)
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 	{
 		var->boite = redirections3(&var->i, original);
-		if (var->boite == 0)
+		if (var->boite == 0 && (ft_printf("21sh: syntax error\n")))
 			return (0);
-		if (var->boite == -1)
+		if (var->boite == -1 && (ft_printf("je gere pas now\n")))
 			return (-4);
 		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 			original[var->i])
@@ -17,6 +17,7 @@ static int				this_is_word(t_vari *var, char *original)
 			break ;
 		else if (var->stock > '\0' && var->stock != 'n')
 		{
+			ft_printf("Manque une quote %c \n", var->stock);
 			if (var->stock == '"')
 				return (-1);
 			else
@@ -56,12 +57,16 @@ static int				there_is_pipe(t_vari *var, char *original)
 {
 	if (original[var->i] == '|')
 	{
+		ft_printf("Ya un pipe\n");
 		var->i++;
 		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 			original[var->i])
 			var->i++;
 		if (original[var->i] == '\0')
+		{
+			ft_printf("faut une commande !\n");
 			return (-3);
+		}
 	}
 	return (1);
 }
@@ -75,12 +80,13 @@ static int				second_main_loop(t_vari *var, char *original)
 	while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 		original[var->i])
 		var->i++;
-	if (original[var->i] && ft_isatoken(original[var->i]))
+	if (original[var->i] && ft_isatoken(original[var->i]) &&
+		(ft_printf("Unexpected token %c\n", original[var->i])))
 		return (0);
 	return (1);
 }
 
-int				is_correct(char *original)
+int				is_correct_talk(char *original)
 {
 	t_vari var;
 
@@ -90,7 +96,8 @@ int				is_correct(char *original)
 		while ((original[var.i] == ' ' || original[var.i] == '\t') &&
 			original[var.i])
 			var.i++;
-		if (ft_isatoken(original[var.i]))
+		if (ft_isatoken(original[var.i]) &&
+			(ft_printf("Unexpected token %c\n", original[var.i])))
 			return (0);
 		var.nbr_argv = count_argv(var.i, original);
 		if ((var.boite = main_loop(&var, original)) != 1)

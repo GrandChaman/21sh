@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int	count_cmd(char *original)
+int count_cmd(char *original)
 {
 	int i;
 	int nb;
