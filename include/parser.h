@@ -61,7 +61,6 @@ typedef struct			s_vari
 	int i;
 }						t_vari;
 
-
 void			fill_std_o(t_vari *var, t_parser *parser, char *original);
 void			fill_std_i(t_vari *var, t_parser *parser, char *original);
 void			init_var(t_vari *var);
@@ -83,6 +82,7 @@ void			free_parser(t_parser *parser);
 t_parser		*get_parser(char *original);
 char			*check_correct(char *original);
 int				is_correct(char *original);
+int				is_correct_talk(char *original);
 void			print_parser(t_parser *parser, int nb);
 int				redirections3(int *i, char *original);
 void			fill_parser(t_parser *parser, char *original);

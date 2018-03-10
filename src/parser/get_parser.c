@@ -5,7 +5,7 @@ t_parser	*get_parser(char *original) //Pour victor
 	int			stock;
 	t_parser	*parser;
 
-	stock = is_correct(original);
+	stock = is_correct_talk(original);
 	if (stock == 0)
 	{
 //		printf("\nFails\n");
@@ -25,7 +25,7 @@ t_parser	*get_parser(char *original) //Pour victor
 		init_parser(parser, stock);
 		split_evoluted(parser, original);
 		fill_parser(parser, original);
-	//	print_parser(parser, stock);
+		print_parser(parser, stock);
 		return (parser);
 	}
 	return (NULL);
