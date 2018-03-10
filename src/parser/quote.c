@@ -42,44 +42,46 @@ int		checkquote2(int *i, int *o, char *original, char c)
 	return (1);
 }
 
-char	checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j)
+char	checkquote_fill_cmd(t_vari *var, char *original, t_parser *parser)
 {
 	char tableau[4] = "\"'";
-	int var;
+	int i;
 	int stock;
 
-	var = 0;
-	while (tableau[var])
+	i = 0;
+	while (tableau[i])
 	{
-		if (original[*i] == tableau[var])
+		if (original[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_cmd(i, original, tableau[var], parser, b, j);
+			stock = checkquote2_fill_cmd(var, original, tableau[i], parser);
 			if (stock == 0)
-				return ('k'); //sert a rien, peux return un int
+			{
+				return ('k'); // sert a rien peux retourner un int
+			}
 		}
-		var++;
+		i++;
 	}
 	return ('n');
 }
 
-int		checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int *b, int *j)
+int		checkquote2_fill_cmd(t_vari *var, char *original, char c, t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[*i] && original[*i] == c)
+	if (original[var->i] && original[var->i] == c)
 	{
-		*i = *i + 1;
-		while (original[*i] && original[*i] != c)
+		var->i++;
+		while (original[var->i] && original[var->i] != c)
 		{
-			printf("quote fill = %c\n", original[*i]);
-			parser[*b].cmd[*j][o] = original[*i];
-			*i = *i + 1;
+			printf("quote fill = %c\n", original[var->i]);
+			parser[var->b].cmd[var->j][o] = original[var->i];
+			var->i++;
 			o = o + 1;
 		}
-		parser[*b].cmd[*j][o] = '\0';
-		*j = *j + 1;
-		*i = *i + 1;
+		parser[var->b].cmd[var->j][o] = '\0';
+		var->j++;
+		var->i++;
 		return (0) ;
 	}
 	return (1);

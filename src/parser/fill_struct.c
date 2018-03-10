@@ -19,7 +19,12 @@ void		fill_parser(t_parser *parser, char *original)
 			while ((original[var.i] != ' ' && original[var.i] != '\t' &&
 			original[var.i] != ';' && original[var.i] != '|') && original[var.i])
 			{
-				checkquote_fill_cmd(&var.i, original, parser, &var.b, &var.j);
+				while (checkquote_fill_cmd(&var, original, parser) != 'n')
+				{
+					while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+						var.i++;
+					printf("Une fois\n");
+				}
 				while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 					var.i++;
 				if (original[var.i] == '\0'|| original[var.i] == ';' || original[var.i] == '|')
@@ -41,7 +46,7 @@ void		fill_parser(t_parser *parser, char *original)
 				}
 				if (var.boite == 1 && var.box == 1)
 				{
-					printf("fill_cmd = %c\n", original[var.i]);
+					printf("fill_cmd parser[%d].cmd[%d] = %c\n", var.b, var.j,  original[var.i]);
 					parser[var.b].cmd[var.j][var.o] = original[var.i];
 				}
 				if (var.box == 3)
@@ -75,12 +80,11 @@ void		fill_parser(t_parser *parser, char *original)
 				var.i_input++;
 				var.box = 1;
 			}
-			if (original[var.i] == '\0' || original[var.i] == ';' || original[var.i] == '|')
+			if (original[var.i] == '\0') //suprimer conditon ; ???
 				break ;
 			var.o = 0;
 			var.z++;
 		}
-
 		var.box = 1;
 		if ((var.z > 0 || (var.z == 0 && original[var.i] == '\0')) && var.j)
 			parser[var.b].cmd[var.j] = NULL;

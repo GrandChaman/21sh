@@ -140,7 +140,7 @@ int count_argv(int i, char *original)
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
 			if (original[i] == '|' || original[i] == ';')
-				return (nb);
+				break ;
 			if (original[i] == '\0')
 			{
 				nb--;
