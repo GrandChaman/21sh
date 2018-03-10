@@ -1,4 +1,4 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 int	count_cmd(char *original)
 {
@@ -135,8 +135,12 @@ int count_argv(int i, char *original)
 			i++;
 		while ((original[i] != ' ' && original[i] != '\t') && original[i])
 		{
-			if ((checkquote(&i, &o, original)) == 'k')
+			while ((checkquote(&i, &o, original)) == 'k')
+			{
 				nb++;
+				while ((original[i] == ' ' || original[i] == '\t') && original[i])
+					i++;
+			}
 			while ((original[i] == ' ' || original[i] == '\t') && original[i])
 				i++;
 			if (original[i] == '|' || original[i] == ';')

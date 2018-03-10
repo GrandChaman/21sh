@@ -1,4 +1,4 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 void	init_meta_input(t_parser *parser, int b, int nb)
 {

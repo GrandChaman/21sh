@@ -1,4 +1,4 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 char	checkquote(int *i, int *o, char *original)
 {
@@ -74,7 +74,7 @@ int		checkquote2_fill_cmd(t_vari *var, char *original, char c, t_parser *parser)
 		var->i++;
 		while (original[var->i] && original[var->i] != c)
 		{
-			printf("quote fill = %c\n", original[var->i]);
+//			printf("quote fill = %c\n", original[var->i]);
 			parser[var->b].cmd[var->j][o] = original[var->i];
 			var->i++;
 			o = o + 1;

@@ -1,11 +1,11 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 void		fill_parser(t_parser *parser, char *original)
 {
 	t_vari var;
 
 	init_var(&var);
-	printf("\noriginal = %s\n", original);
+//	printf("\noriginal = %s\n", original);
 	while (original[var.i])
 	{
 		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
@@ -23,7 +23,6 @@ void		fill_parser(t_parser *parser, char *original)
 				{
 					while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 						var.i++;
-					printf("Une fois\n");
 				}
 				while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 					var.i++;
@@ -46,17 +45,17 @@ void		fill_parser(t_parser *parser, char *original)
 				}
 				if (var.boite == 1 && var.box == 1)
 				{
-					printf("fill_cmd parser[%d].cmd[%d] = %c\n", var.b, var.j,  original[var.i]);
+//					printf("fill_cmd parser[%d].cmd[%d] = %c\n", var.b, var.j,  original[var.i]);
 					parser[var.b].cmd[var.j][var.o] = original[var.i];
 				}
 				if (var.box == 3)
 				{
-					printf("fill_input = %c\n", original[var.i]);
+//					printf("fill_input = %c\n", original[var.i]);
 					parser[var.b].input.meta[var.i_input].name[var.o] = original[var.i];
 				}
 				if (var.box == 2)
 				{
-					printf("fill_output = %c\n", original[var.i]);
+//					printf("fill_output = %c\n", original[var.i]);
 					parser[var.b].output.meta[var.i_output].name[var.o] = original[var.i];
 				}
 				var.i++;
@@ -64,7 +63,7 @@ void		fill_parser(t_parser *parser, char *original)
 			}
 			if (var.z >= 0 && var.o != 0 && var.box == 1)
 			{
-				printf("rajoute cmd backslash\n");
+//				printf("rajoute cmd backslash\n");
 				parser[var.b].cmd[var.j][var.o] = '\0';
 				var.j++;
 			}

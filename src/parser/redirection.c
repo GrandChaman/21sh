@@ -1,4 +1,4 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 int		redirections2(char *original, t_vari *var)
 {
