@@ -1,11 +1,11 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 int				is_correct(char *original) //return -1 si a completer, 0 si fails
 {
 	t_vari var;
 	init_var(&var);
 
-	printf("\noriginal = %s\n\n", original);
+//	printf("\noriginal = %s\n\n", original);
 	while (original[var.i])
 	{
 		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
@@ -28,7 +28,7 @@ int				is_correct(char *original) //return -1 si a completer, 0 si fails
 				var.boite = redirections3(&var.i, original);
 				if (var.boite == 0)
 				{
-					printf("Error de syntax\n");
+					printf("21sh: syntax error\n");
 					return (0);
 				}
 				if (var.boite == -1)
