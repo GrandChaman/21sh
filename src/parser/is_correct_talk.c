@@ -17,7 +17,6 @@ static int				this_is_word(t_vari *var, char *original)
 			break ;
 		else if (var->stock > '\0' && var->stock != 'n')
 		{
-			ft_printf("Manque une quote %c \n", var->stock);
 			if (var->stock == '"')
 				return (-1);
 			else
@@ -57,16 +56,12 @@ static int				there_is_pipe(t_vari *var, char *original)
 {
 	if (original[var->i] == '|')
 	{
-		ft_printf("Ya un pipe\n");
 		var->i++;
 		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 			original[var->i])
 			var->i++;
 		if (original[var->i] == '\0')
-		{
-			ft_printf("faut une commande !\n");
 			return (-3);
-		}
 	}
 	return (1);
 }
@@ -105,7 +100,7 @@ int				is_correct_talk(char *original)
 		var.z = 0;
 		if (original[var.i] == '\0')
 			break ;
-		if ((var.boite = second_main_loop(&var, original)) == 1)
+		if ((var.boite = second_main_loop(&var, original)) != 1)
 			return (var.boite);
 		var.b++;
 	}
