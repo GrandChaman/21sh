@@ -32,9 +32,7 @@ void	split_evoluted(t_parser *parser, char *original)
 					break ;
 				if (original[var.i] == '\0')
 					break ;
-				printf("la original[i] = %c\n", original[var.i]);
 				var.boite = redirections2(original, &var);
-				printf("ici original[i] = %c\n", original[var.i]);
 				if (var.boite != 1)
 				{
 					if (var.boite == 2)
@@ -62,7 +60,6 @@ void	split_evoluted(t_parser *parser, char *original)
 				var.i++;
 				var.o++;
 			}
-			printf("var.box = %d\n", var.box);
 			if (var.z == 0 && var.box == 1)
 			{
 				printf("nombre de mot dans la commande = %d\n", var.nbr_argv);

@@ -2,100 +2,88 @@
 
 int				is_correct(char *original) //return -1 si a completer, 0 si fails
 {
-	int i;
-	int o;
-	int z;
-	int b;
-	int boite;
-	char stock;
-	int nbr_argv;
+	t_vari var;
+	init_var(&var);
 
-	b = 0;
-	z = 0;
-	o = 0;
-	i = 0;
-//	printf("\noriginal = %s\n\n", original);
-	while (original[i])
+	printf("\noriginal = %s\n\n", original);
+	while (original[var.i])
 	{
-		while ((original[i] == ' ' || original[i] == '\t') && original[i])
-			i++;
-		if (ft_isatoken(original[i]))
+		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+			var.i++;
+		if (ft_isatoken(original[var.i]))
 		{
-//			printf("Unexpected token %c\n", original[i]);
+			printf("Unexpected token %c\n", original[var.i]);
 			return (0);
 		}
-		nbr_argv = count_argv(i, original);
-//		printf("\nnbr_argv = %d\n", nbr_argv);
-		while (original[i] && original[i] != ';' && original[i] != '|')
+		var.nbr_argv = count_argv(var.i, original);
+		while (original[var.i] && original[var.i] != ';' && original[var.i] != '|')
 		{
-			while ((original[i] == ' ' || original[i] == '\t') && original[i])
-				i++;
-			if (original[i] == '\0')
+			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+				var.i++;
+			if (original[var.i] == '\0')
 				break;
-			while ((original[i] != ' ' && original[i] != '\t' &&
-			original[i] != ';' && original[i] != '|') && original[i])
+			while ((original[var.i] != ' ' && original[var.i] != '\t' &&
+			original[var.i] != ';' && original[var.i] != '|') && original[var.i])
 			{
-				boite = redirections3(&i, original);
-				if (boite == 0)
+				var.boite = redirections3(&var.i, original);
+				if (var.boite == 0)
 				{
-	//				printf("Error de syntax\n");
+					printf("Error de syntax\n");
 					return (0);
 				}
-				if (boite == -1)
+				if (var.boite == -1)
 				{
-	//				printf("je gere pas now\n");
+					printf("je gere pas now\n");
 					return (-4);
 				}
-				while ((original[i] == ' ' || original[i] == '\t') && original[i])
-					i++;
-				stock = checkquote(&i, &o, original);
-				if (stock == 'k')
+				while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+					var.i++;
+				var.stock = checkquote(&var.i, &var.o, original);
+				if (var.stock == 'k')
 					break;
-				else if (stock > '\0' && stock != 'n')
+				else if (var.stock > '\0' && var.stock != 'n')
 				{
-	//				printf("Manque une quote %c \n", stock);
-					if (stock == '"')
+					printf("Manque une quote %c \n", var.stock);
+					if (var.stock == '"')
 						return (-1);
 					else
 						return (-2);
 				}
-				i++;
-				o++;
+				var.i++;
+				var.o++;
 			}
-	//		printf("commande [%d] mot[%d] = %d\n", b, z, o);
-			o = 0;
-			while ((original[i] == ' ' || original[i] == '\t') && original[i])
-				i++;
-			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
+			var.o = 0;
+			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+				var.i++;
+			if (original[var.i] == '\0' || original[var.i] == ';' || original[var.i] == '|')
 				break ;
-			z++;
+			var.z++;
 		}
-		z = 0;
-		if (original[i] == '\0')
+		var.z = 0;
+		if (original[var.i] == '\0')
 			break ;
-		if (original[i] == '|')
+		if (original[var.i] == '|')
 		{
-	//		printf("Ya un pipe\n"); //Faut un truc apres
-			i++;
-			while ((original[i] == ' ' || original[i] == '\t') && original[i])
-				i++;
-			if (original[i] == '\0')
+			printf("Ya un pipe\n");
+			var.i++;
+			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+				var.i++;
+			if (original[var.i] == '\0')
 			{
-	//			printf("faut une commande !\n");
+				printf("faut une commande !\n");
 				return (-3);
 			}
 		}
-		if (original[i] == ';')
-			i++;
-		while ((original[i] == ' ' || original[i] == '\t') && original[i])
-			i++;
-		if (original[i] && ft_isatoken(original[i]))
+		if (original[var.i] == ';')
+			var.i++;
+		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
+			var.i++;
+		if (original[var.i] && ft_isatoken(original[var.i]))
 		{
-	//		printf("Unexpected token %c\n", original[i]);
+			printf("Unexpected token %c\n", original[var.i]);
 			return (0);
 		}
-		//Pas gere || et &&
-		b++;
+		var.b++;
 	}
 	return (1);
 }

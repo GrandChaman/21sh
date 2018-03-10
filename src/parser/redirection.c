@@ -51,6 +51,15 @@ int		redirections2(char *original, t_vari *var)
 
 int		redirections3(int *i, char *original)
 {
+	if (original[*i] && original[*i + 1] && (ft_isstd(original[*i])) &&
+		(original[*i + 1] == '<' || original[*i + 1] == '>'))
+		{
+			if (original[*i - 1] != ' ')
+				return (0);
+			*i = *i + 1;
+		}
+	else if (original[*i - 1] != ' ' && (original[*i] == '<' || original[*i] == '>'))
+		return (0);
 	if (original[*i] && original[*i] == '<')
 	{
 		*i = *i + 1;
