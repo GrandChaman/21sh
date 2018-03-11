@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/09 13:56:07 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/11 12:40:43 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void main_routine(t_list **head, int status)
 		ft_fprintf(shell->debug_tty, "YAY\n");
 		ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 		cmd = read_command(NULL, NULL, 0);
+		//add_to_history(shell, cmd);
 		parser = get_parser(cmd);
 		nb = parser[0].nb;
 		ft_putendl("");
@@ -48,13 +49,13 @@ void main_routine(t_list **head, int status)
 		//(void)head;
 		while (++x < nb)
 			status = execute(parser[x], head);
-		//add_to_history(shell, cmd);
 		//load_history(shell, 1);
 		ft_fprintf(shell->debug_tty, "YAY\n");
 		//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 		free_parser(parser);
 		free(cmd);
 	}
+	//load_history(shell, 1);
 }
 
 int		main(int argc, const char **argv, char **env)
