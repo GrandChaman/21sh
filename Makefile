@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/11 13:02:10 by vbaudot          ###   ########.fr        #
+#    Updated: 2018/03/11 13:04:38 by vbaudot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ terminal_settings.c path_utils.c cli_selection.c term_command.c cli_utils.c \
 cli_nav.c cli_delete.c error.c history_loader.c get_parser.c \
 ft_list_del.c ft_list.c execute.c launch.c getenv.c help.c \
 echo.c exit.c setenv.c utils_env.c cd.c env.c \
-init_meta.c init_var.c init_parser.c
+init_meta.c init_var.c count_argv.c \
+is_correct_talk.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
