@@ -14,8 +14,6 @@ char	*check_correct(char *original) //Pour francis complet
 			prompt = "s-quotes>";
 		if (stock == -3) //commande (pipe)
 			prompt = "commands>";
-		if (stock == -4) //heredocs
-			prompt = "here-docs>";
 		return (prompt);
 	}
 	if (stock == 0)

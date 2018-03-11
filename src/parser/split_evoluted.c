@@ -14,11 +14,11 @@ void	split_evoluted(t_parser *parser, char *original)
 		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 			var.i++;
 		var.nbr_argv = count_argv(var.i, original);
-//		printf("---------------Ici nb argument = %d\n", var.nbr_argv);
+		printf("---------------Ici nb argument = %d\n", var.nbr_argv);
 		var.nbr_redirection_input = count_redirection_input(var.i, original);
-//		printf("++++++++++ var.nbr_redirection_input = %d\n", var.nbr_redirection_input);
+		printf("++++++++++ var.nbr_redirection_input = %d\n", var.nbr_redirection_input);
 		var.nbr_redirection_output = count_redirection_output(var.i, original);
-//		printf("************ var.nbr_redirection_output = %d\n", var.nbr_redirection_output);
+		printf("************ var.nbr_redirection_output = %d\n", var.nbr_redirection_output);
 		while (original[var.i] && original[var.i] != ';' && original[var.i] != '|')
 		{
 			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
@@ -44,14 +44,16 @@ void	split_evoluted(t_parser *parser, char *original)
 							init_meta_output(parser, var.b, var.nbr_redirection_output);
 						}
 					}
-					if (var.boite == 3)
+					if (var.boite == 3 || var.boite == 4)
 					{
 						if (var.i_input == 0)
 						{
-//							printf("malloc nbr de input = %d\n", var.nbr_redirection_input);
+							printf("malloc nbr de input = %d\n", var.nbr_redirection_input);
 							parser[var.b].input.meta = malloc(sizeof(t_meta_input) * var.nbr_redirection_input);
 							init_meta_input(parser, var.b, var.nbr_redirection_input);
 						}
+						if (var.boite == 4)
+							var.i_input++;
 					}
 					checkquote(&var.i, &var.o, original);
 					var.box = var.boite;
@@ -127,5 +129,5 @@ void	split_evoluted(t_parser *parser, char *original)
 			var.i++;
 		var.b++;
 	}
-//	printf("End\n");
+	printf("End\n");
 }

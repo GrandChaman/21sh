@@ -101,6 +101,7 @@ void	print_parser(t_parser *parser, int nb)
 			o = 0;
 			while (parser[i].input.meta)
 			{
+				printf("parser[%d].input.meta[%d].heredoc_number = %d\n", i, o, parser[i].input.meta[o].heredoc_number);
 				printf("parser[%d].input.meta[%d].name = %s\n", i, o, parser[i].input.meta[o].name);
 				printf("parser[%d].input.meta[%d].stdin = %d\n", i, o, parser[i].input.meta[o].stdin);
 				printf("parser[%d].input.meta[%d].stdout = %d\n", i, o, parser[i].input.meta[o].stdout);

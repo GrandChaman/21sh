@@ -8,8 +8,6 @@ static int				this_is_word(t_vari *var, char *original)
 		var->boite = redirections3(&var->i, original);
 		if (var->boite == 0 && (ft_printf("21sh: syntax error\n")))
 			return (0);
-		if (var->boite == -1 && (ft_printf("je gere pas now\n")))
-			return (-4);
 		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 			original[var->i])
 			var->i++;

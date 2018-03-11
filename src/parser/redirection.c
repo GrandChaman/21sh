@@ -15,6 +15,7 @@ int		redirections2(char *original, t_vari *var)
 				var->i++;
 			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
+			return (4);
 		}
 		else
 		{
@@ -70,10 +71,15 @@ int		redirections3(int *i, char *original)
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
 				return (0);
-			return (-1);
+			return (1);
 		}
 		else
 		{
+			if (original[*i] && original[*i + 1] && original[*i] == '&')
+			{
+				if (!ft_isstd(original[*i + 1]) || (ft_isstd(original[*i + 1]) && original[*i + 2] != ' '))
+					return (0);
+			}
 			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
@@ -95,6 +101,11 @@ int		redirections3(int *i, char *original)
 		}
 		else
 		{
+			if (original[*i] && original[*i + 1] && original[*i] == '&')
+			{
+				if (!ft_isstd(original[*i + 1]) || (ft_isstd(original[*i + 1]) && original[*i + 2] != ' '))
+					return (0);
+			}
 			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
@@ -121,7 +132,16 @@ int		redirections4(char *original, t_parser *parser, t_vari *var)
 				var->i++;
 			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
-			return (-1);
+			var->heredoc++;
+			printf("parser[%d].input.meta[%d].heredoc_number = %d\n", var->b, var->i_input, var->heredoc);
+			parser[var->b].input.meta[var->i_input].heredoc_number = var->heredoc;	
+			printf("ouaip i = %d\n", var->i);
+			call_heredoc(*var, original);
+			printf("end i = %d\n", var->i);
+			//ici fonction francis
+			while ((original[var->i] != ' ' && original[var->i] != '\t') && original[var->i])
+				var->i++;
+			return (4);
 		}
 		else
 		{
@@ -171,7 +191,7 @@ int		redirections_input(int *i, char *original)
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
 				return (0);
-			return (-1);
+			return (3);
 		}
 		else
 		{

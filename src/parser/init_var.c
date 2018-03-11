@@ -24,6 +24,7 @@ void	init_var(t_vari *var)
 	var->i = 0;
 	var->j = 0;
 	var->box = 1;
+	var->heredoc = 0;
 }
 
 void	fill_std_i(t_vari *var, t_parser *parser, char *original)
