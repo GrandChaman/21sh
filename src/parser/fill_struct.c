@@ -1,23 +1,12 @@
-#include "parser.h"
+#include "ft_sh.h"
 
 void		fill_parser(t_parser *parser, char *original)
 {
 	t_vari var;
 
-<<<<<<< HEAD
-	j = 0;
-	b = 0;
-	z = 0;
-	o = 0;
-	i = 0;
-	box = 1;
-//	printf("\noriginal = %s\n", original);
-	while (original[i])
-=======
 	init_var(&var);
 //	printf("\noriginal = %s\n", original);
 	while (original[var.i])
->>>>>>> Parser
 	{
 		while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 			var.i++;
@@ -56,33 +45,18 @@ void		fill_parser(t_parser *parser, char *original)
 				}
 				if (var.boite == 1 && var.box == 1)
 				{
-<<<<<<< HEAD
-	//				printf("fill_cmd = %c\n", original[i]);
-					parser[b].cmd[j][o] = original[i];
-=======
 //					printf("fill_cmd parser[%d].cmd[%d] = %c\n", var.b, var.j,  original[var.i]);
 					parser[var.b].cmd[var.j][var.o] = original[var.i];
->>>>>>> Parser
 				}
 				if (var.box == 3)
 				{
-<<<<<<< HEAD
-//					printf("fill_input = %c\n", original[i]);
-					parser[b].input.name_file[o] = original[i];
-=======
 //					printf("fill_input = %c\n", original[var.i]);
 					parser[var.b].input.meta[var.i_input].name[var.o] = original[var.i];
->>>>>>> Parser
 				}
 				if (var.box == 2)
 				{
-<<<<<<< HEAD
-//					printf("fill_output = %c\n", original[i]);
-					parser[b].output.name_file[o] = original[i];
-=======
 //					printf("fill_output = %c\n", original[var.i]);
 					parser[var.b].output.meta[var.i_output].name[var.o] = original[var.i];
->>>>>>> Parser
 				}
 				var.i++;
 				var.o++;

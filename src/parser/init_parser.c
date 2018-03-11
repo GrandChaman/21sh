@@ -1,20 +1,4 @@
-<<<<<<< HEAD
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_parser.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/02 10:16:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 12:30:33 by vbaudot          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_sh.h"
-=======
-#include "parser.h"
->>>>>>> Parser
 
 void	init_parser(t_parser *parser, int nb)
 {
@@ -108,20 +92,6 @@ void	print_parser(t_parser *parser, int nb)
 				o++;
 			}
 		}
-<<<<<<< HEAD
-		else
-			ft_printf("Pas d argument\n");
-		ft_printf("\nparser[%d].input.exist = %d\n", i, parser[i].input.exist);
-		ft_printf("parser[%d].input.pipe = %d\n", i, parser[i].input.pipe);
-		ft_printf("parser[%d].input.name_file = %s\n\n", i, parser[i].input.name_file);
-
-		ft_printf("parser[%d].output.standart = %d\n", i, parser[i].output.standart);
-		ft_printf("parser[%d].output.erreur = %d\n", i, parser[i].output.erreur);
-		ft_printf("parser[%d].output.to_next_cmd = %d\n", i, parser[i].output.to_next_cmd);
-		ft_printf("parser[%d].output.double_chevron = %d\n", i, parser[i].output.double_chevron);
-		ft_printf("parser[%d].output.name_file = %s\n\n", i, parser[i].output.name_file);
-		ft_printf("--------------------------------------");
-=======
 		printf("\nparser[%d].close_stdin = %d\n", i, parser[i].close_stdin);
 		printf("parser[%d].close_stdout = %d\n", i, parser[i].close_stdout);
 		printf("parser[%d].close_stderr = %d\n\n", i, parser[i].close_stderr);
@@ -158,7 +128,6 @@ void	print_parser(t_parser *parser, int nb)
 				o++;
 			}
 		}
->>>>>>> Parser
 		i++;
 	}
 }

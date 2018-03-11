@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "ft_sh.h"
 
 t_parser	*get_parser(char *original) //Pour victor
 {
@@ -8,25 +8,17 @@ t_parser	*get_parser(char *original) //Pour victor
 	stock = is_correct_talk(original);
 	if (stock == 0)
 	{
-<<<<<<< HEAD
-		ft_printf("\nFails\n");
-=======
 //		printf("\nFails\n");
 		return (NULL);
 	}
 	if (stock < 0)
 	{
 		printf("Francis complet\n");
->>>>>>> Parser
 		return (NULL);
 	}
 	if (stock == 1)
 	{
-<<<<<<< HEAD
-		//ft_printf("\nOK\n");
-=======
 	//	printf("\nOK\n");
->>>>>>> Parser
 		stock = count_cmd(original);
 	//	printf("------------------------------------------- nb commandes = %d\n",stock);
 		parser = malloc(sizeof(t_parser) * stock);

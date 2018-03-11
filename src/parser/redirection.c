@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "ft_sh.h"
 
 int		redirections2(char *original, t_vari *var)
 {
@@ -66,10 +66,6 @@ int		redirections3(int *i, char *original)
 		if (original[*i] && original[*i] == '<')
 		{
 			*i = *i + 1;
-<<<<<<< HEAD
-	//		ft_printf("Cas ultra special a gere apres\n");
-=======
->>>>>>> Parser
 			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))
@@ -147,7 +143,7 @@ int		redirections4(char *original, t_parser *parser, t_vari *var)
 				var->i++;
 			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
-				parser[var->b].output.meta[var->i_input].double_chevron = 1;	
+				parser[var->b].output.meta[var->i_input].double_chevron = 1;
 			return (2);
 		}
 		else
@@ -171,10 +167,6 @@ int		redirections_input(int *i, char *original)
 		if (original[*i] && original[*i] == '<')
 		{
 			*i = *i + 1;
-<<<<<<< HEAD
-	//		ft_printf("Cas ultra special a gere apres\n");
-=======
->>>>>>> Parser
 			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
 				*i = *i + 1;
 			if (original[*i] == '\0' || ft_isatoken(original[*i]))

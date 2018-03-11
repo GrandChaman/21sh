@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/11 13:00:18 by vbaudot          ###   ########.fr        #
+#    Updated: 2018/03/11 13:02:10 by vbaudot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ SRC_DIR = src
 OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
-<<<<<<< HEAD
 VPATH = src:src/cli:src/term:src/parser:src/env:src/builtins
 SRC = split_evoluted.c count.c init_parser.c quote.c redirection.c \
 fill_struct.c is_correct.c check_correct.c main.c cli.c cli_init.c \
@@ -25,12 +24,6 @@ ft_list_del.c ft_list.c execute.c launch.c getenv.c help.c \
 echo.c exit.c setenv.c utils_env.c cd.c env.c \
 init_meta.c init_var.c init_parser.c
 
-=======
-VPATH = src/cli:src/term:src/parser
-SRC = split_evoluted.c count.c quote.c redirection.c\
-	  main.c get_parser.c check_correct.c fill_struct.c init_parser.c\
-	  is_correct.c init_meta.c init_var.c
->>>>>>> Parser
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc

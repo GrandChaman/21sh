@@ -1,40 +1,9 @@
-<<<<<<< HEAD
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   split_evoluted.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/02 10:16:51 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 11:34:20 by vbaudot          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_sh.h"
-=======
-#include "parser.h"
->>>>>>> Parser
 
 
 void	split_evoluted(t_parser *parser, char *original)
 {
 
-<<<<<<< HEAD
-	b = 0;
-	z = 0;
-	o = 0;
-	i = 0;
-//	ft_printf("\noriginal = %s\n\n", original);
-	while (original[i])
-	{
-		box = 1;
-		while ((original[i] == ' ' || original[i] == '\t') && original[i])
-			i++;
-		nbr_argv = count_argv(i, original) + 2;
-//		ft_printf("\nnbr_argv = %d\n", nbr_argv);
-		while (original[i] && original[i] != ';' && original[i] != '|')
-=======
 	t_vari var;
 	init_var(&var);
 
@@ -51,7 +20,6 @@ void	split_evoluted(t_parser *parser, char *original)
 		var.nbr_redirection_output = count_redirection_output(var.i, original);
 //		printf("************ var.nbr_redirection_output = %d\n", var.nbr_redirection_output);
 		while (original[var.i] && original[var.i] != ';' && original[var.i] != '|')
->>>>>>> Parser
 		{
 			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 				var.i++;
@@ -92,29 +60,16 @@ void	split_evoluted(t_parser *parser, char *original)
 				var.i++;
 				var.o++;
 			}
-<<<<<<< HEAD
-	//		printf("box = %d\n", box);
-			if (z == 0 && box == 1)
-			{
-	//			printf("nombre de mot dans la commande = %d\n", nbr_argv);
-				if (!(parser[b].cmd = malloc(sizeof(char *) * nbr_argv + 1)))
-=======
 			if (var.z == 0 && var.box == 1)
 			{
 //				printf("nombre de mot dans la commande = %d\n", var.nbr_argv);
 				if (!(parser[var.b].cmd = malloc(sizeof(char *) * var.nbr_argv + 1)))
->>>>>>> Parser
 					exit(0);
 			}
 			if (var.box == 1)
 			{
-<<<<<<< HEAD
-	//			printf("malloc parser[%d].cmd[%d] = %d\n", b, z, o);
-				if (!(parser[b].cmd[z] = malloc(sizeof(char) * o + 1)))
-=======
 //				printf("malloc parser[%d].cmd[%d] = %d\n", var.b, var.z, var.o);
 				if (!(parser[var.b].cmd[var.z] = malloc(sizeof(char) * var.o + 1)))
->>>>>>> Parser
 					exit(0);
 			}
 			if (var.box == 2)
@@ -125,13 +80,8 @@ void	split_evoluted(t_parser *parser, char *original)
 					var.i++;
 					var.o++;
 				}
-<<<<<<< HEAD
-	//			printf("malloc parser[%d].output.name_file = %d\n", b, o);
-				if (!(parser[b].output.name_file = malloc(sizeof(char) * o + 1)))
-=======
 //				printf("malloc parser[%d].output.name_file[%d] = %d\n", var.b, var.i_output, var.o);
 				if (!(parser[var.b].output.meta[var.i_output].name = malloc(sizeof(char) * var.o + 1)))
->>>>>>> Parser
 					exit(0);
 				var.i_output++;
 			}
@@ -143,30 +93,16 @@ void	split_evoluted(t_parser *parser, char *original)
 					var.i++;
 					var.o++;
 				}
-<<<<<<< HEAD
-	//			printf("malloc parser[%d].input.name_file = %d\n", b , o);
-				if (!(parser[b].input.name_file = malloc(sizeof(char) * o + 1)))
-=======
 //				printf("malloc parser[%d].input.name_file[%d] = %d\n", var.b , var.i_input , var.o);
 				if (!(parser[var.b].input.meta[var.i_input].name = malloc(sizeof(char) * var.o + 1)))
->>>>>>> Parser
 					exit(0);
 				var.i_input++;
 			}
-<<<<<<< HEAD
-
-			//ft_printf("commande [%d] mot[%d] = %d\n", b, z, o);
-			o = 0;
-			while ((original[i] == ' ' || original[i] == '\t') && original[i])
-				i++;
-			if (original[i] == '\0' || original[i] == ';' || original[i] == '|')
-=======
 //			printf("commande [%d] mot[%d] = %d\n\n", var.b, var.z, var.o);
 			var.o = 0;
 			while ((original[var.i] == ' ' || original[var.i] == '\t') && original[var.i])
 				var.i++;
 			if (original[var.i] == '\0' || original[var.i] == ';' || original[var.i] == '|')
->>>>>>> Parser
 				break ;
 			if (var.box == 1)
 				var.z++;
@@ -191,9 +127,5 @@ void	split_evoluted(t_parser *parser, char *original)
 			var.i++;
 		var.b++;
 	}
-<<<<<<< HEAD
-}
-=======
 //	printf("End\n");
 }
->>>>>>> Parser
