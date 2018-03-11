@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/06 16:38:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/11 12:41:35 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	history_nav(unsigned long touch)
 	char	*tmp;
 
 	sh = get_ft_shell();
-	if (sh->is_alt_shell)
+	if (!sh->history || sh->is_alt_shell)
 		return ;
 	if (sh->history_pos >= sh->history_size || ft_strcmp(sh->buf.buf,
 		((t_ft_hist_entry*)ft_lstat(sh->history, sh->history_pos)->content)->command))

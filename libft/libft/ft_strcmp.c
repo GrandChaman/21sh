@@ -6,18 +6,18 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/22 01:11:03 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/09 12:02:39 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/11 12:23:00 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int		ft_strcmp(const char *s1, const char *s2)
 {
-	if (!lhs || !rhs)
+	if (!s1 || !s2)
 		return (-1);
-	while (*lhs == *rhs && *lhs && *rhs)
+	while (*s1 == *s2 && *s1 && *s2)
 	{
-		lhs++;
-		rhs++;
+		s1++;
+		s2++;
 	}
-	return ((unsigned char)*lhs - (unsigned char)*rhs);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

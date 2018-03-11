@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 11:42:59 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/11 12:27:51 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,29 @@ typedef struct			s_parser
 	t_output			output;
 }						t_parser;
 
+t_list					*ft_lstcopy(t_list **head);
+void					ft_lstprint(t_list **head);
+int						execute_env(char **args, t_list **head);
+int						execute(t_parser parser, t_list **head);
+int						launch(char **args, t_list **head);
+t_list					*create_list_from_env(char **env);
+char					**create_env_from_list(t_list **head);
+void					ft_lsterase(t_list **head);
+void					ft_lstdelthis(t_list **head, char *str);
+int						mini_cd(char **args, t_list **head);
+int						mini_echo(char **args);
+int						mini_env(char **args, t_list **head);
+int						mini_exit(char **args);
+char					*ft_getenv(t_list **head, char *elem);
+char					*ft_path(t_list **head, char *cmd);
+int						mini_help(char **args);
+void					ft_lst_add_or_modify(int flag, t_list **head,
+	char *name, char *value);
+int						mini_setenv(char **args, t_list **head);
+int						mini_unsetenv(char **args, t_list **head);
+int						ft_problem_dir(char *arg);
+int						too_many_args(char *cmd);
+
 int				checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b);
 char			checkquote_fill_input(int *i, char *original, t_parser *parser, int *b);
 int				redirections4(int *i, char *original);
@@ -182,7 +205,7 @@ int 		load_history(t_ft_sh *sh, int unload);
 void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_alt_shell_begin(void);
 unsigned int get_sh_cursor(void);
-void	history_nav(unsigned long touch);
+void		history_nav(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
