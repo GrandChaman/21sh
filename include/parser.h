@@ -14,6 +14,7 @@ typedef struct			s_meta_output
 
 typedef struct			s_meta_input
 {
+	int					heredoc_number;
 	char				*name;
 	int					stdin;
 	int 				stdout;
@@ -59,8 +60,10 @@ typedef struct			s_vari
 	int nbr_redirection_output;
 	int i_output;
 	int i;
+	int heredoc;
 }						t_vari;
 
+void	call_heredoc(t_vari var, char *original);
 void			fill_std_o(t_vari *var, t_parser *parser, char *original);
 void			fill_std_i(t_vari *var, t_parser *parser, char *original);
 void			init_var(t_vari *var);
@@ -93,7 +96,6 @@ void			init_parser(t_parser *parser, int nb);
 int				redirections2(char *original, t_vari *var);
 int				count_argv(int i, char *original);
 char			checkquote(int *i, int *o, char *original);
-int				checkquote2(int *i, int *o, char *original, char c);
 void			chevron(int *i, int *increment_something, char *original);
 int				checkquote2(int *i, int *o, char *original, char c);
 void			split_evoluted(t_parser *parser, char *original);

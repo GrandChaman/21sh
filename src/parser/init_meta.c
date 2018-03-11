@@ -7,6 +7,7 @@ void	init_meta_input(t_parser *parser, int b, int nb)
 	o = 0;
 	while (o < nb)
 	{
+		parser[b].input.meta[o].heredoc_number = 0;
 		parser[b].input.meta[o].name = NULL;
 		parser[b].input.meta[o].stdin = 0;
 		parser[b].input.meta[o].stdout = 0;
