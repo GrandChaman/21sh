@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 12:40:43 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/11 12:45:38 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,55 +26,36 @@ void	init_debug(t_ft_sh *shell, const char *path)
 	ft_fprintf(shell->debug_tty, "-------------------------------------\n");
 }
 
-void main_routine(t_list **head, int status)
+void main_routine(void)
 {
 	char *cmd;
 	t_ft_sh *shell;
-	t_parser *parser;
-	int		x;
-	int 	nb;
+	//t_parser *parser;
 
 	shell = get_ft_shell();
-	//load_history(shell, 0);
-	while (status)
-	{
-		ft_fprintf(shell->debug_tty, "YAY\n");
-		ft_fprintf(shell->debug_tty, "%p\n", shell->history);
-		cmd = read_command(NULL, NULL, 0);
-		//add_to_history(shell, cmd);
-		parser = get_parser(cmd);
-		nb = parser[0].nb;
-		ft_putendl("");
-		x = -1;
-		//(void)head;
-		while (++x < nb)
-			status = execute(parser[x], head);
-		//load_history(shell, 1);
-		ft_fprintf(shell->debug_tty, "YAY\n");
-		//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
-		free_parser(parser);
-		free(cmd);
-	}
-	//load_history(shell, 1);
+	ft_fprintf(shell->debug_tty, "YAY\n");
+	cmd = read_command(NULL, NULL, 0);
+	add_to_history(shell, cmd);
+	ft_fprintf(shell->debug_tty, "YAY\n");
+	ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
+	//free_parser(parser);
+	free(cmd);
 }
 
-int		main(int argc, const char **argv, char **env)
+int		main(int argc, const char **argv, const char **environ)
 {
 	t_ft_sh *shell;
-	t_list	*head;
 
+	(void)environ;
 	shell = get_ft_shell();
 	shell->debug_tty = -1;
 	if (argc == 3 && !ft_strcmp("-d", argv[1]))
 		init_debug(shell, argv[2]);
 	if (!is_env_correct())
 		return (1);
-	head = create_list_from_env(env);
-	//ft_lstprint(&head);
 	cli_loader(0);
-	main_routine(&head, 1);
+	main_routine();
 	cli_loader(1);
-	ft_lsterase(&head);
 	if (shell->debug_tty > 0)
 		close(shell->debug_tty);
 	free(shell->select);
