@@ -1,8 +1,8 @@
 #include "ft_sh.h"
 
-char	checkquote(int *i, int *o, char *original) // effet '' ?
+char	checkquote(int *i, int *o, char *original)
 {
-	char tableau[4] = "\"'`";
+	char tableau[4] = "\"'";
 	int var;
 	int stock;
 
@@ -42,125 +42,130 @@ int		checkquote2(int *i, int *o, char *original, char c)
 	return (1);
 }
 
-char	checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j)
+char	checkquote_fill_cmd(t_vari *var, char *original, t_parser *parser)
 {
-	char tableau[4] = "\"'`";
-	int var;
+	char tableau[4] = "\"'";
+	int i;
 	int stock;
 
-	var = 0;
-	while (tableau[var])
+	i = 0;
+	while (tableau[i])
 	{
-		if (original[*i] == tableau[var])
+		if (original[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_cmd(i, original, tableau[var], parser, b, j);
+			stock = checkquote2_fill_cmd(var, original, tableau[i], parser);
 			if (stock == 0)
-				return ('k'); //sert a rien, peux return un int
+			{
+				return ('k'); // sert a rien peux retourner un int
+			}
 		}
-		var++;
+		i++;
 	}
 	return ('n');
 }
 
-int		checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int *b, int *j)
+int		checkquote2_fill_cmd(t_vari *var, char *original, char c, t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[*i] && original[*i] == c)
+	if (original[var->i] && original[var->i] == c)
 	{
-		*i = *i + 1;
-		while (original[*i] && original[*i] != c)
+		var->i++;
+		while (original[var->i] && original[var->i] != c)
 		{
-			parser[*b].cmd[*j][o] = original[*i];
-			*i = *i + 1;
+//			printf("quote fill = %c\n", original[var->i]);
+			parser[var->b].cmd[var->j][o] = original[var->i];
+			var->i++;
 			o = o + 1;
 		}
-		parser[*b].cmd[*j][o] = '\0';
-		*j = *j + 1;
-		*i = *i + 1;
+		parser[var->b].cmd[var->j][o] = '\0';
+		var->j++;
+		var->i++;
 		return (0) ;
 	}
 	return (1);
 }
 
-char	checkquote_fill_output(int *i, char *original, t_parser *parser, int *b)
+char	checkquote_fill_output(t_vari *var, char *original, t_parser *parser)
 {
-	char tableau[4] = "\"'`";
-	int var;
+	char tableau[4] = "\"'";
+	int i;
 	int stock;
 
-	var = 0;
-	while (tableau[var])
+	i = 0;
+	while (tableau[i])
 	{
-		if (original[*i] == tableau[var])
+		if (original[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_output(i, original, tableau[var], parser, b);
+			stock = checkquote2_fill_output(var, original, tableau[i], parser);
 			if (stock == 0)
 				return ('k'); //sert a rien, peux return un int
 		}
-		var++;
+		i++;
 	}
 	return ('n');
 }
 
-int		checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b)
+int		checkquote2_fill_output(t_vari *var, char *original, char c, t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[*i] && original[*i] == c)
+	if (original[var->i] && original[var->i] == c)
 	{
-		*i = *i + 1;
-		while (original[*i] && original[*i] != c)
+		var->i++;
+		while (original[var->i] && original[var->i] != c)
 		{
-			parser[*b].output.name_file[o] = original[*i];
-			*i = *i + 1;
+			parser[var->b].output.meta[var->i_output].name[o] = original[var->i];
+			var->i++;
 			o = o + 1;
 		}
-		parser[*b].output.name_file[o] = '\0';
-		*i = *i + 1;
+		parser[var->b].output.meta[var->i_output].name[o] = '\0';
+		var->i++;
+		var->i_output++;
 		return (0) ;
 	}
 	return (1);
 }
 
-char	checkquote_fill_input(int *i, char *original, t_parser *parser, int *b)
+char	checkquote_fill_input(t_vari *var, char *original, t_parser *parser)
 {
-	char tableau[4] = "\"'`";
-	int var;
+	char tableau[4] = "\"'";
+	int i;
 	int stock;
 
-	var = 0;
-	while (tableau[var])
+	i = 0;
+	while (tableau[i])
 	{
-		if (original[*i] == tableau[var])
+		if (original[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_intput(i, original, tableau[var], parser, b);
+			stock = checkquote2_fill_intput(var, original, tableau[i], parser);
 			if (stock == 0)
 				return ('k'); //sert a rien, peux return un int
 		}
-		var++;
+		i++;
 	}
 	return ('n');
 }
 
-int		checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b)
+int		checkquote2_fill_intput(t_vari *var, char *original, char c, t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[*i] && original[*i] == c)
+	if (original[var->i] && original[var->i] == c)
 	{
-		*i = *i + 1;
-		while (original[*i] && original[*i] != c)
+		var->i++;
+		while (original[var->i] && original[var->i] != c)
 		{
-			parser[*b].input.name_file[o] = original[*i];
-			*i = *i + 1;
+			parser[var->b].input.meta[var->i_input].name[o] = original[var->i];
+			var->i++;
 			o = o + 1;
 		}
-		parser[*b].input.name_file[o] = '\0';
-		*i = *i + 1;
+		parser[var->b].input.meta[var->i_input].name[o] = '\0';
+		var->i_input++;
+		var->i++;
 		return (0) ;
 	}
 	return (1);

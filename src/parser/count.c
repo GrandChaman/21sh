@@ -1,6 +1,6 @@
 #include "ft_sh.h"
 
-int	count_cmd(char *original)
+int count_cmd(char *original)
 {
 	int i;
 	int nb;
@@ -35,7 +35,7 @@ int	count_cmd(char *original)
 	return (nb);
 }
 
-int count_argv(int i, char *original)
+int count_redirection_output(int i, char *original)
 {
 	int nb;
 	int stock;
@@ -50,10 +50,20 @@ int count_argv(int i, char *original)
 		while ((original[i] != ' ' && original[i] != '\t') && original[i])
 		{
 			checkquote(&i, &o, original);
-			stock = redirections3(&i, original);
-			checkquote(&i, &o, original);
+			while ((original[i] == ' ' || original[i] == '\t') && original[i])
+				i++;
+			if (original[i] == '|' || original[i] == ';')
+				return (nb);
+			if (original[i] == '\0')
+			{
+				break ;
+			}
+			stock = redirections_output(&i, original);
 			if (stock != 1)
-				nb = nb - 2;
+			{
+				nb++;
+				checkquote(&i, &o, original);			
+			}
 			if (original[i] == '|' || original[i] == ';')
 				return (nb);
 			i++;
@@ -64,7 +74,49 @@ int count_argv(int i, char *original)
 			break ;
 		if (original[i] == '|' || original[i] == ';')
 			return (nb);
-		nb++;
+	}
+	return (nb);
+}
+
+int count_redirection_input(int i, char *original)
+{
+	int nb;
+	int stock;
+	int o;
+
+	o = 0;
+	nb = 0;
+	while (original[i])
+	{
+		while ((original[i] == ' ' || original[i] == '\t') && original[i])
+			i++;
+		while ((original[i] != ' ' && original[i] != '\t') && original[i])
+		{
+			checkquote(&i, &o, original);
+			while ((original[i] == ' ' || original[i] == '\t') && original[i])
+				i++;
+			if (original[i] == '|' || original[i] == ';')
+				return (nb);
+			if (original[i] == '\0')
+			{
+				break ;
+			}
+			stock = redirections_input(&i, original);
+			if (stock != 1)
+			{
+				nb++;
+				checkquote(&i, &o, original);			
+			}
+			if (original[i] == '|' || original[i] == ';')
+				return (nb);
+			i++;
+		}
+		while ((original[i] == ' ' || original[i] == '\t') && original[i])
+			i++;
+		if (original[i] == '\0')
+			break ;
+		if (original[i] == '|' || original[i] == ';')
+			return (nb);
 	}
 	return (nb);
 }

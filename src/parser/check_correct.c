@@ -5,7 +5,7 @@ char	*check_correct(char *original) //Pour francis complet
 	int			stock;
 	char		*prompt;
 
-	stock = is_correct(original);
+	stock = is_correct(original); // a modifier pour le rendre bavard pour les fails
 	if (stock < 0)
 	{
 		if (stock == -1) //double quote
