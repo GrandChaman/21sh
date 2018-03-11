@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/09 11:59:14 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/11 11:41:06 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void		read_command_routine(void)
 	ft_bzero(tmp, 8);
 	while (42)
 	{
+
 		rvalue = read(0, &tmp[i], 1);
-		if (!rvalue && !rchar)
-			continue ;
-		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D)
+		ft_fprintf(get_ft_shell()->debug_tty, "TMP : %d\n", tmp[0]);
+		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C)
 			break ;
 		rchar = *((unsigned long*)tmp);
 		if (get_special_char_f(rchar) || ft_isprint(rchar) || (tmp[0] != 0 && !rvalue))
@@ -107,6 +107,8 @@ void		read_command_routine(void)
 			i = 0;
 			continue ;
 		}
+		if (i == 7 && rvalue)
+			ft_bzero(tmp, 8);
 		i = (rvalue && i < 7 ? i + 1 : 0);
 	}
 }
