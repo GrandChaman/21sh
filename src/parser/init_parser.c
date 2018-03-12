@@ -42,6 +42,7 @@ void	free_parser(t_parser *parser)
 					free(parser[i].cmd[o]);
 					o++;
 				}
+				free(parser[i].cmd);
 			}
 			if (parser[i].input.meta)
 			{
@@ -53,6 +54,7 @@ void	free_parser(t_parser *parser)
 						break ;
 					o++;
 				}
+				free(parser[i].input.meta);
 			}
 			if (parser[i].output.meta)
 			{
@@ -64,10 +66,12 @@ void	free_parser(t_parser *parser)
 						break ;
 					o++;
 				}
+				free(parser[i].output.meta);
 			}
 			i++;
 		}
 	}
+	 free(parser);
 }
 
 void	print_parser(t_parser *parser, int nb)

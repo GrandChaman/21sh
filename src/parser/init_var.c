@@ -27,7 +27,7 @@ void	init_var(t_vari *var)
 	var->heredoc = 0;
 }
 
-void	fill_std_i(t_vari *var, t_parser *parser, char *original)
+void	fill_std_i(t_vari *var, t_parser *parser, char *original) // a completer !!!!!!!!!!!!!!!!!!!!!!
 {
 	if (ft_isstd(original[var->i - 1]))
 	{
@@ -39,7 +39,10 @@ void	fill_std_i(t_vari *var, t_parser *parser, char *original)
 			parser[var->b].input.meta[var->i_input].stderr = 1;
 	}
 	else
+	{
 		parser[var->b].input.meta[var->i_input].stdin = 1;
+		parser[var->b].close_stdin = 1;
+	}
 }
 
 void	fill_std_o(t_vari *var, t_parser *parser, char *original)
