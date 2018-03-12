@@ -6,10 +6,8 @@ static int				this_is_word(t_vari *var, char *original)
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 	{
 		var->boite = redirections3(&var->i, original);
-		if (var->boite == 0)
+		if (var->boite == 0 && (ft_printf("21sh: syntax error\n")))
 			return (0);
-		if (var->boite == -1)
-			return (-4);
 		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 			original[var->i])
 			var->i++;
@@ -75,12 +73,13 @@ static int				second_main_loop(t_vari *var, char *original)
 	while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 		original[var->i])
 		var->i++;
-	if (original[var->i] && ft_isatoken(original[var->i]))
+	if (original[var->i] && ft_isatoken(original[var->i]) &&
+		(ft_printf("Unexpected token %c\n", original[var->i])))
 		return (0);
 	return (1);
 }
 
-int				is_correct(char *original)
+int				is_correct_talk(char *original)
 {
 	t_vari var;
 
@@ -90,7 +89,8 @@ int				is_correct(char *original)
 		while ((original[var.i] == ' ' || original[var.i] == '\t') &&
 			original[var.i])
 			var.i++;
-		if (ft_isatoken(original[var.i]))
+		if (ft_isatoken(original[var.i]) &&
+			(ft_printf("Unexpected token %c\n", original[var.i])))
 			return (0);
 		var.nbr_argv = count_argv(var.i, original);
 		if ((var.boite = main_loop(&var, original)) != 1)
@@ -98,7 +98,7 @@ int				is_correct(char *original)
 		var.z = 0;
 		if (original[var.i] == '\0')
 			break ;
-		if ((var.boite = second_main_loop(&var, original)) == 1)
+		if ((var.boite = second_main_loop(&var, original)) != 1)
 			return (var.boite);
 		var.b++;
 	}

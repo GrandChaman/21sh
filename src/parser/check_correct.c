@@ -1,11 +1,11 @@
-#include "ft_sh.h"
+#include "parser.h"
 
 char	*check_correct(char *original) //Pour francis complet
 {
 	int			stock;
 	char		*prompt;
 
-	stock = is_correct(original);
+	stock = is_correct(original); // a modifier pour le rendre bavard pour les fails
 	if (stock < 0)
 	{
 		if (stock == -1) //double quote
@@ -14,8 +14,6 @@ char	*check_correct(char *original) //Pour francis complet
 			prompt = "s-quotes>";
 		if (stock == -3) //commande (pipe)
 			prompt = "commands>";
-		if (stock == -4) //heredocs
-			prompt = "here-docs>";
 		return (prompt);
 	}
 	if (stock == 0)
