@@ -44,7 +44,6 @@ void	free_parser(t_parser *parser)
 				}
 				free(parser[i].cmd);
 			}
-			printf("Here\n");	
 			if (parser[i].input.meta)
 			{
 				o = 0;
@@ -57,7 +56,6 @@ void	free_parser(t_parser *parser)
 				}
 				free(parser[i].input.meta);
 			}
-			printf("Here, lsa \n");	
 			if (parser[i].output.meta)
 			{
 				o = 0;
@@ -68,10 +66,8 @@ void	free_parser(t_parser *parser)
 						break ;
 					o++;
 				}
-				printf("Always here\n");
 				free(parser[i].output.meta);
 			}
-			printf("OK\n");
 			i++;
 		}
 	}

@@ -141,14 +141,10 @@ int		redirections4(char *original, t_parser *parser, t_vari *var)
 			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
 			var->heredoc++;
-			printf("parser[%d].input.meta[%d].heredoc_number = %d\n", var->b, var->i_input, var->heredoc);
 			parser[var->b].input.meta[var->i_input].heredoc_number = var->heredoc;	
 			call_heredoc(*var, original);
-			//ici fonction francis
 			while ((original[var->i] != ' ' && original[var->i] != '\t') && original[var->i])
 				var->i++;
-			//var->i--;
-			printf("var-> i = %d et original[i] = %c\n", var->i, original[var->i]);
 			return (4);
 		}
 		else
