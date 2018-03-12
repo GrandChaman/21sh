@@ -96,37 +96,6 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
-typedef	struct			s_input
-{
-	int					exist;
-	int					pipe;
-	char				*name_file;
-}						t_input;
-
-typedef	struct			s_output
-{
-	int					standart;
-	int					erreur;
-	int					to_next_cmd;
-	char				*name_file;
-	int					double_chevron;
-	int					exist;
-}						t_output;
-
-typedef struct			s_cmd
-{
-	char				**name;
-	int					special;
-}						t_cmd;
-
-
-typedef struct			s_parser
-{
-	char				**cmd;
-	int					nb;
-	t_input				input;
-	t_output			output;
-}						t_parser;
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
@@ -150,32 +119,6 @@ int						mini_setenv(char **args, t_list **head);
 int						mini_unsetenv(char **args, t_list **head);
 int						ft_problem_dir(char *arg);
 int						too_many_args(char *cmd);
-
-int				checkquote2_fill_intput(int *i, char *original, char c, t_parser *parser, int *b);
-char			checkquote_fill_input(int *i, char *original, t_parser *parser, int *b);
-int				redirections4(int *i, char *original);
-int				checkquote2_fill_output(int *i, char *original, char c, t_parser *parser, int *b);
-char			checkquote_fill_output(int *i, char *original, t_parser *parser, int *b);
-int				checkquote2_fill_cmd(int *i, char *original, char c, t_parser *parser, int *b, int *j);
-char			checkquote_fill_cmd(int *i, char *original, t_parser *parser, int *b, int *j);
-void			free_parser(t_parser *parser);
-t_parser		*get_parser(char *original);
-char			*check_correct(char *original);
-int				is_correct(char *original);
-void			print_parser(t_parser *parser, int nb);
-int				redirections3(int *i, char *original);
-void			fill_parser(t_parser *parser, char *original);
-int				ft_isatoken(char c);
-int 			count_argv(int i, char *original);
-int				count_cmd(char *original);
-void			init_parser(t_parser *parser, int nb);
-int				redirections2(int *i, char *original, t_parser *parser, int b);
-int				count_argv(int i, char *original);
-char			checkquote(int *i, int *o, char *original);
-int				checkquote2(int *i, int *o, char *original, char c);
-void			chevron(int *i, int *increment_something, char *original);
-int				checkquote2(int *i, int *o, char *original, char c);
-void			split_evoluted(t_parser *parser, char *original);
 
 t_ft_sh					*get_ft_shell(void);
 int						is_env_correct(void);
