@@ -41,15 +41,17 @@ void main_routine(t_list **head, int status)
 		ft_fprintf(shell->debug_tty, "%p\n", shell->history);
 		cmd = read_command(NULL, NULL, 0);
 		add_to_history(shell, cmd);
-		parser = get_parser(cmd);
-		nb = parser[0].nb;
-		ft_putendl("");
-		x = -1;
-		while (++x < nb)
-			status = execute(parser[x], head);
-		ft_fprintf(shell->debug_tty, "YAY\n");
-		//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
-		free_parser(parser);
+		if ((parser = get_parser(cmd)))
+		{
+			nb = parser[0].nb;
+			ft_putendl("");
+			x = -1;
+			while (++x < nb)
+				status = execute(parser[x], head);
+			ft_fprintf(shell->debug_tty, "YAY\n");
+			//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
+			free_parser(parser);
+		}
 		free(cmd);
 	}
 }
