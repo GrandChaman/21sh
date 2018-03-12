@@ -64,13 +64,13 @@ void	split_evoluted(t_parser *parser, char *original)
 			}
 			if (var.z == 0 && var.box == 1)
 			{
-//				printf("nombre de mot dans la commande = %d\n", var.nbr_argv);
+				printf("nombre de mot dans la commande = %d\n", var.nbr_argv);
 				if (!(parser[var.b].cmd = malloc(sizeof(char *) * var.nbr_argv + 1)))
 					exit(0);
 			}
 			if (var.box == 1)
 			{
-//				printf("malloc parser[%d].cmd[%d] = %d\n", var.b, var.z, var.o);
+				printf("malloc parser[%d].cmd[%d] = %d\n", var.b, var.z, var.o);
 				if (!(parser[var.b].cmd[var.z] = malloc(sizeof(char) * var.o + 1)))
 					exit(0);
 			}
@@ -82,7 +82,7 @@ void	split_evoluted(t_parser *parser, char *original)
 					var.i++;
 					var.o++;
 				}
-//				printf("malloc parser[%d].output.name_file[%d] = %d\n", var.b, var.i_output, var.o);
+				printf("malloc parser[%d].output.name_file[%d] = %d\n", var.b, var.i_output, var.o);
 				if (!(parser[var.b].output.meta[var.i_output].name = malloc(sizeof(char) * var.o + 1)))
 					exit(0);
 				var.i_output++;
@@ -95,7 +95,7 @@ void	split_evoluted(t_parser *parser, char *original)
 					var.i++;
 					var.o++;
 				}
-//				printf("malloc parser[%d].input.name_file[%d] = %d\n", var.b , var.i_input , var.o);
+				printf("malloc parser[%d].input.name_file[%d] = %d\n", var.b , var.i_input , var.o);
 				if (!(parser[var.b].input.meta[var.i_input].name = malloc(sizeof(char) * var.o + 1)))
 					exit(0);
 				var.i_input++;

@@ -22,6 +22,7 @@ void	call_heredoc(t_vari var, char *original)
 	char *tmp = NULL;
 	char *path_file;
 	int fd;
+	char *tmp2;
 
 	o = 0;
 	size = size_str(var, original);
@@ -36,24 +37,21 @@ void	call_heredoc(t_vari var, char *original)
 	str[o] = '\0';
 	printf("str = %s\n", str);
 	//tmp = read_command("heredoc>", NULL, 1);
-	tmp = "lol";
-	printf("tmp = %s\n", tmp);
-	path_file = ft_strjoin("/tmp/heredoc", ft_itoa(var.heredoc));
-	printf("path_file = %s\n", path_file);
+	tmp2 = ft_itoa(var.heredoc);
+	path_file = ft_strjoin("/tmp/heredoc", tmp2);
+	free(tmp2);
 	if ((fd = open(path_file,  O_RDWR | O_CREAT | O_EXCL | O_APPEND, 0777)) == -1)
 	{
-		printf("FILE EXIST\n");
 		if ((fd = open(path_file, O_WRONLY | O_TRUNC, 0777)) == -1)
 		{
-			printf("Echap\n");
 			exit(0);
 		}
 		close(fd);
 		if ((fd = open(path_file,  O_RDWR | O_APPEND, 0777)) == -1)
 			exit(0);
 	}
-	printf("c creer !\n");
 	free(path_file);
+	tmp = "lol";
 	while (ft_strcmp(str, tmp) != 0)
 	{
 		printf("tmp2 = %s\n", tmp);

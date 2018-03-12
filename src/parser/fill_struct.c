@@ -31,7 +31,9 @@ void		fill_parser(t_parser *parser, char *original)
 				var.boite = redirections4(original, parser, &var);
 				if (var.boite == 4)
 				{
-					var.box = 4;
+					if (original[var.i] == '\0' || original[var.i] == ' ' || original[var.i] == '\t')
+						break ;
+					//var.box = 4;
 					var.i_input++;
 				}
 				if (var.boite == 2)
@@ -50,7 +52,7 @@ void		fill_parser(t_parser *parser, char *original)
 				}
 				if (var.boite == 1 && var.box == 1)
 				{
-					printf("fill_cmd parser[%d].cmd[%d] = %c\n", var.b, var.j,  original[var.i]);
+					printf("fill_cmd parser[%d].cmd[%d][%d] = %c\n", var.b, var.j,var.o,  original[var.i]);
 					parser[var.b].cmd[var.j][var.o] = original[var.i];
 				}
 				if (var.box == 3)
@@ -63,6 +65,7 @@ void		fill_parser(t_parser *parser, char *original)
 //					printf("fill_output = %c\n", original[var.i]);
 					parser[var.b].output.meta[var.i_output].name[var.o] = original[var.i];
 				}
+				printf("ici\n");
 				var.i++;
 				var.o++;
 			}
@@ -96,8 +99,6 @@ void		fill_parser(t_parser *parser, char *original)
 		var.i_output = 0;
 		var.j = 0;
 		var.z = 0;
-		printf("var->heredoc = %d\n", var.heredoc);
-		var.heredoc = 0;
 		if (original[var.i] == '\0')
 			break ;
 		if (original[var.i] == '|')
