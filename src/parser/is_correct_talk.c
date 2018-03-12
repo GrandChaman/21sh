@@ -74,7 +74,7 @@ static int				second_main_loop(t_vari *var, char *original)
 		original[var->i])
 		var->i++;
 	if (original[var->i] && ft_isatoken(original[var->i]) &&
-		(ft_printf("\nUnexpected token %c\n", original[var->i])))
+		(ft_printf("\n21sh :Unexpected token %c\n", original[var->i])))
 		return (0);
 	return (1);
 }
@@ -90,7 +90,7 @@ int				is_correct_talk(char *original)
 			original[var.i])
 			var.i++;
 		if (ft_isatoken(original[var.i]) &&
-			(ft_printf("\nUnexpected token %c\n", original[var.i])))
+			(ft_printf("\n21sh :Unexpected token %c\n", original[var.i])))
 			return (0);
 		var.nbr_argv = count_argv(var.i, original);
 		if ((var.boite = main_loop(&var, original)) != 1)
