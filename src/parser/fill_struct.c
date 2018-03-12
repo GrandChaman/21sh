@@ -31,10 +31,10 @@ void		fill_parser(t_parser *parser, char *original)
 				var.boite = redirections4(original, parser, &var);
 				if (var.boite == 4)
 				{
+					var.i_input++;					
 					if (original[var.i] == '\0' || original[var.i] == ' ' || original[var.i] == '\t')
 						break ;
 					//var.box = 4;
-					var.i_input++;
 				}
 				if (var.boite == 2)
 				{
