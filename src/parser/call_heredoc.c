@@ -34,7 +34,7 @@ void	call_heredoc(t_vari var, char *original)
 		o++;
 	}
 	str[o] = '\0';
-	//tmp = read_command("heredoc>", NULL, 1);
+	tmp = read_command("heredoc>", NULL, 1);
 	tmp2 = ft_itoa(var.heredoc);
 	path_file = ft_strjoin("/tmp/heredoc", tmp2);
 	free(tmp2);
@@ -49,14 +49,13 @@ void	call_heredoc(t_vari var, char *original)
 			exit(0);
 	}
 	free(path_file);
-	tmp = "lol";
 	while (ft_strcmp(str, tmp) != 0)
 	{
 		ft_fprintf(fd, tmp);
-		tmp = "yo";
-		//tmp = read_command("heredoc>", NULL, 1);		
-		//free(tmp);
+		free(tmp);		
+		tmp = read_command("heredoc>", NULL, 1);		
 	}
+	free(tmp);
 	free(str);
 	close(fd);
 }
