@@ -27,7 +27,6 @@ void	call_heredoc(t_vari var, char *original)
 	o = 0;
 	size = size_str(var, original);
 	str = malloc(sizeof(char) * size + 1);
-	printf("heredoc i = %d\n", var.i);
 	while (original[var.i] && (original[var.i] != ' ' && original[var.i] != '\t'))
 	{
 		str[o] = original[var.i];
@@ -35,7 +34,6 @@ void	call_heredoc(t_vari var, char *original)
 		o++;
 	}
 	str[o] = '\0';
-	printf("str = %s\n", str);
 	//tmp = read_command("heredoc>", NULL, 1);
 	tmp2 = ft_itoa(var.heredoc);
 	path_file = ft_strjoin("/tmp/heredoc", tmp2);
@@ -54,7 +52,6 @@ void	call_heredoc(t_vari var, char *original)
 	tmp = "lol";
 	while (ft_strcmp(str, tmp) != 0)
 	{
-		printf("tmp2 = %s\n", tmp);
 		ft_fprintf(fd, tmp);
 		tmp = "yo";
 		//tmp = read_command("heredoc>", NULL, 1);		
@@ -62,5 +59,4 @@ void	call_heredoc(t_vari var, char *original)
 	}
 	free(str);
 	close(fd);
-	printf("finish !\n");
 }
