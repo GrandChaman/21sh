@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "ft_sh.h"
 
 char	*check_correct(char *original) //Pour francis complet
 {

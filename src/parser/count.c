@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "ft_sh.h"
 
 int count_cmd(char *original)
 {
