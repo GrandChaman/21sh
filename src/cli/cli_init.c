@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 23:21:46 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/14 16:23:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ int		is_env_correct(void)
 		return (!ft_fprintf(2,
 			"TERM info database not found.\n"));
 	return (1);
+}
+
+void	cli_reset_cursor(t_ft_sh *sh)
+{
+	sh->history_pos = -1;
+	sh->history_last = NULL;
+	sh->prompt_size = 0;
+	sh->cursor = 0;
+	sh->alt_cursor = 0;
+	sh->is_alt_shell = 0;
 }
 
 void	cli_loader(int destroy)
