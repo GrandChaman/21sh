@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 23:22:41 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/13 11:37:15 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int read_history(t_ft_sh *sh, int fd)
 		entry.command = ft_strdup((tmp ? tmp : "(null)"));
 		entry.timestamp = ft_atoi(line);
 		free(line);
-		ft_lstpush_back(&sh->history, &entry, sizeof(entry));
+		ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 		sh->history_size++;
 	}
 	return (gnl_res);
@@ -49,15 +49,12 @@ static void write_history(t_ft_sh *sh, int fd)
 
 	len = sh->history_size;
 	list = ft_lstat(sh->history,
-		(len > SH_HIST_MAX_SIZE ? len - SH_HIST_MAX_SIZE : 0));
-	ft_fprintf(sh->debug_tty, "\nYOP %d %p\n", (len > SH_HIST_MAX_SIZE ? len - SH_HIST_MAX_SIZE : 0), list);
-
+		(len > SH_HIST_MAX_SIZE ? SH_HIST_MAX_SIZE - 1: len - 1));
 	while (list)
 	{
 		entry = (t_ft_hist_entry*)list->content;
-		ft_fprintf(sh->debug_tty, "\nIn function : %s.\n", entry->command);
 		ft_fprintf(fd, "%d %s\n", entry->timestamp, entry->command);
-		list = list->next;
+		list = list->prev;
 	}
 	ft_lstdel(&sh->history, delete_hist_entry);
 	sh->history_size = 0;
@@ -94,14 +91,20 @@ int load_history(t_ft_sh *sh, int unload)
 void	add_to_history(t_ft_sh *sh, char *cmd)
 {
 	t_ft_hist_entry entry;
+	int i;
 
+	i = 0;
+	if (!cmd || cmd[0] == '\0')
+		return ;
 	entry.command = ft_strdup(cmd);
 	entry.timestamp = time(NULL);
-	while (sh->history_size-- >= SH_HIST_MAX_SIZE)
-	{
-		ft_fprintf(sh->debug_tty, "\nDeleting : %s.\n", ((t_ft_hist_entry*)sh->history->content)->command);
-		ft_lstdelone(&sh->history, delete_hist_entry);
-	}
-	ft_lstpush_back(&sh->history, &entry, sizeof(entry));
+	//TODO
+	// while (sh->history_size - i >= SH_HIST_MAX_SIZE)
+	// {
+	// 	ft_fprintf(sh->debug_tty, "\nDeleting : %s.\n", ((t_ft_hist_entry*)sh->history->content)->command);
+	// 	ft_lstdelone(&sh->history, delete_hist_entry);
+	// 	i++;
+	// }
+	ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 	sh->history_size++;
 }
