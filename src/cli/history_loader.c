@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/13 11:37:15 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/14 18:02:38 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,21 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 {
 	t_ft_hist_entry entry;
 	int i;
+	int last_nl;
 
 	i = 0;
+	last_nl = 0;
 	if (!cmd || cmd[0] == '\0')
 		return ;
-	entry.command = ft_strdup(cmd);
 	entry.timestamp = time(NULL);
+	while (cmd[++i])
+		if (cmd[i] == '\n' || !cmd[i])
+		{
+			entry.command = ft_strndup(cmd + last_nl, i - last_nl);
+			ft_lstpush_front(&sh->history, &entry, sizeof(entry));
+			sh->history_size++;
+			last_nl = i;
+		}
 	//TODO
 	// while (sh->history_size - i >= SH_HIST_MAX_SIZE)
 	// {
@@ -105,6 +114,5 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 	// 	ft_lstdelone(&sh->history, delete_hist_entry);
 	// 	i++;
 	// }
-	ft_lstpush_front(&sh->history, &entry, sizeof(entry));
-	sh->history_size++;
+
 }
