@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 00:12:49 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/14 18:02:15 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/14 18:19:36 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ char	*ft_strndup(const char *str, size_t n)
 
 	if (!str || !n)
 		return (NULL);
-	len = ft_strlen(str) + 1;
-	len = (len > n ? len : n + 1);
-	if (!(nstr = (char*)malloc(sizeof(char) * n)))
-		ft_perror("malloc", "Mallocation failed. Aborting");
+	len = ft_strlen(str);
+	len = (len > n ? n : len);
+	nstr = ft_strnew(n);
 	ft_strncpy(nstr, str, n);
 	return (nstr);
 }
