@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 12:27:51 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/14 16:30:50 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define T_ALT_X 8948194
 # define T_CTRL_C 3
 # define T_CTRL_D 4
+# define T_CTRL_L 12
 # define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
 # define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
@@ -60,12 +61,12 @@
 # define TC_CLEAR_FROM_HERE "cd"
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
+# define TC_CLEAR "cl"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
 
 typedef struct			s_ft_sh
 {
-	t_list				*env;
 	unsigned int		x_size;
 	unsigned int		y_size;
 	unsigned int		prompt_size;
@@ -206,6 +207,8 @@ void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_alt_shell_begin(void);
 unsigned int get_sh_cursor(void);
 void		history_nav(unsigned long touch);
+void	cli_reset_cursor(t_ft_sh *sh);
+void			sh_clear_screen(unsigned long rchar);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -227,6 +230,7 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_ALT_C, copy_select},
 	{T_ALT_X, cut_select},
 	{T_ALT_V, paste_select},
+	{T_CTRL_L, sh_clear_screen},
 	{0, NULL}
 };
 
