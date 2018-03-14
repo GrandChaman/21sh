@@ -6,11 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2018/03/14 18:02:38 by fle-roy          ###   ########.fr       */
-=======
-/*   Updated: 2018/03/14 17:28:36 by fle-roy          ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2018/03/14 18:50:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +20,19 @@ static void	delete_hist_entry(void *entry, size_t size)
 	hentry = (t_ft_hist_entry*)entry;
 	free(hentry->command);
 	free(hentry);
+}
+
+void	trim_history(t_ft_sh *sh)
+{
+	int		i;
+	t_list	*lcpy;
+
+	i = 0;
+	lcpy = sh->history;
+	while (i++ < SH_HIST_MAX_SIZE && lcpy)
+		lcpy = lcpy->next;
+	if (lcpy)
+		ft_lstdel(&lcpy, delete_hist_entry);
 }
 
 static int read_history(t_ft_sh *sh, int fd)
@@ -44,6 +53,8 @@ static int read_history(t_ft_sh *sh, int fd)
 		free(line);
 		ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 		sh->history_size++;
+		if (sh->history_size > SH_HIST_MAX_SIZE)
+			trim_history(sh);
 	}
 	return (gnl_res);
 }
@@ -106,20 +117,14 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 	if (!cmd || cmd[0] == '\0')
 		return ;
 	entry.timestamp = time(NULL);
-	while (cmd[++i])
+	while (cmd[i++])
 		if (cmd[i] == '\n' || !cmd[i])
 		{
 			entry.command = ft_strndup(cmd + last_nl, i - last_nl);
 			ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 			sh->history_size++;
-			last_nl = i;
+			last_nl = i + 1;
 		}
-	//TODO
-	// while (sh->history_size - i >= SH_HIST_MAX_SIZE)
-	// {
-	// 	ft_fprintf(sh->debug_tty, "\nDeleting : %s.\n", ((t_ft_hist_entry*)sh->history->content)->command);
-	// 	ft_lstdelone(&sh->history, delete_hist_entry);
-	// 	i++;
-	// }
-
+	if (sh->history_size > SH_HIST_MAX_SIZE)
+		trim_history(sh);
 }
