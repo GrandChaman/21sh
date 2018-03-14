@@ -112,7 +112,8 @@ int		redirections3(int *i, char *original)
 		{
 			if (original[*i] && original[*i + 1] && original[*i] == '&')
 			{
-				if (!ft_isstd(original[*i + 1]) || (ft_isstd(original[*i + 1]) && original[*i + 2] != ' '))
+				if (!ft_isstd(original[*i + 1]) || (ft_isstd(original[*i + 1])
+					&& (original[*i + 2] != ' ' && original[*i + 2] != '\0')))
 					return (0);
 			}
 			while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
