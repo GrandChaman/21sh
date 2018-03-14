@@ -1,4 +1,4 @@
-#include "parser.h"
+ #include "parser.h"
 
 int		ft_isatoken(char c)
 {
@@ -9,7 +9,7 @@ int		ft_isatoken(char c)
 
 int		ft_isstd(char c)
 {
-	if (c == '1' || c == '0' || c == '2')
+	if (c == '1' || c == '0' || c == '2' || c == '-')
 		return (1);
 	return (0);
 }
