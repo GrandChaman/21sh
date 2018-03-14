@@ -6,7 +6,11 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2018/03/14 18:02:38 by fle-roy          ###   ########.fr       */
+=======
+/*   Updated: 2018/03/14 17:28:36 by fle-roy          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +35,11 @@ static int read_history(t_ft_sh *sh, int fd)
 
 	while ((gnl_res = get_next_line(fd, &line)) > 0)
 	{
-		tmp = ft_strchr(line, ' ') + 1;
-		entry.command = ft_strdup((tmp ? tmp : "(null)"));
+		tmp = ft_strchr(line, ' ');
+		if (tmp)
+			entry.command = ft_strdup(tmp + 1);
+		else
+			entry.command = ft_strdup(line);
 		entry.timestamp = ft_atoi(line);
 		free(line);
 		ft_lstpush_front(&sh->history, &entry, sizeof(entry));
