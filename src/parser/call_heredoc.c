@@ -36,7 +36,7 @@ void	call_heredoc(t_vari var, char *original)
 	str[o] = '\0';
 	tmp = read_command("heredoc>", NULL, 1);
 	tmp2 = ft_itoa(var.heredoc);
-	path_file = ft_strjoin("/tmp/heredoc", tmp2);
+	path_file = ft_strjoin("/tmp/21sh_heredoc", tmp2);
 	free(tmp2);
 	if ((fd = open(path_file,  O_RDWR | O_CREAT | O_EXCL | O_APPEND, 0777)) == -1)
 	{

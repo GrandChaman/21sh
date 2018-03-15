@@ -33,7 +33,9 @@ void main_routine(t_list **head, int status)
 	t_parser *parser;
 	int		x;
 	int 	nb;
+	t_dup	r_dup;
 
+	init_r_dup(&r_dup);
 	shell = get_ft_shell();
 	while (status)
 	{
@@ -45,9 +47,14 @@ void main_routine(t_list **head, int status)
 		{
 			nb = parser[0].nb;
 			ft_putendl("");
-			x = -1;
-			while (++x < nb)
+			x = 0;
+			while (x < nb)
+			{
+				check_dup(parser, x);
 				status = execute(parser[x], head);
+				x++;
+			}
+			init_dup(&r_dup);
 			ft_fprintf(shell->debug_tty, "YAY\n");
 			//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 			free_parser(parser);

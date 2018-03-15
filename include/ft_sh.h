@@ -159,6 +159,21 @@ typedef struct			s_vari
 	int heredoc;
 }						t_vari;
 
+typedef	struct 			s_dup
+{
+	int stdin_copy;
+	int stdout_copy;
+	int stderr_copy;
+}						t_dup;
+
+void			ft_easy_input(int *stock, int x, int i, t_parser *parser);
+void			check_dup_input(t_parser *parser, int x);
+void			ft_easy_output(int *stock, int x, int i, t_parser *parser);
+void			ft_easy2(int x, t_parser *parser);
+void			init_dup(t_dup *r_dup);
+void			init_r_dup(t_dup *r_dup);
+void			check_dup(t_parser *parser, int x);
+
 void			call_heredoc(t_vari var, char *original);
 void			fill_std_o(t_vari *var, t_parser *parser, char *original);
 void			fill_std_i(t_vari *var, t_parser *parser, char *original);

@@ -13,7 +13,7 @@ t_parser	*get_parser(char *original) //Pour victor
 	}
 	if (stock < 0)
 	{
-		printf("Francis complet\n");
+//		printf("Francis complet\n");
 		return (NULL);
 	}
 	if (stock == 1)
@@ -25,7 +25,7 @@ t_parser	*get_parser(char *original) //Pour victor
 		init_parser(parser, stock);
 		split_evoluted(parser, original);
 		fill_parser(parser, original);
-//		print_parser(parser, stock);
+	//	print_parser(parser, stock);
 		return (parser);
 	}
 	return (NULL);

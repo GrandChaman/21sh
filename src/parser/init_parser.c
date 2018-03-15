@@ -134,4 +134,5 @@ void	print_parser(t_parser *parser, int nb)
 		}
 		i++;
 	}
+	printf("\n------------End Parser------------\n");
 }
