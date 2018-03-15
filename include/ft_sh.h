@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 12:27:51 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/15 13:16:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <time.h>
 # include <sys/param.h>
 # include <fcntl.h>
+# include <signal.h>
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
@@ -42,6 +43,9 @@
 # define T_ALT_X 8948194
 # define T_CTRL_C 3
 # define T_CTRL_D 4
+# define T_CTRL_L 12
+# define T_ALT_UP 1096489755
+# define T_ALT_DOWN 1113266971
 # define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
 # define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
@@ -61,12 +65,12 @@
 # define TC_CLEAR_FROM_HERE "cd"
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
+# define TC_CLEAR "cl"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
 
 typedef struct			s_ft_sh
 {
-	t_list				*env;
 	unsigned int		x_size;
 	unsigned int		y_size;
 	unsigned int		prompt_size;
@@ -241,11 +245,11 @@ int						print_error(const char *title, const char *message);
 void					apply_terminal_setting(int def);
 int						display_prompt(int last_result);
 
-char		*read_command(char *prompt, int *status, int heredoc);
+char		*read_command(char *prompt, int status, int heredoc);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
-void	get_screen_size(void);
+void		get_screen_size(int sig);
 int		ft_nputstr(char *str, int n);
 void		move_in_terminal(unsigned long touch, int should_update_buf);
 void		backspace_command(unsigned long touch);
@@ -263,6 +267,9 @@ void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_alt_shell_begin(void);
 unsigned int get_sh_cursor(void);
 void		history_nav(unsigned long touch);
+void	cli_reset_cursor(t_ft_sh *sh);
+void			sh_clear_screen(unsigned long rchar);
+void		vertical_nav(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -284,6 +291,9 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_ALT_C, copy_select},
 	{T_ALT_X, cut_select},
 	{T_ALT_V, paste_select},
+	{T_CTRL_L, sh_clear_screen},
+	{T_ALT_UP, vertical_nav},
+	{T_ALT_DOWN, vertical_nav},
 	{0, NULL}
 };
 

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/02 16:39:15 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:29:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ unsigned int get_sh_cursor(void)
 
 	sh = get_ft_shell();
 	return (sh->cursor - sh->alt_cursor);
+}
+
+void			sh_clear_screen(unsigned long rchar)
+{
+	t_ft_sh *sh;
+
+	(void)rchar;
+	sh = get_ft_shell();
+	dbuf_clear(&sh->buf);
+	cli_reset_cursor(sh);
+	exec_term_command(TC_CLEAR);
+	display_prompt(0);
 }
 
 static void	cursor_repositionning(t_ft_sh *sh, int ncur, int ocur, int is_del)
