@@ -1,6 +1,6 @@
 #include "ft_sh.h"
 
-void	check_dup(t_parser *parser, int x)
+int	check_dup(t_parser *parser, int x)
 {
 	int fd;
 	int i;
@@ -52,7 +52,9 @@ void	check_dup(t_parser *parser, int x)
 			i++;
 		}
 	}
-	check_dup_input(parser, x);
+	if (!(check_dup_input(parser, x)))
+		return (0);
+	return (1);
 }
 
 void	ft_easy2(int x, t_parser *parser)
@@ -82,9 +84,13 @@ void	init_r_dup(t_dup *r_dup)
 	r_dup->stderr_copy = dup(2);
 }
 
-void	init_dup(t_dup *r_dup)
+void	init_dup(t_dup *r_dup, t_parser *parser, int x)
 {
 	dup2(r_dup->stdin_copy, 0);
 	dup2(r_dup->stdout_copy, 1);
 	dup2(r_dup->stderr_copy, 2);
+/*	if (parser[x].output.pipe)
+		close(r_dup->pipefd[1]);
+	if (parser[x].input.pipe)
+		close(r_dup->pipefd[0]);*/
 }

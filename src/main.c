@@ -50,11 +50,13 @@ void main_routine(t_list **head, int status)
 			x = 0;
 			while (x < nb)
 			{
-				check_dup(parser, x);
+			/*	if (!(check_dup(parser, x)))
+					break ;*/
+			//	check_pipe(parser, x, &r_dup);
 				status = execute(parser[x], head);
+				init_dup(&r_dup, parser, x);
 				x++;
 			}
-			init_dup(&r_dup);
 			ft_fprintf(shell->debug_tty, "YAY\n");
 			//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 			free_parser(parser);
