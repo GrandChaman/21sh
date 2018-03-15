@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 11:42:58 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/14 14:18:37 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char		*read_command(char *prompt, int *status, int heredoc)
 	sh = get_ft_shell();
 	if (prompt || heredoc)
 	{
-		prompt = (prompt ? prompt : "heredoc> ");
+		prompt = (!heredoc ? prompt : "\nheredoc> ");
 		ft_printf(prompt);
 		get_ft_shell()->prompt_size = ft_strlen(prompt);
 	}
