@@ -6,16 +6,29 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 20:24:12 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/14 18:00:08 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 16:11:19 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
-# include <stdio.h>
+# define ANSI_COLOR_RED        "\x1b[31m"
+# define ANSI_COLOR_GREEN      "\x1b[32m"
+# define ANSI_COLOR_YELLOW     "\x1b[33m"
+# define ANSI_COLOR_BLUE       "\x1b[34m"
+# define ANSI_COLOR_MAGENTA    "\x1b[35m"
+# define ANSI_COLOR_CYAN       "\x1b[36m"
+# define ANSI_COLOR_B_RED      "\x1b[1;31m"
+# define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
+# define ANSI_COLOR_B_YELLOW   "\x1b[1;33m"
+# define ANSI_COLOR_B_BLUE     "\x1b[1;34m"
+# define ANSI_COLOR_B_MAGENTA  "\x1b[1;35m"
+# define ANSI_COLOR_B_CYAN     "\x1b[1;36m"
+# define ANSI_COLOR_RESET      "\x1b[0m"
+# define ANSI_DEL_LINE         "\r\x1b[K"
 # define BUFF_SIZE 10
-# define PRGRM_NAME "minishell"
+# define PRGRM_NAME "21sh"
 # define LIBFT_OK 0
 # define LIBFT_ERR 1
 

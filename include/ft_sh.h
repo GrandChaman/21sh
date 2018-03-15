@@ -6,13 +6,16 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 14:43:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 17:28:43 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SH_H
 # define FT_SH_H
 # include "libft.h"
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <stdlib.h>
 # include <term.h>
 # include <unistd.h>
@@ -59,6 +62,7 @@
 # define TC_RESETCURPOS "rc"
 # define TC_MOVEDOWN "do"
 # define TC_MOVEUP "up"
+# define TC_MOVENUP "UP"
 # define TC_MOVENRIGHT "RI"
 # define TC_CARRIAGERETURN "cr"
 # define TC_CLEAR_FROM_HERE "cd"
@@ -87,6 +91,14 @@ typedef struct			s_ft_sh
 	char				*history_last;
 	char				is_alt_shell;
 }						t_ft_sh;
+
+typedef struct			s_ft_autoc_entry
+{
+	char				*name;
+	char				*color;
+	char				undeline;
+	char				inverted;
+}						t_ft_autoc_entry;
 
 typedef	struct			s_ft_touch
 {
@@ -213,10 +225,12 @@ void		history_nav(unsigned long touch);
 void	cli_reset_cursor(t_ft_sh *sh);
 void			sh_clear_screen(unsigned long rchar);
 void		vertical_nav(unsigned long touch);
+t_btree		*collect_data(char *str_part);
+void		display_autocomplete(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
-	{T_TAB, NULL},
+	{T_TAB, display_autocomplete},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
 	{T_END, nav_touch_received},
