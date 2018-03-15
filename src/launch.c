@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:22 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 11:49:56 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/15 13:31:36 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int			launch(char **args, t_list **head)
 	char	*path;
 	char	**env;
 
+	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -43,10 +44,6 @@ int			launch(char **args, t_list **head)
 	else if (pid < 0)
 		ft_putendl("minishell: fork error\n");
 	else
-	{
 		waitpid(pid, &status, WUNTRACED);
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(pid, &status, WUNTRACED);
-	}
-	return (1);
+	return (status);
 }

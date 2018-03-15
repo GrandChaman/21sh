@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 13:25:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 14:51:54 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void		read_command_routine(void)
 	}
 }
 
-char		*read_command(char *prompt, int status, int heredoc)
+char		*read_command(char *prompt, int status, int heredoc, int fb)
 {
 	char *nprompt;
 	t_ft_sh *sh;
@@ -122,16 +122,16 @@ char		*read_command(char *prompt, int status, int heredoc)
 	sh = get_ft_shell();
 	if (sh->is_a_tty)
 		apply_terminal_setting(0);
-	if (!status)
-		ft_printf("\n{bgreen}OK\n");
-	else
+	if (!status && fb)
+		ft_printf("{bgreen}-- OK --{eoc}\n");
+	else if (fb)
 	{
 		if (WIFSIGNALED(status))
-			ft_printf("\n{bred}Signal : %d\n", WTERMSIG(status));
+			ft_printf("{bred}-- Signal : %d -- {eoc}\n", WTERMSIG(status));
 		else if (WSTOPSIG(status))
-			ft_printf("\n{bred}Stopped : %d\n", WSTOPSIG(status));
+			ft_printf("{bred}-- Stopped : %d -- {eoc}\n", WSTOPSIG(status));
 		else
-			ft_printf("\n{byellow}Exit : %d\n", WEXITSTATUS(status));
+			ft_printf("{byellow}-- Exit : %d -- {eoc}\n", WEXITSTATUS(status));
 	}
 	if (prompt || heredoc)
 	{
@@ -149,8 +149,11 @@ char		*read_command(char *prompt, int status, int heredoc)
 		sh->alt_cursor = sh->cursor + 1;
 		dbuf_insert(&sh->buf, sh->cursor++, '\n');
 		ft_putchar('\n');
-		return (read_command(nprompt, status, 0));
+		return (read_command(nprompt, status, 0, 0));
 	}
+	while (sh->cursor < sh->buf.cursor)
+		move_in_terminal(T_RARR, 1);
+	ft_putchar('\n');
 	res = ft_strdup(get_ft_shell()->buf.buf);
 	sh->cursor = 0;
 	sh->alt_cursor = 0;
