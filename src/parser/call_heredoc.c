@@ -51,9 +51,11 @@ void	call_heredoc(t_vari var, char *original)
 	free(path_file);
 	while (ft_strcmp(str, tmp) != 0)
 	{
-		ft_fprintf(fd, tmp);
-		free(tmp);		
-		tmp = read_command("heredoc>", NULL, 1);		
+		tmp2 = ft_strjoin(tmp, "\n");
+		ft_fprintf(fd, tmp2);
+		free(tmp2);
+		free(tmp);
+		tmp = read_command("heredoc>", NULL, 1);
 	}
 	free(tmp);
 	free(str);
