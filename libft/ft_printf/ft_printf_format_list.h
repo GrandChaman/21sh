@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:25:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/01/25 17:07:22 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 16:11:04 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@
 # define PTR 2
 # include <stdlib.h>
 # include "libft.h"
-# define ANSI_COLOR_RED        "\x1b[31m"
-# define ANSI_COLOR_GREEN      "\x1b[32m"
-# define ANSI_COLOR_YELLOW     "\x1b[33m"
-# define ANSI_COLOR_BLUE       "\x1b[34m"
-# define ANSI_COLOR_MAGENTA    "\x1b[35m"
-# define ANSI_COLOR_CYAN       "\x1b[36m"
-# define ANSI_COLOR_B_RED      "\x1b[1;31m"
-# define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
-# define ANSI_COLOR_B_YELLOW   "\x1b[1;33m"
-# define ANSI_COLOR_B_BLUE     "\x1b[1;34m"
-# define ANSI_COLOR_B_MAGENTA  "\x1b[1;35m"
-# define ANSI_COLOR_B_CYAN     "\x1b[1;36m"
-# define ANSI_COLOR_RESET      "\x1b[0m"
-# define ANSI_DEL_LINE         "\r\x1b[K"
 
 enum							e_length_modifier {NONE, HH, H, LL, L, J, Z};
 
