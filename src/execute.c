@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 11:51:01 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/15 13:36:04 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		execute_env(char **args, t_list **head)
 	return (launch(args, head));
 }
 
-int		execute(t_parser parser, t_list **head)
+int		execute(t_parser parser, t_list **head, int *should_exit)
 {
 	t_list	*copy;
 
@@ -66,7 +66,10 @@ int		execute(t_parser parser, t_list **head)
 	if (ft_strcmp(parser.cmd[0], "help") == 0)
 		return (mini_help(parser.cmd));
 	else if (ft_strcmp(parser.cmd[0], "exit") == 0)
+	{
+		*should_exit = 1;
 		return (mini_exit(parser.cmd));
+	}
 	else if (ft_strcmp(parser.cmd[0], "echo") == 0)
 		return (mini_echo(parser.cmd));
 	else if (ft_strcmp(parser.cmd[0], "unsetenv") == 0)
