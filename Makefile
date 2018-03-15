@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/10 16:20:50 by rfautier         ###   ########.fr        #
+#    Updated: 2018/03/14 19:43:40 by rfautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 DEP_DIR = dep
 INCLUDE = include
-VPATH = src:src/cli:src/term:src/parser:src/env:src/builtins
+VPATH = src:src/cli:src/term:src/parser:src/env:src/builtins:src/exec
 SRC = split_evoluted.c count.c init_parser.c quote.c redirection.c \
 fill_struct.c is_correct.c check_correct.c main.c cli.c cli_init.c \
 terminal_settings.c path_utils.c cli_selection.c term_command.c cli_utils.c \
@@ -23,7 +23,7 @@ cli_nav.c cli_delete.c error.c history_loader.c get_parser.c \
 ft_list_del.c ft_list.c execute.c launch.c getenv.c help.c \
 echo.c exit.c setenv.c utils_env.c cd.c env.c history.c\
 is_correct_talk.c init_meta.c init_var.c count_argv.c\
-call_heredoc.c
+call_heredoc.c check_dup.c check_dup_input.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
