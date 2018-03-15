@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 13:16:05 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 14:43:24 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ typedef struct			s_parser
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
 int						execute_env(char **args, t_list **head);
-int						execute(t_parser parser, t_list **head);
+int						execute(t_parser parser, t_list **head, int *should_exit);
 int						launch(char **args, t_list **head);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
@@ -188,7 +188,7 @@ int						print_error(const char *title, const char *message);
 void					apply_terminal_setting(int def);
 int						display_prompt(int last_result);
 
-char		*read_command(char *prompt, int status, int heredoc);
+char		*read_command(char *prompt, int status, int heredoc, int fb);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
