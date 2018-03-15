@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 11:39:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 13:16:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <time.h>
 # include <sys/param.h>
 # include <fcntl.h>
+# include <signal.h>
 # define T_ESCAPE 27
 # define T_ENTER 10
 # define T_TAB 9
@@ -187,11 +188,11 @@ int						print_error(const char *title, const char *message);
 void					apply_terminal_setting(int def);
 int						display_prompt(int last_result);
 
-char		*read_command(char *prompt, int *status, int heredoc);
+char		*read_command(char *prompt, int status, int heredoc);
 void			exec_term_command(const char *code);
 void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
-void	get_screen_size(void);
+void		get_screen_size(int sig);
 int		ft_nputstr(char *str, int n);
 void		move_in_terminal(unsigned long touch, int should_update_buf);
 void		backspace_command(unsigned long touch);

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 11:37:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 13:21:56 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,26 @@ void		read_command_routine(void)
 	}
 }
 
-char		*read_command(char *prompt, int *status, int heredoc)
+char		*read_command(char *prompt, int status, int heredoc)
 {
 	char *nprompt;
 	t_ft_sh *sh;
 	char *res;
 
 	sh = get_ft_shell();
+	if (sh->is_a_tty)
+		apply_terminal_setting(0);
+	if (!status)
+		ft_printf("\n{bgreen}OK\n");
+	else
+	{
+		if (WIFSIGNALED(status))
+			ft_printf("\n{bred}Signal : %d\n", WTERMSIG(status));
+		else if (WSTOPSIG(status))
+			ft_printf("\n{bred}Stopped : %d\n", WSTOPSIG(status));
+		else
+			ft_printf("\n{byellow}Exit : %d\n", WEXITSTATUS(status));
+	}
 	if (prompt || heredoc)
 	{
 		prompt = (!heredoc ? prompt : "heredoc> ");
@@ -127,7 +140,7 @@ char		*read_command(char *prompt, int *status, int heredoc)
 		get_ft_shell()->prompt_size = ft_strlen(prompt);
 	}
 	else
-		display_prompt((status ? *status : 1));
+		display_prompt(status);
 	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
 	read_command_routine();
 	if (!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
@@ -143,5 +156,7 @@ char		*read_command(char *prompt, int *status, int heredoc)
 	sh->alt_cursor = 0;
 	ft_free((void**)&sh->history_last);
 	dbuf_clear(&sh->buf);
+	if (sh->is_a_tty)
+		apply_terminal_setting(1);
 	return (res);
 }
