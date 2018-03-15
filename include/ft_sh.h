@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 17:28:43 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 17:53:33 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ void			sh_clear_screen(unsigned long rchar);
 void		vertical_nav(unsigned long touch);
 t_btree		*collect_data(char *str_part);
 void		display_autocomplete(unsigned long touch);
+unsigned int			cursor_new_origin(t_ft_sh *sh);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
