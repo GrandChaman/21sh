@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/14 17:18:34 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 11:37:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 			str_part = (rchar << (sizeof(unsigned long) - ((i + 1) * 8)))
 				>> (sizeof(unsigned long) - ((i + 1) * 8));
 			rchar >>= 8;
-			ft_fprintf(get_ft_shell()->debug_tty, "MYDEBUG : %c - %llb\n", str_part, rchar);
 			i++;
 			if (ft_isprint(str_part))
 				print_normal_touch(shell, str_part);

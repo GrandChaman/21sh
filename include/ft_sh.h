@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/14 16:30:50 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 11:39:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define T_CTRL_C 3
 # define T_CTRL_D 4
 # define T_CTRL_L 12
+# define T_ALT_UP 1096489755
+# define T_ALT_DOWN 1113266971
 # define SHIFT_MASK 70584485632795
 # define ANSI_COLOR_B_RED      "\x1b[1;31m"
 # define ANSI_COLOR_B_GREEN    "\x1b[1;32m"
@@ -209,6 +211,7 @@ unsigned int get_sh_cursor(void);
 void		history_nav(unsigned long touch);
 void	cli_reset_cursor(t_ft_sh *sh);
 void			sh_clear_screen(unsigned long rchar);
+void		vertical_nav(unsigned long touch);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
@@ -231,6 +234,8 @@ static t_ft_touch		g_ft_touch_list[] =
 	{T_ALT_X, cut_select},
 	{T_ALT_V, paste_select},
 	{T_CTRL_L, sh_clear_screen},
+	{T_ALT_UP, vertical_nav},
+	{T_ALT_DOWN, vertical_nav},
 	{0, NULL}
 };
 
