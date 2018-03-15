@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:57:29 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 17:44:16 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/15 17:54:41 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void		prepare_autocomplete(t_ft_sh *sh, t_btree *tree, unsigned int save_cur)
 	ft_fprintf(sh->debug_tty, "NB : %d\nWIDTH : %d\nNB_PER_LINE : %d\nNB_LINES : %d\n", len, el_width, nb_per_line, nb_lines);
 	exec_term_command_p(TC_MOVENUP, 0, i - 1);
 	sleep(1);
-	exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size + sh->buf.cursor)
-		% sh->x_size);
+	exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size +
+		cursor_new_origin(sh)) % sh->x_size);
 	sleep(1);
 	sh->cursor = sh->buf.cursor;
 	while (sh->cursor > save_cur)
