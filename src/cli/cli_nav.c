@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/09 13:48:43 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/15 11:38:53 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ int			is_alt_shell_begin(void)
 	sh = get_ft_shell();
 	return (sh->cursor > 0 && sh->buf.buf[sh->cursor - 1] == '\n' &&
 		sh->is_alt_shell);
+}
+
+void		vertical_nav(unsigned long touch)
+{
+	unsigned int i;
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
+	i = 0;
+	while (i++ < sh->x_size)
+		move_in_terminal((touch == T_ALT_UP ? T_LARR : T_RARR), 1);
 }
 
 static void	skip_in_terminal(unsigned long touch)

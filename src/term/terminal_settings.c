@@ -6,22 +6,25 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 13:37:56 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/04 16:22:22 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/15 12:25:31 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 #include <sys/ioctl.h>
 
-void	get_screen_size(void)
+void	get_screen_size(int sig)
 {
 	struct winsize	w;
 	t_ft_sh			*shell;
 
-	shell = get_ft_shell();
-	ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
-	shell->x_size = (w.ws_col ? w.ws_col : 80);
-	shell->y_size = (w.ws_row ? w.ws_row : 60);
+	if (sig == SIGWINCH)
+	{
+		shell = get_ft_shell();
+		ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
+		shell->x_size = (w.ws_col ? w.ws_col : 80);
+		shell->y_size = (w.ws_row ? w.ws_row : 60);
+	}
 }
 
 static void		set_terminal_setting(struct termios *old, struct termios *new)

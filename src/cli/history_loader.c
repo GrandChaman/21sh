@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/13 11:37:15 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/14 18:50:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ static void	delete_hist_entry(void *entry, size_t size)
 	free(hentry);
 }
 
+void	trim_history(t_ft_sh *sh)
+{
+	int		i;
+	t_list	*lcpy;
+
+	i = 0;
+	lcpy = sh->history;
+	while (i++ < SH_HIST_MAX_SIZE && lcpy)
+		lcpy = lcpy->next;
+	if (lcpy)
+		ft_lstdel(&lcpy, delete_hist_entry);
+}
+
 static int read_history(t_ft_sh *sh, int fd)
 {
 	int				gnl_res;
@@ -31,12 +44,17 @@ static int read_history(t_ft_sh *sh, int fd)
 
 	while ((gnl_res = get_next_line(fd, &line)) > 0)
 	{
-		tmp = ft_strchr(line, ' ') + 1;
-		entry.command = ft_strdup((tmp ? tmp : "(null)"));
+		tmp = ft_strchr(line, ' ');
+		if (tmp)
+			entry.command = ft_strdup(tmp + 1);
+		else
+			entry.command = ft_strdup(line);
 		entry.timestamp = ft_atoi(line);
 		free(line);
 		ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 		sh->history_size++;
+		if (sh->history_size > SH_HIST_MAX_SIZE)
+			trim_history(sh);
 	}
 	return (gnl_res);
 }
@@ -92,19 +110,21 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 {
 	t_ft_hist_entry entry;
 	int i;
+	int last_nl;
 
 	i = 0;
+	last_nl = 0;
 	if (!cmd || cmd[0] == '\0')
 		return ;
-	entry.command = ft_strdup(cmd);
 	entry.timestamp = time(NULL);
-	//TODO
-	// while (sh->history_size - i >= SH_HIST_MAX_SIZE)
-	// {
-	// 	ft_fprintf(sh->debug_tty, "\nDeleting : %s.\n", ((t_ft_hist_entry*)sh->history->content)->command);
-	// 	ft_lstdelone(&sh->history, delete_hist_entry);
-	// 	i++;
-	// }
-	ft_lstpush_front(&sh->history, &entry, sizeof(entry));
-	sh->history_size++;
+	while (cmd[i++])
+		if (cmd[i] == '\n' || !cmd[i])
+		{
+			entry.command = ft_strndup(cmd + last_nl, i - last_nl);
+			ft_lstpush_front(&sh->history, &entry, sizeof(entry));
+			sh->history_size++;
+			last_nl = i + 1;
+		}
+	if (sh->history_size > SH_HIST_MAX_SIZE)
+		trim_history(sh);
 }

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/11 23:21:46 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/15 13:09:47 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ int		is_env_correct(void)
 	return (1);
 }
 
+void	cli_reset_cursor(t_ft_sh *sh)
+{
+	sh->history_pos = -1;
+	sh->history_last = NULL;
+	sh->prompt_size = 0;
+	sh->cursor = 0;
+	sh->alt_cursor = 0;
+	sh->is_alt_shell = 0;
+}
+
 void	cli_loader(int destroy)
 {
 	t_ft_sh *shell;
@@ -36,21 +46,16 @@ void	cli_loader(int destroy)
 	if (destroy)
 	{
 		load_history(shell, 1);
-		if (shell->is_a_tty)
-			apply_terminal_setting(destroy);
 		dbuf_destroy(&shell->buf);
 	}
 	else
 	{
+		signal(SIGWINCH, get_screen_size);
+		get_screen_size(SIGWINCH);
 		shell->history_pos = -1;
 		shell->history_last = NULL;
 		shell->history = NULL;
 		shell->is_a_tty = isatty(0);
-		if (shell->is_a_tty)
-		{
-			apply_terminal_setting(destroy);
-			get_screen_size();
-		}
 		load_history(shell, 0);
 		dbuf_init(&shell->buf);
 	}
