@@ -164,15 +164,15 @@ typedef	struct 			s_dup
 	int stdin_copy;
 	int stdout_copy;
 	int stderr_copy;
-	int pipefd[2];
+	int p[2];
 }						t_dup;
 
-void			check_pipe(t_parser *parser, int x, t_dup *r_dup);
+void			check_pipe(t_parser *parser, int x, t_dup *rdup);
 void			ft_easy_input(int *stock, int x, int i, t_parser *parser);
 int				check_dup_input(t_parser *parser, int x);
 void			ft_easy_output(int *stock, int x, int i, t_parser *parser);
 void			ft_easy2(int x, t_parser *parser);
-void			init_dup(t_dup *r_dup, t_parser *parser, int x);
+void			init_dup(t_dup *r_dup);
 void			init_r_dup(t_dup *r_dup);
 int				check_dup(t_parser *parser, int x);
 
