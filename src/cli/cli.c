@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 16:21:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 17:17:21 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,11 @@ void		read_command_routine(void)
 	unsigned long	rchar;
 	int				rvalue;
 	unsigned char	tmp[8];
+	t_ft_sh			*sh;
 
 	rchar = 0;
 	rvalue = 1;
+	sh = get_ft_shell();
 	ft_bzero(tmp, 8);
 	while (42)
 	{
@@ -118,6 +120,12 @@ void		read_command_routine(void)
 		ft_fprintf(get_ft_shell()->debug_tty, "Cursor : %d - rchar : %U\n", get_sh_cursor(), *((unsigned long*)tmp));
 		execute_touch(get_ft_shell(), rchar);
 		ft_bzero(tmp, 8);
+	}
+	if (rvalue)
+	{
+		while (sh->cursor < sh->buf.cursor)
+			move_in_terminal(T_RARR, 1);
+		cancel_autocompletion(sh, '\0');
 	}
 }
 
