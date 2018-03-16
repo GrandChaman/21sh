@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 13:39:23 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 15:42:52 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@
 # define TC_MOVEDOWN "do"
 # define TC_MOVEUP "up"
 # define TC_MOVENUP "UP"
+# define TC_MOVENDOWN "DO"
 # define TC_MOVENRIGHT "RI"
 # define TC_CARRIAGERETURN "cr"
 # define TC_CLEAR_FROM_HERE "cd"
@@ -91,6 +92,7 @@ typedef struct			s_ft_sh
 	char				*history_last;
 	char				is_alt_shell;
 	t_list				*autocomplete;
+	t_list				*autocomplete_cusor;
 	int					autocomplete_padding;
 }						t_ft_sh;
 
@@ -229,9 +231,10 @@ void		history_nav(unsigned long touch);
 void	cli_reset_cursor(t_ft_sh *sh);
 void			sh_clear_screen(unsigned long rchar);
 void		vertical_nav(unsigned long touch);
-t_list		*collect_data(char *str_part);
+void		collect_data(char *str_part);
 void		ft_sh_autocomplete(unsigned long touch);
 unsigned int			cursor_new_origin(t_ft_sh *sh);
+void				delete_autocomplete_entry(void *el, size_t size);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
