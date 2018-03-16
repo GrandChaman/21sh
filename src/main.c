@@ -50,11 +50,17 @@ void main_routine(t_list **head, int status)
 			x = 0;
 			while (x < nb)
 			{
-			/*	if (!(check_dup(parser, x)))
-					break ;*/
-			//	check_pipe(parser, x, &r_dup);
+				if (!(check_dup(parser, x)))
+					break ;
+				if (!(parser[x].close_stdout))
+					check_pipe(parser, x, &r_dup);
 				status = execute(parser[x], head);
-				init_dup(&r_dup, parser, x);
+				if (parser[x].close_stdout)
+				{
+					while ((parser[x].input.pipe || parser[x].output.pipe) && x < nb)
+						x++;
+				}
+				init_dup(&r_dup);
 				x++;
 			}
 			ft_fprintf(shell->debug_tty, "YAY\n");

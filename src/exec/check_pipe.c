@@ -2,18 +2,22 @@
 
 void	check_pipe(t_parser *parser, int x, t_dup *r_dup)
 {
-	int pipefd[2];
-
-	if (parser[x].output.pipe)
+	if (!(parser[x].input.pipe) && parser[x].output.pipe) // si debut de pipe
 	{
-		printf("Icici\n");
-		pipe(pipefd);
-		dup2(pipefd[1], 1);
-		close(pipefd[0]);
+		pipe(r_dup->p);
+		dup2(r_dup->p[1], 1);
 	}
-	if (parser[x].input.pipe)
+	else if (!(parser[x].output.pipe) && parser[x].input.pipe) // si fin de pipe
 	{
-		dup2(pipefd[0], 0);
-		close(pipefd[1]);
+		close(r_dup->p[1]);
+		dup2(r_dup->stdin_copy, 1);
+		dup2(r_dup->p[0], 0);
+	}
+	else if (parser[x].input.pipe && parser[x].output.pipe) // si entre deux pipe
+	{    
+    	close(r_dup->p[1]);
+    	dup2(r_dup->p[0], 0);
+    	pipe(r_dup->p);
+    	dup2(r_dup->p[1], 1);
 	}
 }

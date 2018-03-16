@@ -84,13 +84,9 @@ void	init_r_dup(t_dup *r_dup)
 	r_dup->stderr_copy = dup(2);
 }
 
-void	init_dup(t_dup *r_dup, t_parser *parser, int x)
+void	init_dup(t_dup *r_dup)
 {
 	dup2(r_dup->stdin_copy, 0);
 	dup2(r_dup->stdout_copy, 1);
 	dup2(r_dup->stderr_copy, 2);
-/*	if (parser[x].output.pipe)
-		close(r_dup->pipefd[1]);
-	if (parser[x].input.pipe)
-		close(r_dup->pipefd[0]);*/
 }
