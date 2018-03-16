@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 16:21:44 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 17:45:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,20 +127,36 @@ static void		display_autocomplete(t_ft_sh *sh, t_list *list)
 	exec_term_command(TC_RESETCURPOS);
 }
 
-void		ft_sh_autocomplete(unsigned long touch)
+char		*extract_autocomplete_search(t_ft_sh *sh)
 {
 	int i;
+	int len;
+
+	i = 0;
+	len = 0;
+	if (!sh->buf.buf[0])
+		return (NULL);
+	while (sh->cursor - i > 0 && ft_iswhitespace(sh->buf.buf[sh->cursor - i]))
+		i++;
+	while (sh->cursor - i - len > 0 &&
+		!ft_iswhitespace(sh->buf.buf[sh->cursor - i - len]))
+		len++;
+	return (ft_strndup(sh->buf.buf + (sh->cursor - i - len), len));
+}
+
+void		ft_sh_autocomplete(unsigned long touch)
+{
 	char *str_part;
 	t_ft_sh *sh;
+	unsigned int save_cur;
 
 	sh = get_ft_shell();
-	i = 0;
+	save_cur = sh->cursor;
 	if (!sh->autocomplete && touch == T_TAB)
 	{
-		while (sh->cursor - i > 0 && ft_iswhitespace(sh->buf.buf[sh->cursor - i]))
-			i++;
-		str_part = (!i ? NULL : ft_strndup(sh->buf.buf + sh->cursor - i, i));
+		str_part = extract_autocomplete_search(sh);
 		collect_data(str_part);
+		prepare_autocomplete(sh, sh->autocomplete, save_cur);
 		display_autocomplete(sh, sh->autocomplete);
 		free(str_part);
 	}

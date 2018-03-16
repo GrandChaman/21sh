@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 17:17:21 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 18:02:38 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		insert_normal_touch(t_ft_sh *sh)
 	update_stdout(sh, 0);
 }
 
-static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
+void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 {
 	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
 	if (sh->cursor < sh->buf.cursor)

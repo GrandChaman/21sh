@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 17:54:31 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 18:00:29 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ unsigned int			cursor_new_origin(t_ft_sh *sh)
 	unsigned int i;
 	unsigned int res;
 
-	res = 0;
+	res = sh->cursor;
 	i = 1;
 	while ((int)(sh->buf.cursor - i) > 0)
 	{
@@ -37,6 +37,15 @@ unsigned int			cursor_new_origin(t_ft_sh *sh)
 		i++;
 	}
 	return (res);
+}
+
+void			insert_in_cli(char *str)
+{
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
+	while (str)
+		print_normal_touch(sh, *(str++));
 }
 
 void			sh_clear_screen(unsigned long rchar)

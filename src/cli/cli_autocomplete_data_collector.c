@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:57:29 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 14:37:10 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 17:43:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void		setpos_autocomplete(t_ft_sh *sh)
 	y = 0;
 	while (list)
 	{
-		ft_fprintf(sh->debug_tty, "AUTOC : (%d,%d) / %d - %d\n", x * sh->autocomplete_padding, y, (x + 1) * sh->autocomplete_padding, sh->x_size);
 		((t_ft_autoc_entry*)list->content)->x_pos = x *
 			sh->autocomplete_padding;
 		((t_ft_autoc_entry*)list->content)->y_pos = y;
@@ -114,11 +113,10 @@ void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur)
 	i = 0;
 	while (i++ < nb_lines)
 		ft_putchar('\n');
-	ft_fprintf(sh->debug_tty, "NB : %d\nWIDTH : %d\nNB_PER_LINE : %d\nNB_LINES : %d\n", len, sh->autocomplete_padding, nb_per_line, nb_lines);
 	exec_term_command_p(TC_MOVENUP, 0, i - 1);
+	sh->cursor = sh->buf.cursor;
 	exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size +
 		cursor_new_origin(sh)) % sh->x_size);
-	sh->cursor = sh->buf.cursor;
 	while (sh->cursor > save_cur)
 		move_in_terminal(T_LARR, 1);
 	setpos_autocomplete(sh);
@@ -134,6 +132,5 @@ void		collect_data(char *str_part)
 	ft_fprintf(sh->debug_tty, "STRPART : %s\n", str_part);
 	collect_data_local_file(&sh->autocomplete, str_part);
 	ft_lstsort(&sh->autocomplete, cmp_autoc_entry);
-	ft_lstforeach(sh->autocomplete, debug_autocomplete);
-	prepare_autocomplete(sh, sh->autocomplete, save_cur);
+	//ft_lstforeach(sh->autocomplete, debug_autocomplete);
 }
