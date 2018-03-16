@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:57:29 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 17:54:41 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 14:33:29 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static int	cmp_autoc_entry(void *e1, void *e2)
 		((t_ft_autoc_entry*)e2)->name));
 }
 
-static void	collect_data_local_file(t_btree **tree, char *str_part)
+static void	collect_data_local_file(t_list **list, char *str_part)
 {
 	DIR					*dir;
 	struct dirent		*dir_data;
 	char				*path;
-	t_ft_autoc_entry	*entry;
+	t_ft_autoc_entry	entry;
 
 	if (!str_part)
 		path = ft_getcwd();
@@ -36,12 +36,11 @@ static void	collect_data_local_file(t_btree **tree, char *str_part)
 	}
 	while ((dir_data = readdir(dir)))
 	{
-		entry = ft_memalloc(sizeof(t_ft_autoc_entry));
-		entry->name = ft_strdup(dir_data->d_name);
-		entry->color = ANSI_COLOR_YELLOW;
-		entry->undeline = 0;
-		entry->inverted = 0;
-		ft_btree_insert_data(tree, entry, cmp_autoc_entry);
+		entry.name = ft_strdup(dir_data->d_name);
+		entry.color = ANSI_COLOR_YELLOW;
+		entry.undeline = 0;
+		entry.inverted = 0;
+		ft_lstpush_back(list, &entry, sizeof(t_ft_autoc_entry));
 	}
 	closedir(dir);
 	free(path);
@@ -54,65 +53,126 @@ void debug_autocomplete(void *print)
 	sh = get_ft_shell();
 	ft_fprintf(sh->debug_tty, "%s%s{eoc} - %d - %d\n", ((t_ft_autoc_entry*)print)->color,
 	((t_ft_autoc_entry*)print)->name, ((t_ft_autoc_entry*)print)->undeline, ((t_ft_autoc_entry*)print)->inverted);
-	free(((t_ft_autoc_entry*)print)->name);
 }
 
-static int			get_el_with(t_btree *tree, int min)
+static int			get_el_with(t_list *list)
 {
 	int res;
+	int tmp;
 
-	res = ft_strlen(((t_ft_autoc_entry*)tree->item)->name);
-	res = (res < min ? min : res);
-	if (tree->left)
-		res = get_el_with(tree->left, res);
-	if (tree->right)
-		res = get_el_with(tree->right, res);
+	res = 0;
+	while (list)
+	{
+		tmp = ft_strlen(((t_ft_autoc_entry*)list->content)->name);
+		if (res < tmp)
+			res = tmp;
+		list = list->next;
+	}
 	return (res);
 }
 
-void		prepare_autocomplete(t_ft_sh *sh, t_btree *tree, unsigned int save_cur)
+void		setpos_autocomplete(t_ft_sh *sh)
 {
-	int		el_width;
+	unsigned int x;
+	unsigned int y;
+	t_list *list;
+
+	list = sh->autocomplete;
+	x = 0;
+	y = 0;
+	while (list)
+	{
+		ft_fprintf(sh->debug_tty, "AUTOC : (%d,%d) / %d - %d\n", x * sh->autocomplete_padding, y, (x + 1) * sh->autocomplete_padding, sh->x_size);
+		((t_ft_autoc_entry*)list->content)->x_pos = x *
+			sh->autocomplete_padding;
+		((t_ft_autoc_entry*)list->content)->y_pos = y;
+		if ((x + 2) * sh->autocomplete_padding > sh->x_size)
+		{
+			x = 0;
+			y++;
+		}
+		else
+			x++;
+		list= list->next;
+	}
+}
+
+
+void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur)
+{
 	int		len;
 	int		nb_per_line;
 	int		nb_lines;
 	int		i;
 
-	el_width = get_el_with(tree, 0) + 7;
-	len = ft_btree_count_node(tree);
-	nb_per_line = sh->x_size / el_width;
-	nb_lines = 0;
-	while (nb_lines * nb_per_line < len)
-		nb_lines++;
+	sh->autocomplete_padding = get_el_with(list) + 7;
+	len = ft_lstsize(list);
+	nb_per_line = sh->x_size / sh->autocomplete_padding;
+	nb_lines = (len / nb_per_line) + 1;
 	while (sh->cursor < sh->buf.cursor)
 		move_in_terminal(T_RARR, 1);
 	i = 0;
 	while (i++ < nb_lines)
 		ft_putchar('\n');
-	ft_fprintf(sh->debug_tty, "NB : %d\nWIDTH : %d\nNB_PER_LINE : %d\nNB_LINES : %d\n", len, el_width, nb_per_line, nb_lines);
+	ft_fprintf(sh->debug_tty, "NB : %d\nWIDTH : %d\nNB_PER_LINE : %d\nNB_LINES : %d\n", len, sh->autocomplete_padding, nb_per_line, nb_lines);
 	exec_term_command_p(TC_MOVENUP, 0, i - 1);
-	sleep(1);
 	exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size +
 		cursor_new_origin(sh)) % sh->x_size);
-	sleep(1);
 	sh->cursor = sh->buf.cursor;
 	while (sh->cursor > save_cur)
 		move_in_terminal(T_LARR, 1);
+	setpos_autocomplete(sh);
 }
 
-t_btree		*collect_data(char *str_part)
+void		delete_autocomplete_entry(void *el, size_t size)
 {
-	t_btree				*tree;
+	(void)size;
+	ft_free((void**)&((t_ft_autoc_entry*)el)->name);
+}
+
+void		display_autocomplete(t_ft_sh *sh, t_list *list)
+{
+	t_ft_autoc_entry*	tmp;
+	int					last_y;
+
+	exec_term_command(TC_SAVECURPOS);
+	while (sh->cursor < sh->buf.cursor)
+		move_in_terminal(T_RARR, 1);
+	ft_putchar('\n');
+	last_y = 0;
+	while (list)
+	{
+		tmp = ((t_ft_autoc_entry*)list->content);
+		if (tmp->y_pos != last_y)
+		{
+			exec_term_command(TC_CARRIAGERETURN);
+			if (last_y < tmp->y_pos)
+				exec_term_command(TC_MOVEDOWN);
+			else
+				exec_term_command_p(TC_MOVENUP, 0, last_y - tmp->y_pos);
+			last_y = tmp->y_pos;
+		}
+		ft_printf("%s%-*s{eoc}", tmp->color, sh->autocomplete_padding,
+			tmp->name);
+		ft_fprintf(sh->debug_tty, "AUTOC : (%d,%d) / %d - %d\n", tmp->x_pos, tmp->y_pos, last_y, (tmp->x_pos + 1) * sh->autocomplete_padding);
+		list = list->next;
+	}
+	exec_term_command(TC_RESETCURPOS);
+}
+
+t_list		*collect_data(char *str_part)
+{
 	t_ft_sh *sh;
 	unsigned int save_cur;
 
 	sh = get_ft_shell();
 	save_cur = sh->cursor;
-	tree = NULL;
 	ft_fprintf(sh->debug_tty, "STRPART : %s\n", str_part);
-	collect_data_local_file(&tree, str_part);
-	ft_btree_apply_prefix(tree, debug_autocomplete);
-	prepare_autocomplete(sh, tree, save_cur);
-	ft_btree_destroy(&tree);
+	collect_data_local_file(&sh->autocomplete, str_part);
+	ft_lstsort(&sh->autocomplete, cmp_autoc_entry);
+	ft_lstforeach(sh->autocomplete, debug_autocomplete);
+	prepare_autocomplete(sh, sh->autocomplete, save_cur);
+	display_autocomplete(sh, sh->autocomplete);
+	ft_lstdel(&sh->autocomplete, delete_autocomplete_entry);
 	return (NULL);
 }

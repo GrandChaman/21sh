@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 13:09:47 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 13:22:21 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	cli_loader(int destroy)
 		get_screen_size(SIGWINCH);
 		shell->history_pos = -1;
 		shell->history_last = NULL;
+		shell->autocomplete = NULL;
 		shell->history = NULL;
 		shell->is_a_tty = isatty(0);
 		load_history(shell, 0);
