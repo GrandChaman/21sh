@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 15:42:52 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:21:19 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,8 @@ void		collect_data(char *str_part);
 void		ft_sh_autocomplete(unsigned long touch);
 unsigned int			cursor_new_origin(t_ft_sh *sh);
 void				delete_autocomplete_entry(void *el, size_t size);
+void				move_in_autocompletion(unsigned long touch);
+void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar);
 
 static t_ft_touch		g_ft_touch_list[] =
 {

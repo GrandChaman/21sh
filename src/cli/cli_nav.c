@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 11:38:53 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:08:53 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void		nav_touch_received(unsigned long touch)
 		skip_in_terminal(touch);
 	else if (touch == T_HOME || touch == T_END)
 		home_or_end_touch(touch);
+	else if (get_ft_shell()->autocomplete)
+		move_in_autocompletion(touch);
 	else
 		move_in_terminal(touch, 1);
 }
