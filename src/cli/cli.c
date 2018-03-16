@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 15:04:52 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:21:24 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,10 @@ static void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
 		}
 }
 
-void		execute_touch(t_ft_sh *shell, unsigned long rchar)
+void		cancel_selection(t_ft_sh *shell, unsigned long rchar)
 {
 	unsigned int		i;
-	char	str_part;
 	int		cur_save;
-	void	(*f)(unsigned long);
 
 	i = shell->cursor + 1;
 	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
@@ -55,7 +53,17 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 		exec_term_command(TC_RESETCURPOS);
 		shell->cursor = cur_save;
 	}
+}
+
+void		execute_touch(t_ft_sh *shell, unsigned long rchar)
+{
+	unsigned int		i;
+	char	str_part;
+	void	(*f)(unsigned long);
+
 	i = 0;
+	cancel_selection(shell, rchar);
+	cancel_autocompletion(shell, rchar);
 	if ((f = get_special_char_f(rchar)))
 		f(rchar);
 	else

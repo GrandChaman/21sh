@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 16:05:16 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:21:44 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,21 @@ static void		ready_cursor_autocompletion()
 	sh->cursor = cur_save;
 }
 
+void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar)
+{
+	if (shell->autocomplete && rchar != T_TAB && rchar != T_LARR &&
+		rchar != T_RARR && rchar != T_BARR && rchar != T_TARR
+		&& rchar != T_ENTER)
+	{
+		ready_cursor_autocompletion();
+		exec_term_command(TC_CLEAR_FROM_HERE);
+		exec_term_command(TC_RESETCURPOS);
+		if (shell->autocomplete)
+			ft_lstdel(&shell->autocomplete, delete_autocomplete_entry);
+		shell->autocomplete_cusor = NULL;
+	}
+}
+
 static void		select_autocompletion(t_ft_autoc_entry *item, int invert_video)
 {
 	t_ft_sh *sh;
@@ -51,7 +66,6 @@ static void		select_autocompletion(t_ft_autoc_entry *item, int invert_video)
 	}
 	else
 	{
-		ft_fprintf(sh->debug_tty, "HERE %d %d\n", item->y_pos, item->x_pos);
 		if (item->y_pos > 0)
 			exec_term_command_p(TC_MOVENUP, 0, item->y_pos);
 		exec_term_command_p(TC_MOVENLEFT, 0, item->x_pos +
@@ -59,7 +73,7 @@ static void		select_autocompletion(t_ft_autoc_entry *item, int invert_video)
 	}
 }
 
-static void		move_in_autocompletion(unsigned long touch)
+void			move_in_autocompletion(unsigned long touch)
 {
 	t_ft_sh *sh;
 
@@ -80,7 +94,7 @@ static void		move_in_autocompletion(unsigned long touch)
 			while (sh->autocomplete_cusor->prev)
 				sh->autocomplete_cusor = sh->autocomplete_cusor->prev;
 		else if (touch == T_LARR)
-			sh->autocomplete_cusor = sh->autocomplete_cusor->next;
+			sh->autocomplete_cusor = sh->autocomplete_cusor->prev;
 		else if (touch == T_RARR)
 			sh->autocomplete_cusor = sh->autocomplete_cusor->next;
 	}
