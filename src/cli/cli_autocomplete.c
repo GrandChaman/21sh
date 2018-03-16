@@ -6,13 +6,13 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 16:32:23 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:46:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void		display_autocomplete(unsigned long touch)
+void		ft_sh_autocomplete(unsigned long touch)
 {
 	int i;
 	char *str_part;

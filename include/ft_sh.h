@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 17:53:33 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 13:39:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ typedef struct			s_ft_sh
 	long				history_pos;
 	char				*history_last;
 	char				is_alt_shell;
+	t_list				*autocomplete;
+	int					autocomplete_padding;
 }						t_ft_sh;
 
 typedef struct			s_ft_autoc_entry
@@ -98,6 +100,8 @@ typedef struct			s_ft_autoc_entry
 	char				*color;
 	char				undeline;
 	char				inverted;
+	int					x_pos;
+	int					y_pos;
 }						t_ft_autoc_entry;
 
 typedef	struct			s_ft_touch
@@ -225,13 +229,13 @@ void		history_nav(unsigned long touch);
 void	cli_reset_cursor(t_ft_sh *sh);
 void			sh_clear_screen(unsigned long rchar);
 void		vertical_nav(unsigned long touch);
-t_btree		*collect_data(char *str_part);
-void		display_autocomplete(unsigned long touch);
+t_list		*collect_data(char *str_part);
+void		ft_sh_autocomplete(unsigned long touch);
 unsigned int			cursor_new_origin(t_ft_sh *sh);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
-	{T_TAB, display_autocomplete},
+	{T_TAB, ft_sh_autocomplete},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
 	{T_END, nav_touch_received},
