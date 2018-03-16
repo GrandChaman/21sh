@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 13:22:21 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 15:27:29 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	cli_loader(int destroy)
 	{
 		load_history(shell, 1);
 		dbuf_destroy(&shell->buf);
+		if (shell->autocomplete)
+			ft_lstdel(&shell->autocomplete, delete_autocomplete_entry);
+		shell->autocomplete_cusor = NULL;
 	}
 	else
 	{
@@ -55,6 +58,7 @@ void	cli_loader(int destroy)
 		shell->history_pos = -1;
 		shell->history_last = NULL;
 		shell->autocomplete = NULL;
+		shell->autocomplete_cusor = NULL;
 		shell->history = NULL;
 		shell->is_a_tty = isatty(0);
 		load_history(shell, 0);

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:57:29 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 14:33:29 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/16 14:37:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,43 +124,7 @@ void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur)
 	setpos_autocomplete(sh);
 }
 
-void		delete_autocomplete_entry(void *el, size_t size)
-{
-	(void)size;
-	ft_free((void**)&((t_ft_autoc_entry*)el)->name);
-}
-
-void		display_autocomplete(t_ft_sh *sh, t_list *list)
-{
-	t_ft_autoc_entry*	tmp;
-	int					last_y;
-
-	exec_term_command(TC_SAVECURPOS);
-	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
-	ft_putchar('\n');
-	last_y = 0;
-	while (list)
-	{
-		tmp = ((t_ft_autoc_entry*)list->content);
-		if (tmp->y_pos != last_y)
-		{
-			exec_term_command(TC_CARRIAGERETURN);
-			if (last_y < tmp->y_pos)
-				exec_term_command(TC_MOVEDOWN);
-			else
-				exec_term_command_p(TC_MOVENUP, 0, last_y - tmp->y_pos);
-			last_y = tmp->y_pos;
-		}
-		ft_printf("%s%-*s{eoc}", tmp->color, sh->autocomplete_padding,
-			tmp->name);
-		ft_fprintf(sh->debug_tty, "AUTOC : (%d,%d) / %d - %d\n", tmp->x_pos, tmp->y_pos, last_y, (tmp->x_pos + 1) * sh->autocomplete_padding);
-		list = list->next;
-	}
-	exec_term_command(TC_RESETCURPOS);
-}
-
-t_list		*collect_data(char *str_part)
+void		collect_data(char *str_part)
 {
 	t_ft_sh *sh;
 	unsigned int save_cur;
@@ -172,7 +136,4 @@ t_list		*collect_data(char *str_part)
 	ft_lstsort(&sh->autocomplete, cmp_autoc_entry);
 	ft_lstforeach(sh->autocomplete, debug_autocomplete);
 	prepare_autocomplete(sh, sh->autocomplete, save_cur);
-	display_autocomplete(sh, sh->autocomplete);
-	ft_lstdel(&sh->autocomplete, delete_autocomplete_entry);
-	return (NULL);
 }
