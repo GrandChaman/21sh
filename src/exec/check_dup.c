@@ -10,7 +10,7 @@ void	check_dup(t_parser *parser, int x)
 	ft_easy2(x, parser);
 	if (parser[x].output.meta)
 	{
-		while (parser[x].output.meta[i].name)
+		while (parser[x].output.meta)
 		{
 			if (parser[x].output.meta[i].name[0] == '&')
 			{
