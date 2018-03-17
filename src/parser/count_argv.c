@@ -33,7 +33,7 @@ static int	main_loop2(int i, int o, int nb, char *original)
 			if ((redirections3(&i, original)) != 1 &&
 				(checkquote(&i, &o, original)))
 				nb = nb - 1;
-			if (original[i] == '|' || original[i] == ';')
+			if (original[i] == '|' || original[i] == ';' || original[i] == '\0')
 				return (nb);
 			i++;
 		}

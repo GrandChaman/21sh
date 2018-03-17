@@ -26,17 +26,17 @@ static void fill_it(t_vari *var, t_parser *parser, char *original)
 {
 	if (var->boite == 1 && var->box == 1)
 	{
-	//	printf("fill_cmd parser[%d].cmd[%d][%d] = %c\n", var->b, var->j,var->o,  original[var->i]);
+//		printf("fill_cmd parser[%d].cmd[%d][%d] = %c\n", var->b, var->j,var->o,  original[var->i]);
 		parser[var->b].cmd[var->j][var->o] = original[var->i];
 	}
 	if (var->box == 3)
 	{
-	//	printf("fill_input = %c\n", original[var->i]);
+//		printf("fill_input = %c\n", original[var->i]);
 		parser[var->b].input.meta[var->i_input].name[var->o] = original[var->i];
 	}
 	if (var->box == 2)
 	{
-	//	printf("fill_output = %c\n", original[var->i]);
+//		printf("fill_output = %c\n", original[var->i]);
 		parser[var->b].output.meta[var->i_output].name[var->o] = original[var->i];
 	}
 }
