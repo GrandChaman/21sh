@@ -27,7 +27,7 @@ void	init_var(t_vari *var)
 	var->heredoc = 0;
 }
 
-void	fill_std_i(t_vari *var, t_parser *parser, char *original) // a completer !!!!!!!!!!!!!!!!!!!!!!
+void	fill_std_i(t_vari *var, t_parser *parser, char *original)
 {
 	if (ft_isstd(original[var->i - 1]))
 	{
