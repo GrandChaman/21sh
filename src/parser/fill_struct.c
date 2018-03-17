@@ -1,11 +1,5 @@
 #include "ft_sh.h"
 
-static void there_is_space(t_vari *var, char *original)
-{
-	while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
-		var->i++;
-}
-
 static void	fill_backslashzero(t_vari *var, t_parser *parser)
 {
 	if (var->z >= 0 && var->o != 0 && var->box == 1)

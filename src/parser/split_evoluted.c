@@ -79,12 +79,6 @@ static void	there_is_pipe(t_vari *var, t_parser *parser, char *original)
 	}
 }
 
-static void there_is_space(t_vari *var, char *original)
-{
-	while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
-		var->i++;
-}
-
 static void there_is_word(t_vari *var, t_parser *parser, char *original)
 {
 	while ((original[var->i] != ' ' && original[var->i] != '\t' &&
