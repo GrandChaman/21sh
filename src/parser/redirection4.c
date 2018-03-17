@@ -41,7 +41,7 @@ static int	is_heredoc(char *original, t_parser *parser, t_vari *var)
 		return (0);
 	var->heredoc++;
 	parser[var->b].input.meta[var->i_input].heredoc_number = var->heredoc;
-	call_heredoc(*var, original);
+	call_heredoc(var, original);
 	there_is_space(var, original);
 	return (4);
 }

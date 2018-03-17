@@ -14,19 +14,19 @@ static int	size_str(t_vari var, char *original)
 	return (nb);
 }
 
-static char	*search_str(t_vari var, char *original)
+static char	*search_str(t_vari *var, char *original)
 {
 	int		o;
 	char	*str;
 
 	o = 0;
-	if (!(str = malloc(sizeof(char) * size_str(var, original) + 1)))
+	if (!(str = malloc(sizeof(char) * size_str(*var, original) + 1)))
 		exit(0);
-	while (original[var.i] && (original[var.i] != ' ' &&
-		original[var.i] != '\t'))
+	while (original[var->i] && (original[var->i] != ' ' &&
+		original[var->i] != '\t'))
 	{
-		str[o] = original[var.i];
-		var.i++;
+		str[o] = original[var->i];
+		var->i++;
 		o++;
 	}
 	str[o] = '\0';
@@ -43,9 +43,10 @@ static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 		free(tmp);
 		tmp = read_command(NULL, 0, 1, 0);
 	}
+	free(tmp);
 }
 
-void		call_heredoc(t_vari var, char *original)
+void		call_heredoc(t_vari *var, char *original)
 {
 	char	*str;
 	char	*tmp;
@@ -55,7 +56,7 @@ void		call_heredoc(t_vari var, char *original)
 
 	str = search_str(var, original);
 	tmp = read_command(NULL, 0, 1, 0);
-	tmp2 = ft_itoa(var.heredoc);
+	tmp2 = ft_itoa(var->heredoc);
 	path_file = ft_strjoin("/tmp/21sh_heredoc", tmp2);
 	free(tmp2);
 	if ((fd = open(path_file, O_RDWR | O_CREAT | O_EXCL |
@@ -69,7 +70,6 @@ void		call_heredoc(t_vari var, char *original)
 	}
 	free(path_file);
 	final_heredoc(tmp, str, tmp2, fd);
-	free(str);	
-	free(tmp);
+	free(str);
 	close(fd);
 }

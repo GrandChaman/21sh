@@ -13,7 +13,7 @@ t_parser	*get_parser(char *original) //Pour victor
 	if (stock == 1)
 	{
 		stock = count_cmd(original);
-		printf("------------------------------------------- nb commandes = %d\n",stock);
+	//	printf("------------------------------------------- nb commandes = %d\n",stock);
 		parser = malloc(sizeof(t_parser) * stock);
 		init_parser(parser, stock);
 		split_evoluted(parser, original);

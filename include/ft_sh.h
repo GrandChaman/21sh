@@ -179,7 +179,7 @@ void			init_r_dup(t_dup *r_dup);
 void			check_dup(t_parser *parser, int x);
 
 void			there_is_space(t_vari *var, char *original);
-void			call_heredoc(t_vari var, char *original);
+void			call_heredoc(t_vari *var, char *original);
 void			fill_std_o(t_vari *var, t_parser *parser, char *original);
 void			fill_std_i(t_vari *var, t_parser *parser, char *original);
 void			init_var(t_vari *var);
