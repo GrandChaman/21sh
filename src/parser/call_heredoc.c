@@ -20,7 +20,8 @@ static char	*search_str(t_vari var, char *original)
 	char	*str;
 
 	o = 0;
-	str = malloc(sizeof(char) * size_str(var, original) + 1);
+	if (!(str = malloc(sizeof(char) * size_str(var, original) + 1)))
+		exit(0);
 	while (original[var.i] && (original[var.i] != ' ' &&
 		original[var.i] != '\t'))
 	{
