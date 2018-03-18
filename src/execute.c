@@ -57,28 +57,60 @@ int		execute_env(char **args, t_list **head)
 	return (launch(args, head));
 }
 
-int		execute(t_parser parser, t_list **head, int *should_exit)
+int		launch_built_in(t_parser parser, t_list **head)
+{
+	pid_t   father;
+    int     osef;
+
+    osef = 0;
+    father = fork();
+    if (father > 0)
+        wait(&osef);
+    else
+    {
+		if (ft_strcmp(parser.cmd[0], "help") == 0)
+			mini_help(parser.cmd);
+		else if (ft_strcmp(parser.cmd[0], "echo") == 0)
+			mini_echo(parser.cmd);
+		else if (ft_strcmp(parser.cmd[0], "unsetenv") == 0)
+			mini_unsetenv(parser.cmd, head);
+		else if (ft_strcmp(parser.cmd[0], "setenv") == 0)
+			mini_setenv(parser.cmd, head);
+		else if (ft_strcmp(parser.cmd[0], "cd") == 0)
+			mini_cd(parser.cmd, head);
+		exit(0);
+    }
+	return (-1);
+}
+
+int		is_built_in(t_parser parser)
+{
+	if (ft_strcmp(parser.cmd[0], "help") == 0)
+		return (1);
+	else if (ft_strcmp(parser.cmd[0], "echo") == 0)
+		return (1);
+	else if (ft_strcmp(parser.cmd[0], "unsetenv") == 0)
+		return (1);
+	else if (ft_strcmp(parser.cmd[0], "setenv") == 0)
+		return (1);
+	else if (ft_strcmp(parser.cmd[0], "cd") == 0)
+		return (1);
+	return (-1);
+}
+
+int		execute(t_parser parser, t_list **head)
 {
 	t_list	*copy;
 
 	if (!parser.cmd[0])
 		return (1);
-	if (ft_strcmp(parser.cmd[0], "help") == 0)
-		return (mini_help(parser.cmd));
-	else if (ft_strcmp(parser.cmd[0], "exit") == 0)
-	{
-		*should_exit = 1;
+	if (ft_strcmp(parser.cmd[0], "exit") == 0)
 		return (mini_exit(parser.cmd));
+	if (is_built_in(parser))
+	{
+		launch_built_in(parser, head);
 	}
-	else if (ft_strcmp(parser.cmd[0], "echo") == 0)
-		return (mini_echo(parser.cmd));
-	else if (ft_strcmp(parser.cmd[0], "unsetenv") == 0)
-		return (mini_unsetenv(parser.cmd, head));
-	else if (ft_strcmp(parser.cmd[0], "setenv") == 0)
-		return (mini_setenv(parser.cmd, head));
-	else if (ft_strcmp(parser.cmd[0], "cd") == 0)
-		return (mini_cd(parser.cmd, head));
-	else if (ft_strcmp(parser.cmd[0], "env") == 0)
+	if (ft_strcmp(parser.cmd[0], "env") == 0)
 	{
 		copy = ft_lstcopy(head);
 		mini_env(parser.cmd, &copy);

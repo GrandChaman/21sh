@@ -56,13 +56,21 @@ void main_routine(t_list **head, int status)
 			x = 0;
 			while (x < nb)
 			{
-				check_dup(parser, x);
-				status = execute(parser[x], head, &should_exit);
-				if (should_exit)
+				if (!(check_dup(parser, x)))
 					break ;
+				if (!(parser[x].close_stdout))
+					check_pipe(parser, x, &r_dup);
+				status = execute(parser[x], head);
+				if (parser[x].close_stdout)
+				{
+					while ((parser[x].input.pipe || parser[x].output.pipe) && x < nb)
+						x++;
+				}
+				init_dup(&r_dup);
 				x++;
 			}
-			init_dup(&r_dup);
+			ft_fprintf(shell->debug_tty, "YAY\n");
+			//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 			free_parser(parser);
 		}
 		free(cmd);
