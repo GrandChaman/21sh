@@ -47,6 +47,7 @@ void main_routine(t_list **head, int status)
 		if (cmd && cmd[0] == '\0')
 		{
 			fb = 0;
+			free(cmd);
 			continue ;
 		}
 		add_to_history(shell, cmd);
