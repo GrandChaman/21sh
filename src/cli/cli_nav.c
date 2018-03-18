@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 17:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 16:08:53 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:28:39 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,18 @@ static void	home_or_end_touch(unsigned long touch)
 	t_ft_sh *sh;
 
 	sh = get_ft_shell();
-	while ((touch == T_HOME && sh->cursor && !is_last_char_a_nl()) ||
-		(touch == T_END && sh->cursor < sh->buf.cursor))
-		move_in_terminal((touch == T_HOME ? T_LARR : T_RARR), 1);
+	while (((touch == T_HOME || touch == T_CTRL_A) && sh->cursor && !is_last_char_a_nl()) ||
+		((touch == T_END || touch == T_CTRL_E) && sh->cursor < sh->buf.cursor))
+		move_in_terminal((touch == T_HOME || touch == T_CTRL_A
+			 ? T_LARR : T_RARR), 1);
 }
 
 void		nav_touch_received(unsigned long touch)
 {
 	if ((touch & SHIFT_MASK) == SHIFT_MASK)
 		skip_in_terminal(touch);
-	else if (touch == T_HOME || touch == T_END)
+	else if (touch == T_HOME || touch == T_END ||
+		touch == T_CTRL_A || touch == T_CTRL_E)
 		home_or_end_touch(touch);
 	else if (get_ft_shell()->autocomplete)
 		move_in_autocompletion(touch);
