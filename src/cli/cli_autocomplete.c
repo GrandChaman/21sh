@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 17:45:10 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 12:24:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void		delete_autocomplete_entry(void *el, size_t size)
 {
 	(void)size;
 	ft_free((void**)&((t_ft_autoc_entry*)el)->name);
+	ft_free(&el);
 }
 
 static void		ready_cursor_autocompletion()
