@@ -6,11 +6,33 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 16:18:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:30:40 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+void		cancel_selection(t_ft_sh *shell, unsigned long rchar)
+{
+	unsigned int		i;
+	int		cur_save;
+
+	i = shell->cursor + 1;
+	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
+		rchar != T_ALT_LEFT && rchar != T_ALT_RIGHT && shell->select_size)
+	{
+		exec_term_command(TC_SAVECURPOS);
+		cur_save = shell->cursor;
+		while (i-- > 0)
+			move_in_terminal(T_LARR, 1);
+		update_stdout(shell, 0);
+		shell->select_start = 0;
+		shell->select_size = 0;
+		exec_term_command(TC_RESETCURPOS);
+		shell->cursor = cur_save;
+	}
+}
+
 
 void		move_select(unsigned long touch)
 {
@@ -50,7 +72,6 @@ void		copy_select(unsigned long touch)
 			sh->select_size * -1);
 	else
 		sh->select = ft_strsub(sh->buf.buf, sh->select_start, sh->select_size);
-	ft_fprintf(sh->debug_tty, "Copy is : %d %s\n", sh->select_start + sh->select_size, sh->select);
 }
 
 void		paste_select(unsigned long touch)
@@ -71,7 +92,6 @@ void		paste_select(unsigned long touch)
 	update_stdout(sh, 0);
 	while (--i > 0)
 		move_in_terminal(T_RARR, 1);
-	ft_fprintf(sh->debug_tty, "Paste is : %s\n", sh->select);
 }
 
 void		cut_select(unsigned long touch)
@@ -97,6 +117,4 @@ void		cut_select(unsigned long touch)
 			delete_command(T_DELETE);
 	sh->select_start = 0;
 	sh->select_size = 0;
-	ft_fprintf(sh->debug_tty, "Cut is : %d %s\n",
-		sh->select_start + sh->select_size, sh->select);
 }

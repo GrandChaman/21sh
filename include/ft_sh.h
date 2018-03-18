@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 14:07:02 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:43:46 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@
 # define T_ALT_C 42947
 # define T_ALT_V 10127586
 # define T_ALT_X 8948194
+# define T_CTRL_A 1
 # define T_CTRL_C 3
 # define T_CTRL_D 4
+# define T_CTRL_E 5
 # define T_CTRL_L 12
 # define T_ALT_UP 1096489755
 # define T_ALT_DOWN 1113266971
@@ -241,14 +243,30 @@ void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar);
 void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur);
 void			insert_in_cli(char *str);
 void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
+void	collect_data_local_file(t_list **list, char *str_part);
+int		cmp_autoc_entry(void *e1, void *e2);
+void		ready_cursor_autocompletion();
+void			delete_autocomplete_entry(void *el, size_t size);
+void		display_autocomplete(t_ft_sh *sh, t_list *list);
+void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur);
+int			get_autocomplete_el_with(t_list *list);
+void		setpos_autocomplete(t_ft_sh *sh);
+void		cancel_selection(t_ft_sh *shell, unsigned long rchar);
+void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
+int		display_prompt(int last_result);
+void 	prompt_select(char *prompt, int status, int heredoc, int fb);
+int		display_prompt(int last_result);
+void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
 	{T_TAB, ft_sh_autocomplete},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
-	{T_END, nav_touch_received},
 	{T_HOME, nav_touch_received},
+	{T_CTRL_A, nav_touch_received},
+	{T_CTRL_E, nav_touch_received},
+	{T_END, nav_touch_received},
 	{T_LARR, nav_touch_received},
 	{T_RARR, nav_touch_received},
 	{T_BARR, history_nav},

@@ -6,54 +6,12 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 18:02:38 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:42:20 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void		insert_normal_touch(t_ft_sh *sh)
-{
-	if (!sh->is_a_tty)
-		return ;
-	sh->cursor--;
-	update_stdout(sh, 0);
-}
-
-void	print_normal_touch(t_ft_sh *sh, unsigned long rchar)
-{
-	dbuf_insert(&sh->buf, sh->cursor++, (char)rchar);
-	if (sh->cursor < sh->buf.cursor)
-		insert_normal_touch(sh);
-	else
-		if (sh->is_a_tty)
-		{
-			ft_putchar((char)rchar);
-			if (((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == 0)
-				ft_putchar('\n');
-		}
-}
-
-void		cancel_selection(t_ft_sh *shell, unsigned long rchar)
-{
-	unsigned int		i;
-	int		cur_save;
-
-	i = shell->cursor + 1;
-	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
-		rchar != T_ALT_LEFT && rchar != T_ALT_RIGHT && shell->select_size)
-	{
-		exec_term_command(TC_SAVECURPOS);
-		cur_save = shell->cursor;
-		while (i-- > 0)
-			move_in_terminal(T_LARR, 1);
-		update_stdout(shell, 0);
-		shell->select_start = 0;
-		shell->select_size = 0;
-		exec_term_command(TC_RESETCURPOS);
-		shell->cursor = cur_save;
-	}
-}
 
 void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 {
@@ -78,25 +36,6 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 			else
 				break ;
 		}
-}
-
-int		display_prompt(int last_result)
-{
-	char		*path;
-	int			res;
-	t_ft_sh	*shell;
-
-	res = 4;
-	if ((path = ft_getcwd()))
-		res += ft_strlen(path);
-	else
-		res += ft_strlen("(null)");
-	ft_printf("%s$ {cyan}%s{eoc}> ",
-	(last_result ? ANSI_COLOR_B_RED : ANSI_COLOR_B_GREEN), path);
-	free(path);
-	shell = get_ft_shell();
-	shell->prompt_size = res;
-	return (res);
 }
 
 void		read_command_routine(void)
@@ -129,44 +68,10 @@ void		read_command_routine(void)
 	}
 }
 
-char		*read_command(char *prompt, int status, int heredoc, int fb)
+static char *read_command_outro(t_ft_sh *sh)
 {
-	char *nprompt;
-	t_ft_sh *sh;
 	char *res;
 
-	sh = get_ft_shell();
-	if (sh->is_a_tty)
-		apply_terminal_setting(0);
-	if (!status && fb)
-		ft_printf("{bgreen}-- OK --{eoc}\n");
-	else if (fb)
-	{
-		if (WIFSIGNALED(status))
-			ft_printf("{bred}-- Signal : %d -- {eoc}\n", WTERMSIG(status));
-		else if (WSTOPSIG(status))
-			ft_printf("{bred}-- Stopped : %d -- {eoc}\n", WSTOPSIG(status));
-		else
-			ft_printf("{byellow}-- Exit : %d -- {eoc}\n", WEXITSTATUS(status));
-	}
-	if (prompt || heredoc)
-	{
-		prompt = (!heredoc ? prompt : "heredoc> ");
-		ft_printf(prompt);
-		get_ft_shell()->prompt_size = ft_strlen(prompt);
-	}
-	else
-		display_prompt(status);
-	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
-	read_command_routine();
-	if (!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
-	{
-		sh->cursor = sh->buf.cursor;
-		sh->alt_cursor = sh->cursor + 1;
-		dbuf_insert(&sh->buf, sh->cursor++, '\n');
-		ft_putchar('\n');
-		return (read_command(nprompt, status, 0, 0));
-	}
 	while (sh->cursor < sh->buf.cursor)
 		move_in_terminal(T_RARR, 1);
 	ft_putchar('\n');
@@ -178,4 +83,26 @@ char		*read_command(char *prompt, int status, int heredoc, int fb)
 	if (sh->is_a_tty)
 		apply_terminal_setting(1);
 	return (res);
+}
+
+char		*read_command(char *prompt, int status, int heredoc, int fb)
+{
+	char *nprompt;
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
+	if (sh->is_a_tty)
+		apply_terminal_setting(0);
+	prompt_select(prompt, status, heredoc, fb);
+	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
+	read_command_routine();
+	if (!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
+	{
+		sh->cursor = sh->buf.cursor;
+		sh->alt_cursor = sh->cursor + 1;
+		dbuf_insert(&sh->buf, sh->cursor++, '\n');
+		ft_putchar('\n');
+		return (read_command(nprompt, status, 0, 0));
+	}
+	return (read_command_outro(sh));
 }
