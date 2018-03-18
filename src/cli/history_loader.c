@@ -6,13 +6,13 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 11:53:35 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:55:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	delete_hist_entry(void *entry, size_t size)
+static void			delete_hist_entry(void *entry, size_t size)
 {
 	t_ft_hist_entry *hentry;
 
@@ -22,7 +22,7 @@ static void	delete_hist_entry(void *entry, size_t size)
 	free(hentry);
 }
 
-void	trim_history(t_ft_sh *sh)
+void				trim_history(t_ft_sh *sh)
 {
 	int		i;
 	t_list	*lcpy;
@@ -35,12 +35,12 @@ void	trim_history(t_ft_sh *sh)
 		ft_lstdel(&lcpy, delete_hist_entry);
 }
 
-static int read_history(t_ft_sh *sh, int fd)
+static int			read_history(t_ft_sh *sh, int fd)
 {
 	int				gnl_res;
 	char			*line;
 	char			*tmp;
-	t_ft_hist_entry entry;
+	t_ft_hist_entry	entry;
 
 	while ((gnl_res = get_next_line(fd, &line)) > 0)
 	{
@@ -59,15 +59,15 @@ static int read_history(t_ft_sh *sh, int fd)
 	return (gnl_res);
 }
 
-static void write_history(t_ft_sh *sh, int fd)
+static void			write_history(t_ft_sh *sh, int fd)
 {
-	t_ft_hist_entry *entry;
+	t_ft_hist_entry	*entry;
 	t_list			*list;
-	int len;
+	int				len;
 
 	len = sh->history_size;
 	list = ft_lstat(sh->history,
-		(len > SH_HIST_MAX_SIZE ? SH_HIST_MAX_SIZE - 1: len - 1));
+		(len > SH_HIST_MAX_SIZE ? SH_HIST_MAX_SIZE - 1 : len - 1));
 	while (list)
 	{
 		entry = (t_ft_hist_entry*)list->content;
@@ -78,7 +78,7 @@ static void write_history(t_ft_sh *sh, int fd)
 	sh->history_size = 0;
 }
 
-int load_history(t_ft_sh *sh, int unload)
+int					load_history(t_ft_sh *sh, int unload)
 {
 	char	*path;
 	char	*home;
@@ -86,7 +86,8 @@ int load_history(t_ft_sh *sh, int unload)
 	int		fd;
 
 	if (!(home = getenv("HOME")))
-		return (ft_fprintf(2, "\nCan't open history file. $HOME's not defined\n"));
+		return (ft_fprintf(2, "\nCan't open history file. "
+		"$HOME's not defined\n"));
 	path = ft_strjoin(home, "/.21sh_history");
 	if ((fd = open(path, O_RDWR | O_CREAT | (unload ? O_TRUNC : 0), 0600)) < 0)
 		return (ft_fprintf(2, "\nCan't open history file. open() failed.\n"));
@@ -106,11 +107,11 @@ int load_history(t_ft_sh *sh, int unload)
 	return (unload ? 0 : res);
 }
 
-void	add_to_history(t_ft_sh *sh, char *cmd)
+void				add_to_history(t_ft_sh *sh, char *cmd)
 {
-	t_ft_hist_entry entry;
-	int i;
-	int last_nl;
+	t_ft_hist_entry	entry;
+	int				i;
+	int				last_nl;
 
 	i = 0;
 	last_nl = 0;

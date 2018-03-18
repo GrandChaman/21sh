@@ -6,18 +6,17 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:42:20 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:46:42 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-
 void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 {
-	unsigned int		i;
-	char	str_part;
-	void	(*f)(unsigned long);
+	unsigned int	i;
+	char			str_part;
+	void			(*f)(unsigned long);
 
 	i = 0;
 	cancel_selection(shell, rchar);
@@ -52,11 +51,10 @@ void		read_command_routine(void)
 	while (42)
 	{
 		rvalue = read(0, tmp, 8);
-		ft_fprintf(get_ft_shell()->debug_tty, "TMP : %.8s\n", tmp);
-		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C)
+		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D
+			|| tmp[0] == T_CTRL_C)
 			break ;
 		rchar = *((unsigned long*)tmp);
-		ft_fprintf(get_ft_shell()->debug_tty, "Cursor : %d - rchar : %U\n", get_sh_cursor(), *((unsigned long*)tmp));
 		execute_touch(get_ft_shell(), rchar);
 		ft_bzero(tmp, 8);
 	}
@@ -68,7 +66,7 @@ void		read_command_routine(void)
 	}
 }
 
-static char *read_command_outro(t_ft_sh *sh)
+static char	*read_command_outro(t_ft_sh *sh)
 {
 	char *res;
 
@@ -87,8 +85,8 @@ static char *read_command_outro(t_ft_sh *sh)
 
 char		*read_command(char *prompt, int status, int heredoc, int fb)
 {
-	char *nprompt;
-	t_ft_sh *sh;
+	char	*nprompt;
+	t_ft_sh	*sh;
 
 	sh = get_ft_shell();
 	if (sh->is_a_tty)
