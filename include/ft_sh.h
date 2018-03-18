@@ -168,16 +168,19 @@ typedef	struct 			s_dup
 	int stdin_copy;
 	int stdout_copy;
 	int stderr_copy;
+	int p[2];
 }						t_dup;
 
 void			is_space(int *i, char *original);
+
+void			check_pipe(t_parser *parser, int x, t_dup *rdup);
 void			ft_easy_input(int *stock, int x, int i, t_parser *parser);
-void			check_dup_input(t_parser *parser, int x);
+int				check_dup_input(t_parser *parser, int x);
 void			ft_easy_output(int *stock, int x, int i, t_parser *parser);
 void			ft_easy2(int x, t_parser *parser);
 void			init_dup(t_dup *r_dup);
 void			init_r_dup(t_dup *r_dup);
-void			check_dup(t_parser *parser, int x);
+int				check_dup(t_parser *parser, int x);
 
 void			there_is_space(t_vari *var, char *original);
 void			call_heredoc(t_vari *var, char *original);
@@ -220,7 +223,7 @@ void			split_evoluted(t_parser *parser, char *original);
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
 int						execute_env(char **args, t_list **head);
-int						execute(t_parser parser, t_list **head, int *should_exit);
+int						execute(t_parser parser, t_list **head);
 int						launch(char **args, t_list **head);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);

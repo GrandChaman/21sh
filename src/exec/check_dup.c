@@ -1,6 +1,6 @@
 #include "ft_sh.h"
 
-void	check_dup(t_parser *parser, int x)
+int	check_dup(t_parser *parser, int x)
 {
 	int fd;
 	int i;
@@ -52,7 +52,9 @@ void	check_dup(t_parser *parser, int x)
 			i++;
 		}
 	}
-	check_dup_input(parser, x);
+	if (!(check_dup_input(parser, x)))
+		return (0);
+	return (1);
 }
 
 void	ft_easy2(int x, t_parser *parser)

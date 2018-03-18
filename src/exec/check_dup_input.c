@@ -1,6 +1,6 @@
 #include "ft_sh.h"
 
-void	check_dup_input(t_parser *parser, int x)
+int	check_dup_input(t_parser *parser, int x)
 {
 	int i;
 	int fd;
@@ -40,7 +40,10 @@ void	check_dup_input(t_parser *parser, int x)
 				else
 				{
 					if ((fd = open(parser[x].input.meta[i].name,  O_RDWR, 0777)) == -1)
-						return ;
+					{
+						ft_printf("21sh :no such file or directory\n");
+						return(0);
+					}
 					ft_easy_input(&stock, x, i, parser);
 					dup2(fd, stock);
 				}
@@ -50,6 +53,7 @@ void	check_dup_input(t_parser *parser, int x)
 			i++;
 		}
 	}
+	return (1);
 }
 
 void	ft_easy_input(int *stock, int x, int i, t_parser *parser)
