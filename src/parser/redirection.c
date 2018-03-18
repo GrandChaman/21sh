@@ -72,7 +72,7 @@ int			redirections3(int *i, char *original)
 			return (0);
 		*i = *i + 1;
 	}
-	else if (original[*i - 1] != ' ' && (original[*i] == '<' ||
+	else if (*i != 0 && original[*i - 1] != ' ' && (original[*i] == '<' ||
 		original[*i] == '>'))
 		return (0);
 	if (original[*i] && original[*i] == '<')
