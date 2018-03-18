@@ -170,6 +170,7 @@ typedef	struct 			s_dup
 	int stderr_copy;
 }						t_dup;
 
+void			is_space(int *i, char *original);
 void			ft_easy_input(int *stock, int x, int i, t_parser *parser);
 void			check_dup_input(t_parser *parser, int x);
 void			ft_easy_output(int *stock, int x, int i, t_parser *parser);
