@@ -41,7 +41,7 @@ void main_routine(t_list **head, int status)
 	init_r_dup(&r_dup);
 	shell = get_ft_shell();
 	should_exit = 0;
-	while (!should_exit)
+	while (42)
 	{
 		cmd = read_command(NULL, status, 0, (!fb ? fb++ : fb));
 		if (cmd && cmd[0] == '\0')
@@ -60,7 +60,9 @@ void main_routine(t_list **head, int status)
 					break ;
 				if (!(parser[x].close_stdout))
 					check_pipe(parser, x, &r_dup);
-				status = execute(parser[x], head);
+				status = execute(parser[x], head, &should_exit);
+				if (should_exit)
+					break;
 				if (parser[x].close_stdout)
 				{
 					while ((parser[x].input.pipe || parser[x].output.pipe) && x < nb)
@@ -74,6 +76,8 @@ void main_routine(t_list **head, int status)
 			free_parser(parser);
 		}
 		free(cmd);
+		if (should_exit)
+			break;
 	}
 }
 
@@ -97,7 +101,7 @@ int		main(int argc, const char **argv, char **env)
 	head = create_list_from_env(env);
 	//ft_lstprint(&head);
 	cli_loader(0);
-	main_routine(&head, 0);
+	main_routine(&head, 1);
 	cli_loader(1);
 	ft_lsterase(&head);
 	if (shell->debug_tty > 0)

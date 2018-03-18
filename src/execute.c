@@ -98,14 +98,17 @@ int		is_built_in(t_parser parser)
 	return (-1);
 }
 
-int		execute(t_parser parser, t_list **head)
+int		execute(t_parser parser, t_list **head, int *should_exit)
 {
 	t_list	*copy;
 
 	if (!parser.cmd[0])
 		return (1);
 	if (ft_strcmp(parser.cmd[0], "exit") == 0)
+	{
+		*should_exit = 1;
 		return (mini_exit(parser.cmd));
+	}
 	if (is_built_in(parser))
 	{
 		launch_built_in(parser, head);

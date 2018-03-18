@@ -38,7 +38,8 @@ int			redirections2(char *original, t_vari *var)
 			there_is_space(var, original);
 			if (original[var->i] == '\0' || ft_isatoken(original[var->i]))
 				return (0);
-			there_is_space(var, original);
+			while ((original[var->i] != ' ' && original[var->i] != '\t') && original[var->i])
+				var->i++;
 			return (4);
 		}
 		else
