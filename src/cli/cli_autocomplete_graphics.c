@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:41:32 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:03:53 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:58:01 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar)
 {
 	if (shell->autocomplete && rchar != T_TAB && rchar != T_LARR &&
-		rchar != T_RARR && rchar != T_BARR && rchar != T_TARR
-		&& rchar != T_ENTER)
+		rchar != T_RARR && rchar != T_ENTER)
 	{
 		ready_cursor_autocompletion();
 		exec_term_command(TC_CLEAR_FROM_HERE);
