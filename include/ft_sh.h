@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 18:02:49 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 14:07:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@
 # define TC_CLEAR_FROM_HERE "cd"
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
+# define TC_UNDERLINE_ON "us"
+# define TC_UNDERLINE_OFF "ue"
 # define TC_CLEAR "cl"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
@@ -101,7 +103,6 @@ typedef struct			s_ft_autoc_entry
 	char				*name;
 	char				*color;
 	char				undeline;
-	char				inverted;
 	int					x_pos;
 	int					y_pos;
 }						t_ft_autoc_entry;

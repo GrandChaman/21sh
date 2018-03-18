@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 12:24:05 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 14:07:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,11 @@ static void		display_autocomplete(t_ft_sh *sh, t_list *list)
 				exec_term_command_p(TC_MOVENUP, 0, last_y - tmp->y_pos);
 			last_y = tmp->y_pos;
 		}
+		if (tmp->undeline)
+			exec_term_command(TC_UNDERLINE_ON);
 		ft_printf("%s%-*s{eoc}", tmp->color, sh->autocomplete_padding,
 			tmp->name);
+		exec_term_command(TC_UNDERLINE_OFF);
 		list = list->next;
 	}
 	exec_term_command(TC_RESETCURPOS);

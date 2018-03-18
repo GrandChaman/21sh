@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:57:29 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 12:18:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 14:15:43 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,29 @@ static int	cmp_autoc_entry(void *e1, void *e2)
 		((t_ft_autoc_entry*)e2)->name));
 }
 
-static void	load_dir_autocomplete(DIR *dir, t_list **list, char *str_part)
+static void	get_graphics_for_filetype(mode_t type, t_ft_autoc_entry *entry)
+{
+	entry->undeline = 0;
+	if ((type & S_IFMT) == S_IFDIR)
+		entry->color = ANSI_COLOR_B_RED;
+	else if ((type & S_IFMT) == S_IFCHR)
+		entry->color = ANSI_COLOR_CYAN;
+	else if ((type & S_IFMT) == S_IFLNK)
+	{
+		entry->color = ANSI_COLOR_GREEN;
+		entry->undeline = 1;
+	}
+	else
+		entry->color = "";
+}
+
+static void	load_dir_autocomplete(DIR *dir, t_list **list, char *path, char *str_part)
 {
 	size_t				len;
 	struct dirent		*dir_data;
 	t_ft_autoc_entry	entry;
+	struct stat			stat_buf;
+	char				*fpath;
 
 	len = 0;
 	if (str_part)
@@ -31,10 +49,11 @@ static void	load_dir_autocomplete(DIR *dir, t_list **list, char *str_part)
 	{
 		if (str_part && ft_strncmp(dir_data->d_name, str_part, len))
 			continue ;
+		ft_asprintf(&fpath, "%s/%s", path, dir_data->d_name);
+		if (!stat(fpath, &stat_buf))
+			get_graphics_for_filetype(stat_buf.st_mode, &entry);
+		free(fpath);
 		entry.name = ft_strdup(dir_data->d_name);
-		entry.color = ANSI_COLOR_YELLOW;
-		entry.undeline = 0;
-		entry.inverted = 0;
 		ft_lstpush_back(list, &entry, sizeof(t_ft_autoc_entry));
 	}
 }
@@ -51,14 +70,14 @@ static void	collect_data_local_file(t_list **list, char *str_part)
 	if ((dir = opendir(str_part)))
 	{
 		ft_fprintf(get_ft_shell()->debug_tty, "HERE 1\n");
-		load_dir_autocomplete(dir, list, NULL);
+		load_dir_autocomplete(dir, list, str_part, NULL);
 	}
 	else if (str_part && (slash = ft_strrchr(str_part, '/')))
 	{
 		path = ft_strndup(str_part, (slash - str_part) + 1);
 		ft_fprintf(get_ft_shell()->debug_tty, "HERE 2 : %s\n", slash);
 		if ((dir = opendir(path)))
-			load_dir_autocomplete(dir, list, slash + 1);
+			load_dir_autocomplete(dir, list, str_part, slash + 1);
 		else
 			ft_free((void**)&path);
 	}
@@ -67,20 +86,11 @@ static void	collect_data_local_file(t_list **list, char *str_part)
 		path = ft_getcwd();
 		ft_fprintf(get_ft_shell()->debug_tty, "HERE 3 : %s\n", path);
 		if ((dir = opendir(path)))
-			load_dir_autocomplete(dir, list,
+			load_dir_autocomplete(dir, list, path,
 				(str_part && str_part[0] ? str_part : NULL));
 	}
 	closedir(dir);
 	free(path);
-}
-
-void debug_autocomplete(void *print)
-{
-	t_ft_sh *sh;
-
-	sh = get_ft_shell();
-	ft_fprintf(sh->debug_tty, "%s%s{eoc} - %d - %d\n", ((t_ft_autoc_entry*)print)->color,
-	((t_ft_autoc_entry*)print)->name, ((t_ft_autoc_entry*)print)->undeline, ((t_ft_autoc_entry*)print)->inverted);
 }
 
 static int			get_el_with(t_list *list)
