@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:57:29 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/16 17:43:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 12:18:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,57 @@ static int	cmp_autoc_entry(void *e1, void *e2)
 		((t_ft_autoc_entry*)e2)->name));
 }
 
-static void	collect_data_local_file(t_list **list, char *str_part)
+static void	load_dir_autocomplete(DIR *dir, t_list **list, char *str_part)
 {
-	DIR					*dir;
+	size_t				len;
 	struct dirent		*dir_data;
-	char				*path;
 	t_ft_autoc_entry	entry;
 
-	if (!str_part)
-		path = ft_getcwd();
-	else
-		path = NULL;
-	if (!(dir = opendir(str_part ? str_part : path)))
-	{
-		free(path);
-		return ;
-	}
+	len = 0;
+	if (str_part)
+		len = ft_strlen(str_part);
 	while ((dir_data = readdir(dir)))
 	{
+		if (str_part && ft_strncmp(dir_data->d_name, str_part, len))
+			continue ;
 		entry.name = ft_strdup(dir_data->d_name);
 		entry.color = ANSI_COLOR_YELLOW;
 		entry.undeline = 0;
 		entry.inverted = 0;
 		ft_lstpush_back(list, &entry, sizeof(t_ft_autoc_entry));
+	}
+}
+
+static void	collect_data_local_file(t_list **list, char *str_part)
+{
+	DIR					*dir;
+	char				*path;
+	char				*slash;
+
+	dir = NULL;
+	path = NULL;
+	slash = NULL;
+	if ((dir = opendir(str_part)))
+	{
+		ft_fprintf(get_ft_shell()->debug_tty, "HERE 1\n");
+		load_dir_autocomplete(dir, list, NULL);
+	}
+	else if (str_part && (slash = ft_strrchr(str_part, '/')))
+	{
+		path = ft_strndup(str_part, (slash - str_part) + 1);
+		ft_fprintf(get_ft_shell()->debug_tty, "HERE 2 : %s\n", slash);
+		if ((dir = opendir(path)))
+			load_dir_autocomplete(dir, list, slash + 1);
+		else
+			ft_free((void**)&path);
+	}
+	if (!dir && !path)
+	{
+		path = ft_getcwd();
+		ft_fprintf(get_ft_shell()->debug_tty, "HERE 3 : %s\n", path);
+		if ((dir = opendir(path)))
+			load_dir_autocomplete(dir, list,
+				(str_part && str_part[0] ? str_part : NULL));
 	}
 	closedir(dir);
 	free(path);

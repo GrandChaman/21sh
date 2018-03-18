@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 14:16:25 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/14 18:50:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/18 11:53:35 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	add_to_history(t_ft_sh *sh, char *cmd)
 	while (cmd[i++])
 		if (cmd[i] == '\n' || !cmd[i])
 		{
-			entry.command = ft_strndup(cmd + last_nl, i - last_nl);
+			entry.command = ft_strsub(cmd, last_nl, i - last_nl);
 			ft_lstpush_front(&sh->history, &entry, sizeof(entry));
 			sh->history_size++;
 			last_nl = i + 1;
