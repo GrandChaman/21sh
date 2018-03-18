@@ -25,7 +25,8 @@ echo.c exit.c setenv.c utils_env.c cd.c env.c history.c\
 is_correct_talk.c init_meta.c init_var.c count_argv.c\
 call_heredoc.c check_dup.c check_dup_input.c redirection2.c\
 redirection4.c redirection_input_output.c\
-quote_fill_input_output.c count_2.c
+quote_fill_input_output.c count_2.c\
+check_pipe.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
