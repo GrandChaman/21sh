@@ -44,6 +44,7 @@ static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 		tmp = read_command(NULL, 0, 1, 0);
 	}
 	free(tmp);
+	free(str);
 }
 
 void		call_heredoc(t_vari *var, char *original)
@@ -70,6 +71,5 @@ void		call_heredoc(t_vari *var, char *original)
 	}
 	free(path_file);
 	final_heredoc(tmp, str, tmp2, fd);
-	free(str);
 	close(fd);
 }
