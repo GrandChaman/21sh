@@ -2,12 +2,13 @@
 
 char	checkquote(int *i, int *o, char *original)
 {
-	char	tableau[2];
+	char	tableau[3];
 	int		var;
 	int		stock;
 
 	tableau[0] = '"';
 	tableau[1] = '\'';
+	tableau[2] = '\0';
 	var = 0;
 	while (tableau[var])
 	{
@@ -44,12 +45,13 @@ int		checkquote2(int *i, int *o, char *original, char c)
 
 char	checkquote_fill_cmd(t_vari *var, char *original, t_parser *parser)
 {
-	char	tableau[2];
+	char	tableau[3];
 	int		i;
 	int		stock;
 
 	tableau[0] = '"';
 	tableau[1] = '\'';
+	tableau[2] = '\0';
 	i = 0;
 	while (tableau[i])
 	{
