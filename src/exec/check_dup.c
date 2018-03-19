@@ -25,7 +25,7 @@ int	check_dup(t_parser *parser, int x)
 			}
 			else
 			{
-				if (parser[0].output.meta[0].double_chevron)
+				if (parser[x].output.meta[i].double_chevron)
 				{
 					if ((fd = open(parser[x].output.meta[i].name,  O_RDWR | O_CREAT
 							| O_EXCL | O_APPEND , 0777)) == -1)
