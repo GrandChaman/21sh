@@ -56,12 +56,16 @@ static int				there_is_pipe(t_vari *var, char *original)
 {
 	if (original[var->i] == '|')
 	{
+		printf("Ici\n");
 		var->i++;
 		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
 			original[var->i])
 			var->i++;
 		if (original[var->i] == '\0')
+		{
+			printf("End\n");
 			return (-3);
+		}
 	}
 	return (1);
 }
@@ -98,7 +102,7 @@ int				is_correct(char *original)
 		var.z = 0;
 		if (original[var.i] == '\0')
 			break ;
-		if ((var.boite = second_main_loop(&var, original)) == 1)
+		if ((var.boite = second_main_loop(&var, original)) != 1)
 			return (var.boite);
 		var.b++;
 	}
