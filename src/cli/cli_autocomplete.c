@@ -6,13 +6,13 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:06:53 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:06:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static char		*extract_autocomplete_search(t_ft_sh *sh)
+static char				*extract_autocomplete_search(t_ft_sh *sh)
 {
 	int i;
 	int len;
@@ -29,10 +29,10 @@ static char		*extract_autocomplete_search(t_ft_sh *sh)
 	return (ft_strndup(sh->buf.buf + (sh->cursor - i - len), len));
 }
 
-void		collect_data(char *str_part)
+void					collect_data(char *str_part)
 {
-	t_ft_sh *sh;
-	unsigned int save_cur;
+	t_ft_sh			*sh;
+	unsigned int	save_cur;
 
 	sh = get_ft_shell();
 	save_cur = sh->cursor;
@@ -40,12 +40,11 @@ void		collect_data(char *str_part)
 	ft_lstsort(&sh->autocomplete, cmp_autoc_entry);
 }
 
-
-void		ft_sh_autocomplete(unsigned long touch)
+void					ft_sh_autocomplete(unsigned long touch)
 {
-	char *str_part;
-	t_ft_sh *sh;
-	unsigned int save_cur;
+	char			*str_part;
+	t_ft_sh			*sh;
+	unsigned int	save_cur;
 
 	sh = get_ft_shell();
 	save_cur = sh->cursor;

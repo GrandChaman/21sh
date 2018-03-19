@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:43:46 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:30:12 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
 void		get_screen_size(int sig);
 int		ft_nputstr(char *str, int n);
-void		move_in_terminal(unsigned long touch, int should_update_buf);
+void		move_in_terminal(unsigned long touch);
 void		backspace_command(unsigned long touch);
 void		update_stdout(t_ft_sh *sh, int offset);
 void		delete_command(unsigned long touch);
@@ -229,7 +229,6 @@ void		cli_loader(int destroy);
 int 		load_history(t_ft_sh *sh, int unload);
 void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_alt_shell_begin(void);
-unsigned int get_sh_cursor(void);
 void		history_nav(unsigned long touch);
 void	cli_reset_cursor(t_ft_sh *sh);
 void			sh_clear_screen(unsigned long rchar);
@@ -257,6 +256,12 @@ int		display_prompt(int last_result);
 void 	prompt_select(char *prompt, int status, int heredoc, int fb);
 int		display_prompt(int last_result);
 void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
+void				delete_hist_entry(void *entry, size_t size);
+void				trim_history(t_ft_sh *sh);
+void			vertical_nav(unsigned long touch);
+void			skip_in_terminal(unsigned long touch);
+void			home_or_end_touch(unsigned long touch);
+int				is_last_char_a_nl(void);
 
 static t_ft_touch		g_ft_touch_list[] =
 {

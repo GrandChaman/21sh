@@ -6,38 +6,11 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:59:29 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:29:24 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-unsigned int			get_sh_cursor(void)
-{
-	t_ft_sh *sh;
-
-	sh = get_ft_shell();
-	return (sh->cursor - sh->alt_cursor);
-}
-
-unsigned int			cursor_new_origin(t_ft_sh *sh)
-{
-	unsigned int i;
-	unsigned int res;
-
-	res = sh->cursor;
-	i = 1;
-	while ((int)(sh->buf.cursor - i) > 0)
-	{
-		if (sh->buf.buf[sh->buf.cursor - i] == '\n')
-		{
-			res = i - 1;
-			break ;
-		}
-		i++;
-	}
-	return (res);
-}
 
 void					insert_in_cli(char *str)
 {
@@ -61,7 +34,7 @@ void					sh_clear_screen(unsigned long rchar)
 }
 
 static void				cursor_repositionning(t_ft_sh *sh, int ncur,
-	int ocur, int is_del)
+		int ocur, int is_del)
 {
 	int has_print_a_nl;
 
@@ -80,13 +53,13 @@ static void				cursor_repositionning(t_ft_sh *sh, int ncur,
 		sh->cursor = --ncur;
 		exec_term_command(TC_MOVELEFT);
 		while (--ncur > ocur)
-			move_in_terminal(T_LARR, 1);
+			move_in_terminal(T_LARR);
 		if (has_print_a_nl)
 			exec_term_command(TC_MOVERIGHT);
 	}
 }
 
-void				update_stdout(t_ft_sh *sh, int isdel)
+void					update_stdout(t_ft_sh *sh, int isdel)
 {
 	int len;
 	int tmp;
@@ -115,7 +88,7 @@ void				update_stdout(t_ft_sh *sh, int isdel)
 	cursor_repositionning(sh, ncur, ocur, isdel);
 }
 
-void				(*get_special_char_f(unsigned long val))(unsigned long)
+void					(*get_special_char_f(unsigned long val))(unsigned long)
 {
 	int i;
 
