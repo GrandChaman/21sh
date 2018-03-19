@@ -6,19 +6,19 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:48:51 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:05:06 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:13:37 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int	cmp_autoc_entry(void *e1, void *e2)
+int				cmp_autoc_entry(void *e1, void *e2)
 {
 	return (ft_strcmp(((t_ft_autoc_entry*)e1)->name,
 		((t_ft_autoc_entry*)e2)->name));
 }
 
-int			get_autocomplete_el_with(t_list *list)
+int				get_autocomplete_el_with(t_list *list)
 {
 	int res;
 	int tmp;
@@ -41,25 +41,25 @@ void			delete_autocomplete_entry(void *el, size_t size)
 	ft_free(&el);
 }
 
-void		ready_cursor_autocompletion()
+void			ready_cursor_autocompletion(void)
 {
 	unsigned int	cur_save;
-	t_ft_sh *sh;
+	t_ft_sh			*sh;
 
 	sh = get_ft_shell();
 	cur_save = sh->cursor;
 	exec_term_command(TC_SAVECURPOS);
 	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
+		move_in_terminal(T_RARR);
 	ft_putchar('\n');
 	sh->cursor = cur_save;
 }
 
-void		setpos_autocomplete(t_ft_sh *sh)
+void			setpos_autocomplete(t_ft_sh *sh)
 {
-	unsigned int x;
-	unsigned int y;
-	t_list *list;
+	unsigned int	x;
+	unsigned int	y;
+	t_list			*list;
 
 	list = sh->autocomplete;
 	x = 0;
@@ -76,6 +76,6 @@ void		setpos_autocomplete(t_ft_sh *sh)
 		}
 		else
 			x++;
-		list= list->next;
+		list = list->next;
 	}
 }

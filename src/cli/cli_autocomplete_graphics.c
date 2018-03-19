@@ -6,13 +6,13 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:41:32 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:58:01 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:13:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar)
+void		cancel_autocompletion(t_ft_sh *shell, unsigned long rchar)
 {
 	if (shell->autocomplete && rchar != T_TAB && rchar != T_LARR &&
 		rchar != T_RARR && rchar != T_ENTER)
@@ -26,7 +26,7 @@ void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar)
 	}
 }
 
-static void		select_autocompletion(t_ft_autoc_entry *item, int invert_video)
+static void	select_autocompletion(t_ft_autoc_entry *item, int invert_video)
 {
 	t_ft_sh *sh;
 
@@ -52,7 +52,7 @@ static void		select_autocompletion(t_ft_autoc_entry *item, int invert_video)
 	}
 }
 
-void			move_in_autocompletion(unsigned long touch)
+void		move_in_autocompletion(unsigned long touch)
 {
 	t_ft_sh *sh;
 
@@ -82,7 +82,7 @@ void			move_in_autocompletion(unsigned long touch)
 
 void		display_autocomplete(t_ft_sh *sh, t_list *list)
 {
-	t_ft_autoc_entry*	tmp;
+	t_ft_autoc_entry	*tmp;
 	int					last_y;
 
 	ready_cursor_autocompletion();
@@ -109,7 +109,8 @@ void		display_autocomplete(t_ft_sh *sh, t_list *list)
 	exec_term_command(TC_RESETCURPOS);
 }
 
-void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur)
+void		prepare_autocomplete(t_ft_sh *sh, t_list *list,
+	unsigned int save_cur)
 {
 	int		len;
 	int		nb_per_line;
@@ -121,7 +122,7 @@ void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur)
 	nb_per_line = sh->x_size / sh->autocomplete_padding;
 	nb_lines = (len / nb_per_line) + 1;
 	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
+		move_in_terminal(T_RARR);
 	i = 0;
 	while (i++ < nb_lines)
 		ft_putchar('\n');
@@ -130,6 +131,6 @@ void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur)
 	exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size +
 		cursor_new_origin(sh)) % sh->x_size);
 	while (sh->cursor > save_cur)
-		move_in_terminal(T_LARR, 1);
+		move_in_terminal(T_LARR);
 	setpos_autocomplete(sh);
 }

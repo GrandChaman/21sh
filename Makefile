@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/18 17:43:28 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/19 13:16:03 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ cli_nav.c cli_delete.c error.c history_loader.c get_parser.c \
 ft_list_del.c ft_list.c execute.c launch.c getenv.c help.c \
 echo.c exit.c setenv.c utils_env.c cd.c env.c history.c \
 cli_autocomplete.c cli_autocomplete_utils.c \
-cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c cli_prompt.c
+cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
+cli_prompt.c history_utils.c cli_spe_nav.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)

@@ -6,17 +6,17 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 17:32:17 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:42:00 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:29:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int		display_prompt(int last_result)
+int			display_prompt(int last_result)
 {
 	char		*path;
 	int			res;
-	t_ft_sh	*shell;
+	t_ft_sh		*shell;
 
 	res = 4;
 	if ((path = ft_getcwd()))
@@ -31,7 +31,7 @@ int		display_prompt(int last_result)
 	return (res);
 }
 
-void 	prompt_select(char *prompt, int status, int heredoc, int fb)
+void		prompt_select(char *prompt, int status, int heredoc, int fb)
 {
 	if (!status && fb)
 		ft_printf("{bgreen}-- OK --{eoc}\n");

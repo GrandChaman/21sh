@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:30:40 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:26:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		cancel_selection(t_ft_sh *shell, unsigned long rchar)
 {
-	unsigned int		i;
-	int		cur_save;
+	unsigned int	i;
+	int				cur_save;
 
 	i = shell->cursor + 1;
 	if (rchar != T_ALT_C && rchar != T_ALT_V && rchar != T_ALT_X &&
@@ -24,7 +24,7 @@ void		cancel_selection(t_ft_sh *shell, unsigned long rchar)
 		exec_term_command(TC_SAVECURPOS);
 		cur_save = shell->cursor;
 		while (i-- > 0)
-			move_in_terminal(T_LARR, 1);
+			move_in_terminal(T_LARR);
 		update_stdout(shell, 0);
 		shell->select_start = 0;
 		shell->select_size = 0;
@@ -32,7 +32,6 @@ void		cancel_selection(t_ft_sh *shell, unsigned long rchar)
 		shell->cursor = cur_save;
 	}
 }
-
 
 void		move_select(unsigned long touch)
 {
@@ -47,15 +46,16 @@ void		move_select(unsigned long touch)
 		sh->select_start = sh->cursor;
 	tmp = sh->select_size + (touch == T_ALT_LEFT ? -1 : 1);
 	if (sh->select_start + tmp - 1 != sh->cursor)
-		move_in_terminal((touch == T_ALT_LEFT ? T_LARR : T_RARR), 1);
+		move_in_terminal((touch == T_ALT_LEFT ? T_LARR : T_RARR));
 	if (ABS(tmp) > ABS(sh->select_size))
 		exec_term_command(TC_REVERSEVIDEO);
 	ft_putchar(sh->buf.buf[sh->cursor]);
 	exec_term_command(TC_MOVELEFT);
-	if (sh->is_a_tty && ((sh->prompt_size + get_sh_cursor()) % (sh->x_size)) == sh->x_size - 1)
+	if (sh->is_a_tty && ((sh->prompt_size + (sh->cursor - sh->alt_cursor)) %
+		(sh->x_size)) == sh->x_size - 1)
 		exec_term_command(TC_MOVERIGHT);
-	 if (sh->select_start + tmp - 1 == sh->cursor)
-	 	move_in_terminal(T_RARR, 1);
+	if (sh->select_start + tmp - 1 == sh->cursor)
+		move_in_terminal(T_RARR);
 	exec_term_command(TC_RESETGRAPHICS);
 	sh->select_size += (touch == T_ALT_LEFT ? -1 : 1);
 }
@@ -91,7 +91,7 @@ void		paste_select(unsigned long touch)
 	}
 	update_stdout(sh, 0);
 	while (--i > 0)
-		move_in_terminal(T_RARR, 1);
+		move_in_terminal(T_RARR);
 }
 
 void		cut_select(unsigned long touch)

@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/18 17:57:12 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:03:29 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			replace_command(char *newcommand)
 
 	sh = get_ft_shell();
 	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
+		move_in_terminal(T_RARR);
 	while (sh->cursor > 0)
 		backspace_command(0);
 	dbuf_clear(&sh->buf);
@@ -64,7 +64,7 @@ char			*normal_history_nav(t_ft_sh *sh, int up)
 	if (!up && sh->history_pos <= 0)
 	{
 		while (sh->cursor < sh->buf.cursor)
-			move_in_terminal(T_RARR, 1);
+			move_in_terminal(T_RARR);
 		while (sh->cursor > 0)
 			backspace_command(0);
 		sh->history_pos = -1;

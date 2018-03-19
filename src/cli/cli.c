@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:46:42 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:03:22 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		read_command_routine(void)
 	if (rvalue)
 	{
 		while (sh->cursor < sh->buf.cursor)
-			move_in_terminal(T_RARR, 1);
+			move_in_terminal(T_RARR);
 		cancel_autocompletion(sh, '\0');
 	}
 }
@@ -71,7 +71,7 @@ static char	*read_command_outro(t_ft_sh *sh)
 	char *res;
 
 	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
+		move_in_terminal(T_RARR);
 	ft_putchar('\n');
 	res = ft_strdup(get_ft_shell()->buf.buf);
 	sh->cursor = 0;

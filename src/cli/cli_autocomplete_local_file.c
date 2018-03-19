@@ -6,13 +6,13 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:40:02 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/18 17:06:22 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 12:52:30 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	get_graphics_for_filetype(mode_t type, t_ft_autoc_entry *entry)
+static void		get_graphics_for_filetype(mode_t type, t_ft_autoc_entry *entry)
 {
 	entry->undeline = 0;
 	if ((type & S_IFMT) == S_IFDIR)
@@ -28,7 +28,8 @@ static void	get_graphics_for_filetype(mode_t type, t_ft_autoc_entry *entry)
 		entry->color = "";
 }
 
-static void	load_dir_autocomplete(DIR *dir, t_list **list, char *path, char *str_part)
+static void		load_dir_autocomplete(DIR *dir, t_list **list, char *path,
+	char *str_part)
 {
 	size_t				len;
 	struct dirent		*dir_data;
@@ -52,7 +53,7 @@ static void	load_dir_autocomplete(DIR *dir, t_list **list, char *path, char *str
 	}
 }
 
-void	collect_data_local_file(t_list **list, char *str_part)
+void			collect_data_local_file(t_list **list, char *str_part)
 {
 	DIR					*dir;
 	char				*path;
