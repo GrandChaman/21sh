@@ -6,15 +6,15 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:48:18 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/11 12:41:35 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/19 13:03:29 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char	*search_history_nav(t_ft_sh *sh, char *search, int up)
+char			*search_history_nav(t_ft_sh *sh, char *search, int up)
 {
-	t_list *list;
+	t_list	*list;
 	int		slen;
 	int		clen;
 	int		pos_save;
@@ -30,8 +30,8 @@ char	*search_history_nav(t_ft_sh *sh, char *search, int up)
 		if (!ft_strncmp(search, ((t_ft_hist_entry*)list->content)->command,
 			slen) && (int)ft_strlen(
 				((t_ft_hist_entry*)list->content)->command) != clen)
-				return (((t_ft_hist_entry*)list->content)->command);
-			sh->history_pos += (up ? 1 : -1);
+			return (((t_ft_hist_entry*)list->content)->command);
+		sh->history_pos += (up ? 1 : -1);
 		list = (up ? list->next : list->prev);
 	}
 	sh->history_pos = pos_save;
@@ -40,14 +40,14 @@ char	*search_history_nav(t_ft_sh *sh, char *search, int up)
 	return (NULL);
 }
 
-void	replace_command(char *newcommand)
+void			replace_command(char *newcommand)
 {
-	t_ft_sh *sh;
-	size_t len;
+	t_ft_sh	*sh;
+	size_t	len;
 
 	sh = get_ft_shell();
 	while (sh->cursor < sh->buf.cursor)
-		move_in_terminal(T_RARR, 1);
+		move_in_terminal(T_RARR);
 	while (sh->cursor > 0)
 		backspace_command(0);
 	dbuf_clear(&sh->buf);
@@ -59,12 +59,12 @@ void	replace_command(char *newcommand)
 	sh->cursor = sh->buf.cursor;
 }
 
-char	*normal_history_nav(t_ft_sh *sh, int up)
+char			*normal_history_nav(t_ft_sh *sh, int up)
 {
 	if (!up && sh->history_pos <= 0)
 	{
 		while (sh->cursor < sh->buf.cursor)
-			move_in_terminal(T_RARR, 1);
+			move_in_terminal(T_RARR);
 		while (sh->cursor > 0)
 			backspace_command(0);
 		sh->history_pos = -1;
@@ -78,20 +78,15 @@ char	*normal_history_nav(t_ft_sh *sh, int up)
 			++sh->history_pos : --sh->history_pos))->content)->command);
 }
 
-void	history_nav(unsigned long touch)
+static void		history_nav_routine(unsigned long touch, t_ft_sh *sh, char *tmp)
 {
-	t_ft_sh *sh;
-	char	*tmp;
-
-	sh = get_ft_shell();
-	if (!sh->history || sh->is_alt_shell)
-		return ;
 	if (sh->history_pos >= sh->history_size || ft_strcmp(sh->buf.buf,
-		((t_ft_hist_entry*)ft_lstat(sh->history, sh->history_pos)->content)->command))
-		{
-			ft_free((void**)&sh->history_last);
-			sh->history_pos = -1;
-		}
+		((t_ft_hist_entry*)ft_lstat(sh->history,
+			sh->history_pos)->content)->command))
+	{
+		ft_free((void**)&sh->history_last);
+		sh->history_pos = -1;
+	}
 	if ((!sh->history_last && sh->history_pos >= 0) || (!sh->buf.buf[0]
 		&& sh->history_pos < 0))
 		tmp = normal_history_nav(sh, (touch == T_TARR ? 1 : 0));
@@ -99,7 +94,8 @@ void	history_nav(unsigned long touch)
 	{
 		if (!sh->history_last)
 			sh->history_last = ft_strdup(sh->buf.buf);
-		tmp = search_history_nav(sh, sh->history_last, (touch == T_TARR ? 1 : 0));
+		tmp = search_history_nav(sh, sh->history_last,
+			(touch == T_TARR ? 1 : 0));
 	}
 	if (sh->history_pos >= 0 && tmp)
 		replace_command(tmp);
@@ -108,4 +104,16 @@ void	history_nav(unsigned long touch)
 		replace_command(sh->history_last);
 		ft_free((void**)&sh->history_last);
 	}
+}
+
+void			history_nav(unsigned long touch)
+{
+	t_ft_sh *sh;
+	char	*tmp;
+
+	sh = get_ft_shell();
+	tmp = NULL;
+	if (!sh->history || sh->is_alt_shell)
+		return ;
+	history_nav_routine(touch, sh, tmp);
 }
