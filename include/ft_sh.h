@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/15 14:43:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:54:59 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define FT_SH_H
 # include "ft_sh.h"
 # include "libft.h"
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <stdlib.h>
 # include <term.h>
 # include <unistd.h>
@@ -41,8 +44,10 @@
 # define T_ALT_C 42947
 # define T_ALT_V 10127586
 # define T_ALT_X 8948194
+# define T_CTRL_A 1
 # define T_CTRL_C 3
 # define T_CTRL_D 4
+# define T_CTRL_E 5
 # define T_CTRL_L 12
 # define T_ALT_UP 1096489755
 # define T_ALT_DOWN 1113266971
@@ -60,11 +65,15 @@
 # define TC_RESETCURPOS "rc"
 # define TC_MOVEDOWN "do"
 # define TC_MOVEUP "up"
+# define TC_MOVENUP "UP"
+# define TC_MOVENDOWN "DO"
 # define TC_MOVENRIGHT "RI"
 # define TC_CARRIAGERETURN "cr"
 # define TC_CLEAR_FROM_HERE "cd"
 # define TC_REVERSEVIDEO "mr"
 # define TC_RESETGRAPHICS "me"
+# define TC_UNDERLINE_ON "us"
+# define TC_UNDERLINE_OFF "ue"
 # define TC_CLEAR "cl"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
@@ -87,7 +96,19 @@ typedef struct			s_ft_sh
 	long				history_pos;
 	char				*history_last;
 	char				is_alt_shell;
+	t_list				*autocomplete;
+	t_list				*autocomplete_cusor;
+	int					autocomplete_padding;
 }						t_ft_sh;
+
+typedef struct			s_ft_autoc_entry
+{
+	char				*name;
+	char				*color;
+	char				undeline;
+	int					x_pos;
+	int					y_pos;
+}						t_ft_autoc_entry;
 
 typedef	struct			s_ft_touch
 {
@@ -256,7 +277,7 @@ void			exec_term_command_p(const char *code, int p1, int p2);
 void		spt_arrow(unsigned long touch);
 void		get_screen_size(int sig);
 int		ft_nputstr(char *str, int n);
-void		move_in_terminal(unsigned long touch, int should_update_buf);
+void		move_in_terminal(unsigned long touch);
 void		backspace_command(unsigned long touch);
 void		update_stdout(t_ft_sh *sh, int offset);
 void		delete_command(unsigned long touch);
@@ -270,19 +291,50 @@ void		cli_loader(int destroy);
 int 		load_history(t_ft_sh *sh, int unload);
 void		add_to_history(t_ft_sh *sh, char *cmd);
 int			is_alt_shell_begin(void);
-unsigned int get_sh_cursor(void);
 void		history_nav(unsigned long touch);
 void	cli_reset_cursor(t_ft_sh *sh);
 void			sh_clear_screen(unsigned long rchar);
 void		vertical_nav(unsigned long touch);
+void		collect_data(char *str_part);
+void		ft_sh_autocomplete(unsigned long touch);
+unsigned int			cursor_new_origin(t_ft_sh *sh);
+void				delete_autocomplete_entry(void *el, size_t size);
+void				move_in_autocompletion(unsigned long touch);
+void			cancel_autocompletion(t_ft_sh *shell, unsigned long rchar);
+void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur);
+void			insert_in_cli(char *str);
+void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
+void	collect_data_local_file(t_list **list, char *str_part);
+int		cmp_autoc_entry(void *e1, void *e2);
+void		ready_cursor_autocompletion();
+void			delete_autocomplete_entry(void *el, size_t size);
+void		display_autocomplete(t_ft_sh *sh, t_list *list);
+void		prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur);
+int			get_autocomplete_el_with(t_list *list);
+void		setpos_autocomplete(t_ft_sh *sh);
+void		cancel_selection(t_ft_sh *shell, unsigned long rchar);
+void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
+int		display_prompt(int last_result);
+void 	prompt_select(char *prompt, int status, int heredoc, int fb);
+int		display_prompt(int last_result);
+void	print_normal_touch(t_ft_sh *sh, unsigned long rchar);
+void				delete_hist_entry(void *entry, size_t size);
+void				trim_history(t_ft_sh *sh);
+void			vertical_nav(unsigned long touch);
+void			skip_in_terminal(unsigned long touch);
+void			home_or_end_touch(unsigned long touch);
+int				is_last_char_a_nl(void);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
-	{T_TAB, NULL},
+	{T_TAB, ft_sh_autocomplete},
+	{T_ENTER, ft_sh_autocomplete},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
-	{T_END, nav_touch_received},
 	{T_HOME, nav_touch_received},
+	{T_CTRL_A, nav_touch_received},
+	{T_CTRL_E, nav_touch_received},
+	{T_END, nav_touch_received},
 	{T_LARR, nav_touch_received},
 	{T_RARR, nav_touch_received},
 	{T_BARR, history_nav},
