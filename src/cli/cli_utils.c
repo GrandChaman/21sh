@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:29:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:46:39 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void					insert_in_cli(char *str)
 {
 	t_ft_sh *sh;
+	int		i;
 
 	sh = get_ft_shell();
-	while (str)
-		print_normal_touch(sh, *(str++));
+	i = 0;
+	while (str[i])
+		print_normal_touch(sh, str[i++]);
 }
 
 void					sh_clear_screen(unsigned long rchar)
