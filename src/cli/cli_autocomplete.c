@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:06:10 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:47:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ static char				*extract_autocomplete_search(t_ft_sh *sh)
 
 	i = 0;
 	len = 0;
-	if (!sh->buf.buf[0])
+	if (!sh->buf.buf[0] || ft_iswhitespace(sh->buf.buf[sh->cursor - 1]))
 		return (NULL);
 	while (sh->cursor - i > 0 && ft_iswhitespace(sh->buf.buf[sh->cursor - i]))
 		i++;
 	while (sh->cursor - i - len > 0 &&
 		!ft_iswhitespace(sh->buf.buf[sh->cursor - i - len]))
 		len++;
-	return (ft_strndup(sh->buf.buf + (sh->cursor - i - len), len));
+	return (ft_strndup(sh->buf.buf + (sh->cursor - i - len) +
+		(sh->cursor - i - len > 0), len - (sh->cursor - i - len > 0)));
 }
 
 void					collect_data(char *str_part)
@@ -40,6 +41,29 @@ void					collect_data(char *str_part)
 	ft_lstsort(&sh->autocomplete, cmp_autoc_entry);
 }
 
+static void				complete_missing_autocomplete(t_ft_sh *sh,
+	char *str_part)
+{
+	t_ft_autoc_entry	*entry;
+	int					i;
+	char				*tmp;
+
+	i = 0;
+	if (!sh->autocomplete_cusor)
+		return ;
+	entry = (t_ft_autoc_entry*)sh->autocomplete_cusor->content;
+	if (!str_part || !(tmp = ft_strrchr(str_part, '/')))
+		tmp = str_part;
+	if (tmp && tmp[0] == '/')
+		tmp++;
+	while (entry->name[i])
+		if (tmp && entry->name[i] == tmp[i])
+			i++;
+		else
+			break ;
+	insert_in_cli(entry->name + i);
+}
+
 void					ft_sh_autocomplete(unsigned long touch)
 {
 	char			*str_part;
@@ -47,17 +71,24 @@ void					ft_sh_autocomplete(unsigned long touch)
 	unsigned int	save_cur;
 
 	sh = get_ft_shell();
-	save_cur = sh->cursor;
+	str_part = NULL;
 	if (!sh->autocomplete && touch == T_TAB)
 	{
 		str_part = extract_autocomplete_search(sh);
 		collect_data(str_part);
+		save_cur = sh->cursor;
 		prepare_autocomplete(sh, sh->autocomplete, save_cur);
 		display_autocomplete(sh, sh->autocomplete);
-		free(str_part);
 	}
 	else if (sh->autocomplete &&
-		(touch == T_TAB || touch == T_LARR || touch == T_RARR ||
-			touch == T_BARR || touch == T_TARR))
+		(touch == T_TAB || touch == T_LARR || touch == T_RARR))
 		move_in_autocompletion(touch);
+	if (touch == T_ENTER || (sh->autocomplete && !sh->autocomplete->next &&
+		!sh->autocomplete->prev && (sh->autocomplete_cusor = sh->autocomplete)))
+	{
+		str_part = extract_autocomplete_search(sh);
+		complete_missing_autocomplete(sh, str_part);
+		cancel_autocompletion(sh, 0);
+	}
+	free(str_part);
 }

@@ -6,11 +6,27 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:40:02 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 12:52:30 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:08:50 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static int		ft_stralike(char *str1, char *str2, size_t len)
+{
+	unsigned int i;
+
+	i = 0;
+	while (str1[i] && str2[i] && str1[i] == str2[i] && i < len)
+	{
+		ft_fprintf(get_ft_shell()->debug_tty, "Is %s = %s ? %c - %c | %d - %d\n", str1, str2, str1[i], str2[i], i, len );
+		i++;
+	}
+	if (str1[i] == str2[i] && str1[i] == 0)
+		return (-1);
+	ft_fprintf(get_ft_shell()->debug_tty, "Return %d\n", len - i);
+	return (len - i);
+}
 
 static void		get_graphics_for_filetype(mode_t type, t_ft_autoc_entry *entry)
 {
@@ -42,7 +58,7 @@ static void		load_dir_autocomplete(DIR *dir, t_list **list, char *path,
 		len = ft_strlen(str_part);
 	while ((dir_data = readdir(dir)))
 	{
-		if (str_part && ft_strncmp(dir_data->d_name, str_part, len))
+		if (str_part && ft_stralike(dir_data->d_name, str_part, len))
 			continue ;
 		ft_asprintf(&fpath, "%s/%s", path, dir_data->d_name);
 		if (!stat(fpath, &stat_buf))
@@ -53,6 +69,13 @@ static void		load_dir_autocomplete(DIR *dir, t_list **list, char *path,
 	}
 }
 
+
+static void		load_dir_and_add_slash_autocomplete(DIR *dir, t_list **list,
+	char *path, char *str_part)
+{
+	load_dir_autocomplete(dir, list, path, str_part);
+	insert_in_cli("/");
+}
 void			collect_data_local_file(t_list **list, char *str_part)
 {
 	DIR					*dir;
@@ -62,12 +85,12 @@ void			collect_data_local_file(t_list **list, char *str_part)
 	path = NULL;
 	slash = NULL;
 	if ((dir = opendir(str_part)))
-		load_dir_autocomplete(dir, list, str_part, NULL);
+		load_dir_and_add_slash_autocomplete(dir, list, str_part, NULL);
 	else if (str_part && (slash = ft_strrchr(str_part, '/')))
 	{
 		path = ft_strndup(str_part, (slash - str_part) + 1);
 		if ((dir = opendir(path)))
-			load_dir_autocomplete(dir, list, str_part, slash + 1);
+			load_dir_autocomplete(dir, list, path, slash + 1);
 		else
 			ft_free((void**)&path);
 	}

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:30:12 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:43:41 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int				is_last_char_a_nl(void);
 static t_ft_touch		g_ft_touch_list[] =
 {
 	{T_TAB, ft_sh_autocomplete},
+	{T_ENTER, ft_sh_autocomplete},
 	{T_BACKSPACE, backspace_command},
 	{T_DELETE, delete_command},
 	{T_HOME, nav_touch_received},

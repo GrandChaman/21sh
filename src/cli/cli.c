@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:03:22 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:43:21 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void		read_command_routine(void)
 	while (42)
 	{
 		rvalue = read(0, tmp, 8);
-		if (rvalue == -1 || tmp[0] == '\n' || tmp[0] == T_CTRL_D
-			|| tmp[0] == T_CTRL_C)
+		if (rvalue == -1 || (tmp[0] == '\n' && !sh->autocomplete_cusor)
+		|| tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C)
 			break ;
 		rchar = *((unsigned long*)tmp);
 		execute_touch(get_ft_shell(), rchar);
