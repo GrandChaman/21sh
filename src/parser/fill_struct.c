@@ -112,7 +112,7 @@ void		fill_parser(t_parser *parser, char *original)
 	t_vari var;
 
 	init_var(&var);
-//	printf("\noriginal = %s\n", original);
+//	printf("\noriginal = %s\n\n", original);
 	while (original[var.i])
 	{
 		there_is_space(&var, original);

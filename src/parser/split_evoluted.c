@@ -8,7 +8,8 @@ static void malloc_meta(t_vari *var, t_parser *parser)
 		if (var->i_output == 0)
 		{
 //			printf("malloc nbr de ouput = %d\n", var->nbr_redirection_output);
-			parser[var->b].output.meta = malloc(sizeof(t_meta_output) * var->nbr_redirection_output + 1);
+			if (!(parser[var->b].output.meta = malloc(sizeof(t_meta_output) * var->nbr_redirection_output + 1)))
+				exit(0);
 			init_meta_output(parser, var->b, var->nbr_redirection_output);
 		}
 	}
@@ -16,8 +17,9 @@ static void malloc_meta(t_vari *var, t_parser *parser)
 	{
 		if (var->i_input == 0)
 		{
-//			printf("malloc nbr de input = %d\n", var->nbr_redirection_input);
-			parser[var->b].input.meta = malloc(sizeof(t_meta_input) * var->nbr_redirection_input + 1);
+//s			printf("malloc nbr de input = %d\n", var->nbr_redirection_input);
+			if (!(parser[var->b].input.meta = malloc(sizeof(t_meta_input) * var->nbr_redirection_input + 1)))
+				exit(0);
 			init_meta_input(parser, var->b, var->nbr_redirection_input);
 		}
 		if (var->boite == 4)
