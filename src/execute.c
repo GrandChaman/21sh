@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/20 12:59:09 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 17:23:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		is_built_in(t_parser parser)
 	return (-1);
 }
 
-int		execute(t_parser parser, t_list **head, int *should_exit)
+int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table *ht)
 {
 	t_list	*copy;
 
@@ -75,5 +75,5 @@ int		execute(t_parser parser, t_list **head, int *should_exit)
 		ft_lstdel(&copy, free_env_var);
 		return (0);
 	}
-	return (launch(parser.cmd, head));
+	return (launch(parser.cmd, head, ht));
 }
