@@ -8,7 +8,7 @@ int	check_dup_input(t_parser *parser, int x)
 	char *str;
 	char *str2;
 
-	i = 0;	
+	i = 0;
 	if (parser[x].input.meta)
 	{
 		while (parser[x].input.meta)
@@ -42,7 +42,7 @@ int	check_dup_input(t_parser *parser, int x)
 					if ((fd = open(parser[x].input.meta[i].name,  O_RDWR, 0777)) == -1)
 					{
 						ft_printf("21sh :no such file or directory\n");
-						return(0);
+						return (0);
 					}
 					ft_easy_input(&stock, x, i, parser);
 					dup2(fd, stock);
