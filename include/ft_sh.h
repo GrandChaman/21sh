@@ -14,6 +14,7 @@
 # define FT_SH_H
 # include "ft_sh.h"
 # include "libft.h"
+# include <stdio.h>
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -243,16 +244,16 @@ void			split_evoluted(t_parser *parser, char *original);
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute_env(char **args, t_list **head);
+int						execute_env(char **args, t_list **head, t_parser parser);
 int						execute(t_parser parser, t_list **head, int *should_exit);
-int						launch(char **args, t_list **head);
+int						launch(char **args, t_list **head,t_parser parser);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
 int						mini_cd(char **args, t_list **head);
 int						mini_echo(char **args);
-int						mini_env(char **args, t_list **head);
+int						mini_env(char **args, t_list **head, t_parser parser);
 int						mini_exit(char **args);
 char					*ft_getenv(t_list **head, char *elem);
 char					*ft_path(t_list **head, char *cmd);

@@ -32,7 +32,7 @@ static int	has_equal_sign(char *str, int *x)
 	return (0);
 }
 
-static int	help_norm(t_list **head, char ***setenv, char **args)
+static int	help_norm(t_list **head, char ***setenv, char **args, t_parser parser)
 {
 	int i;
 	int x;
@@ -54,28 +54,28 @@ static int	help_norm(t_list **head, char ***setenv, char **args)
 			free((*setenv)[x]);
 		free(*setenv);
 	}
-	execute_env(&args[i], head);
+	execute_env(&args[i], head, parser);
 	return (1);
 }
 
-static int	help_norm_2(t_list **head, char ***setenv, char **args)
+static int	help_norm_2(t_list **head, char ***setenv, char **args,t_parser parser)
 {
 	ft_lsterase(head);
 	*head = NULL;
 	if (args[2] != NULL)
-		return (help_norm(head, setenv, &args[1]));
+		return (help_norm(head, setenv, &args[1], parser));
 	return (1);
 }
 
-int			mini_env(char **args, t_list **head)
+int			mini_env(char **args, t_list **head, t_parser parser)
 {
 	char	**setenv;
 
 	if (!args[1])
 		ft_lstprint(head);
 	if (ft_strcmp(args[1], "-i") == 0)
-		return (help_norm_2(head, &setenv, args));
+		return (help_norm_2(head, &setenv, args,parser));
 	else if (args[1])
-		return (help_norm(head, &setenv, args));
+		return (help_norm(head, &setenv, args, parser));
 	return (1);
 }

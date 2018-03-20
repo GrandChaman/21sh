@@ -23,7 +23,7 @@ static int	check_slash(char *str)
 	return (0);
 }
 
-int			launch(char **args, t_list **head)
+int			launch(char **args, t_list **head, t_parser parser)
 {
 	pid_t	pid;
 	int		status;
@@ -43,7 +43,7 @@ int			launch(char **args, t_list **head)
 	}
 	else if (pid < 0)
 		ft_putendl("minishell: fork error\n");
-	else
+	else if (!parser.output.pipe)
 		waitpid(pid, &status, WUNTRACED);
 	return (status);
 }
