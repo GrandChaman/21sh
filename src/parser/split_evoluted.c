@@ -17,7 +17,7 @@ static void malloc_meta(t_vari *var, t_parser *parser)
 	{
 		if (var->i_input == 0)
 		{
-//s			printf("malloc nbr de input = %d\n", var->nbr_redirection_input);
+//			printf("malloc nbr de input = %d\n", var->nbr_redirection_input);
 			if (!(parser[var->b].input.meta = malloc(sizeof(t_meta_input) * var->nbr_redirection_input + 1)))
 				exit(0);
 			init_meta_input(parser, var->b, var->nbr_redirection_input);
