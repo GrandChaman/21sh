@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_parser.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/20 13:49:00 by rfautier          #+#    #+#             */
+/*   Updated: 2018/03/20 13:49:02 by rfautier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_sh.h"
 
 void		init_parser(t_parser *parser, int nb)
@@ -69,7 +81,7 @@ static void	free_output_meta(t_parser *parser, int i)
 			o++;
 		}
 		free(parser[i].output.meta);
-	}	
+	}
 }
 
 void		free_parser(t_parser *parser)
@@ -93,10 +105,10 @@ void		free_parser(t_parser *parser)
 		free(parser);
 		parser = NULL;
 	}
-	 free(parser);
+	free(parser);
 }
 
-void	print_parser(t_parser *parser, int nb)
+/*void	print_parser(t_parser *parser, int nb)
 {
 	int i;
 	int o;
@@ -155,4 +167,4 @@ void	print_parser(t_parser *parser, int nb)
 		i++;
 	}
 	printf("\n------------End Parser------------\n");
-}
+}*/
