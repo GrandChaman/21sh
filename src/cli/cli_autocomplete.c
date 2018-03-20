@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 11:00:40 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 18:23:11 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char				*extract_autocomplete_search(t_ft_sh *sh)
 
 	i = 0;
 	len = 0;
-	if (!sh->buf.buf[0] || ft_iswhitespace(sh->buf.buf[sh->cursor - 1]))
+	if (!sh->cursor || ft_iswhitespace(sh->buf.buf[sh->cursor - 1]))
 		return (NULL);
 	while (sh->cursor - i > 0 && ft_iswhitespace(sh->buf.buf[sh->cursor - i]))
 		i++;
