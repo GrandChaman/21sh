@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-char	checkquote_fill_output(t_vari *var, char *original, t_parser *parser)
+char	checkquote_fill_output(t_vari *var, char *ori, t_parser *parser)
 {
 	char	tableau[3];
 	int		i;
@@ -24,9 +24,9 @@ char	checkquote_fill_output(t_vari *var, char *original, t_parser *parser)
 	i = 0;
 	while (tableau[i])
 	{
-		if (original[var->i] == tableau[i])
+		if (ori[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_output(var, original, tableau[i], parser);
+			stock = checkquote2_fill_output(var, ori, tableau[i], parser);
 			if (stock == 0)
 				return ('k');
 		}
@@ -35,18 +35,18 @@ char	checkquote_fill_output(t_vari *var, char *original, t_parser *parser)
 	return ('n');
 }
 
-int		checkquote2_fill_output(t_vari *var, char *original,
+int		checkquote2_fill_output(t_vari *var, char *ori,
 	char c, t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[var->i] && original[var->i] == c)
+	if (ori[var->i] && ori[var->i] == c)
 	{
 		var->i++;
-		while (original[var->i] && original[var->i] != c)
+		while (ori[var->i] && ori[var->i] != c)
 		{
-			parser[var->b].output.meta[var->i_output].name[o] = original[var->i];
+			parser[var->b].output.meta[var->i_output].name[o] = ori[var->i];
 			var->i++;
 			o = o + 1;
 		}
@@ -58,7 +58,7 @@ int		checkquote2_fill_output(t_vari *var, char *original,
 	return (1);
 }
 
-char	checkquote_fill_input(t_vari *var, char *original, t_parser *parser)
+char	checkquote_fill_input(t_vari *var, char *ori, t_parser *parser)
 {
 	char	tableau[3];
 	int		i;
@@ -70,9 +70,9 @@ char	checkquote_fill_input(t_vari *var, char *original, t_parser *parser)
 	i = 0;
 	while (tableau[i])
 	{
-		if (original[var->i] == tableau[i])
+		if (ori[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_intput(var, original, tableau[i], parser);
+			stock = checkquote2_fill_intput(var, ori, tableau[i], parser);
 			if (stock == 0)
 				return ('k');
 		}
@@ -81,18 +81,18 @@ char	checkquote_fill_input(t_vari *var, char *original, t_parser *parser)
 	return ('n');
 }
 
-int		checkquote2_fill_intput(t_vari *var, char *original,
+int		checkquote2_fill_intput(t_vari *var, char *ori,
 	char c, t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[var->i] && original[var->i] == c)
+	if (ori[var->i] && ori[var->i] == c)
 	{
 		var->i++;
-		while (original[var->i] && original[var->i] != c)
+		while (ori[var->i] && ori[var->i] != c)
 		{
-			parser[var->b].input.meta[var->i_input].name[o] = original[var->i];
+			parser[var->b].input.meta[var->i_input].name[o] = ori[var->i];
 			var->i++;
 			o = o + 1;
 		}

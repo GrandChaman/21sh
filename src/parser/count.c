@@ -12,18 +12,18 @@
 
 #include "ft_sh.h"
 
-static void	end_cmd(char *original, int *i, int *nb)
+static void	end_cmd(char *ori, int *i, int *nb)
 {
-	if (original[*i] == ';' || original[*i] == '|')
+	if (ori[*i] == ';' || ori[*i] == '|')
 	{
 		*i = *i + 1;
-		is_space(i, original);
-		if ((original[*i] != ' ' && original[*i] != '\n') && original[*i])
+		is_space(i, ori);
+		if ((ori[*i] != ' ' && ori[*i] != '\n') && ori[*i])
 			*nb = *nb + 1;
 	}
 }
 
-int			count_cmd(char *original)
+int			count_cmd(char *ori)
 {
 	int i;
 	int nb;
@@ -32,65 +32,65 @@ int			count_cmd(char *original)
 	o = 0;
 	nb = 0;
 	i = 0;
-	while (original[i])
+	while (ori[i])
 	{
-		is_space(&i, original);
-		if (original[i] == '\0')
+		is_space(&i, ori);
+		if (ori[i] == '\0')
 			return (nb);
-		while ((original[i] != ' ' && original[i] != '\n') && original[i])
+		while ((ori[i] != ' ' && ori[i] != '\n') && ori[i])
 		{
 			if (nb == 0)
 				nb++;
-			checkquote(&i, &o, original);
-			end_cmd(original, &i, &nb);
+			checkquote(&i, &o, ori);
+			end_cmd(ori, &i, &nb);
 			i++;
 		}
 	}
 	return (nb);
 }
 
-static void	redirection_input_count(char *original, int *i, int *o, int *nb)
+static void	redirection_input_count(char *ori, int *i, int *o, int *nb)
 {
-	if (redirections_input(i, original) != 1)
+	if (redirections_input(i, ori) != 1)
 	{
 		*nb = *nb + 1;
-		checkquote(i, o, original);
+		checkquote(i, o, ori);
 	}
 }
 
-static int	count_redirection_input_2(char *original, int i, int o, int nb)
+static int	count_redirection_input_2(char *ori, int i, int o, int nb)
 {
-	while (original[i])
+	while (ori[i])
 	{
-		is_space(&i, original);
-		while ((original[i] != ' ' && original[i] != '\n') && original[i])
+		is_space(&i, ori);
+		while ((ori[i] != ' ' && ori[i] != '\n') && ori[i])
 		{
-			checkquote(&i, &o, original);
-			is_space(&i, original);
-			if (original[i] == '|' || original[i] == ';')
+			checkquote(&i, &o, ori);
+			is_space(&i, ori);
+			if (ori[i] == '|' || ori[i] == ';')
 				return (nb);
-			if (original[i] == '\0')
+			if (ori[i] == '\0')
 				break ;
-			redirection_input_count(original, &i, &o, &nb);
-			if (original[i] == '|' || original[i] == ';')
+			redirection_input_count(ori, &i, &o, &nb);
+			if (ori[i] == '|' || ori[i] == ';')
 				return (nb);
 			i++;
 		}
-		is_space(&i, original);
-		if (original[i] == '\0')
+		is_space(&i, ori);
+		if (ori[i] == '\0')
 			break ;
-		if (original[i] == '|' || original[i] == ';')
+		if (ori[i] == '|' || ori[i] == ';')
 			return (nb);
 	}
 	return (nb);
 }
 
-int			count_redirection_input(int i, char *original)
+int			count_redirection_input(int i, char *ori)
 {
 	int nb;
 	int o;
 
 	o = 0;
 	nb = 0;
-	return (count_redirection_input_2(original, i, o, nb));
+	return (count_redirection_input_2(ori, i, o, nb));
 }

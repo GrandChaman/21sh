@@ -12,13 +12,13 @@
 
 #include "ft_sh.h"
 
-static int	size_str(t_vari var, char *original)
+static int	size_str(t_vari var, char *ori)
 {
 	int nb;
 
 	nb = 0;
-	while (original[var.i] && (original[var.i] != ' ' &&
-		original[var.i] != '\n'))
+	while (ori[var.i] && (ori[var.i] != ' ' &&
+		ori[var.i] != '\n'))
 	{
 		var.i++;
 		nb++;
@@ -26,18 +26,18 @@ static int	size_str(t_vari var, char *original)
 	return (nb);
 }
 
-static char	*search_str(t_vari *var, char *original)
+static char	*search_str(t_vari *var, char *ori)
 {
 	int		o;
 	char	*str;
 
 	o = 0;
-	if (!(str = malloc(sizeof(char) * size_str(*var, original) + 1)))
+	if (!(str = malloc(sizeof(char) * size_str(*var, ori) + 1)))
 		exit(0);
-	while (original[var->i] && (original[var->i] != ' ' &&
-		original[var->i] != '\n'))
+	while (ori[var->i] && (ori[var->i] != ' ' &&
+		ori[var->i] != '\n'))
 	{
-		str[o] = original[var->i];
+		str[o] = ori[var->i];
 		var->i++;
 		o++;
 	}
@@ -59,7 +59,7 @@ static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 	free(str);
 }
 
-void		call_heredoc(t_vari *var, char *original)
+void		call_heredoc(t_vari *var, char *ori)
 {
 	char	*str;
 	char	*tmp;
@@ -67,7 +67,7 @@ void		call_heredoc(t_vari *var, char *original)
 	int		fd;
 	char	*tmp2;
 
-	str = search_str(var, original);
+	str = search_str(var, ori);
 	tmp = read_command(NULL, 0, 1, 0);
 	tmp2 = ft_itoa(var->heredoc);
 	path_file = ft_strjoin("/tmp/21sh_heredoc", tmp2);

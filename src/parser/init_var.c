@@ -39,15 +39,15 @@ void	init_var(t_vari *var)
 	var->heredoc = 0;
 }
 
-void	fill_std_i(t_vari *var, t_parser *parser, char *original)
+void	fill_std_i(t_vari *var, t_parser *parser, char *ori)
 {
-	if (ft_isstd(original[var->i - 1]))
+	if (ft_isstd(ori[var->i - 1]))
 	{
-		if (original[var->i - 1] == '0')
+		if (ori[var->i - 1] == '0')
 			parser[var->b].input.meta[var->i_input].stdin = 1;
-		else if (original[var->i - 1] == '1')
+		else if (ori[var->i - 1] == '1')
 			parser[var->b].input.meta[var->i_input].stdout = 1;
-		else if (original[var->i - 1] == '2')
+		else if (ori[var->i - 1] == '2')
 			parser[var->b].input.meta[var->i_input].stderr = 1;
 	}
 	else
@@ -57,18 +57,18 @@ void	fill_std_i(t_vari *var, t_parser *parser, char *original)
 	}
 }
 
-void	fill_std_o(t_vari *var, t_parser *parser, char *original)
+void	fill_std_o(t_vari *var, t_parser *parser, char *ori)
 {
-	if (ft_isstd(original[var->i - 1]))
+	if (ft_isstd(ori[var->i - 1]))
 	{
-		if (original[var->i - 1] == '0')
+		if (ori[var->i - 1] == '0')
 			parser[var->b].output.meta[var->i_output].stdin = 1;
-		else if (original[var->i - 1] == '1')
+		else if (ori[var->i - 1] == '1')
 		{
 			parser[var->b].output.meta[var->i_output].stdout = 1;
 			parser[var->b].close_stdout = 1;
 		}
-		else if (original[var->i - 1] == '2')
+		else if (ori[var->i - 1] == '2')
 		{
 			parser[var->b].output.meta[var->i_output].stderr = 1;
 			parser[var->b].close_stderr = 1;
