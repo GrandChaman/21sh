@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 15:38:30 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 17:23:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ t_bin_hash_table			*load_bin_into_hash_table(t_list *env);
 int						compare_with_key(void *e1, void *e2);
 void				free_hash_table(t_bin_hash_table **ht);
 unsigned long dj2b_hash(unsigned char *str);
-unsigned long	get_index_in_ht(t_bin_hash_table *ht, char *name);
+t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name);
 
 //BETA
 
@@ -278,9 +278,8 @@ void			split_evoluted(t_parser *parser, char *original);
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute_env(char **args, t_list **head);
-int						execute(t_parser parser, t_list **head, int *should_exit);
-int						launch(char **args, t_list **head);
+int						execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table *ht);
+int						launch(char **args, t_list **head, t_bin_hash_table *ht);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);

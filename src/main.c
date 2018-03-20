@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 15:39:55 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 17:30:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_debug(t_ft_sh *shell, const char *path)
 	ft_fprintf(shell->debug_tty, "-------------------------------------\n");
 }
 
-void main_routine(t_list **head, int status)
+void main_routine(t_list **head, int status, t_bin_hash_table *ht)
 {
 	char *cmd;
 	t_ft_sh *shell;
@@ -61,7 +61,7 @@ void main_routine(t_list **head, int status)
 					break ;
 				if (!(parser[x].close_stdout))
 					check_pipe(parser, x, &r_dup);
-				status = execute(parser[x], head, &should_exit);
+				status = execute(parser[x], head, &should_exit, ht);
 				if (should_exit)
 					break;
 				if (parser[x].close_stdout)
@@ -103,9 +103,9 @@ int		main(int argc, const char **argv, char **env)
 	char2d_tolist(&env_lst, env);
 	ht = load_bin_into_hash_table(env_lst);
 	cli_loader(0);
-	main_routine(&env_lst, 1);
+	ft_printf("%p\n", get_elem_from_ht(ht, "head"));
+	main_routine(&env_lst, 1, ht);
 	cli_loader(1);
-	ft_fprintf(shell->debug_tty, "Index : %d\n", get_index_in_ht(ht, "ls"));
 	free_hash_table(&ht);
 	ft_lstdel(&env_lst, free_env_var);
 	if (shell->debug_tty > 0)
