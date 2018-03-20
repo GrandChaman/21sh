@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/20 17:23:05 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 17:40:55 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table 
 	if (ft_strcmp(parser.cmd[0], "env") == 0)
 	{
 		copy = dup_environment(*head);
-		builtin_env(&copy, parser.cmd);
+		builtin_env(&copy, parser.cmd, ht);
 		ft_lstdel(&copy, free_env_var);
 		return (0);
 	}
