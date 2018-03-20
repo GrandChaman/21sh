@@ -1,6 +1,6 @@
 #include "ft_sh.h"
 
-t_parser	*get_parser(char *original) //Pour victor
+t_parser	*get_parser(char *original)
 {
 	int			stock;
 	t_parser	*parser;
