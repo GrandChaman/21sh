@@ -71,5 +71,6 @@ void		call_heredoc(t_vari *var, char *original)
 	}
 	free(path_file);
 	final_heredoc(tmp, str, tmp2, fd);
+	var->i--;
 	close(fd);
 }
