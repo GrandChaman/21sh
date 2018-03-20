@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 11:23:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 15:39:55 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int		main(int argc, const char **argv, char **env)
 {
 	t_ft_sh *shell;
 	t_list	*env_lst;
+	t_bin_hash_table *ht;
 
 	shell = get_ft_shell();
 	signal(SIGINT, ignore_signal);
@@ -100,10 +101,12 @@ int		main(int argc, const char **argv, char **env)
 	if (!is_env_correct())
 		return (1);
 	char2d_tolist(&env_lst, env);
-	//ft_lstprint(&env);
+	ht = load_bin_into_hash_table(env_lst);
 	cli_loader(0);
 	main_routine(&env_lst, 1);
 	cli_loader(1);
+	ft_fprintf(shell->debug_tty, "Index : %d\n", get_index_in_ht(ht, "ls"));
+	free_hash_table(&ht);
 	ft_lstdel(&env_lst, free_env_var);
 	if (shell->debug_tty > 0)
 		close(shell->debug_tty);
