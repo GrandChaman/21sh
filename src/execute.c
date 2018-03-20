@@ -6,56 +6,11 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/19 16:55:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 12:59:09 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-t_list	*ft_lstcopy(t_list **head)
-{
-	t_list	*copy;
-	t_list	*curr_copy;
-	t_list	*tmp;
-	t_list	*curr_head;
-
-	curr_head = *head;
-	if (*head == NULL)
-		return (NULL);
-	curr_copy = ft_lstnew(curr_head->content, curr_head->content_size);
-	copy = curr_copy;
-	curr_head = curr_head->next;
-	while (curr_head)
-	{
-		tmp = ft_lstnew(curr_head->content, curr_head->content_size);
-		curr_copy->next = tmp;
-		curr_copy = tmp;
-		curr_head = curr_head->next;
-	}
-	return (copy);
-}
-
-int		execute_env(char **args, t_list **head)
-{
-	t_list	*copy;
-
-	if (!args[0])
-		return (1);
-	if (ft_strcmp(args[0], "help") == 0)
-		return (mini_help(args));
-	else if (ft_strcmp(args[0], "echo") == 0)
-		return (mini_echo(args));
-	else if (ft_strcmp(args[0], "cd") == 0)
-		return (mini_cd(args, head));
-	else if (ft_strcmp(args[0], "env") == 0)
-	{
-		copy = ft_lstcopy(head);
-		mini_env(args, &copy);
-		ft_lsterase(&copy);
-		return (1);
-	}
-	return (launch(args, head));
-}
 
 int		launch_built_in(t_parser parser, t_list **head)
 {
@@ -115,10 +70,10 @@ int		execute(t_parser parser, t_list **head, int *should_exit)
 	}
 	if (ft_strcmp(parser.cmd[0], "env") == 0)
 	{
-		copy = ft_lstcopy(head);
-		mini_env(parser.cmd, &copy);
-		ft_lsterase(&copy);
-		return (1);
+		copy = dup_environment(*head);
+		builtin_env(&copy, parser.cmd);
+		ft_lstdel(&copy, free_env_var);
+		return (0);
 	}
 	return (launch(parser.cmd, head));
 }

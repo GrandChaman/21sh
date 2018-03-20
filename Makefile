@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/19 16:53:54 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/20 11:11:06 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ redirection4.c redirection_input_output.c\
 quote_fill_input_output.c count_2.c\
 check_pipe.c cli_autocomplete.c cli_autocomplete_utils.c \
 cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
-cli_prompt.c history_utils.c cli_spe_nav.c
+cli_prompt.c history_utils.c cli_spe_nav.c env_utils.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
