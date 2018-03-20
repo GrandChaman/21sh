@@ -2,7 +2,7 @@
 
 static void	there_is_space_space(int *i, char *original)
 {
-	while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
+	while ((original[*i] == ' ' || original[*i] == '\n') && original[*i])
 		*i = *i + 1;
 }
 

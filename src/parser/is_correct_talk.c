@@ -2,13 +2,13 @@
 
 static int				this_is_word(t_vari *var, char *original)
 {
-	while ((original[var->i] != ' ' && original[var->i] != '\t' &&
+	while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 	{
 		var->boite = redirections3(&var->i, original);
 		if (var->boite == 0 && (ft_printf("\n21sh: syntax error\n")))
 			return (0);
-		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
+		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
 			original[var->i])
 			var->i++;
 		if ((var->stock = checkquote(&var->i, &var->o, original)) == 'k')
@@ -31,7 +31,7 @@ static int				main_loop(t_vari *var, char *original)
 	while (original[var->i] && original[var->i] != ';' &&
 		original[var->i] != '|')
 	{
-		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
+		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
 			original[var->i])
 			var->i++;
 		if (original[var->i] == '\0')
@@ -39,7 +39,7 @@ static int				main_loop(t_vari *var, char *original)
 		if ((var->boite = this_is_word(var, original)) != 1)
 			return (var->boite);
 		var->o = 0;
-		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
+		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
 			original[var->i])
 			var->i++;
 		if (original[var->i] == '\0' || original[var->i] == ';' ||
@@ -55,7 +55,7 @@ static int				there_is_pipe(t_vari *var, char *original)
 	if (original[var->i] == '|')
 	{
 		var->i++;
-		while ((original[var->i] == ' ' || original[var->i] == '\t') &&
+		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
 			original[var->i])
 			var->i++;
 		if (original[var->i] == '\0')
@@ -70,7 +70,7 @@ static int				second_main_loop(t_vari *var, char *original)
 		return (var->boite);
 	if (original[var->i] == ';')
 		var->i++;
-	while ((original[var->i] == ' ' || original[var->i] == '\t') &&
+	while ((original[var->i] == ' ' || original[var->i] == '\n') &&
 		original[var->i])
 		var->i++;
 	if (original[var->i] && ft_isatoken(original[var->i]) &&
@@ -86,7 +86,7 @@ int				is_correct_talk(char *original)
 	init_var(&var);
 	while (original[var.i])
 	{
-		while ((original[var.i] == ' ' || original[var.i] == '\t') &&
+		while ((original[var.i] == ' ' || original[var.i] == '\n') &&
 			original[var.i])
 			var.i++;
 		if (original[var.i] == '\0')

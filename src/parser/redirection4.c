@@ -2,7 +2,7 @@
 
 void		there_is_space(t_vari *var, char *original)
 {
-	while ((original[var->i] == ' ' || original[var->i] == '\t')
+	while ((original[var->i] == ' ' || original[var->i] == '\n')
 		&& original[var->i])
 		var->i++;
 }

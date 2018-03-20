@@ -5,16 +5,16 @@ static void	main_loop(int *i, int o, int *nb, char *original)
 	while ((checkquote(i, &o, original)) == 'k')
 	{
 		*nb = *nb + 1;
-		while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
+		while ((original[*i] == ' ' || original[*i] == '\n') && original[*i])
 			*i = *i + 1;
 	}
-	while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
+	while ((original[*i] == ' ' || original[*i] == '\n') && original[*i])
 		*i = *i + 1;
 }
 
 static void	space(int *i, char *original)
 {
-	while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
+	while ((original[*i] == ' ' || original[*i] == '\n') && original[*i])
 		*i = *i + 1;
 }
 
@@ -23,7 +23,7 @@ static int	main_loop2(int i, int o, int nb, char *original)
 	while (original[i])
 	{
 		space(&i, original);
-		while ((original[i] != ' ' && original[i] != '\t') && original[i])
+		while ((original[i] != ' ' && original[i] != '\n') && original[i])
 		{
 			main_loop(&i, o, &nb, original);
 			if (original[i] == '|' || original[i] == ';')
