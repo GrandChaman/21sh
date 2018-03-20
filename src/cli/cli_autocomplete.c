@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 16:47:23 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 18:23:11 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char				*extract_autocomplete_search(t_ft_sh *sh)
 
 	i = 0;
 	len = 0;
-	if (!sh->buf.buf[0] || ft_iswhitespace(sh->buf.buf[sh->cursor - 1]))
+	if (!sh->cursor || ft_iswhitespace(sh->buf.buf[sh->cursor - 1]))
 		return (NULL);
 	while (sh->cursor - i > 0 && ft_iswhitespace(sh->buf.buf[sh->cursor - i]))
 		i++;
@@ -72,9 +72,9 @@ void					ft_sh_autocomplete(unsigned long touch)
 
 	sh = get_ft_shell();
 	str_part = NULL;
+	str_part = extract_autocomplete_search(sh);
 	if (!sh->autocomplete && touch == T_TAB)
 	{
-		str_part = extract_autocomplete_search(sh);
 		collect_data(str_part);
 		save_cur = sh->cursor;
 		prepare_autocomplete(sh, sh->autocomplete, save_cur);
@@ -86,7 +86,6 @@ void					ft_sh_autocomplete(unsigned long touch)
 	if (touch == T_ENTER || (sh->autocomplete && !sh->autocomplete->next &&
 		!sh->autocomplete->prev && (sh->autocomplete_cusor = sh->autocomplete)))
 	{
-		str_part = extract_autocomplete_search(sh);
 		complete_missing_autocomplete(sh, str_part);
 		cancel_autocompletion(sh, 0);
 	}
