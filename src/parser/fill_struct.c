@@ -4,7 +4,6 @@ static void	fill_backslashzero(t_vari *var, t_parser *parser)
 {
 	if (var->z >= 0 && var->o != 0 && var->box == 1 && var->boite != 4)
 	{
-//		printf("rajoute cmd backslash\n");
 		parser[var->b].cmd[var->j][var->o] = '\0';
 		var->j++;
 	}
@@ -26,17 +25,14 @@ static void fill_it(t_vari *var, t_parser *parser, char *original)
 {
 	if (var->boite == 1 && var->box == 1)
 	{
-//		printf("fill_cmd parser[%d].cmd[%d][%d] = %c\n", var->b, var->j,var->o,  original[var->i]);
 		parser[var->b].cmd[var->j][var->o] = original[var->i];
 	}
 	if (var->box == 3)
 	{
-//		printf("fill_input = %c\n", original[var->i]);
 		parser[var->b].input.meta[var->i_input].name[var->o] = original[var->i];
 	}
 	if (var->box == 2)
 	{
-//		printf("fill_output = %c\n", original[var->i]);
 		parser[var->b].output.meta[var->i_output].name[var->o] = original[var->i];
 	}
 }
@@ -74,7 +70,7 @@ static void	there_is_word(t_vari *var, t_parser *parser, char *original)
 		while (checkquote_fill_cmd(var, original, parser) != 'n')
 			there_is_space(var, original);
 		there_is_space(var, original);
-		if (original[var->i] == '\0'|| original[var->i] == ';' || original[var->i] == '|')
+		if (original[var->i] == '\0' || original[var->i] == ';' || original[var->i] == '|')
 			break ;
 		var->boite = redirections4(original, parser, var);
 		if (!(after_redirection(var, parser, original)))
@@ -112,7 +108,6 @@ void		fill_parser(t_parser *parser, char *original)
 	t_vari var;
 
 	init_var(&var);
-//	printf("\noriginal = %s\n\n", original);
 	while (original[var.i])
 	{
 		there_is_space(&var, original);
@@ -135,5 +130,4 @@ void		fill_parser(t_parser *parser, char *original)
 			break ;
 		end_fill_parser(&var, original);
 	}
-//	ft_printf("End\n");
 }

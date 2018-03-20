@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_correct.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/20 13:50:22 by rfautier          #+#    #+#             */
+/*   Updated: 2018/03/20 13:50:24 by rfautier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_sh.h"
 
-static int				this_is_word(t_vari *var, char *original)
+static int	this_is_word(t_vari *var, char *original)
 {
 	while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
@@ -28,7 +40,7 @@ static int				this_is_word(t_vari *var, char *original)
 	return (1);
 }
 
-static int				main_loop(t_vari *var, char *original)
+static int	main_loop(t_vari *var, char *original)
 {
 	while (original[var->i] && original[var->i] != ';' &&
 		original[var->i] != '|')
@@ -52,7 +64,7 @@ static int				main_loop(t_vari *var, char *original)
 	return (1);
 }
 
-static int				there_is_pipe(t_vari *var, char *original)
+static int	there_is_pipe(t_vari *var, char *original)
 {
 	if (original[var->i] == '|')
 	{
@@ -66,7 +78,7 @@ static int				there_is_pipe(t_vari *var, char *original)
 	return (1);
 }
 
-static int				second_main_loop(t_vari *var, char *original)
+static int	second_main_loop(t_vari *var, char *original)
 {
 	if ((var->boite = there_is_pipe(var, original)) != 1)
 		return (var->boite);
@@ -80,7 +92,7 @@ static int				second_main_loop(t_vari *var, char *original)
 	return (1);
 }
 
-int				is_correct(char *original)
+int			is_correct(char *original)
 {
 	t_vari var;
 
