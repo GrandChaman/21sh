@@ -6,27 +6,11 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/30 15:31:27 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/01 13:43:25 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/20 13:33:08 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-char		*ft_getenv(t_list **head, char *elem)
-{
-	t_list	*curr;
-	int		len;
-
-	curr = *head;
-	len = ft_strlen(elem);
-	while (curr)
-	{
-		if (ft_strncmp(curr->content, elem, len) == 0)
-			return (&(curr->content)[len + 1]);
-		curr = curr->next;
-	}
-	return ("");
-}
 
 static int	check_two_points(char *tmp, int i, int *j)
 {

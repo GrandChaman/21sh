@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/20 13:13:20 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 13:31:26 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			builtin_env(t_list **env, char **args)
 		if (!ft_strcmp(args[arg_offset], "-i") && arg_offset++)
 			ft_lstdel(env, free_env_var);
 		while (args[arg_offset++])
-			extract_define(&list, args[arg_offset - 1])
+			extract_define(env, args[arg_offset - 1]);
 		//BETA
 		int i;
 

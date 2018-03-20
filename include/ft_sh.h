@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 13:12:54 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 15:38:30 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,20 @@ typedef	struct 			s_dup
 	int p[2];
 }						t_dup;
 
+typedef	struct 			s_bin_hash
+{
+	unsigned int		index;
+	char				*name;
+	char				*path;
+	char				can_exec;
+}						t_bin_hash;
+
+typedef	struct 			s_bin_hash_table
+{
+	t_bin_hash			*table;
+	unsigned int		size;
+}						t_bin_hash_table;
+
 //BETA
 
 void		char2d_tolist(t_list **env, char **args);
@@ -205,6 +219,11 @@ void		free_env_var(void *el, size_t size);
 t_list					*dup_environment(t_list *env);
 char					**list_tochar2d(t_list *list);
 void						extract_define(t_list **list, const char *param);
+t_bin_hash_table			*load_bin_into_hash_table(t_list *env);
+int						compare_with_key(void *e1, void *e2);
+void				free_hash_table(t_bin_hash_table **ht);
+unsigned long dj2b_hash(unsigned char *str);
+unsigned long	get_index_in_ht(t_bin_hash_table *ht, char *name);
 
 //BETA
 
@@ -270,7 +289,6 @@ int						mini_cd(char **args, t_list **head);
 int						mini_echo(char **args);
 int						builtin_env(t_list **env, char **args);
 int						mini_exit(char **args);
-char					*ft_getenv(t_list **head, char *elem);
 char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
 void					ft_lst_add_or_modify(int flag, t_list **head,
