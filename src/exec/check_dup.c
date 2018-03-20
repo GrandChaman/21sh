@@ -7,7 +7,6 @@ int	check_dup(t_parser *parser, int x)
 	int stock;
 
 	i = 0;
-	ft_easy2(x, parser);
 	if (parser[x].output.meta)
 	{
 		while (parser[x].output.meta)
@@ -18,7 +17,9 @@ int	check_dup(t_parser *parser, int x)
 				{
 					ft_easy_output(&stock, x, i, parser);
 					if (parser[x].output.meta[i].name[1])
+					{
 						dup2(stock, parser[x].output.meta[i].name[1] - 48);
+					}
 					else
 						dup2(stock, 1);
 				}
