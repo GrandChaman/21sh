@@ -28,7 +28,8 @@ redirection4.c redirection_input_output.c\
 quote_fill_input_output.c count_2.c\
 check_pipe.c cli_autocomplete.c cli_autocomplete_utils.c \
 cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
-cli_prompt.c history_utils.c cli_spe_nav.c
+cli_prompt.c history_utils.c cli_spe_nav.c split_evoluted_2.c\
+fill_struct_2.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
