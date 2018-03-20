@@ -12,12 +12,12 @@
 
 #include "ft_sh.h"
 
-char	*check_correct(char *original)
+char	*check_correct(char *ori)
 {
 	int			stock;
 	char		*prompt;
 
-	stock = is_correct(original);
+	stock = is_correct(ori);
 	if (stock < 0)
 	{
 		if (stock == -1)

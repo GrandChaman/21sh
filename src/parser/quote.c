@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-char	checkquote(int *i, int *o, char *original)
+char	checkquote(int *i, int *o, char *ori)
 {
 	char	tableau[3];
 	int		var;
@@ -24,9 +24,9 @@ char	checkquote(int *i, int *o, char *original)
 	var = 0;
 	while (tableau[var])
 	{
-		if (original[*i] == tableau[var])
+		if (ori[*i] == tableau[var])
 		{
-			stock = checkquote2(i, o, original, tableau[var]);
+			stock = checkquote2(i, o, ori, tableau[var]);
 			if (stock == 0)
 				return ('k');
 			if (stock == -1)
@@ -37,17 +37,17 @@ char	checkquote(int *i, int *o, char *original)
 	return ('n');
 }
 
-int		checkquote2(int *i, int *o, char *original, char c)
+int		checkquote2(int *i, int *o, char *ori, char c)
 {
-	if (original[*i] && original[*i] == c)
+	if (ori[*i] && ori[*i] == c)
 	{
 		*i = *i + 1;
-		while (original[*i] && original[*i] != c)
+		while (ori[*i] && ori[*i] != c)
 		{
 			*i = *i + 1;
 			*o = *o + 1;
 		}
-		if (original[*i] == '\0' && original[*i] != c)
+		if (ori[*i] == '\0' && ori[*i] != c)
 			return (-1);
 		*i = *i + 1;
 		return (0);
@@ -55,7 +55,7 @@ int		checkquote2(int *i, int *o, char *original, char c)
 	return (1);
 }
 
-char	checkquote_fill_cmd(t_vari *var, char *original, t_parser *parser)
+char	checkquote_fill_cmd(t_vari *var, char *ori, t_parser *parser)
 {
 	char	tableau[3];
 	int		i;
@@ -67,9 +67,9 @@ char	checkquote_fill_cmd(t_vari *var, char *original, t_parser *parser)
 	i = 0;
 	while (tableau[i])
 	{
-		if (original[var->i] == tableau[i])
+		if (ori[var->i] == tableau[i])
 		{
-			stock = checkquote2_fill_cmd(var, original, tableau[i], parser);
+			stock = checkquote2_fill_cmd(var, ori, tableau[i], parser);
 			if (stock == 0)
 				return ('k');
 		}
@@ -78,18 +78,18 @@ char	checkquote_fill_cmd(t_vari *var, char *original, t_parser *parser)
 	return ('n');
 }
 
-int		checkquote2_fill_cmd(t_vari *var, char *original, char c,
+int		checkquote2_fill_cmd(t_vari *var, char *ori, char c,
 	t_parser *parser)
 {
 	int o;
 
 	o = 0;
-	if (original[var->i] && original[var->i] == c)
+	if (ori[var->i] && ori[var->i] == c)
 	{
 		var->i++;
-		while (original[var->i] && original[var->i] != c)
+		while (ori[var->i] && ori[var->i] != c)
 		{
-			parser[var->b].cmd[var->j][o] = original[var->i];
+			parser[var->b].cmd[var->j][o] = ori[var->i];
 			var->i++;
 			o = o + 1;
 		}

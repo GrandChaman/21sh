@@ -12,18 +12,18 @@
 
 #include "ft_sh.h"
 
-static int		this_is_word(t_vari *var, char *original)
+static int		this_is_word(t_vari *var, char *ori)
 {
-	while ((original[var->i] != ' ' && original[var->i] != '\n' &&
-	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
+	while ((ori[var->i] != ' ' && ori[var->i] != '\n' &&
+	ori[var->i] != ';' && ori[var->i] != '|') && ori[var->i])
 	{
-		var->boite = redirections3(&var->i, original);
+		var->boite = redirections3(&var->i, ori);
 		if (var->boite == 0 && (ft_printf("\n21sh: syntax error\n")))
 			return (0);
-		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
-			original[var->i])
+		while ((ori[var->i] == ' ' || ori[var->i] == '\n') &&
+			ori[var->i])
 			var->i++;
-		if ((var->stock = checkquote(&var->i, &var->o, original)) == 'k')
+		if ((var->stock = checkquote(&var->i, &var->o, ori)) == 'k')
 			break ;
 		else if (var->stock > '\0' && var->stock != 'n')
 		{
@@ -38,81 +38,81 @@ static int		this_is_word(t_vari *var, char *original)
 	return (1);
 }
 
-static int		main_loop(t_vari *var, char *original)
+static int		main_loop(t_vari *var, char *ori)
 {
-	while (original[var->i] && original[var->i] != ';' &&
-		original[var->i] != '|')
+	while (ori[var->i] && ori[var->i] != ';' &&
+		ori[var->i] != '|')
 	{
-		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
-			original[var->i])
+		while ((ori[var->i] == ' ' || ori[var->i] == '\n') &&
+			ori[var->i])
 			var->i++;
-		if (original[var->i] == '\0')
+		if (ori[var->i] == '\0')
 			break ;
-		if ((var->boite = this_is_word(var, original)) != 1)
+		if ((var->boite = this_is_word(var, ori)) != 1)
 			return (var->boite);
 		var->o = 0;
-		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
-			original[var->i])
+		while ((ori[var->i] == ' ' || ori[var->i] == '\n') &&
+			ori[var->i])
 			var->i++;
-		if (original[var->i] == '\0' || original[var->i] == ';' ||
-			original[var->i] == '|')
+		if (ori[var->i] == '\0' || ori[var->i] == ';' ||
+			ori[var->i] == '|')
 			break ;
 		var->z++;
 	}
 	return (1);
 }
 
-static int		there_is_pipe(t_vari *var, char *original)
+static int		there_is_pipe(t_vari *var, char *ori)
 {
-	if (original[var->i] == '|')
+	if (ori[var->i] == '|')
 	{
 		var->i++;
-		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
-			original[var->i])
+		while ((ori[var->i] == ' ' || ori[var->i] == '\n') &&
+			ori[var->i])
 			var->i++;
-		if (original[var->i] == '\0')
+		if (ori[var->i] == '\0')
 			return (-3);
 	}
 	return (1);
 }
 
-static int		second_main_loop(t_vari *var, char *original)
+static int		second_main_loop(t_vari *var, char *ori)
 {
-	if ((var->boite = there_is_pipe(var, original)) != 1)
+	if ((var->boite = there_is_pipe(var, ori)) != 1)
 		return (var->boite);
-	if (original[var->i] == ';')
+	if (ori[var->i] == ';')
 		var->i++;
-	while ((original[var->i] == ' ' || original[var->i] == '\n') &&
-		original[var->i])
+	while ((ori[var->i] == ' ' || ori[var->i] == '\n') &&
+		ori[var->i])
 		var->i++;
-	if (original[var->i] && ft_isatoken(original[var->i]) &&
-		(ft_printf("\n21sh :Unexpected token %c\n", original[var->i])))
+	if (ori[var->i] && ft_isatoken(ori[var->i]) &&
+		(ft_printf("\n21sh :Unexpected token %c\n", ori[var->i])))
 		return (0);
 	return (1);
 }
 
-int				is_correct_talk(char *original)
+int				is_correct_talk(char *ori)
 {
 	t_vari var;
 
 	init_var(&var);
-	while (original[var.i])
+	while (ori[var.i])
 	{
-		while ((original[var.i] == ' ' || original[var.i] == '\n') &&
-			original[var.i])
+		while ((ori[var.i] == ' ' || ori[var.i] == '\n') &&
+			ori[var.i])
 			var.i++;
-		if (original[var.i] == '\0')
+		if (ori[var.i] == '\0')
 			return (0);
-		if (ft_isatoken(original[var.i]) &&
-			(ft_printf("\n21sh :Unexpected token %c\n", original[var.i])))
+		if (ft_isatoken(ori[var.i]) &&
+			(ft_printf("\n21sh :Unexpected token %c\n", ori[var.i])))
 			return (0);
-		var.nbr_argv = count_argv(var.i, original);
-		if ((var.boite = main_loop(&var, original)) != 1)
+		var.nbr_argv = count_argv(var.i, ori);
+		if ((var.boite = main_loop(&var, ori)) != 1)
 			return (var.boite);
 		var.z = 0;
-		if (original[var.i] == '\0')
+		if (ori[var.i] == '\0')
 			break ;
-		if ((var.boite = second_main_loop(&var, original)) != 1)
+		if ((var.boite = second_main_loop(&var, ori)) != 1)
 			return (var.boite);
 		var.b++;
 	}

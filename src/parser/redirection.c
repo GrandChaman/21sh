@@ -12,34 +12,34 @@
 
 #include "ft_sh.h"
 
-static void	there_is_space_space(int *i, char *original)
+static void	there_is_space_space(int *i, char *ori)
 {
-	while ((original[*i] == ' ' || original[*i] == '\n') && original[*i])
+	while ((ori[*i] == ' ' || ori[*i] == '\n') && ori[*i])
 		*i = *i + 1;
 }
 
-static int	redirections3_2(int *i, char *original)
+static int	redirections3_2(int *i, char *ori)
 {
-	if (original[*i] && original[*i] == '>')
+	if (ori[*i] && ori[*i] == '>')
 	{
 		*i = *i + 1;
-		if (original[*i] && original[*i] == '>')
+		if (ori[*i] && ori[*i] == '>')
 		{
 			*i = *i + 1;
-			there_is_space_space(i, original);
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			there_is_space_space(i, ori);
+			if (ori[*i] == '\0' || ft_isatoken(ori[*i]))
 				return (0);
 			return (2);
 		}
 		else
 		{
-			if (original[*i] && original[*i + 1] && original[*i] == '&')
-				if (!ft_isstd(original[*i + 1]) || (ft_isstd(original[*i + 1])
-					&& (original[*i + 2] != ' ' && (original[*i + 2] != '\n')
-					&& original[*i + 2] != '\0')))
+			if (ori[*i] && ori[*i + 1] && ori[*i] == '&')
+				if (!ft_isstd(ori[*i + 1]) || (ft_isstd(ori[*i + 1])
+					&& (ori[*i + 2] != ' ' && (ori[*i + 2] != '\n')
+					&& ori[*i + 2] != '\0')))
 					return (0);
-			there_is_space_space(i, original);
-			if (original[*i] == '\0' || ft_isatoken(original[*i]))
+			there_is_space_space(i, ori);
+			if (ori[*i] == '\0' || ft_isatoken(ori[*i]))
 				return (0);
 			return (2);
 		}
@@ -47,56 +47,56 @@ static int	redirections3_2(int *i, char *original)
 	return (1);
 }
 
-static int	double_chevron_2(int *i, char *original)
+static int	double_chevron_2(int *i, char *ori)
 {
 	*i = *i + 1;
-	there_is_space_space(i, original);
-	if (original[*i] == '\0' || ft_isatoken(original[*i]))
+	there_is_space_space(i, ori);
+	if (ori[*i] == '\0' || ft_isatoken(ori[*i]))
 		return (0);
-	while ((original[*i] != ' ' && original[*i] != '\n') && original[*i])
+	while ((ori[*i] != ' ' && ori[*i] != '\n') && ori[*i])
 	{
-		if (original[*i] == '\'' || original[*i] == '"')
+		if (ori[*i] == '\'' || ori[*i] == '"')
 			return (0);
 		*i = *i + 1;
 	}
 	return (1);
 }
 
-static int	just_one_chevron(int *i, char *original)
+static int	just_one_chevron(int *i, char *ori)
 {
-	if (original[*i] && original[*i + 1] && original[*i] == '&')
+	if (ori[*i] && ori[*i + 1] && ori[*i] == '&')
 	{
-		if (!ft_isstd(original[*i + 1]) || (ft_isstd(original[*i + 1])
-			&& (original[*i + 2] != ' ' && (original[*i + 2] != '\n')
-			&& original[*i + 2] != '\0')))
+		if (!ft_isstd(ori[*i + 1]) || (ft_isstd(ori[*i + 1])
+			&& (ori[*i + 2] != ' ' && (ori[*i + 2] != '\n')
+			&& ori[*i + 2] != '\0')))
 			return (0);
 	}
-	there_is_space_space(i, original);
-	if (original[*i] == '\0' || ft_isatoken(original[*i]))
+	there_is_space_space(i, ori);
+	if (ori[*i] == '\0' || ft_isatoken(ori[*i]))
 		return (0);
 	return (3);
 }
 
-int			redirections3(int *i, char *original)
+int			redirections3(int *i, char *ori)
 {
-	if (original[*i] && original[*i + 1] && (ft_isstd(original[*i])) &&
-		(original[*i + 1] == '<' || original[*i + 1] == '>'))
+	if (ori[*i] && ori[*i + 1] && (ft_isstd(ori[*i])) &&
+		(ori[*i + 1] == '<' || ori[*i + 1] == '>'))
 	{
-		if (original[*i - 1] != ' ')
+		if (ori[*i - 1] != ' ')
 			return (0);
 		*i = *i + 1;
 	}
-	else if (*i != 0 && original[*i - 1] != ' ' && original[*i - 1] != '\n'
-		&& (original[*i] == '<' ||
-		original[*i] == '>'))
+	else if (*i != 0 && ori[*i - 1] != ' ' && ori[*i - 1] != '\n'
+		&& (ori[*i] == '<' ||
+		ori[*i] == '>'))
 		return (0);
-	if (original[*i] && original[*i] == '<')
+	if (ori[*i] && ori[*i] == '<')
 	{
 		*i = *i + 1;
-		if (original[*i] && original[*i] == '<')
-			return (double_chevron_2(i, original));
+		if (ori[*i] && ori[*i] == '<')
+			return (double_chevron_2(i, ori));
 		else
-			return (just_one_chevron(i, original));
+			return (just_one_chevron(i, ori));
 	}
-	return (redirections3_2(i, original));
+	return (redirections3_2(i, ori));
 }

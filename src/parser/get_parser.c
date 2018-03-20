@@ -12,24 +12,24 @@
 
 #include "ft_sh.h"
 
-t_parser	*get_parser(char *original)
+t_parser	*get_parser(char *ori)
 {
 	int			stock;
 	t_parser	*parser;
 
-	stock = is_correct_talk(original);
+	stock = is_correct_talk(ori);
 	if (stock == 0)
 		return (NULL);
 	if (stock < 0)
 		return (NULL);
 	if (stock == 1)
 	{
-		stock = count_cmd(original);
+		stock = count_cmd(ori);
 		if (!(parser = malloc(sizeof(t_parser) * stock)))
 			exit(0);
 		init_parser(parser, stock);
-		split_evoluted(parser, original);
-		fill_parser(parser, original);
+		split_evoluted(parser, ori);
+		fill_parser(parser, ori);
 		return (parser);
 	}
 	return (NULL);
