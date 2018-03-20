@@ -35,7 +35,7 @@ t_list	*ft_lstcopy(t_list **head)
 	return (copy);
 }
 
-int		execute_env(char **args, t_list **head)
+int		execute_env(char **args, t_list **head , t_parser parser)
 {
 	t_list	*copy;
 
@@ -50,11 +50,11 @@ int		execute_env(char **args, t_list **head)
 	else if (ft_strcmp(args[0], "env") == 0)
 	{
 		copy = ft_lstcopy(head);
-		mini_env(args, &copy);
+		mini_env(args, &copy, parser);
 		ft_lsterase(&copy);
 		return (1);
 	}
-	return (launch(args, head));
+	return (launch(args, head, parser));
 }
 
 int		launch_built_in(t_parser parser, t_list **head)
@@ -116,9 +116,9 @@ int		execute(t_parser parser, t_list **head, int *should_exit)
 	if (ft_strcmp(parser.cmd[0], "env") == 0)
 	{
 		copy = ft_lstcopy(head);
-		mini_env(parser.cmd, &copy);
+		mini_env(parser.cmd, &copy, parser);
 		ft_lsterase(&copy);
 		return (1);
 	}
-	return (launch(parser.cmd, head));
+	return (launch(parser.cmd, head, parser));
 }
