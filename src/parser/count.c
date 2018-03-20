@@ -6,7 +6,7 @@ static void	end_cmd(char *original, int *i, int *nb)
 	{
 		*i = *i + 1;
 		is_space(i, original);
-		if ((original[*i] != ' ' && original[*i] != '\t') && original[*i])
+		if ((original[*i] != ' ' && original[*i] != '\n') && original[*i])
 			*nb = *nb + 1;
 	}
 }
@@ -25,7 +25,7 @@ int			count_cmd(char *original)
 		is_space(&i, original);
 		if (original[i] == '\0')
 			return (nb);
-		while ((original[i] != ' ' && original[i] != '\t') && original[i])
+		while ((original[i] != ' ' && original[i] != '\n') && original[i])
 		{
 			if (nb == 0)
 				nb++;
@@ -51,7 +51,7 @@ static int	count_redirection_input_2(char *original, int i, int o, int nb)
 	while (original[i])
 	{
 		is_space(&i, original);
-		while ((original[i] != ' ' && original[i] != '\t') && original[i])
+		while ((original[i] != ' ' && original[i] != '\n') && original[i])
 		{
 			checkquote(&i, &o, original);
 			is_space(&i, original);

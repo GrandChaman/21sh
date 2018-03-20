@@ -6,7 +6,7 @@ static int	size_str(t_vari var, char *original)
 
 	nb = 0;
 	while (original[var.i] && (original[var.i] != ' ' &&
-		original[var.i] != '\t'))
+		original[var.i] != '\n'))
 	{
 		var.i++;
 		nb++;
@@ -23,7 +23,7 @@ static char	*search_str(t_vari *var, char *original)
 	if (!(str = malloc(sizeof(char) * size_str(*var, original) + 1)))
 		exit(0);
 	while (original[var->i] && (original[var->i] != ' ' &&
-		original[var->i] != '\t'))
+		original[var->i] != '\n'))
 	{
 		str[o] = original[var->i];
 		var->i++;

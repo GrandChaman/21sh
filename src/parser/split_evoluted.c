@@ -43,7 +43,7 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *original)
 	}
 	if (var->box == 2)
 	{
-		while ((original[var->i] != ' ' && original[var->i] != '\t' &&
+		while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 		original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 		{
 			var->i++;
@@ -56,7 +56,7 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *original)
 	}
 	if (var->box == 3)
 	{
-		while ((original[var->i] != ' ' && original[var->i] != '\t' &&
+		while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 		original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 		{
 			var->i++;
@@ -75,7 +75,7 @@ static void	there_is_pipe(t_vari *var, t_parser *parser, char *original)
 	{
 		parser[var->b].output.pipe = 1;
 		var->i++;
-		while ((original[var->i] == ' ' || original[var->i] == '\t') && original[var->i])
+		while ((original[var->i] == ' ' || original[var->i] == '\n') && original[var->i])
 			var->i++;
 		parser[var->b + 1].input.pipe = 1;
 	}
@@ -83,7 +83,7 @@ static void	there_is_pipe(t_vari *var, t_parser *parser, char *original)
 
 static void there_is_word(t_vari *var, t_parser *parser, char *original)
 {
-	while ((original[var->i] != ' ' && original[var->i] != '\t' &&
+	while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 	{
 		if ((checkquote(&var->i, &var->o, original)) == 'k')

@@ -46,7 +46,7 @@ static int	after_redirection(t_vari *var, t_parser *parser, char *original)
 	if (var->boite == 4)
 	{
 		var->i_input++;					
-		if (original[var->i] == '\0' || original[var->i] == ' ' || original[var->i] == '\t')
+		if (original[var->i] == '\0' || original[var->i] == ' ' || original[var->i] == '\n')
 			return (0);
 	}
 	if (var->boite == 2)
@@ -68,7 +68,7 @@ static int	after_redirection(t_vari *var, t_parser *parser, char *original)
 
 static void	there_is_word(t_vari *var, t_parser *parser, char *original)
 {
-	while ((original[var->i] != ' ' && original[var->i] != '\t' &&
+	while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 	{
 		while (checkquote_fill_cmd(var, original, parser) != 'n')

@@ -2,7 +2,7 @@
 
 void		is_space(int *i, char *original)
 {
-	while ((original[*i] == ' ' || original[*i] == '\t') && original[*i])
+	while ((original[*i] == ' ' || original[*i] == '\n') && original[*i])
 		*i = *i + 1;
 }
 
@@ -20,7 +20,7 @@ static int	count_redirection_output_2(char *original, int i, int o, int nb)
 	while (original[i])
 	{
 		is_space(&i, original);
-		while ((original[i] != ' ' && original[i] != '\t') && original[i])
+		while ((original[i] != ' ' && original[i] != '\n') && original[i])
 		{
 			checkquote(&i, &o, original);
 			is_space(&i, original);
