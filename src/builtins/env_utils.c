@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:29:35 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 11:12:57 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 17:57:53 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char					**list_tochar2d(t_list *list)
 		var_len = (tmp->key ? ft_strlen(tmp->key) : 0);
 		var_len += (tmp->value ? ft_strlen(tmp->value) : 0);
 		res[i] = ft_strnew(var_len + 1);
-		ft_snprintf(res[i], var_len, "%s=%s", tmp->key, tmp->value);
+		ft_snprintf(res[i], var_len + 1, "%s=%s", tmp->key, tmp->value);
 	}
 	return (res);
 }

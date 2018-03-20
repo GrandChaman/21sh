@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 17:23:51 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 17:40:47 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
 int						mini_cd(char **args, t_list **head);
 int						mini_echo(char **args);
-int						builtin_env(t_list **env, char **args);
+int						builtin_env(t_list **env, char **args, t_bin_hash_table *ht);
 int						mini_exit(char **args);
 char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);

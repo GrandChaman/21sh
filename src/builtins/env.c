@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/20 13:31:26 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 18:18:15 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		print_env(t_list *env)
 	}
 }
 
-int			builtin_env(t_list **env, char **args)
+int			builtin_env(t_list **env, char **args, t_bin_hash_table *ht)
 {
 	int arg_offset;
 
@@ -31,10 +31,10 @@ int			builtin_env(t_list **env, char **args)
 		print_env(*env);
 	else
 	{
-		if (!ft_strcmp(args[arg_offset], "-i") && arg_offset++)
+		if (!ft_strcmp(args[arg_offset], "-i") && ++arg_offset)
 			ft_lstdel(env, free_env_var);
-		while (args[arg_offset++])
-			extract_define(env, args[arg_offset - 1]);
+		while (args[arg_offset])
+			extract_define(env, args[arg_offset++]);
 		//BETA
 		int i;
 
@@ -43,7 +43,10 @@ int			builtin_env(t_list **env, char **args)
 		while (args[++i])
 			ft_fprintf(get_ft_shell()->debug_tty, "%s ", args[i]);
 		ft_fprintf(get_ft_shell()->debug_tty, "\n");
-		//launch(args + 1, env);
+		if (*(args + arg_offset))
+			launch(args + arg_offset, env, ht);
+		else
+			print_env(*env);
 	}
 	return (0);
 }
