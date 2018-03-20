@@ -2,7 +2,7 @@
 
 static void	fill_backslashzero(t_vari *var, t_parser *parser)
 {
-	if (var->z >= 0 && var->o != 0 && var->box == 1)
+	if (var->z >= 0 && var->o != 0 && var->box == 1 && var->boite != 4)
 	{
 //		printf("rajoute cmd backslash\n");
 		parser[var->b].cmd[var->j][var->o] = '\0';
@@ -45,7 +45,7 @@ static int	after_redirection(t_vari *var, t_parser *parser, char *original)
 {
 	if (var->boite == 4)
 	{
-		var->i_input++;					
+		var->i_input++;
 		if (original[var->i] == '\0' || original[var->i] == ' ' || original[var->i] == '\n')
 			return (0);
 	}
