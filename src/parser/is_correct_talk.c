@@ -89,6 +89,8 @@ int				is_correct_talk(char *original)
 		while ((original[var.i] == ' ' || original[var.i] == '\t') &&
 			original[var.i])
 			var.i++;
+		if (original[var.i] == '\0')
+			return (0);
 		if (ft_isatoken(original[var.i]) &&
 			(ft_printf("\n21sh :Unexpected token %c\n", original[var.i])))
 			return (0);

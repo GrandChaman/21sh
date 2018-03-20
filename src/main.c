@@ -28,14 +28,14 @@ void	init_debug(t_ft_sh *shell, const char *path)
 
 void main_routine(t_list **head, int status)
 {
-	char *cmd;
-	t_ft_sh *shell;
-	t_parser *parser;
-	int		x;
-	int 	nb;
-	int		should_exit;
-	t_dup	r_dup;
-	int		fb;
+	char		*cmd;
+	t_ft_sh		*shell;
+	t_parser	*parser;
+	int			x;
+	int 		nb;
+	int			should_exit;
+	t_dup		r_dup;
+	int			fb;
 
 	fb = 0;
 	init_r_dup(&r_dup);
@@ -57,10 +57,12 @@ void main_routine(t_list **head, int status)
 			x = 0;
 			while (x < nb)
 			{
+				check_pipe(parser, x, &r_dup);
 				if (!(check_dup(parser, x)))
+				{
+					status = 1;
 					break ;
-				if (!(parser[x].close_stdout))
-					check_pipe(parser, x, &r_dup);
+				}
 				status = execute(parser[x], head, &should_exit);
 				if (should_exit)
 					break;
@@ -76,6 +78,7 @@ void main_routine(t_list **head, int status)
 			//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 			free_parser(parser);
 		}
+		init_dup(&r_dup);
 		free(cmd);
 		if (should_exit)
 			break;

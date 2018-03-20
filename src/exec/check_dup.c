@@ -52,9 +52,7 @@ int	check_dup(t_parser *parser, int x)
 			i++;
 		}
 	}
-	if (!(check_dup_input(parser, x)))
-		return (0);
-	return (1);
+	return (check_dup_input(parser, x));
 }
 
 void	ft_easy2(int x, t_parser *parser)
