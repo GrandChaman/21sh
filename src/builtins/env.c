@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/20 18:18:15 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 11:22:42 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@ int			builtin_env(t_list **env, char **args, t_bin_hash_table *ht)
 			ft_lstdel(env, free_env_var);
 		while (args[arg_offset])
 			extract_define(env, args[arg_offset++]);
-		//BETA
-		int i;
-
-		i = 0;
-		ft_fprintf(get_ft_shell()->debug_tty, "Exec : ");
-		while (args[++i])
-			ft_fprintf(get_ft_shell()->debug_tty, "%s ", args[i]);
-		ft_fprintf(get_ft_shell()->debug_tty, "\n");
 		if (*(args + arg_offset))
 			launch(args + arg_offset, env, ht);
 		else

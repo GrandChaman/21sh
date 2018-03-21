@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 17:40:47 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:16:46 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,8 +222,10 @@ void						extract_define(t_list **list, const char *param);
 t_bin_hash_table			*load_bin_into_hash_table(t_list *env);
 int						compare_with_key(void *e1, void *e2);
 void				free_hash_table(t_bin_hash_table **ht);
-unsigned long dj2b_hash(unsigned char *str);
+unsigned long dj2b_hash(char *str);
 t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name);
+int		launch_built_in(char **cmd, t_list **head, t_bin_hash_table *ht);
+int		is_built_in(char **cmd);
 
 //BETA
 

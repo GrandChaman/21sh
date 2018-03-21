@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 17:30:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:10:49 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void main_routine(t_list **head, int status, t_bin_hash_table *ht)
 				init_dup(&r_dup);
 				x++;
 			}
-			ft_fprintf(shell->debug_tty, "YAY\n");
-			//ft_printf("%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
+			//ft_fprintf(shell->debug_tty, "YAY\n");
+			ft_fprintf(shell->debug_tty, "%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 			free_parser(parser);
 		}
 		free(cmd);
@@ -103,7 +103,6 @@ int		main(int argc, const char **argv, char **env)
 	char2d_tolist(&env_lst, env);
 	ht = load_bin_into_hash_table(env_lst);
 	cli_loader(0);
-	ft_printf("%p\n", get_elem_from_ht(ht, "head"));
 	main_routine(&env_lst, 1, ht);
 	cli_loader(1);
 	free_hash_table(&ht);
