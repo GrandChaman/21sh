@@ -12,35 +12,6 @@
 
 #include "ft_sh.h"
 
-void		char2d_tolist(t_list **env, char **args)
-{
-	int i;
-	t_env_var var;
-	char *equal;
-
-	i = -1;
-	while (args[++i])
-	{
-		equal = ft_strchr(args[i], '=');
-		if (!equal)
-			continue ;
-		var.key = ft_strsub(args[i], 0, (int)(equal - args[i]));
-		var.value = ft_strsub(args[i], (int)(equal - args[i]) + 1,
-			ft_strlen(args[i]) - (int)(equal - args[i]));
-		ft_lstpush_back(env, &var, sizeof(t_env_var));
-	}
-}
-
-int						compare_with_key(void *e1, void *e2)
-{
-	t_env_var	*tmp;
-	char	*cmp;
-
-	tmp = (t_env_var*)e1;
-	cmp = (char*)e2;
-	return (ft_strcmp(tmp->key, cmp));
-}
-
 void					param_ins_or_rep(t_list **list, t_env_var *arg)
 {
 	t_list *cursor;
@@ -58,9 +29,9 @@ void					param_ins_or_rep(t_list **list, t_env_var *arg)
 		ft_lstpush_back(list, arg, sizeof(t_env_var));
 }
 
-void		free_env_var(void *el, size_t size)
+void					free_env_var(void *el, size_t size)
 {
-	t_env_var* tmp;
+	t_env_var *tmp;
 
 	tmp = (t_env_var*)el;
 	(void)size;
@@ -71,11 +42,11 @@ void		free_env_var(void *el, size_t size)
 
 char					**list_tochar2d(t_list *list)
 {
-	int		i;
-	int		len;
-	char	**res;
+	int			i;
+	int			len;
+	char		**res;
 	t_env_var	*tmp;
-	int		var_len;
+	int			var_len;
 
 	len = ft_lstsize(list);
 	res = (char**)ft_memalloc(sizeof(char*) * (len + 1));
@@ -95,7 +66,7 @@ char					**list_tochar2d(t_list *list)
 
 t_list					*dup_environment(t_list *env)
 {
-	t_list	*res;
+	t_list		*res;
 	t_env_var	tmp;
 
 	res = NULL;
@@ -109,10 +80,10 @@ t_list					*dup_environment(t_list *env)
 	return (res);
 }
 
-void						extract_define(t_list **list, const char *param)
+void					extract_define(t_list **list, const char *param)
 {
 	t_env_var	res;
-	int		pos;
+	int			pos;
 
 	if (!param || !(pos = ft_haschar((char*)param, '=')))
 		return ;
