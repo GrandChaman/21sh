@@ -34,14 +34,20 @@ void	ft_easy_output(int *stock, int x, int i, t_parser *parser)
 
 void	init_r_dup(t_dup *r_dup)
 {
-	r_dup->stdin_copy = dup(0);
-	r_dup->stdout_copy = dup(1);
-	r_dup->stderr_copy = dup(2);
+	if ((r_dup->stdin_copy = dup(0)) == -1)
+		exit(0);
+	if ((r_dup->stdout_copy = dup(1)) == -1)
+		exit(0);
+	if ((r_dup->stderr_copy = dup(2)) == -1)
+		exit(0);
 }
 
 void	init_dup(t_dup *r_dup)
 {
-	dup2(r_dup->stdin_copy, 0);
-	dup2(r_dup->stdout_copy, 1);
-	dup2(r_dup->stderr_copy, 2);
+	if ((dup2(r_dup->stdin_copy, 0)) == -1)
+		exit(0);
+	if ((dup2(r_dup->stdout_copy, 1)) == -1)
+		exit(0);
+	if ((dup2(r_dup->stderr_copy, 2)) == -1)
+		exit(0);
 }
