@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:29:35 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 15:18:50 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:27:30 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,27 +120,4 @@ void						extract_define(t_list **list, const char *param)
 	res.value = ft_strsub(param, pos, ft_strlen(param) - pos);
 	param_ins_or_rep(list, &res);
 	return ;
-}
-
-void					remove_key(t_list **begin_list, void *data_ref)
-{
-	t_list *tmp;
-
-	if (begin_list == NULL || *begin_list == NULL)
-		return ;
-	tmp = *begin_list;
-	if (!compare_with_key(tmp->content, data_ref))
-	{
-		ft_lstdelone(tmp, free_env_var);
-		return ;
-	}
-	while (tmp && tmp->next)
-	{
-		if (!compare_with_key(tmp->next->content, data_ref))
-		{
-			ft_lstdelone(tmp, free_env_var);
-			continue ;
-		}
-		tmp = tmp->next;
-	}
 }
