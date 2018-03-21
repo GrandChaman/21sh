@@ -5,9 +5,13 @@ static int				this_is_word(t_vari *var, char *original)
 	while ((original[var->i] != ' ' && original[var->i] != '\n' &&
 	original[var->i] != ';' && original[var->i] != '|') && original[var->i])
 	{
+		printf("avant var->i = %d et ori[%d] = %c\n", var->i, var->i, original[var->i]);
 		var->boite = redirections3(&var->i, original);
+		printf("apres var->i = %d et ori[%d] = %c\n", var->i, var->i, original[var->i]);
 		if (var->boite == 0 && (ft_printf("\n21sh: syntax error\n")))
 			return (0);
+		if (original[var->i] == '\0')
+			return (1);
 		while ((original[var->i] == ' ' || original[var->i] == '\n') &&
 			original[var->i])
 			var->i++;
@@ -20,8 +24,11 @@ static int				this_is_word(t_vari *var, char *original)
 			else
 				return (-2);
 		}
-		var->i++;
-		var->o++;
+		if (original[var->i] != '<')
+		{
+			var->i++;
+			var->o++;
+		}
 	}
 	return (1);
 }
@@ -104,5 +111,6 @@ int				is_correct_talk(char *original)
 			return (var.boite);
 		var.b++;
 	}
+	printf("Pas possible\n");
 	return (1);
 }
