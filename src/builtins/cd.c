@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:41:18 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 15:39:46 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:13:35 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		change_dir_routine(char *npath)
 	int			res;
 	struct stat	stinfo;
 
-	res = -1;
+	res = 0;
 	if (npath && access(npath, F_OK) != -1)
 	{
 		if (npath && stat(npath, &stinfo))
@@ -36,58 +36,40 @@ static int		change_dir_routine(char *npath)
 	return (res);
 }
 
-char					**define_to2d(t_list *list)
+int				builtin_cd(char *npath, t_list **env)
 {
-	int		i;
-	int		len;
-	char	**res;
-	t_args	*tmp;
-	int		define_len;
+	t_list			*cursor;
+	t_env_var		*oldpwd;
+	char			*oldpwd_path;
+	t_env_var		*home;
+	int				res;
 
-	len = ft_lstsize(list);
-	res = (char**)ft_memalloc(sizeof(char*) * (len + 1));
-	res[len] = NULL;
-	i = -1;
-	while (++i < len)
+	cursor = NULL;
+	oldpwd = NULL;
+	if ((cursor = ft_lstfind(*env, "HOME", compare_with_key)))
+		home = (t_env_var*)cursor->content;
+	if ((cursor = ft_lstfind(*env, "OLDPWD", compare_with_key)))
+		oldpwd_path = ((t_env_var*)cursor->content)->value;
+	oldpwd = ft_memalloc(sizeof(t_env_var));
+	oldpwd->value = ft_getcwd();
+	oldpwd->key = ft_strdup("OLDPWD");
+	if (npath && ft_strcmp(npath, "-") == 0)
 	{
-		tmp = (t_args*)list->content;
-		list = list->next;
-		if (!tmp->is_define)
-			continue;
-		define_len = (tmp->key ? ft_strlen(tmp->key) : 0);
-		define_len += (tmp->value ? ft_strlen(tmp->value) : 0);
-		res[i] = ft_strnew(define_len + 1);
-		ft_strcat(res[i], tmp->key);
-		ft_strcat(res[i], "=");
-		ft_strcat(res[i], tmp->value);
+		if (!oldpwd_path)
+			res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));
+		else
+			res = change_dir_routine(oldpwd_path);
 	}
-	return (res);
-}
-
-int				builtin_cd(t_list **env, char *npath)
-{
-	int			res;
-	char		**nenv;
-	t_args		oldpwd;
-
-	nenv = define_to2d(*env);
-	res = -1;
-/*	if (!npath && !(npath = (char*)ft_getenv("HOME", (const char**)nenv)))
-		res = (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n"));
-	else if (!ft_strcmp(npath, "-") &&
-		(oldpwd.value = (char*)ft_getenv("OLDPWD", (const char**)nenv)))
-		res = change_dir(env, oldpwd.value);
-	else if (!ft_strcmp(npath, "-") && !oldpwd.value)
-		res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));*/
-	if (npath && ft_strcmp(npath, "-"))
-	{
-		printf("npath = %s\n", npath);
-		if ((oldpwd.value = ft_getcwd()))
-			oldpwd.key = ft_strdup("OLDPWD");
-		oldpwd.is_define = 1;
+	else if (npath && ft_strcmp(npath, "-") != 0)
 		res = change_dir_routine(npath);
-	//	param_ins_or_rep(env, &oldpwd);
+	else if (!npath)
+	{
+		if (!home || !home->value)
+			return (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n") && 1);
+		else
+			res = change_dir_routine(home->value);
 	}
-	ft_free2d((void**)nenv);
+	param_ins_or_rep(env, oldpwd);
+	free(oldpwd);
 	return (res);
 }
