@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 15:24:27 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:33:20 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,38 @@ int				builtin_setenv(char **args, t_list **env)
 {
 	t_env_var	e_var;
 	char		*tmp;
+	int			i;
 
+	i = 0;
 	tmp = NULL;
 	if (!args[1] || (args[1] && !(tmp = ft_strchr(args[1], '=')) && !args[2]))
 		return (ft_printf("Usage: setenv KEY[=VALUE] [VALUE]\n") && 1);
 	if (tmp)
 	{
 		e_var.key = ft_strsub(args[1], 0, (int)(tmp - args[1]));
+		while (e_var.key[i])
+		{
+			if (!ft_isalnum(e_var.key[i]))
+			{
+				free(e_var.key);
+				return (ft_printf("KEY doesn't allow non alphanumeric value\n") && 1);
+			}
+			i++;
+		}
 		e_var.value = ft_strdup(tmp + 1);
 	}
 	else
 	{
 		e_var.key = ft_strdup(args[1]);
+		while (e_var.key[i])
+		{
+			if (!ft_isalnum(e_var.key[i]))
+			{
+				free(e_var.key);
+				return (ft_printf("KEY doesn't allow non alphanumeric value\n") && 1);
+			}
+			i++;
+		}
 		e_var.value = ft_strdup(args[2]);
 	}
 	param_ins_or_rep(env, &e_var);
