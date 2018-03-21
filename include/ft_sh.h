@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 14:44:56 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:34:59 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@
 # define TC_CLEAR "cl"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
+
+# define EF_OK 1
+# define EF_DENIED 2
+# define EF_NOTFOUND 5
 
 typedef struct			s_ft_sh
 {
@@ -212,6 +216,15 @@ typedef	struct 			s_bin_hash_table
 	unsigned int		size;
 }						t_bin_hash_table;
 
+typedef struct			s_args
+{
+	char				*key;
+	char				*value;
+	char				is_define;
+}						t_args;
+
+void					param_ins_or_rep(t_list **list, t_env_var *arg);
+
 //BETA
 
 void		char2d_tolist(t_list **env, char **args);
@@ -288,8 +301,8 @@ t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
-int						mini_cd(char **args, t_list **head);
-int						mini_echo(char **args);
+int						builtin_cd(t_list **env, char *npath);
+int						builtin_echo(char **args, t_list **env);
 int						builtin_env(t_list **env, char **args);
 int						builtin_exit(void);
 char					*ft_path(t_list **head, char *cmd);
