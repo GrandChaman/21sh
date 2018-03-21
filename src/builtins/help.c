@@ -19,7 +19,8 @@ int	mini_help(char **args)
 		ft_putendl("help: Too many arguments");
 		return (1);
 	}
-	ft_printf("Victor Baudot\'s Minishell\nType program names and arguments,");
+	ft_printf("LEROY Francis and FAUTIER Romain\'s Minishell\n");
+	ft_printf("Type program names and arguments,");
 	ft_printf("and hit enter.\nThe following are built in:\n\n");
 	if (args[0] == NULL)
 		return (1);

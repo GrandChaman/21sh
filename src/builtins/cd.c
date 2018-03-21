@@ -6,73 +6,88 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:41:18 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 14:35:48 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:39:46 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	help_norm(t_list **head, char ***setenv)
+static int		change_dir_routine(char *npath)
 {
-	if (!(*setenv = (char **)malloc(sizeof(char *) * 4)))
-		exit(EXIT_FAILURE);
-	(*setenv)[0] = ft_strdup("setenv");
-	(*setenv)[1] = ft_strdup("OLDPWD");
-	(*setenv)[2] = ft_strdup(ft_getenv(head, "PWD"));
-	(*setenv)[3] = 0;
-}
+	int			res;
+	struct stat	stinfo;
 
-static int	modify_pwd(t_list **head, char **args, int i, char *oldpwd)
-{
-	char	**setenv;
-	char	*buf;
-
-	buf = ft_memalloc(1024);
-	help_norm(head, &setenv);
-	builtin_setenv(setenv, head);
-	free(setenv[1]);
-	free(setenv[2]);
-	setenv[1] = ft_strdup("PWD");
-	if (ft_strcmp(args[1], "-") != 0)
-		setenv[2] = ft_strdup(args[1]);
-	else if (ft_strcmp(args[1], "-") == 0)
-		setenv[2] = ft_strdup(oldpwd);
-	else
-		setenv[2] = ft_strdup(getcwd(buf, 1024));
-	builtin_setenv(setenv, head);
-	while (setenv[++i])
-		free(setenv[i]);
-	free(setenv);
-	free(buf);
-	free(oldpwd);
-	return (1);
-}
-
-int			mini_cd(char **args, t_list **head)
-{
-	char	*oldpwd;
-
-	oldpwd = NULL;
-	if (!args[1])
-		chdir(ft_getenv(head, "HOME"));
-	else
+	res = -1;
+	if (npath && access(npath, F_OK) != -1)
 	{
-		if (ft_strcmp(args[1], "-") == 0)
-			if (!args[2])
-			{
-				oldpwd = ft_strdup(ft_getenv(head, "OLDPWD"));
-				if (chdir(oldpwd) != 0)
-				{
-					ft_printf("minishell: dir not found / not the rights: %s\n",
-					ft_getenv(head, "OLDPWD"));
-					free(oldpwd);
-					return (1);
-				}
-			}
-			else
-				ft_putendl("Usage: cd [-|<dir>].");
-		else if (chdir(args[1]) != 0)
-			return (ft_problem_dir(args[1]));
+		if (npath && stat(npath, &stinfo))
+			res = (ft_fprintf(STDERR_FILENO, "cd: %s: stat error.\n",
+					npath));
+		else if ((stinfo.st_mode & S_IFMT) != S_IFDIR)
+			res = (ft_fprintf(STDERR_FILENO, "cd: %s: Not a directory.\n",
+					npath));
+		else if (chdir(npath))
+			res = (ft_fprintf(STDERR_FILENO, "cd: %s: Permission denied.\n",
+					npath));
 	}
-	return (modify_pwd(head, args, -1, oldpwd));
+	else if (npath)
+		res = (ft_fprintf(STDERR_FILENO, "cd: %s: No such file or directory.\n",
+				npath));
+	return (res);
+}
+
+char					**define_to2d(t_list *list)
+{
+	int		i;
+	int		len;
+	char	**res;
+	t_args	*tmp;
+	int		define_len;
+
+	len = ft_lstsize(list);
+	res = (char**)ft_memalloc(sizeof(char*) * (len + 1));
+	res[len] = NULL;
+	i = -1;
+	while (++i < len)
+	{
+		tmp = (t_args*)list->content;
+		list = list->next;
+		if (!tmp->is_define)
+			continue;
+		define_len = (tmp->key ? ft_strlen(tmp->key) : 0);
+		define_len += (tmp->value ? ft_strlen(tmp->value) : 0);
+		res[i] = ft_strnew(define_len + 1);
+		ft_strcat(res[i], tmp->key);
+		ft_strcat(res[i], "=");
+		ft_strcat(res[i], tmp->value);
+	}
+	return (res);
+}
+
+int				builtin_cd(t_list **env, char *npath)
+{
+	int			res;
+	char		**nenv;
+	t_args		oldpwd;
+
+	nenv = define_to2d(*env);
+	res = -1;
+/*	if (!npath && !(npath = (char*)ft_getenv("HOME", (const char**)nenv)))
+		res = (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n"));
+	else if (!ft_strcmp(npath, "-") &&
+		(oldpwd.value = (char*)ft_getenv("OLDPWD", (const char**)nenv)))
+		res = change_dir(env, oldpwd.value);
+	else if (!ft_strcmp(npath, "-") && !oldpwd.value)
+		res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));*/
+	if (npath && ft_strcmp(npath, "-"))
+	{
+		printf("npath = %s\n", npath);
+		if ((oldpwd.value = ft_getcwd()))
+			oldpwd.key = ft_strdup("OLDPWD");
+		oldpwd.is_define = 1;
+		res = change_dir_routine(npath);
+	//	param_ins_or_rep(env, &oldpwd);
+	}
+	ft_free2d((void**)nenv);
+	return (res);
 }

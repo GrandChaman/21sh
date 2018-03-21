@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 14:57:33 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:39:59 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int		launch_builtin(char **cmd, t_list **head)
 		return (builtin_unsetenv(cmd, head));
 	else if (ft_strcmp(cmd[0], "setenv") == 0)
 		return (builtin_setenv(cmd, head));
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		return (builtin_cd(cmd[1], head));
     father = fork();
     if (father > 0)
         wait(&status);
@@ -37,9 +39,7 @@ int		launch_builtin(char **cmd, t_list **head)
 		else if (ft_strcmp(cmd[0], "help") == 0)
 			mini_help(cmd);
 		else if (ft_strcmp(cmd[0], "echo") == 0)
-			mini_echo(cmd);
-		else if (ft_strcmp(cmd[0], "cd") == 0)
-			mini_cd(cmd, head);
+			builtin_echo(cmd, head);
 		exit(0);
     }
 	return (status);
