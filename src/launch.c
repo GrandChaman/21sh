@@ -14,10 +14,10 @@
 
 int			launch(char **args, t_list **head, t_bin_hash_table *ht)
 {
-	pid_t	pid;
-	int		status;
-	t_bin_hash *bin;
-	char	**env;
+	pid_t		pid;
+	int			status;
+	t_bin_hash	*bin;
+	char		**env;
 
 	status = 0;
 	bin = NULL;
