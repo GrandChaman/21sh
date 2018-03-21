@@ -64,8 +64,6 @@ int		is_built_in(char **cmd)
 
 int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table *ht)
 {
-	t_list	*copy;
-
 	if (!parser.cmd || !parser.cmd[0])
 		return (1);
 	if (ft_strcmp(parser.cmd[0], "exit") == 0)
