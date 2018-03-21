@@ -27,8 +27,10 @@ static void	is_fd(int x, t_parser *parser, int i)
 				exit(0);
 		}
 		else
+		{
 			if (dup2(stock, 1) == -1)
 				exit(0);
+		}
 	}
 }
 

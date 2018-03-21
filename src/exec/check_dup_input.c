@@ -22,11 +22,15 @@ static void	is_fd(int x, int i, t_parser *parser)
 	{
 		ft_easy_input(&stock, x, i, parser);
 		if (parser[x].input.meta[i].name[1])
-			if (dup2(stock, parser[x].input.meta[i].name[1] - 48) == -1)
+		{
+			if ((dup2(stock, parser[x].input.meta[i].name[1] - 48)) == -1)
 				exit(0);
+		}
 		else
-			if (dup2(stock, 0) == -1)
+		{
+			if ((dup2(stock, 0)) == -1)
 				exit(0);
+		}
 	}
 }
 
