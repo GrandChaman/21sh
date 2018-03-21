@@ -20,8 +20,9 @@ static int		this_is_word(t_vari *var, char *ori)
 		var->boite = redirections3(&var->i, ori);
 		if (var->boite == 0 && (ft_printf("\n21sh: syntax error\n")))
 			return (0);
-		while ((ori[var->i] == ' ' || ori[var->i] == '\n') &&
-			ori[var->i])
+		if (ori[var->i] == '\0')
+			return (1);
+		while ((ori[var->i] == ' ' || ori[var->i] == '\n') && ori[var->i])
 			var->i++;
 		if ((var->stock = checkquote(&var->i, &var->o, ori)) == 'k')
 			break ;
@@ -32,8 +33,8 @@ static int		this_is_word(t_vari *var, char *ori)
 			else
 				return (-2);
 		}
-		var->i++;
-		var->o++;
+		if (ori[var->i] != '<' && ori[var->i] != '>' && (var->o++))
+			var->i++;
 	}
 	return (1);
 }
