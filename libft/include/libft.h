@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 20:24:12 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/15 16:11:19 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:36:44 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,5 +210,6 @@ int						ft_fprintf(int fd, const char *format, ...);
 int						ft_asprintf(char **ret, const char *format, ...);
 int						ft_snprintf(char *ret, size_t size, const char *format,
 	...);
+int						ft_stralike(char *str1, char *str2, size_t len);
 
 #endif
