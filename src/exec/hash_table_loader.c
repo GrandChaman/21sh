@@ -6,14 +6,14 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:16:18 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 16:35:43 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:28:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
 //From : http://www.cse.yorku.ca/~oz/hash.html
-unsigned long dj2b_hash(unsigned char *str)
+unsigned long dj2b_hash(char *str)
     {
         unsigned long hash = 5381;
         int c;
@@ -28,7 +28,7 @@ void				free_hash_table(t_bin_hash_table **ht)
 	unsigned int i;
 
 	i = 0;
-	while (i < (*ht)->size)
+	while (i <= (*ht)->size)
 	{
 		free((*ht)->table[i].name);
 		free((*ht)->table[i].path);
@@ -83,9 +83,10 @@ static t_bin_hash_table	*fill_hash_table_form_list(t_list **list)
 		index = dj2b_hash(((t_bin_hash*)tmp->content)->name) % res->size;
 		while (res->table[index % res->size].path)
 			index++;
-		res->table[index].path = ((t_bin_hash*)tmp->content)->path;
-		res->table[index].name = ((t_bin_hash*)tmp->content)->name;
-		res->table[index].can_exec = ((t_bin_hash*)tmp->content)->can_exec;
+		res->table[index % res->size].path = ((t_bin_hash*)tmp->content)->path;
+		res->table[index % res->size].name = ((t_bin_hash*)tmp->content)->name;
+		res->table[index % res->size].can_exec =
+			((t_bin_hash*)tmp->content)->can_exec;
 		tmp = tmp->next;
 	}
 	ft_lstdel(list, NULL);
