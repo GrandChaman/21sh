@@ -12,17 +12,6 @@
 
 #include "ft_sh.h"
 
-static int	check_slash(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] == '/')
-			return (1);
-	return (0);
-}
-
 int			launch(char **args, t_list **head, t_bin_hash_table *ht)
 {
 	pid_t	pid;
@@ -44,6 +33,6 @@ int			launch(char **args, t_list **head, t_bin_hash_table *ht)
 		ft_putendl("21sh: fork error\n");
 	else
 		waitpid(pid, &status, WUNTRACED);
-	ft_free2d(env);
+	ft_free2d((void **)env);
 	return (status);
 }

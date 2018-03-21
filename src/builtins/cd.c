@@ -44,6 +44,7 @@ int				builtin_cd(char *npath, t_list **env)
 	t_env_var		*home;
 	int				res;
 
+	res = 0;
 	cursor = NULL;
 	oldpwd = NULL;
 	if ((cursor = ft_lstfind(*env, "HOME", compare_with_key)))
