@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:41:32 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 17:05:34 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:21:45 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void		prepare_autocomplete(t_ft_sh *sh, t_list *list,
 	int		nb_lines;
 	int		i;
 
-	sh->autocomplete_padding = get_autocomplete_el_with(list) + 7;
+
 	len = ft_lstsize(list);
 	nb_per_line = sh->x_size / sh->autocomplete_padding;
 	nb_lines = (len / nb_per_line) + 1;
@@ -132,5 +132,5 @@ void		prepare_autocomplete(t_ft_sh *sh, t_list *list,
 		cursor_new_origin(sh)) % sh->x_size);
 	while (sh->cursor > save_cur)
 		move_in_terminal(T_LARR);
-	setpos_autocomplete(sh);
+	
 }
