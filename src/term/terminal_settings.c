@@ -13,7 +13,7 @@
 #include "ft_sh.h"
 #include <sys/ioctl.h>
 
-void	get_screen_size(int sig)
+void					get_screen_size(int sig)
 {
 	struct winsize	w;
 	t_ft_sh			*shell;
@@ -27,7 +27,8 @@ void	get_screen_size(int sig)
 	}
 }
 
-static void		set_terminal_setting(struct termios *old, struct termios *new)
+static void				set_terminal_setting(struct termios *old
+	, struct termios *new)
 {
 	*new = *old;
 	new->c_lflag &= (~(ICANON | ECHO | ISIG));
@@ -48,7 +49,7 @@ static struct termios	**retrieve_term_settings(void)
 	return (&default_settings);
 }
 
-void			apply_terminal_setting(int def)
+void					apply_terminal_setting(int def)
 {
 	struct termios			**default_settings;
 	struct termios			new_settings;
