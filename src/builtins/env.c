@@ -24,8 +24,8 @@ void		print_env(t_list *env)
 
 int			builtin_env(t_list **env, char **args)
 {
-	int arg_offset;
-	t_bin_hash_table *ht;
+	int					arg_offset;
+	t_bin_hash_table	*ht;
 
 	arg_offset = 1;
 	if (!args[arg_offset])

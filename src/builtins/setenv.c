@@ -12,43 +12,58 @@
 
 #include "ft_sh.h"
 
+static int		builtin_setenv_2(t_env_var *e_var, char **args, int i)
+{
+	e_var->key = ft_strdup(args[1]);
+	while (e_var->key[i])
+	{
+		if (!ft_isalnum(e_var->key[i]))
+		{
+			free(e_var->key);
+			ft_printf("KEY doesn't allow ");
+			return (ft_printf("non alphanumeric value\n") && 1);
+		}
+		i++;
+	}
+	e_var->value = ft_strdup(args[2]);
+	return (0);
+}
+
+static int		builtin_setenv_3(t_env_var e_var, int i)
+{
+	if (!ft_isalnum(e_var.key[i]))
+	{
+		free(e_var.key);
+		ft_printf("KEY doesn't allow ");
+		return (ft_printf("non alphanumeric value\n") && 1);
+	}
+	return (0);
+}
+
 int				builtin_setenv(char **args, t_list **env)
 {
 	t_env_var	e_var;
 	char		*tmp;
 	int			i;
 
-	i = 0;
+	i = -1;
 	tmp = NULL;
 	if (!args[1] || (args[1] && !(tmp = ft_strchr(args[1], '=')) && !args[2]))
 		return (ft_printf("Usage: setenv KEY[=VALUE] [VALUE]\n") && 1);
 	if (tmp)
 	{
 		e_var.key = ft_strsub(args[1], 0, (int)(tmp - args[1]));
-		while (e_var.key[i])
+		while (e_var.key[++i])
 		{
-			if (!ft_isalnum(e_var.key[i]))
-			{
-				free(e_var.key);
-				return (ft_printf("KEY doesn't allow non alphanumeric value\n") && 1);
-			}
-			i++;
+			if (builtin_setenv_3(e_var, i) == 1)
+				return (1);
 		}
 		e_var.value = ft_strdup(tmp + 1);
 	}
 	else
 	{
-		e_var.key = ft_strdup(args[1]);
-		while (e_var.key[i])
-		{
-			if (!ft_isalnum(e_var.key[i]))
-			{
-				free(e_var.key);
-				return (ft_printf("KEY doesn't allow non alphanumeric value\n") && 1);
-			}
-			i++;
-		}
-		e_var.value = ft_strdup(args[2]);
+		if (builtin_setenv_2(&e_var, args, 0) != 0)
+			return (0);
 	}
 	param_ins_or_rep(env, &e_var);
 	return (0);
