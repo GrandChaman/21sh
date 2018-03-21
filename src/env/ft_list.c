@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-void	ft_lstprint(t_list **head)
+void		ft_lstprint(t_list **head)
 {
 	t_list	*curr;
 
