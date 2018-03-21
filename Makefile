@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/19 16:53:54 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/21 16:22:15 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC = split_evoluted.c count.c init_parser.c quote.c redirection.c \
 fill_struct.c is_correct.c check_correct.c main.c cli.c cli_init.c \
 terminal_settings.c path_utils.c cli_selection.c term_command.c cli_utils.c \
 cli_nav.c cli_delete.c error.c history_loader.c get_parser.c \
-ft_list_del.c ft_list.c execute.c launch.c getenv.c help.c \
+ft_list_del.c ft_list.c execute.c launch.c help.c \
 echo.c exit.c setenv.c utils_env.c cd.c env.c history.c \
 is_correct_talk.c init_meta.c init_var.c count_argv.c\
 call_heredoc.c check_dup.c check_dup_input.c redirection2.c\
@@ -29,7 +29,8 @@ quote_fill_input_output.c count_2.c\
 check_pipe.c cli_autocomplete.c cli_autocomplete_utils.c \
 cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
 cli_prompt.c history_utils.c cli_spe_nav.c split_evoluted_2.c\
-fill_struct_2.c check_dup_ft.c
+fill_struct_2.c check_dup_ft.c env_utils.c hash_table_loader.c \
+hash_table.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)

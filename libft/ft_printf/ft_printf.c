@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 09:38:11 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/01/25 17:03:19 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/20 14:47:52 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int		ft_snprintf(char *ret, size_t size, const char *format, ...)
 	dbuf_init(&buf.buf);
 	res = ft_printf_routine(&buf, format);
 	stop = (size < buf.buf.cursor ? size : buf.buf.cursor);
-	ft_memcpy(ret, buf.buf.buf, stop - 1);
-	ret[stop - 1] = 0;
+	ft_memcpy(ret, buf.buf.buf, stop);
+	ret[stop] = 0;
 	dbuf_destroy(&buf.buf);
 	va_end(buf.ap);
 	return (res);

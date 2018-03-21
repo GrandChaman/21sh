@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 16:54:59 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:22:40 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
 
+# define EF_OK 1
+# define EF_DENIED 2
+# define EF_NOTFOUND 5
+
 typedef struct			s_ft_sh
 {
 	unsigned int		x_size;
@@ -101,6 +105,12 @@ typedef struct			s_ft_sh
 	t_list				*autocomplete_cusor;
 	int					autocomplete_padding;
 }						t_ft_sh;
+
+typedef struct			s_env_var
+{
+	char				*key;
+	char				*value;
+}						t_env_var;
 
 typedef struct			s_ft_autoc_entry
 {
@@ -193,7 +203,42 @@ typedef	struct 			s_dup
 	int p[2];
 }						t_dup;
 
-void			is_space(int *i, char *ori);
+typedef	struct 			s_bin_hash
+{
+	unsigned int		index;
+	char				*name;
+	char				*path;
+	char				can_exec;
+}						t_bin_hash;
+
+typedef	struct 			s_bin_hash_table
+{
+	t_bin_hash			*table;
+	unsigned int		size;
+}						t_bin_hash_table;
+
+void					param_ins_or_rep(t_list **list, t_env_var *arg);
+
+//BETA
+
+void		char2d_tolist(t_list **env, char **args);
+void		free_env_var(void *el, size_t size);
+t_list					*dup_environment(t_list *env);
+char					**list_tochar2d(t_list *list);
+void						extract_define(t_list **list, const char *param);
+t_bin_hash_table			*load_bin_into_hash_table(t_list *env);
+int						compare_with_key(void *e1, void *e2);
+void				free_hash_table(t_bin_hash_table **ht);
+unsigned long dj2b_hash(char *str);
+t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name);
+int		launch_builtin(char **cmd, t_list **head);
+int		is_built_in(char **cmd);
+void					remove_key(t_list **begin_list, void *data_ref);
+void					param_ins_or_rep(t_list **list, t_env_var *arg);
+
+//BETA
+
+void			is_space(int *i, char *original);
 
 void			check_pipe(t_parser *parser, int x, t_dup *rdup);
 void			ft_easy_input(int *stock, int x, int i, t_parser *parser);
@@ -248,24 +293,22 @@ void			split_evoluted(t_parser *parser, char *ori);
 
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute_env(char **args, t_list **head, t_parser parser);
-int						execute(t_parser parser, t_list **head, int *should_exit);
-int						launch(char **args, t_list **head,t_parser parser);
+int						execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table *ht);
+int						launch(char **args, t_list **head, t_bin_hash_table *ht);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
-int						mini_cd(char **args, t_list **head);
-int						mini_echo(char **args);
-int						mini_env(char **args, t_list **head, t_parser parser);
-int						mini_exit(char **args);
-char					*ft_getenv(t_list **head, char *elem);
+int						builtin_cd(char *npath, t_list **env);
+int						builtin_echo(char **args, t_list **env);
+int						builtin_env(t_list **env, char **args);
+int						builtin_exit(void);
 char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
 void					ft_lst_add_or_modify(int flag, t_list **head,
 	char *name, char *value);
-int						mini_setenv(char **args, t_list **head);
-int						mini_unsetenv(char **args, t_list **head);
+int						builtin_setenv(char **args, t_list **head);
+int						builtin_unsetenv(char **args, t_list **head);
 int						ft_problem_dir(char *arg);
 int						too_many_args(char *cmd);
 

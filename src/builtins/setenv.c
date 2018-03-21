@@ -6,82 +6,69 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/02/28 15:20:03 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:33:20 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void		ft_lst_add_or_modify(int flag, t_list **head,
-	char *name, char *value)
+int				builtin_setenv(char **args, t_list **env)
 {
-	t_list	*curr;
-	char	*str;
+	t_env_var	e_var;
+	char		*tmp;
+	int			i;
 
-	curr = *head;
-	while (curr)
+	i = 0;
+	tmp = NULL;
+	if (!args[1] || (args[1] && !(tmp = ft_strchr(args[1], '=')) && !args[2]))
+		return (ft_printf("Usage: setenv KEY[=VALUE] [VALUE]\n") && 1);
+	if (tmp)
 	{
-		if (ft_strncmp(curr->content, name, ft_strlen(name)) == 0 &&
-		((char *)curr->content)[ft_strlen(name)] == '=')
+		e_var.key = ft_strsub(args[1], 0, (int)(tmp - args[1]));
+		while (e_var.key[i])
 		{
-			free(curr->content);
-			curr->content = ft_str3join(name, "=", value);
-			flag = 1;
+			if (!ft_isalnum(e_var.key[i]))
+			{
+				free(e_var.key);
+				return (ft_printf("KEY doesn't allow non alphanumeric value\n") && 1);
+			}
+			i++;
 		}
-		curr = curr->next;
+		e_var.value = ft_strdup(tmp + 1);
 	}
-	if (flag == 0)
-	{
-		str = ft_str3join(name, "=", value);
-		if (*head == NULL)
-			*head = ft_lstnew(str, ft_strlen(str));
-		else
-			ft_lstappend(head, ft_lstnew(str, ft_strlen(str)));
-		free(str);
-	}
-}
-
-int			mini_setenv(char **args, t_list **head)
-{
-	int		i;
-
-	i = -1;
-	if (!args[1])
-		ft_lstprint(head);
 	else
 	{
-		while (args[1][++i])
-			if (args[1][i] == '=')
+		e_var.key = ft_strdup(args[1]);
+		while (e_var.key[i])
+		{
+			if (!ft_isalnum(e_var.key[i]))
 			{
-				ft_putendl("minishell: setenv: variable name is not valid.");
-				return (1);
+				free(e_var.key);
+				return (ft_printf("KEY doesn't allow non alphanumeric value\n") && 1);
 			}
-		if (args[2] != NULL && args[3] != NULL)
-			return (too_many_args("setenv"));
-		i = 0;
-		if (args[2] != NULL)
-			ft_lst_add_or_modify(0, head, args[1], args[2]);
-		else
-			ft_lst_add_or_modify(0, head, args[1], "");
+			i++;
+		}
+		e_var.value = ft_strdup(args[2]);
 	}
-	return (1);
+	param_ins_or_rep(env, &e_var);
+	return (0);
 }
 
-int			mini_unsetenv(char **args, t_list **head)
+int				builtin_unsetenv(char **args, t_list **env)
 {
-	int		j;
+	t_list	*tmp;
 
 	if (!args[1])
-		ft_lstprint(head);
-	j = 0;
-	while (args[++j])
+		return (ft_printf("Usage: unsetenv KEY\n") && 1);
+	tmp = *env;
+	while (tmp)
 	{
-		if (ft_strcmp(args[j], "*") == 0)
+		if (!ft_strcmp(((t_env_var*)tmp->content)->key, args[1]))
 		{
-			ft_lsterase(head);
-			return (1);
+			ft_lstdelone(&tmp, free_env_var);
+			break ;
 		}
-		ft_lstdelthis(head, args[j]);
+		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }

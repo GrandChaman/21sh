@@ -6,73 +6,70 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:41:18 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/01 12:45:09 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:13:35 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	help_norm(t_list **head, char ***setenv)
+static int		change_dir_routine(char *npath)
 {
-	if (!(*setenv = (char **)malloc(sizeof(char *) * 4)))
-		exit(EXIT_FAILURE);
-	(*setenv)[0] = ft_strdup("setenv");
-	(*setenv)[1] = ft_strdup("OLDPWD");
-	(*setenv)[2] = ft_strdup(ft_getenv(head, "PWD"));
-	(*setenv)[3] = 0;
-}
+	int			res;
+	struct stat	stinfo;
 
-static int	modify_pwd(t_list **head, char **args, int i, char *oldpwd)
-{
-	char	**setenv;
-	char	*buf;
-
-	buf = ft_memalloc(1024);
-	help_norm(head, &setenv);
-	mini_setenv(setenv, head);
-	free(setenv[1]);
-	free(setenv[2]);
-	setenv[1] = ft_strdup("PWD");
-	if (ft_strcmp(args[1], "-") != 0)
-		setenv[2] = ft_strdup(args[1]);
-	else if (ft_strcmp(args[1], "-") == 0)
-		setenv[2] = ft_strdup(oldpwd);
-	else
-		setenv[2] = ft_strdup(getcwd(buf, 1024));
-	mini_setenv(setenv, head);
-	while (setenv[++i])
-		free(setenv[i]);
-	free(setenv);
-	free(buf);
-	free(oldpwd);
-	return (1);
-}
-
-int			mini_cd(char **args, t_list **head)
-{
-	char	*oldpwd;
-
-	oldpwd = NULL;
-	if (!args[1])
-		chdir(ft_getenv(head, "HOME"));
-	else
+	res = 0;
+	if (npath && access(npath, F_OK) != -1)
 	{
-		if (ft_strcmp(args[1], "-") == 0)
-			if (!args[2])
-			{
-				oldpwd = ft_strdup(ft_getenv(head, "OLDPWD"));
-				if (chdir(oldpwd) != 0)
-				{
-					ft_printf("minishell: dir not found / not the rights: %s\n",
-					ft_getenv(head, "OLDPWD"));
-					free(oldpwd);
-					return (1);
-				}
-			}
-			else
-				ft_putendl("Usage: cd [-|<dir>].");
-		else if (chdir(args[1]) != 0)
-			return (ft_problem_dir(args[1]));
+		if (npath && stat(npath, &stinfo))
+			res = (ft_fprintf(STDERR_FILENO, "cd: %s: stat error.\n",
+					npath));
+		else if ((stinfo.st_mode & S_IFMT) != S_IFDIR)
+			res = (ft_fprintf(STDERR_FILENO, "cd: %s: Not a directory.\n",
+					npath));
+		else if (chdir(npath))
+			res = (ft_fprintf(STDERR_FILENO, "cd: %s: Permission denied.\n",
+					npath));
 	}
-	return (modify_pwd(head, args, -1, oldpwd));
+	else if (npath)
+		res = (ft_fprintf(STDERR_FILENO, "cd: %s: No such file or directory.\n",
+				npath));
+	return (res);
+}
+
+int				builtin_cd(char *npath, t_list **env)
+{
+	t_list			*cursor;
+	t_env_var		*oldpwd;
+	char			*oldpwd_path;
+	t_env_var		*home;
+	int				res;
+
+	cursor = NULL;
+	oldpwd = NULL;
+	if ((cursor = ft_lstfind(*env, "HOME", compare_with_key)))
+		home = (t_env_var*)cursor->content;
+	if ((cursor = ft_lstfind(*env, "OLDPWD", compare_with_key)))
+		oldpwd_path = ((t_env_var*)cursor->content)->value;
+	oldpwd = ft_memalloc(sizeof(t_env_var));
+	oldpwd->value = ft_getcwd();
+	oldpwd->key = ft_strdup("OLDPWD");
+	if (npath && ft_strcmp(npath, "-") == 0)
+	{
+		if (!oldpwd_path)
+			res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));
+		else
+			res = change_dir_routine(oldpwd_path);
+	}
+	else if (npath && ft_strcmp(npath, "-") != 0)
+		res = change_dir_routine(npath);
+	else if (!npath)
+	{
+		if (!home || !home->value)
+			return (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n") && 1);
+		else
+			res = change_dir_routine(home->value);
+	}
+	param_ins_or_rep(env, oldpwd);
+	free(oldpwd);
+	return (res);
 }
