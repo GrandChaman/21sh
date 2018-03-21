@@ -128,6 +128,7 @@ void		fill_parser(t_parser *parser, char *original)
 			var.o = 0;
 			var.z++;
 		}
+		printf("parser[%d].cmd[%d]\n", var.b, var.j);
 		if ((var.z > 0 || (var.z == 0 && original[var.i] == '\0')) && var.j)
 			parser[var.b].cmd[var.j] = NULL;
 		reset_var(&var);

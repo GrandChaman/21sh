@@ -1,13 +1,12 @@
 #include "ft_sh.h"
 
-
 static void malloc_meta(t_vari *var, t_parser *parser)
 {
 	if (var->boite == 2)
 	{
 		if (var->i_output == 0)
 		{
-//			printf("malloc nbr de ouput = %d\n", var->nbr_redirection_output);
+			printf("malloc nbr de ouput = %d\n", var->nbr_redirection_output);
 			if (!(parser[var->b].output.meta = malloc(sizeof(t_meta_output) * var->nbr_redirection_output + 1)))
 				exit(0);
 			init_meta_output(parser, var->b, var->nbr_redirection_output);
@@ -17,7 +16,7 @@ static void malloc_meta(t_vari *var, t_parser *parser)
 	{
 		if (var->i_input == 0)
 		{
-//			printf("malloc nbr de input = %d\n", var->nbr_redirection_input);
+			printf("malloc nbr de input = %d\n", var->nbr_redirection_input);
 			if (!(parser[var->b].input.meta = malloc(sizeof(t_meta_input) * var->nbr_redirection_input + 1)))
 				exit(0);
 			init_meta_input(parser, var->b, var->nbr_redirection_input);
@@ -31,13 +30,13 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *original)
 {
 	if (var->z == 0 && var->box == 1)
 	{
-//		printf("nombre de mot dans la commande = %d\n", var->nbr_argv);
-		if (!(parser[var->b].cmd = malloc(sizeof(char *) * var->nbr_argv + 1)))
+		printf("nombre de mot dans la commande = %d\n", var->nbr_argv);
+		if (!(parser[var->b].cmd = malloc(sizeof(char *) * (var->nbr_argv + 1))))
 			exit(0);
 	}
 	if (var->box == 1)
 	{
-//		printf("malloc parser[%d].cmd[%d] = %d\n", var->b, var->z, var->o);
+		printf("malloc parser[%d].cmd[%d] = %d\n", var->b, var->z, var->o);
 		if (!(parser[var->b].cmd[var->z] = malloc(sizeof(char) * var->o + 1)))
 			exit(0);
 	}
@@ -49,7 +48,7 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *original)
 			var->i++;
 			var->o++;
 		}
-//		printf("malloc parser[%d].output.name_file[%d] = %d\n", var->b, var->i_output, var->o);
+		printf("malloc parser[%d].output.name_file[%d] = %d\n", var->b, var->i_output, var->o);
 		if (!(parser[var->b].output.meta[var->i_output].name = malloc(sizeof(char) * var->o + 1)))
 			exit(0);
 		var->i_output++;
@@ -62,7 +61,7 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *original)
 			var->i++;
 			var->o++;
 		}
-//		printf("malloc parser[%d].input.name_file[%d] = %d\n", var->b , var->i_input , var->o);
+		printf("malloc parser[%d].input.name_file[%d] = %d\n", var->b , var->i_input , var->o);
 		if (!(parser[var->b].input.meta[var->i_input].name = malloc(sizeof(char) * var->o + 1)))
 			exit(0);
 		var->i_input++;
@@ -129,17 +128,17 @@ void	split_evoluted(t_parser *parser, char *original)
 	t_vari var;
 	init_var(&var);
 
-//	printf("\noriginal = %s\n\n", original);
+	printf("\noriginal = %s\n\n", original);
 	while (original[var.i])
 	{
 		var.box = 1;
 		there_is_space(&var, original);
 		var.nbr_argv = count_argv(var.i, original);
-//		printf("---------------Ici nb argument = %d\n", var.nbr_argv);
+		printf("---------------Ici nb argument = %d\n", var.nbr_argv);
 		var.nbr_redirection_input = count_redirection_input(var.i, original);
-//		printf("++++++++++ var.nbr_redirection_input = %d\n", var.nbr_redirection_input);
+		printf("++++++++++ var.nbr_redirection_input = %d\n", var.nbr_redirection_input);
 		var.nbr_redirection_output = count_redirection_output(var.i, original);
-//		printf("************ var.nbr_redirection_output = %d\n", var.nbr_redirection_output);
+		printf("************ var.nbr_redirection_output = %d\n", var.nbr_redirection_output);
 		there_is_an_cmd(&var, parser, original);
 		var.z = 0;
 		var.i_input = 0;
