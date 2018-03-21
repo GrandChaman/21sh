@@ -22,9 +22,11 @@ static void	is_fd(int x, int i, t_parser *parser)
 	{
 		ft_easy_input(&stock, x, i, parser);
 		if (parser[x].input.meta[i].name[1])
-			dup2(stock, parser[x].input.meta[i].name[1] - 48);
+			if (dup2(stock, parser[x].input.meta[i].name[1] - 48) == -1)
+				exit(0);
 		else
-			dup2(stock, 0);
+			if (dup2(stock, 0) == -1)
+				exit(0);
 	}
 }
 
@@ -41,7 +43,8 @@ static void	is_heredoc_2(int x, t_parser *parser, int i)
 		exit(0);
 	free(str);
 	free(str2);
-	dup2(fd, 0);
+	if (dup2(fd, 0) == -1)
+		exit(0);
 }
 
 static int	is_normal(int x, t_parser *parser, int i)
@@ -56,7 +59,8 @@ static int	is_normal(int x, t_parser *parser, int i)
 		return (0);
 	}
 	ft_easy_input(&stock, x, i, parser);
-	dup2(fd, stock);
+	if (dup2(fd, stock) == -1)
+		exit(0);
 	return (1);
 }
 

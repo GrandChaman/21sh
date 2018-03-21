@@ -23,10 +23,12 @@ static void	is_fd(int x, t_parser *parser, int i)
 		ft_easy_output(&stock, x, i, parser);
 		if (parser[x].output.meta[i].name[1])
 		{
-			dup2(stock, parser[x].output.meta[i].name[1] - 48);
+			if (dup2(stock, parser[x].output.meta[i].name[1] - 48) == -1)
+				exit(0);
 		}
 		else
-			dup2(stock, 1);
+			if (dup2(stock, 1) == -1)
+				exit(0);
 	}
 }
 
@@ -69,7 +71,8 @@ static void	sinon(int x, t_parser *parser, int i)
 		O_RDWR | O_CREAT | O_EXCL, 0777)) == -1)
 		fd = normal(x, parser, i);
 	ft_easy_output(&stock, x, i, parser);
-	dup2(fd, stock);
+	if (dup2(fd, stock) == -1)
+		exit(0);
 }
 
 int			check_dup(t_parser *parser, int x)
