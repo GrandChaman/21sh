@@ -285,7 +285,7 @@ char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
 int						mini_cd(char **args, t_list **head);
-int						mini_echo(char **args);
+int				mini_echo(char **args, t_list **env);
 int						builtin_env(t_list **env, char **args, t_bin_hash_table *ht);
 int						mini_exit(char **args);
 char					*ft_path(t_list **head, char *cmd);

@@ -26,7 +26,7 @@ int		launch_built_in(t_parser parser, t_list **head)
 		if (ft_strcmp(parser.cmd[0], "help") == 0)
 			mini_help(parser.cmd);
 		else if (ft_strcmp(parser.cmd[0], "echo") == 0)
-			mini_echo(parser.cmd);
+			mini_echo(parser.cmd, head);
 		else if (ft_strcmp(parser.cmd[0], "unsetenv") == 0)
 			mini_unsetenv(parser.cmd, head);
 		else if (ft_strcmp(parser.cmd[0], "setenv") == 0)
@@ -50,7 +50,7 @@ int		is_built_in(t_parser parser)
 		return (1);
 	else if (ft_strcmp(parser.cmd[0], "cd") == 0)
 		return (1);
-	return (-1);
+	return (0);
 }
 
 int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table *ht)
@@ -67,6 +67,7 @@ int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table 
 	if (is_built_in(parser))
 	{
 		launch_built_in(parser, head);
+		return (0);
 	}
 	if (ft_strcmp(parser.cmd[0], "env") == 0)
 	{
