@@ -18,7 +18,7 @@ static int		this_is_word(t_vari *var, char *ori)
 	ori[var->i] != ';' && ori[var->i] != '|') && ori[var->i])
 	{
 		var->boite = redirections3(&var->i, ori);
-		if (var->boite == 0 && (ft_printf("\n21sh: syntax error\n")))
+		if (var->boite == 0 && (ft_printf("21sh: syntax error\n")))
 			return (0);
 		if (ori[var->i] == '\0')
 			return (1);
@@ -87,7 +87,7 @@ static int		second_main_loop(t_vari *var, char *ori)
 		ori[var->i])
 		var->i++;
 	if (ori[var->i] && ft_isatoken(ori[var->i]) &&
-		(ft_printf("\n21sh :Unexpected token %c\n", ori[var->i])))
+		(ft_printf("21sh :Unexpected token %c\n", ori[var->i])))
 		return (0);
 	return (1);
 }
@@ -105,7 +105,7 @@ int				is_correct_talk(char *ori)
 		if (ori[var.i] == '\0')
 			return (0);
 		if (ft_isatoken(ori[var.i]) &&
-			(ft_printf("\n21sh :Unexpected token %c\n", ori[var.i])))
+			(ft_printf("21sh :Unexpected token %c\n", ori[var.i])))
 			return (0);
 		var.nbr_argv = count_argv(var.i, ori);
 		if ((var.boite = main_loop(&var, ori)) != 1)
