@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 15:34:59 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:47:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,13 +216,6 @@ typedef	struct 			s_bin_hash_table
 	unsigned int		size;
 }						t_bin_hash_table;
 
-typedef struct			s_args
-{
-	char				*key;
-	char				*value;
-	char				is_define;
-}						t_args;
-
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 
 //BETA
@@ -301,7 +294,7 @@ t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
-int						builtin_cd(t_list **env, char *npath);
+int						builtin_cd(char *npath, t_list **env);
 int						builtin_echo(char **args, t_list **env);
 int						builtin_env(t_list **env, char **args);
 int						builtin_exit(void);
