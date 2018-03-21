@@ -36,6 +36,43 @@ static int		change_dir_routine(char *npath)
 	return (res);
 }
 
+
+static int		builtin_cd_1(char *oldpwd_path)
+{
+	int res;
+
+	if (!oldpwd_path)
+		res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));
+	else
+		res = change_dir_routine(oldpwd_path);
+	return (res);
+}
+
+static int		builtin_cd_2(t_env_var *home)
+{
+	int res;
+
+	if (!home || !home->value)
+		return (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n") && 1);
+	else
+		res = change_dir_routine(home->value);
+	return (res);
+}
+
+static int		builtin_cd_3(char *npath, char *oldpwd_path, t_env_var *home)
+{
+	int res;
+
+	res = 0;
+	if (npath && ft_strcmp(npath, "-") == 0)
+		res = builtin_cd_1(oldpwd_path);
+	else if (npath && ft_strcmp(npath, "-") != 0)
+		res = change_dir_routine(npath);
+	else if (!npath)
+		res = builtin_cd_2(home);
+	return (res);
+}
+
 int				builtin_cd(char *npath, t_list **env)
 {
 	t_list			*cursor;
@@ -47,6 +84,8 @@ int				builtin_cd(char *npath, t_list **env)
 	res = 0;
 	cursor = NULL;
 	oldpwd = NULL;
+	home = NULL;
+	oldpwd_path = NULL;
 	if ((cursor = ft_lstfind(*env, "HOME", compare_with_key)))
 		home = (t_env_var*)cursor->content;
 	if ((cursor = ft_lstfind(*env, "OLDPWD", compare_with_key)))
@@ -54,22 +93,7 @@ int				builtin_cd(char *npath, t_list **env)
 	oldpwd = ft_memalloc(sizeof(t_env_var));
 	oldpwd->value = ft_getcwd();
 	oldpwd->key = ft_strdup("OLDPWD");
-	if (npath && ft_strcmp(npath, "-") == 0)
-	{
-		if (!oldpwd_path)
-			res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));
-		else
-			res = change_dir_routine(oldpwd_path);
-	}
-	else if (npath && ft_strcmp(npath, "-") != 0)
-		res = change_dir_routine(npath);
-	else if (!npath)
-	{
-		if (!home || !home->value)
-			return (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n") && 1);
-		else
-			res = change_dir_routine(home->value);
-	}
+	builtin_cd_3(npath, oldpwd_path, home);
 	param_ins_or_rep(env, oldpwd);
 	free(oldpwd);
 	return (res);
