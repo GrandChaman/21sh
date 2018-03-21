@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 16:24:30 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:34:24 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		main(int argc, const char **argv, char **env)
 		return (1);
 	char2d_tolist(&env_lst, env);
 	ht = load_bin_into_hash_table(env_lst);
+	shell->ht = ht;
 	cli_loader(0);
 	main_routine(&env_lst, 1, ht);
 	cli_loader(1);
