@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 13:10:49 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:41:04 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void main_routine(t_list **head, int status, t_bin_hash_table *ht)
 	init_r_dup(&r_dup);
 	shell = get_ft_shell();
 	should_exit = 0;
-	while (42)
+	while (!should_exit)
 	{
 		cmd = read_command(NULL, status, 0, (!fb ? fb++ : fb));
 		if (cmd && cmd[0] == '\0')
@@ -73,12 +73,9 @@ void main_routine(t_list **head, int status, t_bin_hash_table *ht)
 				x++;
 			}
 			//ft_fprintf(shell->debug_tty, "YAY\n");
-			ft_fprintf(shell->debug_tty, "%s%s\n", (!shell->is_a_tty ? "" : "\nTyped : "),cmd);
 			free_parser(parser);
 		}
 		free(cmd);
-		if (should_exit)
-			break;
 	}
 }
 

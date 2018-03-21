@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 13:16:46 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:33:25 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int						compare_with_key(void *e1, void *e2);
 void				free_hash_table(t_bin_hash_table **ht);
 unsigned long dj2b_hash(char *str);
 t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name);
-int		launch_built_in(char **cmd, t_list **head, t_bin_hash_table *ht);
+int		launch_builtin(char **cmd, t_list **head);
 int		is_built_in(char **cmd);
 
 //BETA
@@ -288,7 +288,7 @@ void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
 int						mini_cd(char **args, t_list **head);
 int						mini_echo(char **args);
-int						builtin_env(t_list **env, char **args, t_bin_hash_table *ht);
+int						builtin_env(t_list **env, char **args);
 int						mini_exit(char **args);
 char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
