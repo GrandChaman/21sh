@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 13:41:30 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 14:57:33 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ int		launch_builtin(char **cmd, t_list **head)
 	t_list	*copy;
 
     status = 0;
+	if (ft_strcmp(cmd[0], "unsetenv") == 0)
+		return (builtin_unsetenv(cmd, head));
+	else if (ft_strcmp(cmd[0], "setenv") == 0)
+		return (builtin_setenv(cmd, head));
     father = fork();
     if (father > 0)
         wait(&status);
@@ -34,10 +38,6 @@ int		launch_builtin(char **cmd, t_list **head)
 			mini_help(cmd);
 		else if (ft_strcmp(cmd[0], "echo") == 0)
 			mini_echo(cmd);
-		else if (ft_strcmp(cmd[0], "unsetenv") == 0)
-			mini_unsetenv(cmd, head);
-		else if (ft_strcmp(cmd[0], "setenv") == 0)
-			mini_setenv(cmd, head);
 		else if (ft_strcmp(cmd[0], "cd") == 0)
 			mini_cd(cmd, head);
 		exit(0);
@@ -71,7 +71,7 @@ int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table 
 	if (ft_strcmp(parser.cmd[0], "exit") == 0)
 	{
 		*should_exit = 1;
-		return (1);
+		return (builtin_exit());
 	}
 	if (is_built_in(parser.cmd))
 		return (launch_builtin(parser.cmd, head));

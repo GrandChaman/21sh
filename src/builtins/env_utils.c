@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:29:35 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 17:57:53 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:18:50 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ void					param_ins_or_rep(t_list **list, t_env_var *arg)
 
 void		free_env_var(void *el, size_t size)
 {
+	t_env_var* tmp;
+
+	tmp = (t_env_var*)el;
 	(void)size;
 	free(((t_env_var*)el)->key);
 	free(((t_env_var*)el)->value);
@@ -122,26 +125,20 @@ void						extract_define(t_list **list, const char *param)
 void					remove_key(t_list **begin_list, void *data_ref)
 {
 	t_list *tmp;
-	t_list *todel;
 
 	if (begin_list == NULL || *begin_list == NULL)
 		return ;
 	tmp = *begin_list;
 	if (!compare_with_key(tmp->content, data_ref))
 	{
-		*begin_list = tmp->next;
-		free_env_var(tmp->content, 0);
-		free(tmp);
+		ft_lstdelone(tmp, free_env_var);
 		return ;
 	}
 	while (tmp && tmp->next)
 	{
 		if (!compare_with_key(tmp->next->content, data_ref))
 		{
-			todel = tmp->next;
-			tmp->next = tmp->next->next;
-			free_env_var(todel->content, 0);
-			free(todel);
+			ft_lstdelone(tmp, free_env_var);
 			continue ;
 		}
 		tmp = tmp->next;

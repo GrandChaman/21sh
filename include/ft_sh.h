@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 13:33:25 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 14:44:56 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,8 @@ unsigned long dj2b_hash(char *str);
 t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name);
 int		launch_builtin(char **cmd, t_list **head);
 int		is_built_in(char **cmd);
+void					remove_key(t_list **begin_list, void *data_ref);
+void					param_ins_or_rep(t_list **list, t_env_var *arg);
 
 //BETA
 
@@ -289,13 +291,13 @@ void					ft_lstdelthis(t_list **head, char *str);
 int						mini_cd(char **args, t_list **head);
 int						mini_echo(char **args);
 int						builtin_env(t_list **env, char **args);
-int						mini_exit(char **args);
+int						builtin_exit(void);
 char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
 void					ft_lst_add_or_modify(int flag, t_list **head,
 	char *name, char *value);
-int						mini_setenv(char **args, t_list **head);
-int						mini_unsetenv(char **args, t_list **head);
+int						builtin_setenv(char **args, t_list **head);
+int						builtin_unsetenv(char **args, t_list **head);
 int						ft_problem_dir(char *arg);
 int						too_many_args(char *cmd);
 
