@@ -36,7 +36,6 @@ static int		change_dir_routine(char *npath)
 	return (res);
 }
 
-
 static int		builtin_cd_1(char *oldpwd_path)
 {
 	int res;
