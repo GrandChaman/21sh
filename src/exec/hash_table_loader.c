@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:16:18 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 13:28:51 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 14:04:26 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void				free_hash_table(t_bin_hash_table **ht)
 	unsigned int i;
 
 	i = 0;
-	while (i <= (*ht)->size)
+	if (!ht || !*ht)
+		return ;
+	while (i < (*ht)->size)
 	{
 		free((*ht)->table[i].name);
 		free((*ht)->table[i].path);
