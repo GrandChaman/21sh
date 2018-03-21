@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 17:26:55 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:39:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void					ft_sh_autocomplete(unsigned long touch)
 {
 	char			*str_part;
 	t_ft_sh			*sh;
-	unsigned int	save_cur;
 
 	sh = get_ft_shell();
 	str_part = NULL;

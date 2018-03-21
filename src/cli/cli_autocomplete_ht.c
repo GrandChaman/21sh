@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 16:29:28 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 17:27:10 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:39:29 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void			collect_data_ht(t_list **list, char *str_part)
 	unsigned int		i;
 	t_ft_sh				*sh;
 	size_t				len;
-
 
 	sh = get_ft_shell();
 	if (!sh->ht || !str_part)
