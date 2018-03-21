@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 11:22:42 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:33:56 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void		print_env(t_list *env)
 	}
 }
 
-int			builtin_env(t_list **env, char **args, t_bin_hash_table *ht)
+int			builtin_env(t_list **env, char **args)
 {
 	int arg_offset;
+	t_bin_hash_table *ht;
 
 	arg_offset = 1;
 	if (!args[arg_offset])
@@ -35,10 +36,12 @@ int			builtin_env(t_list **env, char **args, t_bin_hash_table *ht)
 			ft_lstdel(env, free_env_var);
 		while (args[arg_offset])
 			extract_define(env, args[arg_offset++]);
+		ht = load_bin_into_hash_table(*env);
 		if (*(args + arg_offset))
 			launch(args + arg_offset, env, ht);
 		else
 			print_env(*env);
+		free_hash_table(&ht);
 	}
 	return (0);
 }

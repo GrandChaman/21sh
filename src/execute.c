@@ -6,13 +6,13 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 13:07:51 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 13:41:30 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int		launch_built_in(char **cmd, t_list **head, t_bin_hash_table *ht)
+int		launch_builtin(char **cmd, t_list **head)
 {
 	pid_t   father;
     int     status;
@@ -27,7 +27,7 @@ int		launch_built_in(char **cmd, t_list **head, t_bin_hash_table *ht)
 		if (ft_strcmp(cmd[0], "env") == 0)
 		{
 			copy = dup_environment(*head);
-			builtin_env(&copy, cmd, ht);
+			builtin_env(&copy, cmd);
 			ft_lstdel(&copy, free_env_var);
 		}
 		else if (ft_strcmp(cmd[0], "help") == 0)
@@ -74,7 +74,7 @@ int		execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table 
 		return (1);
 	}
 	if (is_built_in(parser.cmd))
-		return (launch_built_in(parser.cmd, head, ht));
+		return (launch_builtin(parser.cmd, head));
 	else
 		return (launch(parser.cmd, head, ht));
 }
