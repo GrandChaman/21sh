@@ -6,23 +6,11 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:40:02 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 16:49:11 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:37:18 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-static int		ft_stralike(char *str1, char *str2, size_t len)
-{
-	unsigned int i;
-
-	i = 0;
-	while (str1[i] && str2[i] && str1[i] == str2[i] && i < len)
-		i++;
-	if (str1[i] == str2[i] && str1[i] == 0)
-		return (-1);
-	return (len - i);
-}
 
 static void		get_graphics_for_filetype(mode_t type, t_ft_autoc_entry *entry)
 {

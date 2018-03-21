@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/20 18:23:11 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:26:55 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void					collect_data(char *str_part)
 	sh = get_ft_shell();
 	save_cur = sh->cursor;
 	collect_data_local_file(&sh->autocomplete, str_part);
+	collect_data_ht(&sh->autocomplete, str_part);
 	ft_lstsort(&sh->autocomplete, cmp_autoc_entry);
 }
 
@@ -64,6 +65,29 @@ static void				complete_missing_autocomplete(t_ft_sh *sh,
 	insert_in_cli(entry->name + i);
 }
 
+static void				ft_sh_autocomplete_routine(t_ft_sh *sh, char *str_part)
+{
+	unsigned int	save_cur;
+
+	collect_data(str_part);
+	sh->autocomplete_padding = get_autocomplete_el_with(sh->autocomplete) + 7;
+	setpos_autocomplete(sh);
+	if (((ft_lstsize(sh->autocomplete) * sh->autocomplete_padding) / sh->x_size)
+		+ ((sh->prompt_size + sh->buf.cursor) / sh->x_size) > sh->y_size)
+	{
+		ft_putchar('\n');
+		exec_term_command(TC_MOVEUP);
+		exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size +
+			cursor_new_origin(sh)) % sh->x_size);
+		cancel_autocompletion(sh, 0);
+		exec_term_command(TC_BELL);
+		return ;
+	}
+	save_cur = sh->cursor;
+	prepare_autocomplete(sh, sh->autocomplete, save_cur);
+	display_autocomplete(sh, sh->autocomplete);
+}
+
 void					ft_sh_autocomplete(unsigned long touch)
 {
 	char			*str_part;
@@ -74,12 +98,7 @@ void					ft_sh_autocomplete(unsigned long touch)
 	str_part = NULL;
 	str_part = extract_autocomplete_search(sh);
 	if (!sh->autocomplete && touch == T_TAB)
-	{
-		collect_data(str_part);
-		save_cur = sh->cursor;
-		prepare_autocomplete(sh, sh->autocomplete, save_cur);
-		display_autocomplete(sh, sh->autocomplete);
-	}
+		ft_sh_autocomplete_routine(sh, str_part);
 	else if (sh->autocomplete &&
 		(touch == T_TAB || touch == T_LARR || touch == T_RARR))
 		move_in_autocompletion(touch);
