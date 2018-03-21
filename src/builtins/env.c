@@ -6,76 +6,42 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/02 11:45:28 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:23:06 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static int	has_equal_sign(char *str, int *x)
+void		print_env(t_list *env)
 {
-	int i;
-	int y;
-
-	i = -1;
-	y = 0;
-	if (str != NULL)
-		while (str[++i])
-		{
-			if (str[i] == '=')
-			{
-				*x = y;
-				return (1);
-			}
-			y++;
-		}
-	return (0);
-}
-
-static int	help_norm(t_list **head, char ***setenv, char **args, t_parser parser)
-{
-	int i;
-	int x;
-
-	i = 0;
-	x = 0;
-	while (has_equal_sign(args[++i], &x) == 1)
+	while (env)
 	{
-		if (!(*setenv = (char **)malloc(sizeof(char *) * (4))))
-			return (1);
-		(*setenv)[3] = 0;
-		(*setenv)[0] = ft_strdup("setenv");
-		(*setenv)[1] = ft_strsub(args[i], 0, x);
-		(*setenv)[2] = ft_strsub(args[i], x + 1,
-			ft_strlen(args[i]) - (x + 1));
-		mini_setenv(*setenv, head);
-		x = -1;
-		while ((*setenv)[++x])
-			free((*setenv)[x]);
-		free(*setenv);
+		ft_printf("%s=%s\n", ((t_env_var*)env->content)->key,
+			((t_env_var*)env->content)->value);
+		env = env->next;
 	}
-	execute_env(&args[i], head, parser);
-	return (1);
 }
 
-static int	help_norm_2(t_list **head, char ***setenv, char **args,t_parser parser)
+int			builtin_env(t_list **env, char **args)
 {
-	ft_lsterase(head);
-	*head = NULL;
-	if (args[2] != NULL)
-		return (help_norm(head, setenv, &args[1], parser));
-	return (1);
-}
+	int arg_offset;
+	t_bin_hash_table *ht;
 
-int			mini_env(char **args, t_list **head, t_parser parser)
-{
-	char	**setenv;
-
-	if (!args[1])
-		ft_lstprint(head);
-	if (ft_strcmp(args[1], "-i") == 0)
-		return (help_norm_2(head, &setenv, args,parser));
-	else if (args[1])
-		return (help_norm(head, &setenv, args, parser));
-	return (1);
+	arg_offset = 1;
+	if (!args[arg_offset])
+		print_env(*env);
+	else
+	{
+		if (!ft_strcmp(args[arg_offset], "-i") && ++arg_offset)
+			ft_lstdel(env, free_env_var);
+		while (args[arg_offset])
+			extract_define(env, args[arg_offset++]);
+		ht = load_bin_into_hash_table(*env);
+		if (*(args + arg_offset))
+			launch(args + arg_offset, env, ht);
+		else
+			print_env(*env);
+		free_hash_table(&ht);
+	}
+	return (0);
 }
