@@ -78,6 +78,10 @@
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
 
+# define EF_OK 1
+# define EF_DENIED 2
+# define EF_NOTFOUND 5
+
 typedef struct			s_ft_sh
 {
 	unsigned int		x_size;
@@ -212,6 +216,15 @@ typedef	struct 			s_bin_hash_table
 	unsigned int		size;
 }						t_bin_hash_table;
 
+typedef struct			s_args
+{
+	char				*key;
+	char				*value;
+	char				is_define;
+}						t_args;
+
+void					param_ins_or_rep(t_list **list, t_env_var *arg);
+
 //BETA
 
 void		char2d_tolist(t_list **env, char **args);
@@ -284,7 +297,7 @@ t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
-int						mini_cd(char **args, t_list **head);
+int				change_dir(t_list **env, char *npath);
 int				mini_echo(char **args, t_list **env);
 int						builtin_env(t_list **env, char **args, t_bin_hash_table *ht);
 int						mini_exit(char **args);
