@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 16:27:36 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/21 16:58:34 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,27 @@
 # define TC_UNDERLINE_ON "us"
 # define TC_UNDERLINE_OFF "ue"
 # define TC_CLEAR "cl"
+# define TC_BELL "vb"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
 # define SH_HIST_MAX_SIZE 10
 
 # define EF_OK 1
 # define EF_DENIED 2
 # define EF_NOTFOUND 5
+
+typedef	struct 			s_bin_hash
+{
+	unsigned int		index;
+	char				*name;
+	char				*path;
+	char				can_exec;
+}						t_bin_hash;
+
+typedef	struct 			s_bin_hash_table
+{
+	t_bin_hash			*table;
+	unsigned int		size;
+}						t_bin_hash_table;
 
 typedef struct			s_ft_sh
 {
@@ -104,6 +119,7 @@ typedef struct			s_ft_sh
 	t_list				*autocomplete;
 	t_list				*autocomplete_cusor;
 	int					autocomplete_padding;
+	t_bin_hash_table	*ht;
 }						t_ft_sh;
 
 typedef struct			s_env_var
@@ -203,20 +219,6 @@ typedef	struct 			s_dup
 	int p[2];
 }						t_dup;
 
-typedef	struct 			s_bin_hash
-{
-	unsigned int		index;
-	char				*name;
-	char				*path;
-	char				can_exec;
-}						t_bin_hash;
-
-typedef	struct 			s_bin_hash_table
-{
-	t_bin_hash			*table;
-	unsigned int		size;
-}						t_bin_hash_table;
-
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 
 //BETA
@@ -234,6 +236,7 @@ t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name);
 int		launch_builtin(char **cmd, t_list **head);
 int		is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
+void			collect_data_ht(t_list **list, char *str_part);
 
 //BETA
 
