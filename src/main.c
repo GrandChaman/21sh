@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 13:22:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:51:50 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ static void	main_routine_2(t_list **head, int *status, t_var_m *ms)
 			&ms->should_exit, ms->shell->ht);
 		if (ms->should_exit)
 			break ;
-		if (ms->parser[ms->x].close_stdout)
-		{
-			while ((ms->parser[ms->x].input.pipe ||
-				ms->parser[ms->x].output.pipe) && ms->x < ms->nb)
-				ms->x++;
-		}
 		init_dup(&ms->r_dup);
 		ms->x++;
 	}
@@ -58,6 +52,7 @@ void		main_routine(t_list **head, int status)
 	{
 		ms.parser = NULL;
 		ms.cmd = read_command(NULL, status, 0, (!ms.fb ? ms.fb++ : ms.fb));
+		add_to_history(ms.shell, ms.cmd);
 		if ((ms.cmd && ms.cmd[0] == '\0') ||
 			!((ms.parser = get_parser(ms.cmd))))
 		{
@@ -67,7 +62,6 @@ void		main_routine(t_list **head, int status)
 			ms.parser = NULL;
 			continue ;
 		}
-		add_to_history(ms.shell, ms.cmd);
 		main_routine_2(head, &status, &ms);
 		free_parser(ms.parser);
 		init_dup(&ms.r_dup);

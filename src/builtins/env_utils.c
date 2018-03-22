@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:29:35 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 16:27:30 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:40:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,20 @@ void					extract_define(t_list **list, const char *param)
 {
 	t_env_var	res;
 	int			pos;
+	int			i;
 
+	i = 0;
 	if (!param || !(pos = ft_haschar((char*)param, '=')))
 		return ;
 	res.key = ft_strsub(param, 0, pos - 1);
+	while (ft_isalnum(res.key[i]))
+		i++;
+	if (res.key[i])
+	{
+		ft_printf("%s: KEY doesn't allow non alphanumeric value\n", res.key);
+		free(res.key);
+		return ;
+	}
 	res.value = ft_strsub(param, pos, ft_strlen(param) - pos);
 	param_ins_or_rep(list, &res);
 	return ;
