@@ -24,12 +24,12 @@ static void	is_fd(int x, t_parser *parser, int i)
 		if (parser[x].output.meta[i].name[1])
 		{
 			if (dup2(stock, parser[x].output.meta[i].name[1] - 48) == -1)
-				exit(0);
+				ft_perror("dup", "Dup failed. Aborting");
 		}
 		else
 		{
 			if (dup2(stock, 1) == -1)
-				exit(0);
+				ft_perror("dup", "Dup failed. Aborting");
 		}
 	}
 }
@@ -43,7 +43,7 @@ static int	is_d_chevron(int x, t_parser *parser, int i)
 	{
 		if ((fd = open(parser[x].output.meta[i].name,
 			O_RDWR | O_APPEND, 0777)) == -1)
-			exit(0);
+			ft_perror("21sh","Can't open file");
 	}
 	return (fd);
 }
@@ -54,10 +54,10 @@ static int	normal(int x, t_parser *parser, int i)
 
 	if ((fd = open(parser[x].output.meta[i].name, O_WRONLY |
 		O_TRUNC, 0777)) == -1)
-		exit(0);
+		ft_perror("21sh","Can't open file");
 	close(fd);
 	if ((fd = open(parser[x].output.meta[i].name, O_RDWR, 0777)) == -1)
-		exit(0);
+		ft_perror("21sh","Can't open file");
 	return (fd);
 }
 
@@ -74,7 +74,7 @@ static void	sinon(int x, t_parser *parser, int i)
 		fd = normal(x, parser, i);
 	ft_easy_output(&stock, x, i, parser);
 	if (dup2(fd, stock) == -1)
-		exit(0);
+		ft_perror("dup", "Dup failed. Aborting");
 }
 
 int			check_dup(t_parser *parser, int x)
