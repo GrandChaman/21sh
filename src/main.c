@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 15:51:50 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 20:16:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		main_routine(t_list **head, int status)
 		}
 		main_routine_2(head, &status, &ms);
 		free_parser(ms.parser);
-		init_dup(&ms.r_dup);
+		//init_dup(&ms.r_dup); RIEN ???
 		free(ms.cmd);
 	}
 }
