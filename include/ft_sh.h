@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 13:22:51 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:34:45 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ unsigned long			dj2b_hash(char *str);
 t_bin_hash				*get_elem_from_ht(t_bin_hash_table *ht, char *name);
 int						launch_builtin(char **cmd, t_list **head,
 	t_parser parser);
+int						check_if_key_ok(t_env_var e_var, int i);
 int						is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);

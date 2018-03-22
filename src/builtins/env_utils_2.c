@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:16:42 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/21 17:16:44 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/22 15:36:37 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,15 @@ int						compare_with_key(void *e1, void *e2)
 	tmp = (t_env_var*)e1;
 	cmp = (char*)e2;
 	return (ft_strcmp(tmp->key, cmp));
+}
+
+int						check_if_key_ok(t_env_var e_var, int i)
+{
+	if (!ft_isalnum(e_var.key[i]))
+	{
+		free(e_var.key);
+		return (ft_printf("KEY doesn't allow "
+			"non alphanumeric value\n") && 1);
+	}
+	return (0);
 }

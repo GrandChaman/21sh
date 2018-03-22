@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 15:33:20 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:34:23 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,6 @@ static int		builtin_setenv_2(t_env_var *e_var, char **args, int i)
 	return (0);
 }
 
-static int		builtin_setenv_3(t_env_var e_var, int i)
-{
-	if (!ft_isalnum(e_var.key[i]))
-	{
-		free(e_var.key);
-		ft_printf("KEY doesn't allow ");
-		return (ft_printf("non alphanumeric value\n") && 1);
-	}
-	return (0);
-}
-
 int				builtin_setenv(char **args, t_list **env)
 {
 	t_env_var	e_var;
@@ -55,7 +44,7 @@ int				builtin_setenv(char **args, t_list **env)
 		e_var.key = ft_strsub(args[1], 0, (int)(tmp - args[1]));
 		while (e_var.key[++i])
 		{
-			if (builtin_setenv_3(e_var, i) == 1)
+			if (check_if_key_ok(e_var, i) == 1)
 				return (1);
 		}
 		e_var.value = ft_strdup(tmp + 1);
