@@ -109,7 +109,7 @@ int		main(int argc, const char **argv, char **env)
 	char2d_tolist(&env_lst, env);
 	ht = load_bin_into_hash_table(env_lst);
 	shell->ht = ht;
-	main_routine(&env_lst, 1, ht);
+	main_routine(&env_lst, 0, ht);
 	cli_loader(1);
 	free_hash_table(&ht);
 	ft_lstdel(&env_lst, free_env_var);
