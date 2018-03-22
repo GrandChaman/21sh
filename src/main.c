@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:40:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:22:14 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int			main(int argc, const char **argv, char **env)
 	shell = get_ft_shell();
 	env_lst = NULL;
 	signal(SIGINT, ignore_signal);
-	shell->debug_tty = -1;
 	if (!is_env_correct())
 		return (1);
 	cli_loader(0);
