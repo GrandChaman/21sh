@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/21 17:38:06 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/22 10:37:13 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ check_pipe.c cli_autocomplete.c cli_autocomplete_utils.c \
 cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
 cli_prompt.c history_utils.c cli_spe_nav.c split_evoluted_2.c\
 fill_struct_2.c check_dup_ft.c env_utils.c hash_table_loader.c \
-hash_table.c env_utils_2.c cli_autocomplete_ht.c
+hash_table.c env_utils_2.c cli_autocomplete_ht.c hash.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG =-g3 -Wall -Wextra  -I $(INCLUDE) -I $(LIBFT_INCLUDE)
