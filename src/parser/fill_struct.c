@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 14:12:51 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 14:12:53 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/22 14:20:52 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void	there_is_word(t_vari *var, t_parser *parser, char *ori)
 		fill_it(var, parser, ori);
 		var->i++;
 		var->o++;
+		if (ori[var->i] && (ori[var->i] == '\'' || ori[var->i] == '"'))
+			break ;
 	}
 }
 
