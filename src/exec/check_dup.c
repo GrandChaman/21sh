@@ -43,7 +43,10 @@ static int	is_d_chevron(int x, t_parser *parser, int i)
 	{
 		if ((fd = open(parser[x].output.meta[i].name,
 			O_RDWR | O_APPEND, 0777)) == -1)
-			ft_perror("21sh", "Can't open file");
+		{
+			ft_printf("21sh :Can't open file\n");
+			return (-1);
+		}
 	}
 	return (fd);
 }
@@ -54,27 +57,40 @@ static int	normal(int x, t_parser *parser, int i)
 
 	if ((fd = open(parser[x].output.meta[i].name, O_WRONLY |
 		O_TRUNC, 0777)) == -1)
-		ft_perror("21sh", "Can't open file");
+	{
+		ft_printf("21sh :Can't open file\n");
+		return (-1);
+	}
 	close(fd);
 	if ((fd = open(parser[x].output.meta[i].name, O_RDWR, 0777)) == -1)
-		ft_perror("21sh", "Can't open file");
+	{
+		ft_printf("21sh :Can't open file\n");
+		return (-1);
+	}
 	return (fd);
 }
 
-static void	sinon(int x, t_parser *parser, int i)
+static int	sinon(int x, t_parser *parser, int i)
 {
 	int fd;
 	int stock;
 
 	stock = 0;
 	if (parser[x].output.meta[i].double_chevron)
-		fd = is_d_chevron(x, parser, i);
+	{
+		if ((fd = is_d_chevron(x, parser, i)) == -1)
+			return (-1);
+	}
 	else if ((fd = open(parser[x].output.meta[i].name,
 		O_RDWR | O_CREAT | O_EXCL, 0777)) == -1)
-		fd = normal(x, parser, i);
+	{
+		if ((fd = normal(x, parser, i)) == -1)
+			return (-1);
+	}
 	ft_easy_output(&stock, x, i, parser);
 	if (dup2(fd, stock) == -1)
 		ft_perror("dup", "Dup failed. Aborting");
+	return (1);
 }
 
 int			check_dup(t_parser *parser, int x)
@@ -89,7 +105,10 @@ int			check_dup(t_parser *parser, int x)
 			if (parser[x].output.meta[i].name[0] == '&')
 				is_fd(x, parser, i);
 			else
-				sinon(x, parser, i);
+			{
+				if ((sinon(x, parser, i)) == -1)
+					return (0);
+			}
 			if (parser[x].output.meta[i].next_exist == 0)
 				break ;
 			i++;

@@ -12,7 +12,8 @@
 
 #include "ft_sh.h"
 
-int			launch(char **args, t_list **head, t_bin_hash_table *ht, t_parser parser)
+int			launch(char **args, t_list **head, t_bin_hash_table *ht,
+	t_parser parser)
 {
 	pid_t		pid;
 	int			status;
