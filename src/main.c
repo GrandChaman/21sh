@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 17:45:03 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 10:38:36 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_debug(t_ft_sh *shell, const char *path)
 	ft_fprintf(shell->debug_tty, "-------------------------------------\n");
 }
 
-void main_routine(t_list **head, int status, t_bin_hash_table *ht)
+void main_routine(t_list **head, int status)
 {
 	char		*cmd;
 	t_ft_sh		*shell;
@@ -63,7 +63,7 @@ void main_routine(t_list **head, int status, t_bin_hash_table *ht)
 					status = 1;
 					break ;
 				}
-				status = execute(parser[x], head, &should_exit, ht);
+				status = execute(parser[x], head, &should_exit, shell->ht);
 				if (should_exit)
 					break;
 				if (parser[x].close_stdout)
@@ -91,7 +91,6 @@ int		main(int argc, const char **argv, char **env)
 {
 	t_ft_sh *shell;
 	t_list	*env_lst;
-	t_bin_hash_table *ht;
 
 	shell = get_ft_shell();
 	signal(SIGINT, ignore_signal);
@@ -107,11 +106,10 @@ int		main(int argc, const char **argv, char **env)
 		return (1);
 	}
 	char2d_tolist(&env_lst, env);
-	ht = load_bin_into_hash_table(env_lst);
-	shell->ht = ht;
-	main_routine(&env_lst, 0, ht);
+	shell->ht = load_bin_into_hash_table(env_lst);
+	main_routine(&env_lst, 0);
 	cli_loader(1);
-	free_hash_table(&ht);
+	free_hash_table(&shell->ht);
 	ft_lstdel(&env_lst, free_env_var);
 	if (shell->debug_tty > 0)
 		close(shell->debug_tty);

@@ -6,13 +6,13 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 16:24:57 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 10:44:25 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	launch_2(char **cmd, t_list **head)
+static void	launch_forked_builtin(char **cmd, t_list **head)
 {
 	t_list *copy;
 
@@ -41,11 +41,13 @@ int			launch_builtin(char **cmd, t_list **head)
 		return (builtin_setenv(cmd, head));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		return (builtin_cd(cmd[1], head));
+	else if (ft_strcmp(cmd[0], "hash") == 0)
+		return (gen_hash(*head));
 	father = fork();
 	if (father > 0)
 		wait(&status);
 	else
-		launch_2(cmd, head);
+		launch_forked_builtin(cmd, head);
 	return (status);
 }
 
@@ -62,6 +64,8 @@ int			is_built_in(char **cmd)
 	else if (ft_strcmp(cmd[0], "setenv") == 0)
 		return (1);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "hash") == 0)
 		return (1);
 	return (0);
 }
