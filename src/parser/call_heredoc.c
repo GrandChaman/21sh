@@ -33,7 +33,7 @@ static char	*search_str(t_vari *var, char *ori)
 
 	o = 0;
 	if (!(str = malloc(sizeof(char) * size_str(*var, ori) + 1)))
-		exit(0);
+		ft_perror("malloc", "Mallocation failed. Aborting");
 	while (ori[var->i] && (ori[var->i] != ' ' &&
 		ori[var->i] != '\n'))
 	{
@@ -59,12 +59,6 @@ static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 	free(str);
 }
 
-static void perror_msg(void)
-{
-	ft_printf("Can't open heredoc in /tmp, check the right please\n");
-	exit(0);
-}
-
 void		call_heredoc(t_vari *var, char *ori)
 {
 	char	*str;
@@ -82,10 +76,10 @@ void		call_heredoc(t_vari *var, char *ori)
 		O_APPEND, 0777)) == -1)
 	{
 		if ((fd = open(path_file, O_WRONLY | O_TRUNC, 0777)) == -1)
-			perror_msg();
+			ft_perror("21sh","Can't open heredoc file /tmp");
 		close(fd);
 		if ((fd = open(path_file, O_RDWR | O_APPEND, 0777)) == -1)
-			perror_msg();
+			ft_perror("21sh", "Can't open heredoc file /tmp");
 	}
 	free(path_file);
 	final_heredoc(tmp, str, tmp2, fd);
