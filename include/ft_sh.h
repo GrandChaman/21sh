@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 16:58:34 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 10:42:22 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ typedef	struct 			s_dup
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 
 //BETA
-
+int		gen_hash(t_list *env);
 void		char2d_tolist(t_list **env, char **args);
 void		free_env_var(void *el, size_t size);
 t_list					*dup_environment(t_list *env);
