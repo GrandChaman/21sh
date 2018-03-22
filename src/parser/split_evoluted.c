@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_evoluted.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:54:06 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 13:54:11 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/22 14:20:26 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static void	there_is_word(t_vari *var, t_parser *parser, char *ori)
 		}
 		var->i++;
 		var->o++;
+		if (ori[var->i] && (ori[var->i] == '\'' || ori[var->i] == '"'))
+			break ;
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_argv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:45:28 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 13:45:31 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/22 14:20:22 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	main_loop2(int i, int o, int nb, char *ori)
 			if (ori[i] == '|' || ori[i] == ';' || ori[i] == '\0')
 				return (nb);
 			i++;
+			if (ori[i] && (ori[i] == '\'' || ori[i] == '"'))
+				break ;
 		}
 		nb++;
 		space(&i, ori);
