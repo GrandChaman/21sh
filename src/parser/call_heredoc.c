@@ -59,6 +59,12 @@ static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 	free(str);
 }
 
+static void perror_msg(void)
+{
+	ft_printf("Can't open heredoc in /tmp, check the right please\n");
+	exit(0);
+}
+
 void		call_heredoc(t_vari *var, char *ori)
 {
 	char	*str;
@@ -76,10 +82,10 @@ void		call_heredoc(t_vari *var, char *ori)
 		O_APPEND, 0777)) == -1)
 	{
 		if ((fd = open(path_file, O_WRONLY | O_TRUNC, 0777)) == -1)
-			exit(0);
+			perror_msg();
 		close(fd);
 		if ((fd = open(path_file, O_RDWR | O_APPEND, 0777)) == -1)
-			exit(0);
+			perror_msg();
 	}
 	free(path_file);
 	final_heredoc(tmp, str, tmp2, fd);

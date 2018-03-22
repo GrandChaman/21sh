@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 16:54:54 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 11:01:55 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ static char	*read_command_outro(t_ft_sh *sh)
 	sh->alt_cursor = 0;
 	ft_free((void**)&sh->history_last);
 	dbuf_clear(&sh->buf);
-	if (sh->is_a_tty)
-		apply_terminal_setting(1);
 	return (res);
 }
 
@@ -89,8 +87,6 @@ char		*read_command(char *prompt, int status, int heredoc, int fb)
 	t_ft_sh	*sh;
 
 	sh = get_ft_shell();
-	if (sh->is_a_tty)
-		apply_terminal_setting(0);
 	prompt_select(prompt, status, heredoc, fb);
 	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
 	read_command_routine();
