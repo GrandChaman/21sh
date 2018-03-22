@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:40:02 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 16:37:18 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:17:11 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ static void		load_dir_autocomplete(DIR *dir, t_list **list, char *path,
 static void		load_dir_and_add_slash_autocomplete(DIR *dir, t_list **list,
 	char *path, char *str_part)
 {
+	t_ft_sh *sh;
+
+	sh = get_ft_shell();
 	load_dir_autocomplete(dir, list, path, str_part);
-	insert_in_cli("/");
+	if (sh->cursor > 0 && sh->buf.buf[sh->cursor - 1] != '/')
+		insert_in_cli("/");
 }
 
 void			collect_data_local_file(t_list **list, char *str_part)
