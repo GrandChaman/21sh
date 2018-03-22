@@ -12,93 +12,85 @@
 
 #include "ft_sh.h"
 
-t_ft_sh	*get_ft_shell(void)
+t_ft_sh		*get_ft_shell(void)
 {
 	static t_ft_sh shell;
 
 	return (&shell);
 }
 
-void	init_debug(t_ft_sh *shell, const char *path)
+static void	main_routine_2(t_list **head, int *status, t_var_m *ms)
 {
-	if ((shell->debug_tty = open(path, O_WRONLY)) < 0)
-		return ;
-	ft_fprintf(shell->debug_tty, "-------------------------------------\n");
-}
-
-void main_routine(t_list **head, int status)
-{
-	char		*cmd;
-	t_ft_sh		*shell;
-	t_parser	*parser;
-	int			x;
-	int 		nb;
-	int			should_exit;
-	t_dup		r_dup;
-	int			fb;
-
-	fb = 0;
-	init_r_dup(&r_dup);
-	shell = get_ft_shell();
-	should_exit = 0;
-	parser = NULL;
-	while (!should_exit)
+	ms->nb = ms->parser[0].nb;
+	ms->x = 0;
+	while (ms->x < ms->nb)
 	{
-		cmd = read_command(NULL, status, 0, (!fb ? fb++ : fb));
-		if ((cmd && cmd[0] == '\0') || !((parser = get_parser(cmd))))
+		check_pipe(ms->parser, ms->x, &ms->r_dup);
+		if (!(check_dup(ms->parser, ms->x)))
 		{
-			fb = 0;
-			free(cmd);
-			free_parser(parser);
-			parser = NULL;
-			continue ;
+			*status = 1;
+			break ;
 		}
-		add_to_history(shell, cmd);
-			nb = parser[0].nb;
-			x = 0;
-			while (x < nb)
-			{
-				check_pipe(parser, x, &r_dup);
-				if (!(check_dup(parser, x)))
-				{
-					status = 1;
-					break ;
-				}
-				status = execute(parser[x], head, &should_exit, shell->ht);
-				if (should_exit)
-					break;
-				if (parser[x].close_stdout)
-				{
-					while ((parser[x].input.pipe || parser[x].output.pipe) && x < nb)
-						x++;
-				}
-				init_dup(&r_dup);
-				x++;
-			}
-			//ft_fprintf(shell->debug_tty, "YAY\n");
-			free_parser(parser);
-			parser = NULL;
-		init_dup(&r_dup);
-		free(cmd);
+		*status = execute(ms->parser[ms->x], head,
+			&ms->should_exit, ms->shell->ht);
+		if (ms->should_exit)
+			break ;
+		if (ms->parser[ms->x].close_stdout)
+		{
+			while ((ms->parser[ms->x].input.pipe ||
+				ms->parser[ms->x].output.pipe) && ms->x < ms->nb)
+				ms->x++;
+		}
+		init_dup(&ms->r_dup);
+		ms->x++;
 	}
 }
 
-static void ignore_signal(int sig)
+void		main_routine(t_list **head, int status)
+{
+	t_var_m		ms;
+
+	ms.fb = 0;
+	init_r_dup(&ms.r_dup);
+	ms.shell = get_ft_shell();
+	ms.should_exit = 0;
+	while (!ms.should_exit)
+	{
+		ms.parser = NULL;
+		ms.cmd = read_command(NULL, status, 0, (!ms.fb ? ms.fb++ : ms.fb));
+		if ((ms.cmd && ms.cmd[0] == '\0') ||
+			!((ms.parser = get_parser(ms.cmd))))
+		{
+			ms.fb = 0;
+			free(ms.cmd);
+			free_parser(ms.parser);
+			ms.parser = NULL;
+			continue ;
+		}
+		add_to_history(ms.shell, ms.cmd);
+		main_routine_2(head, &status, &ms);
+		free_parser(ms.parser);
+		init_dup(&ms.r_dup);
+		free(ms.cmd);
+	}
+}
+
+static void	ignore_signal(int sig)
 {
 	(void)sig;
 }
 
-int		main(int argc, const char **argv, char **env)
+int			main(int argc, const char **argv, char **env)
 {
 	t_ft_sh *shell;
 	t_list	*env_lst;
 
+	argv = NULL;
+	argc = 0;
 	shell = get_ft_shell();
 	env_lst = NULL;
 	signal(SIGINT, ignore_signal);
 	shell->debug_tty = -1;
-	if (argc == 3 && !ft_strcmp("-d", argv[1]))
-		init_debug(shell, argv[2]);
 	if (!is_env_correct())
 		return (1);
 	cli_loader(0);
@@ -113,8 +105,6 @@ int		main(int argc, const char **argv, char **env)
 	cli_loader(1);
 	free_hash_table(&shell->ht);
 	ft_lstdel(&env_lst, free_env_var);
-	if (shell->debug_tty > 0)
-		close(shell->debug_tty);
 	free(shell->select);
 	return (0);
 }

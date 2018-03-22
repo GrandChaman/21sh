@@ -43,7 +43,7 @@ static int	is_d_chevron(int x, t_parser *parser, int i)
 	{
 		if ((fd = open(parser[x].output.meta[i].name,
 			O_RDWR | O_APPEND, 0777)) == -1)
-			ft_perror("21sh","Can't open file");
+			ft_perror("21sh", "Can't open file");
 	}
 	return (fd);
 }
@@ -54,10 +54,10 @@ static int	normal(int x, t_parser *parser, int i)
 
 	if ((fd = open(parser[x].output.meta[i].name, O_WRONLY |
 		O_TRUNC, 0777)) == -1)
-		ft_perror("21sh","Can't open file");
+		ft_perror("21sh", "Can't open file");
 	close(fd);
 	if ((fd = open(parser[x].output.meta[i].name, O_RDWR, 0777)) == -1)
-		ft_perror("21sh","Can't open file");
+		ft_perror("21sh", "Can't open file");
 	return (fd);
 }
 

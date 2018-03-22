@@ -12,18 +12,18 @@
 
 #include "ft_sh.h"
 
-//From : http://www.cse.yorku.ca/~oz/hash.html
-unsigned long dj2b_hash(char *str)
-    {
-        unsigned long hash = 5381;
-        int c;
+unsigned long			dj2b_hash(char *str)
+{
+	unsigned long	hash;
+	int				c;
 
-        while ((c = *str++))
-            hash = ((hash << 5) + hash) + c;
-        return (hash);
-    }
+	hash = 5381;
+	while ((c = *str++))
+		hash = ((hash << 5) + hash) + c;
+	return (hash);
+}
 
-void				free_hash_table(t_bin_hash_table **ht)
+void					free_hash_table(t_bin_hash_table **ht)
 {
 	unsigned int i;
 
@@ -41,7 +41,7 @@ void				free_hash_table(t_bin_hash_table **ht)
 	*ht = 0;
 }
 
-static void			list_file_in_dir(t_list **list, char *path)
+static void				list_file_in_dir(t_list **list, char *path)
 {
 	DIR				*dir;
 	struct dirent	*dir_data;
@@ -95,7 +95,7 @@ static t_bin_hash_table	*fill_hash_table_form_list(t_list **list)
 	return (res);
 }
 
-t_bin_hash_table			*load_bin_into_hash_table(t_list *env)
+t_bin_hash_table		*load_bin_into_hash_table(t_list *env)
 {
 	t_list		*tmp;
 	char		*tmp_path;
