@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/22 11:22:33 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/22 13:18:54 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ fill_struct_2.c check_dup_ft.c env_utils.c hash_table_loader.c \
 hash_table.c env_utils_2.c cli_autocomplete_ht.c hash.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
-CFLAG =-g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
+CFLAG = -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc
 LFLAG = -ltermcap
 BIN = bin
@@ -71,4 +71,4 @@ re:
 	@$(MAKE) fclean
 	@$(MAKE) all
 -include $(DEP)
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re dclean
