@@ -30,6 +30,17 @@ static void	space(int *i, char *ori)
 		*i = *i + 1;
 }
 
+static void	main_loop3(int *i, int *o, char *ori, int *nb)
+{
+	if ((redirections3(i, ori)) != 1)
+	{
+		if (checkquote(i, o, ori))
+			*nb = *nb - 1;
+	}
+	else if (checkquote(i, o, ori))
+		*nb = *nb + 1;
+}
+
 static int	main_loop2(int i, int o, int nb, char *ori)
 {
 	while (ori[i])
@@ -42,13 +53,7 @@ static int	main_loop2(int i, int o, int nb, char *ori)
 				break ;
 			if (ori[i] == '\0' && (nb = nb - 1))
 				break ;
-			if ((redirections3(&i, ori)) != 1)
-			{
-				if (checkquote(&i, &o, ori))
-					nb--;
-			}
-			else if (checkquote(&i, &o, ori))
-				nb++;
+			main_loop3(&i, &o, ori, &nb);
 			if (ori[i] == '|' || ori[i] == ';' || ori[i] == '\0')
 				return (nb);
 			i++;
