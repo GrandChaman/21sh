@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:11:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 11:24:46 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ void main_routine(t_list **head, int status)
 	should_exit = 0;
 	while (!should_exit)
 	{
-		apply_terminal_setting(0);
 		cmd = read_command(NULL, status, 0, (!fb ? fb++ : fb));
-		apply_terminal_setting(1);
 		if (cmd && cmd[0] == '\0')
 		{
 			fb = 0;
