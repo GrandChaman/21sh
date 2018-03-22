@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:44:15 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 12:44:37 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:53:15 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ void				trim_history(t_ft_sh *sh)
 	while (i++ < SH_HIST_MAX_SIZE && lcpy)
 		lcpy = lcpy->next;
 	if (lcpy)
+	{
 		ft_lstdel(&lcpy, delete_hist_entry);
+		sh->history_size = SH_HIST_MAX_SIZE;
+	}
 }
