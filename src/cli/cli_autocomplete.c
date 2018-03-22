@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 17:39:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 14:15:48 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ static void				ft_sh_autocomplete_routine(t_ft_sh *sh, char *str_part)
 	collect_data(str_part);
 	sh->autocomplete_padding = get_autocomplete_el_with(sh->autocomplete) + 7;
 	setpos_autocomplete(sh);
-	if (((ft_lstsize(sh->autocomplete) * sh->autocomplete_padding) / sh->x_size)
-		+ ((sh->prompt_size + sh->buf.cursor) / sh->x_size) > sh->y_size)
+	if (((((t_ft_autoc_entry*)ft_lstlast(sh->autocomplete)->content))->y_pos)
+		+ ((sh->prompt_size + sh->buf.cursor) / sh->x_size) + 2 >= sh->y_size)
 	{
 		ft_putchar('\n');
 		exec_term_command(TC_MOVEUP);
