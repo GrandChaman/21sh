@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 15:24:58 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 14:46:39 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:11:58 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void					update_stdout(t_ft_sh *sh, int isdel)
 	cursor_repositionning(sh, ncur, ocur, isdel);
 }
 
-void					(*get_special_char_f(unsigned long val))(unsigned long)
+void					(*g_special_char_f(unsigned long val))(unsigned long)
 {
 	int i;
 

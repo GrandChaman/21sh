@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 12:38:51 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:13:18 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,8 @@ int						compare_with_key(void *e1, void *e2);
 void					free_hash_table(t_bin_hash_table **ht);
 unsigned long			dj2b_hash(char *str);
 t_bin_hash				*get_elem_from_ht(t_bin_hash_table *ht, char *name);
-int						launch_builtin(char **cmd, t_list **head, t_parser parser);
+int						launch_builtin(char **cmd, t_list **head,
+	t_parser parser);
 int						is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);
@@ -310,7 +311,7 @@ void					ft_lstprint(t_list **head);
 int						execute(t_parser parser, t_list **head,
 	int *should_exit, t_bin_hash_table *ht);
 int						launch(char **args, t_list **head, t_bin_hash_table *ht,
-	 t_parser parser);
+	t_parser parser);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
@@ -345,7 +346,7 @@ void					move_in_terminal(unsigned long touch);
 void					backspace_command(unsigned long touch);
 void					update_stdout(t_ft_sh *sh, int offset);
 void					delete_command(unsigned long touch);
-void					(*get_special_char_f(unsigned long val))(unsigned long);
+void					(*g_special_char_f(unsigned long val))(unsigned long);
 void					nav_touch_received(unsigned long touch);
 void					move_select(unsigned long touch);
 void					copy_select(unsigned long touch);

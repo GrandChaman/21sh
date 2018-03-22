@@ -6,7 +6,7 @@
 /*   By: bluff <bluff@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 20:24:12 by bluff             #+#    #+#             */
-/*   Updated: 2018/03/21 16:36:44 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:10:22 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ typedef struct			s_dbuf {
 
 char					**ft_split_whitespaces(char *str);
 void					ft_lstappend(t_list **head, t_list *new);
-char					*ft_str3join(char const *s1, char const *s2, char const *s3);
+char					*ft_str3join(char const *s1, char const *s2,
+	char const *s3);
 void					ft_bzero(void *s, size_t n);
 void					*ft_memset(void *dest, int ch, size_t count);
 void					*ft_memcpy(void *dest, const void *src, size_t count);

@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:29:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:11:27 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 	i = 0;
 	cancel_selection(shell, rchar);
 	cancel_autocompletion(shell, rchar);
-	if ((f = get_special_char_f(rchar)))
+	if ((f = g_special_char_f(rchar)))
 		f(rchar);
 	else
 		while (rchar && i < sizeof(unsigned long))
