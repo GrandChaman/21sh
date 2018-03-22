@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 14:15:48 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:27:31 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,22 @@ static void				complete_missing_autocomplete(t_ft_sh *sh,
 static void				ft_sh_autocomplete_routine(t_ft_sh *sh, char *str_part)
 {
 	unsigned int	save_cur;
+	t_list			*tmp;
 
 	collect_data(str_part);
 	sh->autocomplete_padding = get_autocomplete_el_with(sh->autocomplete) + 7;
 	setpos_autocomplete(sh);
-	if (((((t_ft_autoc_entry*)ft_lstlast(sh->autocomplete)->content))->y_pos)
-		+ ((sh->prompt_size + sh->buf.cursor) / sh->x_size) + 2 >= sh->y_size)
+	tmp = ft_lstlast(sh->autocomplete);
+	if (!tmp || ((((t_ft_autoc_entry*)tmp->content))->y_pos) +
+		((sh->prompt_size + sh->buf.cursor) / sh->x_size) + 2 >= sh->y_size)
 	{
 		ft_putchar('\n');
 		exec_term_command(TC_MOVEUP);
 		exec_term_command_p(TC_MOVENRIGHT, 0, (sh->prompt_size +
 			cursor_new_origin(sh)) % sh->x_size);
 		cancel_autocompletion(sh, 0);
-		exec_term_command(TC_BELL);
+		if (tmp)
+			exec_term_command(TC_BELL);
 		return ;
 	}
 	save_cur = sh->cursor;
