@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:02:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 11:11:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int		main(int argc, const char **argv, char **env)
 	t_list	*env_lst;
 
 	shell = get_ft_shell();
+	env_lst = NULL;
 	signal(SIGINT, ignore_signal);
 	shell->debug_tty = -1;
 	if (argc == 3 && !ft_strcmp("-d", argv[1]))
