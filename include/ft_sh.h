@@ -218,6 +218,18 @@ typedef	struct 			s_dup
 	int 				p[2];
 }						t_dup;
 
+typedef struct			s_var_m
+{
+	char				*cmd;
+	t_ft_sh				*shell;
+	t_parser			*parser;
+	int					x;
+	int					nb;
+	int					should_exit;
+	t_dup				r_dup;
+	int					fb;
+}						t_var_m;
+
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 int						gen_hash(t_list *env);
 void					char2d_tolist(t_list **env, char **args);
