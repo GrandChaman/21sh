@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:24:46 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 11:40:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,19 @@ void main_routine(t_list **head, int status)
 	init_r_dup(&r_dup);
 	shell = get_ft_shell();
 	should_exit = 0;
+	parser = NULL;
 	while (!should_exit)
 	{
 		cmd = read_command(NULL, status, 0, (!fb ? fb++ : fb));
-		if (cmd && cmd[0] == '\0')
+		if ((cmd && cmd[0] == '\0') || !((parser = get_parser(cmd))))
 		{
 			fb = 0;
 			free(cmd);
+			free_parser(parser);
+			parser = NULL;
 			continue ;
 		}
 		add_to_history(shell, cmd);
-		if ((parser = get_parser(cmd)))
-		{
 			nb = parser[0].nb;
 			x = 0;
 			while (x < nb)
@@ -76,7 +77,7 @@ void main_routine(t_list **head, int status)
 			}
 			//ft_fprintf(shell->debug_tty, "YAY\n");
 			free_parser(parser);
-		}
+			parser = NULL;
 		init_dup(&r_dup);
 		free(cmd);
 	}
