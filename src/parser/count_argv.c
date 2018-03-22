@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:45:28 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/22 14:20:22 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:13:20 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ static int	main_loop2(int i, int o, int nb, char *ori)
 				break ;
 			if (ori[i] == '\0' && (nb = nb - 1))
 				break ;
-			if ((redirections3(&i, ori)) != 1 &&
-				(checkquote(&i, &o, ori)))
-				nb = nb - 1;
+			if ((redirections3(&i, ori)) != 1)
+			{
+				if (checkquote(&i, &o, ori))
+					nb--;
+			}
+			else if (checkquote(&i, &o, ori))
+				nb++;
 			if (ori[i] == '|' || ori[i] == ';' || ori[i] == '\0')
 				return (nb);
 			i++;

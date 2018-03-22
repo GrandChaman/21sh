@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:44:23 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 13:44:29 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/22 15:12:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int			count_cmd(char *ori)
 			if (nb == 0)
 				nb++;
 			checkquote(&i, &o, ori);
+			if (!ori[i])
+				break ;
 			end_cmd(ori, &i, &nb);
 			i++;
 		}
