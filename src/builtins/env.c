@@ -22,7 +22,7 @@ void		print_env(t_list *env)
 	}
 }
 
-int			builtin_env(t_list **env, char **args)
+int			builtin_env(t_list **env, char **args, t_parser parser)
 {
 	int					arg_offset;
 
@@ -36,7 +36,7 @@ int			builtin_env(t_list **env, char **args)
 		while (args[arg_offset] && ft_haschar(args[arg_offset], '='))
 			extract_define(env, args[arg_offset++]);
 		if (*(args + arg_offset))
-			launch(args + arg_offset, env, get_ft_shell()->ht);
+			launch(args + arg_offset, env, get_ft_shell()->ht, parser);
 		else
 			print_env(*env);
 	}

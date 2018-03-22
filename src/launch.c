@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-int			launch(char **args, t_list **head, t_bin_hash_table *ht)
+int			launch(char **args, t_list **head, t_bin_hash_table *ht, t_parser parser)
 {
 	pid_t		pid;
 	int			status;
@@ -31,7 +31,7 @@ int			launch(char **args, t_list **head, t_bin_hash_table *ht)
 		return (execve((bin ? bin->path : args[0]), &args[0], env));
 	else if (pid < 0)
 		ft_putendl("21sh: fork error\n");
-	else
+	else if (!parser.output.pipe)
 		waitpid(pid, &status, WUNTRACED);
 	ft_free2d((void **)env);
 	return (status);

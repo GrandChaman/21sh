@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:54:51 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 12:38:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,18 @@ typedef	struct			s_dup
 	int					p[2];
 }						t_dup;
 
+typedef struct			s_var_m
+{
+	char				*cmd;
+	t_ft_sh				*shell;
+	t_parser			*parser;
+	int					x;
+	int					nb;
+	int					should_exit;
+	t_dup				r_dup;
+	int					fb;
+}						t_var_m;
+
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 int						gen_hash(t_list *env);
 void					char2d_tolist(t_list **env, char **args);
@@ -229,7 +241,7 @@ int						compare_with_key(void *e1, void *e2);
 void					free_hash_table(t_bin_hash_table **ht);
 unsigned long			dj2b_hash(char *str);
 t_bin_hash				*get_elem_from_ht(t_bin_hash_table *ht, char *name);
-int						launch_builtin(char **cmd, t_list **head);
+int						launch_builtin(char **cmd, t_list **head, t_parser parser);
 int						is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);
@@ -297,15 +309,15 @@ t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
 int						execute(t_parser parser, t_list **head,
 	int *should_exit, t_bin_hash_table *ht);
-int						launch(char **args, t_list **head,
-	t_bin_hash_table *ht);
+int						launch(char **args, t_list **head, t_bin_hash_table *ht,
+	 t_parser parser);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
 int						builtin_cd(char *npath, t_list **env);
 int						builtin_echo(char **args, t_list **env);
-int						builtin_env(t_list **env, char **args);
+int						builtin_env(t_list **env, char **args, t_parser parser);
 int						builtin_exit(void);
 char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
