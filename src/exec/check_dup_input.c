@@ -44,7 +44,7 @@ static void	is_heredoc_2(int x, t_parser *parser, int i)
 	str2 = ft_itoa(parser[x].input.meta[i].heredoc_number);
 	str = ft_strjoin(str, str2);
 	if ((fd = open(str, O_RDWR, 0777)) == -1)
-		ft_perror("21sh","Can't open heredoc file /tmp");
+		ft_perror("21sh", "Can't open heredoc file /tmp");
 	free(str);
 	free(str2);
 	if (dup2(fd, 0) == -1)

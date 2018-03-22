@@ -23,7 +23,7 @@ t_bin_hash		*get_elem_from_ht(t_bin_hash_table *ht, char *name)
 	hash = index;
 	while (index - hash < ht->size && (!ht->table[index % ht->size].name ||
 		ft_strcmp(ht->table[index % ht->size].name, name)))
-			index++;
+		index++;
 	if (index - hash >= ht->size)
 		return (NULL);
 	return (&(ht->table[index % ht->size]));
