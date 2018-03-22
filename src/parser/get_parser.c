@@ -26,7 +26,7 @@ t_parser	*get_parser(char *ori)
 	{
 		stock = count_cmd(ori);
 		if (!(parser = malloc(sizeof(t_parser) * stock)))
-			exit(0);
+			ft_perror("malloc", "Mallocation failed. Aborting");
 		init_parser(parser, stock);
 		split_evoluted(parser, ori);
 		fill_parser(parser, ori);

@@ -24,12 +24,12 @@ static void	is_fd(int x, int i, t_parser *parser)
 		if (parser[x].input.meta[i].name[1])
 		{
 			if ((dup2(stock, parser[x].input.meta[i].name[1] - 48)) == -1)
-				exit(0);
+				ft_perror("dup", "Dup failed. Aborting");
 		}
 		else
 		{
 			if ((dup2(stock, 0)) == -1)
-				exit(0);
+				ft_perror("dup", "Dup failed. Aborting");
 		}
 	}
 }
@@ -44,11 +44,11 @@ static void	is_heredoc_2(int x, t_parser *parser, int i)
 	str2 = ft_itoa(parser[x].input.meta[i].heredoc_number);
 	str = ft_strjoin(str, str2);
 	if ((fd = open(str, O_RDWR, 0777)) == -1)
-		exit(0);
+		ft_perror("21sh","Can't open heredoc file /tmp");
 	free(str);
 	free(str2);
 	if (dup2(fd, 0) == -1)
-		exit(0);
+		ft_perror("dup", "Dup failed. Aborting");
 }
 
 static int	is_normal(int x, t_parser *parser, int i)
@@ -64,7 +64,7 @@ static int	is_normal(int x, t_parser *parser, int i)
 	}
 	ft_easy_input(&stock, x, i, parser);
 	if (dup2(fd, stock) == -1)
-		exit(0);
+		ft_perror("dup", "Dup failed. Aborting");
 	return (1);
 }
 

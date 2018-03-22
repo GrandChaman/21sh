@@ -24,7 +24,7 @@ static void	malloc_all_2(t_vari *var, t_parser *parser, char *ori)
 		}
 		if (!(parser[var->b].input.meta[var->i_input].name =
 			malloc(sizeof(char) * var->o + 1)))
-			exit(0);
+			ft_perror("malloc", "Mallocation failed. Aborting");
 		var->i_input++;
 	}
 }
@@ -34,10 +34,10 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *ori)
 	if (var->z == 0 && var->box == 1)
 		if (!(parser[var->b].cmd = malloc(sizeof(char *)
 			* (var->nbr_argv + 1))))
-			exit(0);
+			ft_perror("malloc", "Mallocation failed. Aborting");
 	if (var->box == 1)
 		if (!(parser[var->b].cmd[var->z] = malloc(sizeof(char) * var->o + 1)))
-			exit(0);
+			ft_perror("malloc", "Mallocation failed. Aborting");
 	if (var->box == 2)
 	{
 		while ((ori[var->i] != ' ' && ori[var->i] != '\n' &&
@@ -48,7 +48,7 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *ori)
 		}
 		if (!(parser[var->b].output.meta[var->i_output].name =
 			malloc(sizeof(char) * var->o + 1)))
-			exit(0);
+			ft_perror("malloc", "Mallocation failed. Aborting");
 		var->i_output++;
 	}
 	malloc_all_2(var, parser, ori);
