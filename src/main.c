@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 20:16:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 20:53:11 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ t_ft_sh		*get_ft_shell(void)
 	return (&shell);
 }
 
-static void	main_routine_2(t_list **head, int *status, t_var_m *ms)
+static void	main_routine_2(t_list **head, t_var_m *ms, int *status, t_list **wl)
 {
+	t_wait_el el;
+
 	ms->nb = ms->parser[0].nb;
 	ms->x = 0;
 	while (ms->x < ms->nb)
@@ -31,20 +33,49 @@ static void	main_routine_2(t_list **head, int *status, t_var_m *ms)
 			*status = 1;
 			break ;
 		}
-		*status = execute(ms->parser[ms->x], head,
+		el = execute(ms->parser[ms->x], head,
 			&ms->should_exit, ms->shell->ht);
+		if (el.pid > 0 && el.is_piped)
+			ft_lstpush_back(wl, &el, sizeof(t_wait_el));
+		else if (el.pid > 0 && !el.is_piped)
+			ft_lstpush_front(wl, &el, sizeof(t_wait_el));
 		if (ms->should_exit)
 			break ;
 		init_dup(&ms->r_dup);
 		ms->x++;
 	}
 }
+int			chained_waited(t_list **wl)
+{
+	t_wait_el	*el;
+	t_list		*tmp;
+	int			status;
+
+	ft_printf("TOTO %p\n", *wl);
+	if (!wl || !*wl)
+		return (-1);
+	tmp = *wl;
+	status = 1;
+	while (tmp)
+	{
+		el = (t_wait_el*)tmp->content;
+		tmp = tmp->next;
+		if (!el)
+			continue;
+		ft_printf("J'attend pour %d. Pipe %d ?\n", el->pid, el->is_piped);
+		waitpid(el->pid, &status, WUNTRACED);
+	}
+	ft_lstdel(wl, NULL);
+	return (status);
+}
 
 void		main_routine(t_list **head, int status)
 {
 	t_var_m		ms;
+	t_list		*wait_list;
 
 	ms.fb = 0;
+	wait_list = NULL;
 	init_r_dup(&ms.r_dup);
 	ms.shell = get_ft_shell();
 	ms.should_exit = 0;
@@ -62,7 +93,8 @@ void		main_routine(t_list **head, int status)
 			ms.parser = NULL;
 			continue ;
 		}
-		main_routine_2(head, &status, &ms);
+		main_routine_2(head, &ms, &status, &wait_list);
+		chained_waited(&wait_list);
 		free_parser(ms.parser);
 		//init_dup(&ms.r_dup); RIEN ???
 		free(ms.cmd);

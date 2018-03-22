@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/22 10:44:25 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 16:52:04 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,8 @@ static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser)
 	exit(0);
 }
 
-int			launch_builtin(char **cmd, t_list **head, t_parser parser)
+int			launch_builtin(char **cmd, t_list **head, t_parser parser, t_wait_el *el)
 {
-	pid_t	father;
-	int		status;
-
-	status = 0;
 	if (ft_strcmp(cmd[0], "unsetenv") == 0)
 		return (builtin_unsetenv(cmd, head));
 	else if (ft_strcmp(cmd[0], "setenv") == 0)
@@ -43,12 +39,12 @@ int			launch_builtin(char **cmd, t_list **head, t_parser parser)
 		return (builtin_cd(cmd[1], head));
 	else if (ft_strcmp(cmd[0], "hash") == 0)
 		return (gen_hash(*head));
-	father = fork();
-	if (father > 0)
-		wait(&status);
-	else
+	el->pid = fork();
+	if (!el->pid)
 		launch_forked_builtin(cmd, head, parser);
-	return (status);
+	else if (el->pid < 0)
+		ft_putendl("21sh: fork error\n");
+	return (0);
 }
 
 int			is_built_in(char **cmd)
@@ -70,18 +66,25 @@ int			is_built_in(char **cmd)
 	return (0);
 }
 
-int			execute(t_parser parser, t_list **head, int *should_exit,
+t_wait_el	execute(t_parser parser, t_list **head, int *should_exit,
 	t_bin_hash_table *ht)
 {
+	t_wait_el el;
+
+	el.pid = -1;
 	if (!parser.cmd || !parser.cmd[0])
-		return (1);
+		return (el);
 	if (ft_strcmp(parser.cmd[0], "exit") == 0)
 	{
 		*should_exit = 1;
-		return (builtin_exit());
+		builtin_exit();
+		return (el);
 	}
 	if (is_built_in(parser.cmd))
-		return (launch_builtin(parser.cmd, head, parser));
+	{
+		launch_builtin(parser.cmd, head, parser, &el);
+		return (el);
+	}
 	else
 		return (launch(parser.cmd, head, ht, parser));
 }

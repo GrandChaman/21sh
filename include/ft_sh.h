@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 15:34:45 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 16:50:45 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,12 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
+typedef	struct			s_wait_el
+{
+	pid_t				pid;
+	char				is_piped;
+}						t_wait_el;
+
 typedef struct			s_meta_output
 {
 	char				*name;
@@ -240,7 +246,7 @@ void					free_hash_table(t_bin_hash_table **ht);
 unsigned long			dj2b_hash(char *str);
 t_bin_hash				*get_elem_from_ht(t_bin_hash_table *ht, char *name);
 int						launch_builtin(char **cmd, t_list **head,
-	t_parser parser);
+	t_parser parser, t_wait_el *el);
 int						check_if_key_ok(t_env_var e_var, int i);
 int						is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
@@ -307,9 +313,9 @@ int						checkquote2(int *i, int *o, char *ori, char c);
 void					split_evoluted(t_parser *parser, char *ori);
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute(t_parser parser, t_list **head,
+t_wait_el				execute(t_parser parser, t_list **head,
 	int *should_exit, t_bin_hash_table *ht);
-int						launch(char **args, t_list **head, t_bin_hash_table *ht,
+t_wait_el				launch(char **args, t_list **head, t_bin_hash_table *ht,
 	t_parser parser);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
