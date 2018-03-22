@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 11:38:33 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 11:54:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@
 # define EF_DENIED 2
 # define EF_NOTFOUND 5
 
-typedef	struct 			s_bin_hash
+typedef	struct			s_bin_hash
 {
 	unsigned int		index;
 	char				*name;
@@ -91,7 +91,7 @@ typedef	struct 			s_bin_hash
 	char				can_exec;
 }						t_bin_hash;
 
-typedef	struct 			s_bin_hash_table
+typedef	struct			s_bin_hash_table
 {
 	t_bin_hash			*table;
 	unsigned int		size;
@@ -148,12 +148,11 @@ typedef	struct			s_ft_hist_entry
 	int					timestamp;
 }						t_ft_hist_entry;
 
-
 typedef struct			s_meta_output
 {
 	char				*name;
 	int					stdin;
-	int 				stdout;
+	int					stdout;
 	int					stderr;
 	int					double_chevron;
 	int					next_exist;
@@ -164,7 +163,7 @@ typedef struct			s_meta_input
 	int					heredoc_number;
 	char				*name;
 	int					stdin;
-	int 				stdout;
+	int					stdout;
 	int					stderr;
 	int					next_exist;
 }						t_meta_input;
@@ -194,28 +193,28 @@ typedef struct			s_parser
 
 typedef struct			s_vari
 {
-	int 				o;
-	int 				z;
-	int 				b;
-	int 				nbr_argv;
-	int 				j;
-	char				 stock;
-	int 				boite;
-	int 				box;
-	int 				nbr_redirection_input;
-	int 				i_input;
-	int 				nbr_redirection_output;
-	int 				i_output;
-	int 				i;
-	int 				heredoc;
+	int					o;
+	int					z;
+	int					b;
+	int					nbr_argv;
+	int					j;
+	char				stock;
+	int					boite;
+	int					box;
+	int					nbr_redirection_input;
+	int					i_input;
+	int					nbr_redirection_output;
+	int					i_output;
+	int					i;
+	int					heredoc;
 }						t_vari;
 
-typedef	struct 			s_dup
+typedef	struct			s_dup
 {
-	int 				stdin_copy;
-	int 				stdout_copy;
-	int 				stderr_copy;
-	int 				p[2];
+	int					stdin_copy;
+	int					stdout_copy;
+	int					stderr_copy;
+	int					p[2];
 }						t_dup;
 
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
@@ -236,9 +235,11 @@ void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);
 void					is_space(int *i, char *original);
 void					check_pipe(t_parser *parser, int x, t_dup *rdup);
-void					ft_easy_input(int *stock, int x, int i, t_parser *parser);
+void					ft_easy_input(int *stock, int x, int i,
+	t_parser *parser);
 int						check_dup_input(t_parser *parser, int x);
-void					ft_easy_output(int *stock, int x, int i, t_parser *parser);
+void					ft_easy_output(int *stock, int x, int i,
+	t_parser *parser);
 void					ft_easy2(int x, t_parser *parser);
 void					init_dup(t_dup *r_dup);
 void					init_r_dup(t_dup *r_dup);
@@ -246,7 +247,8 @@ int						check_dup(t_parser *parser, int x);
 void					fill_it(t_vari *var, t_parser *parser, char *ori);
 void					fill_backslashzero(t_vari *var, t_parser *parser);
 void					malloc_meta(t_vari *var, t_parser *parser);
-void					there_is_pipe_2(t_vari *var, t_parser *parser, char *ori);
+void					there_is_pipe_2(t_vari *var, t_parser *parser,
+	char *ori);
 void					there_is_space(t_vari *var, char *ori);
 void					call_heredoc(t_vari *var, char *ori);
 void					fill_std_o(t_vari *var, t_parser *parser, char *ori);
@@ -259,13 +261,20 @@ int						count_redirection_output(int i, char *ori);
 int						redirections_output(int *i, char *ori);
 int						count_redirection_input(int i, char *ori);
 int						redirections_input(int *i, char *ori);
-int						checkquote2_fill_intput(t_vari *var, char *ori, char c, t_parser *parser);
-char					checkquote_fill_input(t_vari *var, char *ori, t_parser *parser);
-int						redirections4(char *ori, t_parser *parser, t_vari *var);
-int						checkquote2_fill_output(t_vari *var, char *ori, char c, t_parser *parser);
-char					checkquote_fill_output(t_vari *var, char *ori, t_parser *parser);
-int						checkquote2_fill_cmd(t_vari *var, char *ori, char c, t_parser *parser);
-char					checkquote_fill_cmd(t_vari *var, char *ori, t_parser *parser);
+int						checkquote2_fill_intput(t_vari *var, char *ori,
+	char c, t_parser *parser);
+char					checkquote_fill_input(t_vari *var, char *ori,
+	t_parser *parser);
+int						redirections4(char *ori, t_parser *parser,
+	t_vari *var);
+int						checkquote2_fill_output(t_vari *var, char *ori,
+	char c, t_parser *parser);
+char					checkquote_fill_output(t_vari *var, char *ori,
+	t_parser *parser);
+int						checkquote2_fill_cmd(t_vari *var, char *ori,
+	char c, t_parser *parser);
+char					checkquote_fill_cmd(t_vari *var, char *ori,
+	t_parser *parser);
 void					free_parser(t_parser *parser);
 t_parser				*get_parser(char *ori);
 char					*check_correct(char *ori);
@@ -275,7 +284,7 @@ void					print_parser(t_parser *parser, int nb);
 int						redirections3(int *i, char *ori);
 void					fill_parser(t_parser *parser, char *ori);
 int						ft_isatoken(char c);
-int 					count_argv(int i, char *ori);
+int						count_argv(int i, char *ori);
 int						count_cmd(char *ori);
 void					init_parser(t_parser *parser, int nb);
 int						redirections2(char *ori, t_vari *var);
@@ -286,8 +295,10 @@ int						checkquote2(int *i, int *o, char *ori, char c);
 void					split_evoluted(t_parser *parser, char *ori);
 t_list					*ft_lstcopy(t_list **head);
 void					ft_lstprint(t_list **head);
-int						execute(t_parser parser, t_list **head, int *should_exit, t_bin_hash_table *ht);
-int						launch(char **args, t_list **head, t_bin_hash_table *ht);
+int						execute(t_parser parser, t_list **head,
+	int *should_exit, t_bin_hash_table *ht);
+int						launch(char **args, t_list **head,
+	t_bin_hash_table *ht);
 t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
@@ -311,7 +322,8 @@ char					*ft_getcwd(void);
 int						print_error(const char *title, const char *message);
 void					apply_terminal_setting(int def);
 int						display_prompt(int last_result);
-char					*read_command(char *prompt, int status, int heredoc, int fb);
+char					*read_command(char *prompt, int status, int heredoc,
+	int fb);
 void					exec_term_command(const char *code);
 void					exec_term_command_p(const char *code, int p1, int p2);
 void					spt_arrow(unsigned long touch);
@@ -328,7 +340,7 @@ void					copy_select(unsigned long touch);
 void					paste_select(unsigned long touch);
 void					cut_select(unsigned long touch);
 void					cli_loader(int destroy);
-int 					load_history(t_ft_sh *sh, int unload);
+int						load_history(t_ft_sh *sh, int unload);
 void					add_to_history(t_ft_sh *sh, char *cmd);
 int						is_alt_shell_begin(void);
 void					history_nav(unsigned long touch);
@@ -340,8 +352,10 @@ void					ft_sh_autocomplete(unsigned long touch);
 unsigned int			cursor_new_origin(t_ft_sh *sh);
 void					delete_autocomplete_entry(void *el, size_t size);
 void					move_in_autocompletion(unsigned long touch);
-void					cancel_autocompletion(t_ft_sh *shell, unsigned long rchar);
-void					prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur);
+void					cancel_autocompletion(t_ft_sh *shell,
+	unsigned long rchar);
+void					prepare_autocomplete(t_ft_sh *sh, t_list *list,
+	unsigned int save_cur);
 void					insert_in_cli(char *str);
 void					print_normal_touch(t_ft_sh *sh, unsigned long rchar);
 void					collect_data_local_file(t_list **list, char *str_part);
@@ -349,13 +363,15 @@ int						cmp_autoc_entry(void *e1, void *e2);
 void					ready_cursor_autocompletion();
 void					delete_autocomplete_entry(void *el, size_t size);
 void					display_autocomplete(t_ft_sh *sh, t_list *list);
-void					prepare_autocomplete(t_ft_sh *sh, t_list *list, unsigned int save_cur);
+void					prepare_autocomplete(t_ft_sh *sh, t_list *list,
+	unsigned int save_cur);
 int						get_autocomplete_el_with(t_list *list);
 void					setpos_autocomplete(t_ft_sh *sh);
 void					cancel_selection(t_ft_sh *shell, unsigned long rchar);
 void					print_normal_touch(t_ft_sh *sh, unsigned long rchar);
 int						display_prompt(int last_result);
-void 					prompt_select(char *prompt, int status, int heredoc, int fb);
+void					prompt_select(char *prompt, int status, int heredoc,
+	int fb);
 int						display_prompt(int last_result);
 void					print_normal_touch(t_ft_sh *sh, unsigned long rchar);
 void					delete_hist_entry(void *entry, size_t size);
@@ -367,31 +383,31 @@ int						is_last_char_a_nl(void);
 
 static t_ft_touch		g_ft_touch_list[] =
 {
-						{T_TAB, ft_sh_autocomplete},
-						{T_ENTER, ft_sh_autocomplete},
-						{T_BACKSPACE, backspace_command},
-						{T_DELETE, delete_command},
-						{T_HOME, nav_touch_received},
-						{T_CTRL_A, nav_touch_received},
-						{T_CTRL_E, nav_touch_received},
-						{T_END, nav_touch_received},
-						{T_LARR, nav_touch_received},
-						{T_RARR, nav_touch_received},
-						{T_BARR, history_nav},
-						{T_TARR, history_nav},
-						{T_SLARR, nav_touch_received},
-						{T_SRARR, nav_touch_received},
-						{T_SBARR, nav_touch_received},
-						{T_STARR, nav_touch_received},
-						{T_ALT_LEFT, move_select},
-						{T_ALT_RIGHT, move_select},
-						{T_ALT_C, copy_select},
-						{T_ALT_X, cut_select},
-						{T_ALT_V, paste_select},
-						{T_CTRL_L, sh_clear_screen},
-						{T_ALT_UP, vertical_nav},
-						{T_ALT_DOWN, vertical_nav},
-						{0, NULL}
+	{T_TAB, ft_sh_autocomplete},
+	{T_ENTER, ft_sh_autocomplete},
+	{T_BACKSPACE, backspace_command},
+	{T_DELETE, delete_command},
+	{T_HOME, nav_touch_received},
+	{T_CTRL_A, nav_touch_received},
+	{T_CTRL_E, nav_touch_received},
+	{T_END, nav_touch_received},
+	{T_LARR, nav_touch_received},
+	{T_RARR, nav_touch_received},
+	{T_BARR, history_nav},
+	{T_TARR, history_nav},
+	{T_SLARR, nav_touch_received},
+	{T_SRARR, nav_touch_received},
+	{T_SBARR, nav_touch_received},
+	{T_STARR, nav_touch_received},
+	{T_ALT_LEFT, move_select},
+	{T_ALT_RIGHT, move_select},
+	{T_ALT_C, copy_select},
+	{T_ALT_X, cut_select},
+	{T_ALT_V, paste_select},
+	{T_CTRL_L, sh_clear_screen},
+	{T_ALT_UP, vertical_nav},
+	{T_ALT_DOWN, vertical_nav},
+	{0, NULL}
 };
 
 #endif
