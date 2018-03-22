@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 13:13:18 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/22 13:22:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FT_SH_H
 # include "ft_sh.h"
 # include "libft.h"
-# include <stdio.h>
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -108,7 +107,6 @@ typedef struct			s_ft_sh
 	unsigned int		select_start;
 	int					select_size;
 	char				*select;
-	int					debug_tty;
 	unsigned char		is_a_tty;
 	t_list				*history;
 	long				history_size;
