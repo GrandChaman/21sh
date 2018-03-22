@@ -24,10 +24,12 @@ int		gen_hash(t_list *env)
 		ft_printf("Hash table free'd\n");
 	}
 	if (!env || !ft_lstfind(env, "PATH", compare_with_key))
-		return (ft_printf("hash: Can't generate the hash table because PATH is not "
-			"defined\n") && 1);
+	{
+		return (ft_printf("hash: Can't generate the hash table because"
+			" PATH is not defined\n") && 1);
+	}
 	sh->ht = load_bin_into_hash_table(env);
 	if (sh->ht)
-	ft_printf("Hash table generated\n");
+		ft_printf("Hash table generated\n");
 	return (0);
 }

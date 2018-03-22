@@ -76,7 +76,7 @@ void		call_heredoc(t_vari *var, char *ori)
 		O_APPEND, 0777)) == -1)
 	{
 		if ((fd = open(path_file, O_WRONLY | O_TRUNC, 0777)) == -1)
-			ft_perror("21sh","Can't open heredoc file /tmp");
+			ft_perror("21sh", "Can't open heredoc file /tmp");
 		close(fd);
 		if ((fd = open(path_file, O_RDWR | O_APPEND, 0777)) == -1)
 			ft_perror("21sh", "Can't open heredoc file /tmp");
