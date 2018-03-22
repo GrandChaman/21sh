@@ -12,14 +12,14 @@
 
 #include "ft_sh.h"
 
-static void	launch_forked_builtin(char **cmd, t_list **head)
+static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser)
 {
 	t_list *copy;
 
 	if (ft_strcmp(cmd[0], "env") == 0)
 	{
 		copy = dup_environment(*head);
-		builtin_env(&copy, cmd);
+		builtin_env(&copy, cmd, parser);
 		ft_lstdel(&copy, free_env_var);
 	}
 	else if (ft_strcmp(cmd[0], "help") == 0)
@@ -29,7 +29,7 @@ static void	launch_forked_builtin(char **cmd, t_list **head)
 	exit(0);
 }
 
-int			launch_builtin(char **cmd, t_list **head)
+int			launch_builtin(char **cmd, t_list **head, t_parser parser)
 {
 	pid_t	father;
 	int		status;
@@ -47,7 +47,7 @@ int			launch_builtin(char **cmd, t_list **head)
 	if (father > 0)
 		wait(&status);
 	else
-		launch_forked_builtin(cmd, head);
+		launch_forked_builtin(cmd, head, parser);
 	return (status);
 }
 
@@ -81,7 +81,7 @@ int			execute(t_parser parser, t_list **head, int *should_exit,
 		return (builtin_exit());
 	}
 	if (is_built_in(parser.cmd))
-		return (launch_builtin(parser.cmd, head));
+		return (launch_builtin(parser.cmd, head, parser));
 	else
-		return (launch(parser.cmd, head, ht));
+		return (launch(parser.cmd, head, ht, parser));
 }
