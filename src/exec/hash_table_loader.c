@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:16:18 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/21 14:04:26 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:41:09 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void				list_file_in_dir(t_list **list, char *path)
 		bin.path = ft_strnew(path_len + dir_data->d_namlen + 2);
 		ft_snprintf(bin.path, path_len + dir_data->d_namlen + 2, "%s/%s", path,
 			dir_data->d_name);
-		if (lstat(bin.path, &st_data) || (st_data.st_mode & S_IFMT) != S_IFREG)
+		if (stat(bin.path, &st_data) || ((st_data.st_mode & S_IFMT) != S_IFREG && (st_data.st_mode & S_IFMT) != S_IFLNK))
 		{
 			free(bin.name);
 			free(bin.path);
