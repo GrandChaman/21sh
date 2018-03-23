@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 15:34:13 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 16:02:39 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void		main_routine(t_list **head, int status)
 	{
 		ms.parser = NULL;
 		ms.cmd = read_command(NULL, status, 0, (!ms.fb ? ms.fb++ : ms.fb));
+		if (!ms.cmd)
+			return ;
 		add_to_history(ms.shell, ms.cmd);
 		if ((ms.cmd && ms.cmd[0] == '\0') ||
 			!((ms.parser = get_parser(ms.cmd))))

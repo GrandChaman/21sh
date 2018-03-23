@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 14:29:16 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 16:06:34 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 		}
 }
 
-void		read_command_routine(void)
+int			read_command_routine(void)
 {
 	unsigned long	rchar;
 	int				rvalue;
@@ -64,16 +64,21 @@ void		read_command_routine(void)
 	cancel_autocompletion(sh, '\0');
 	if (tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C)
 		dbuf_clear(&sh->buf);
+	return (tmp[0]);
 }
 
-static char	*read_command_outro(t_ft_sh *sh)
+static char	*read_command_outro(t_ft_sh *sh, char lchar, int heredoc)
 {
 	char *res;
 
 	while (sh->cursor < sh->buf.cursor)
 		move_in_terminal(T_RARR);
 	ft_putchar('\n');
-	res = ft_strdup(get_ft_shell()->buf.buf);
+	if ((lchar == T_CTRL_D && !heredoc) ||
+		((lchar == T_CTRL_D || lchar == T_CTRL_C) && heredoc))
+		res = NULL;
+	else
+		res = ft_strdup(get_ft_shell()->buf.buf);
 	sh->cursor = 0;
 	sh->alt_cursor = 0;
 	ft_free((void**)&sh->history_last);
@@ -86,13 +91,15 @@ char		*read_command(char *prompt, int status, int heredoc, int fb)
 {
 	char	*nprompt;
 	t_ft_sh	*sh;
+	char	lchar;
 
 	sh = get_ft_shell();
 	prompt_select(prompt, status, heredoc, fb);
 	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
 	apply_terminal_setting(0);
-	read_command_routine();
-	if (!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
+	lchar = read_command_routine();
+	if (lchar != T_CTRL_D &&
+		!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
 		sh->cursor = sh->buf.cursor;
 		sh->alt_cursor = sh->cursor + 1;
@@ -101,5 +108,5 @@ char		*read_command(char *prompt, int status, int heredoc, int fb)
 		apply_terminal_setting(1);
 		return (read_command(nprompt, status, 0, 0));
 	}
-	return (read_command_outro(sh));
+	return (read_command_outro(sh, lchar, heredoc));
 }
