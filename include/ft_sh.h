@@ -232,6 +232,7 @@ typedef struct			s_var_m
 	int					fb;
 }						t_var_m;
 
+void					malloc_meta(t_vari *var, t_parser *parser);
 t_dup					*get_dup_el(void);
 void					close_fds_in_parent(t_parser *parser, t_dup *dup_el);
 void					open_fds_in_fork(t_parser *parser, t_dup *dup_el);
@@ -265,11 +266,11 @@ void					ft_easy2(t_parser parser);
 int						check_dup(t_parser parser);
 void					fill_it(t_vari *var, t_parser *parser, char *ori);
 void					fill_backslashzero(t_vari *var, t_parser *parser);
-void					malloc_meta(t_vari *var, t_parser *parser);
+void					mallFoc_meta(t_vari *var, t_parser *parser);
 void					there_is_pipe_2(t_vari *var, t_parser *parser,
 	char *ori);
 void					there_is_space(t_vari *var, char *ori);
-void					call_heredoc(t_vari *var, char *ori);
+int						call_heredoc(t_vari *var, char *ori);
 void					fill_std_o(t_vari *var, t_parser *parser, char *ori);
 void					fill_std_i(t_vari *var, t_parser *parser, char *ori);
 void					init_var(t_vari *var);
@@ -301,7 +302,7 @@ int						is_correct(char *ori);
 int						is_correct_talk(char *ori);
 void					print_parser(t_parser *parser, int nb);
 int						redirections3(int *i, char *ori);
-void					fill_parser(t_parser *parser, char *ori);
+int						fill_parser(t_parser *parser, char *ori);
 int						ft_isatoken(char c);
 int						count_argv(int i, char *ori);
 int						count_cmd(char *ori);

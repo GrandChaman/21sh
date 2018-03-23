@@ -80,7 +80,6 @@ void		main_routine(t_list **head, int status)
 		{
 			ms.fb = 0;
 			free(ms.cmd);
-			free_parser(ms.parser);
 			continue ;
 		}
 		main_routine_2(head, &ms, &status);
