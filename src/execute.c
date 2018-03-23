@@ -6,16 +6,17 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/22 16:52:04 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 13:37:34 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser)
+static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser, t_dup *dup_el)
 {
 	t_list *copy;
 
+	open_fds_in_fork(&parser, dup_el);
 	if (ft_strcmp(cmd[0], "env") == 0)
 	{
 		copy = dup_environment(*head);
@@ -39,13 +40,13 @@ int			launch_builtin(char **cmd, t_list **head, t_parser parser, t_wait_el *el)
 		return (builtin_cd(cmd[1], head));
 	else if (ft_strcmp(cmd[0], "hash") == 0)
 		return (gen_hash(*head));
+	init_pipe_in_parent(&parser, get_dup_el());
 	el->pid = fork();
-
 	if (!el->pid)
-		launch_forked_builtin(cmd, head, parser);
+		launch_forked_builtin(cmd, head, parser, get_dup_el());
 	else if (el->pid < 0)
 		ft_putendl("21sh: fork error\n");
-		
+	close_fds_in_parent(&parser, get_dup_el());
 	return (0);
 }
 
@@ -85,6 +86,7 @@ t_wait_el	execute(t_parser parser, t_list **head, int *should_exit,
 	if (is_built_in(parser.cmd))
 	{
 		launch_builtin(parser.cmd, head, parser, &el);
+		el.is_piped = parser.output.pipe;
 		return (el);
 	}
 	else
