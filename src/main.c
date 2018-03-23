@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 20:53:11 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 11:02:26 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	main_routine_2(t_list **head, t_var_m *ms, int *status, t_list **wl)
 	ms->x = 0;
 	while (ms->x < ms->nb)
 	{
-		check_pipe(ms->parser, ms->x, &ms->r_dup);
+		// check_pipe(ms->parser, ms->x, &ms->r_dup);
 		if (!(check_dup(ms->parser, ms->x)))
 		{
 			*status = 1;
@@ -41,7 +41,7 @@ static void	main_routine_2(t_list **head, t_var_m *ms, int *status, t_list **wl)
 			ft_lstpush_front(wl, &el, sizeof(t_wait_el));
 		if (ms->should_exit)
 			break ;
-		init_dup(&ms->r_dup);
+		// init_dup(&ms->r_dup);
 		ms->x++;
 	}
 }
@@ -76,7 +76,7 @@ void		main_routine(t_list **head, int status)
 
 	ms.fb = 0;
 	wait_list = NULL;
-	init_r_dup(&ms.r_dup);
+	// init_r_dup(&ms.r_dup);
 	ms.shell = get_ft_shell();
 	ms.should_exit = 0;
 	while (!ms.should_exit)
