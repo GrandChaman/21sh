@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/23 13:37:34 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 15:23:26 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_wait_el	execute(t_parser parser, t_list **head, int *should_exit,
 	if (is_built_in(parser.cmd))
 	{
 		launch_builtin(parser.cmd, head, parser, &el);
-		el.is_piped = parser.output.pipe;
 		return (el);
 	}
 	else
