@@ -23,12 +23,12 @@ static void	is_fd(t_parser parser, int i)
 		ft_easy_output(&stock, i, parser);
 		if (parser.output.meta[i].name[1])
 		{
-			if (dup2(stock, parser.output.meta[i].name[1] - 48) == -1)
+			if (dup2(parser.output.meta[i].name[1] - '0', stock) == -1)
 				ft_perror("dup", "Dup failed. Aborting");
 		}
 		else
 		{
-			if (dup2(stock, 1) == -1)
+			if (dup2(1, stock) == -1)
 				ft_perror("dup", "Dup failed. Aborting");
 		}
 	}
