@@ -12,13 +12,6 @@
 
 #include "ft_sh.h"
 
-t_ft_sh		*get_ft_shell(void)
-{
-	static t_ft_sh shell;
-
-	return (&shell);
-}
-
 static void	main_routine_2(t_list **head, t_var_m *ms, t_list **wl)
 {
 	t_wait_el el;
@@ -38,6 +31,7 @@ static void	main_routine_2(t_list **head, t_var_m *ms, t_list **wl)
 		ms->x++;
 	}
 }
+
 int			chained_waited(t_list **wl)
 {
 	t_wait_el	*el;
@@ -67,7 +61,6 @@ void		main_routine(t_list **head, int status)
 
 	ms.fb = 0;
 	wait_list = NULL;
-	// init_r_dup(&ms.r_dup);
 	ms.shell = get_ft_shell();
 	ms.should_exit = 0;
 	while (!ms.should_exit)
@@ -81,13 +74,11 @@ void		main_routine(t_list **head, int status)
 			ms.fb = 0;
 			free(ms.cmd);
 			free_parser(ms.parser);
-			ms.parser = NULL;
 			continue ;
 		}
 		main_routine_2(head, &ms, &wait_list);
 		status = chained_waited(&wait_list);
 		free_parser(ms.parser);
-		//init_dup(&ms.r_dup); RIEN ???
 		free(ms.cmd);
 	}
 }

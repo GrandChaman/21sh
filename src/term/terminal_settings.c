@@ -11,7 +11,13 @@
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-#include <sys/ioctl.h>
+
+t_ft_sh					*get_ft_shell(void)
+{
+	static t_ft_sh shell;
+
+	return (&shell);
+}
 
 void					get_screen_size(int sig)
 {

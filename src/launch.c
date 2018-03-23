@@ -23,6 +23,14 @@ static int	check_if_can_exec(t_bin_hash *bin, char *arg)
 	return (0);
 }
 
+static void	launch_2(t_parser *parser, t_bin_hash *bin, char **args, char **env)
+{
+	open_fds_in_fork(parser, get_dup_el());
+	execve((bin ? bin->path : args[0]), &args[0], env);
+	ft_printf("21sh: %s: execve failed.\n", args[0]);
+	exit(-1);
+}
+
 t_wait_el	launch(char **args, t_list **head, t_bin_hash_table *ht,
 	t_parser parser)
 {
@@ -42,12 +50,7 @@ t_wait_el	launch(char **args, t_list **head, t_bin_hash_table *ht,
 	init_pipe_in_parent(&parser, get_dup_el());
 	el.pid = fork();
 	if (el.pid == 0)
-	{
-		open_fds_in_fork(&parser, get_dup_el());
-		execve((bin ? bin->path : args[0]), &args[0], env);
-		ft_printf("21sh: %s: execve failed.\n", args[0]);
-		exit(-1);
-	}
+		launch_2(&parser, bin, args, env);
 	else if (el.pid < 0)
 		ft_putendl("21sh: fork error\n");
 	close_fds_in_parent(&parser, get_dup_el());

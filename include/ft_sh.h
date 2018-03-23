@@ -12,6 +12,7 @@
 
 #ifndef FT_SH_H
 # define FT_SH_H
+# include <sys/ioctl.h>
 # include "ft_sh.h"
 # include "libft.h"
 # include <dirent.h>

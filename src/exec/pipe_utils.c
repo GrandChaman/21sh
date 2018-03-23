@@ -31,24 +31,24 @@ void		init_pipe_in_parent(t_parser *parser, t_dup *dup_el)
 void		open_fds_in_fork(t_parser *parser, t_dup *dup_el)
 {
 	if (!(parser->input.pipe) && parser->output.pipe)
-		{
-			close(dup_el->mpipe[0]);
-			dup2(dup_el->mpipe[1], 1);
-			close(dup_el->mpipe[1]);
-		}
-		else if (!(parser->output.pipe) && parser->input.pipe)
-		{
-			close(dup_el->mpipe[1]);
-			dup2(dup_el->mpipe[0], 0);
-			close(dup_el->mpipe[0]);
-		}
-		else if (parser->input.pipe && parser->output.pipe)
-		{
-			dup2(dup_el->save_read, 0);
-			dup2(dup_el->mpipe[1], 1);
-			close(dup_el->save_read);
-			close(dup_el->mpipe[1]);
-		}
+	{
+		close(dup_el->mpipe[0]);
+		dup2(dup_el->mpipe[1], 1);
+		close(dup_el->mpipe[1]);
+	}
+	else if (!(parser->output.pipe) && parser->input.pipe)
+	{
+		close(dup_el->mpipe[1]);
+		dup2(dup_el->mpipe[0], 0);
+		close(dup_el->mpipe[0]);
+	}
+	else if (parser->input.pipe && parser->output.pipe)
+	{
+		dup2(dup_el->save_read, 0);
+		dup2(dup_el->mpipe[1], 1);
+		close(dup_el->save_read);
+		close(dup_el->mpipe[1]);
+	}
 	if (!(check_dup(*parser)))
 		exit(-1);
 }
