@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:54:06 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/22 14:20:26 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 18:18:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ static void	malloc_all_2(t_vari *var, t_parser *parser, char *ori)
 static void	malloc_all(t_vari *var, t_parser *parser, char *ori)
 {
 	if (var->z == 0 && var->box == 1)
-		if (!(parser[var->b].cmd = malloc(sizeof(char *)
-			* (var->nbr_argv + 1))))
-			ft_perror("malloc", "Mallocation failed. Aborting");
+		parser[var->b].cmd = (char **)ft_memalloc(sizeof(char *) * (var->nbr_argv + 1));
 	if (var->box == 1)
-		if (!(parser[var->b].cmd[var->z] = malloc(sizeof(char) * var->o + 1)))
-			ft_perror("malloc", "Mallocation failed. Aborting");
+		parser[var->b].cmd[var->z] = (char *)ft_memalloc(sizeof(char) * var->o + 1);
 	if (var->box == 2)
 	{
 		while ((ori[var->i] != ' ' && ori[var->i] != '\n' &&
@@ -46,9 +43,8 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *ori)
 			var->i++;
 			var->o++;
 		}
-		if (!(parser[var->b].output.meta[var->i_output].name =
-			malloc(sizeof(char) * var->o + 1)))
-			ft_perror("malloc", "Mallocation failed. Aborting");
+		parser[var->b].output.meta[var->i_output].name =
+			(char *)ft_memalloc(sizeof(char) * var->o + 1);
 		var->i_output++;
 	}
 	malloc_all_2(var, parser, ori);
