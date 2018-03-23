@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 16:02:39 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:44:17 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	main_routine_2(t_list **head, t_var_m *ms, int *status)
 	{
 		el = execute(ms->parser[ms->x], head,
 			&ms->should_exit, ms->shell->ht);
+		if (el.pid < 0)
+			break ;
 		el.is_piped = ms->parser[ms->x].output.pipe;
 		if (el.pid > 0 && el.is_piped)
 			ft_lstpush_back(&wait_list, &el, sizeof(t_wait_el));
