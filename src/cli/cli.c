@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 16:06:34 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 18:34:15 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int			read_command_routine(void)
 	while (sh->cursor < sh->buf.cursor)
 		move_in_terminal(T_RARR);
 	cancel_autocompletion(sh, '\0');
-	if (tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C)
-		dbuf_clear(&sh->buf);
+	(tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C ? dbuf_clear(&sh->buf) : 0);
 	return (tmp[0]);
 }
 

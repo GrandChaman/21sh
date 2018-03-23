@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   call_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:42:56 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 13:42:58 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/23 18:36:35 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static int	size_str(t_vari var, char *ori)
+static int		size_str(t_vari var, char *ori)
 {
 	int nb;
 
@@ -26,7 +26,7 @@ static int	size_str(t_vari var, char *ori)
 	return (nb);
 }
 
-static char	*search_str(t_vari *var, char *ori)
+static char		*search_str(t_vari *var, char *ori)
 {
 	int		o;
 	char	*str;
@@ -45,7 +45,7 @@ static char	*search_str(t_vari *var, char *ori)
 	return (str);
 }
 
-static int final_heredoc(char *tmp, char *str, char *tmp2, int fd)
+static int		final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 {
 	while (ft_strcmp(str, tmp) != 0)
 	{
@@ -64,7 +64,16 @@ static int final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 	return (1);
 }
 
-int			call_heredoc(t_vari *var, char *ori)
+static void		open_heredoc_file(char *path_file, int *fd)
+{
+	if ((*fd = open(path_file, O_WRONLY | O_TRUNC, 0777)) == -1)
+		ft_perror("21sh", "Can't open heredoc file /tmp");
+	close(*fd);
+	if ((*fd = open(path_file, O_RDWR | O_APPEND, 0777)) == -1)
+		ft_perror("21sh", "Can't open heredoc file /tmp");
+}
+
+int				call_heredoc(t_vari *var, char *ori)
 {
 	char	*str;
 	char	*tmp;
@@ -83,13 +92,7 @@ int			call_heredoc(t_vari *var, char *ori)
 	free(tmp2);
 	if ((fd = open(path_file, O_RDWR | O_CREAT | O_EXCL |
 		O_APPEND, 0777)) == -1)
-	{
-		if ((fd = open(path_file, O_WRONLY | O_TRUNC, 0777)) == -1)
-			ft_perror("21sh", "Can't open heredoc file /tmp");
-		close(fd);
-		if ((fd = open(path_file, O_RDWR | O_APPEND, 0777)) == -1)
-			ft_perror("21sh", "Can't open heredoc file /tmp");
-	}
+		open_heredoc_file(path_file, &fd);
 	free(path_file);
 	if ((final_heredoc(tmp, str, tmp2, fd)) == -1)
 		return (-1);

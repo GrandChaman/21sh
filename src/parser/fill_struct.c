@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 14:12:51 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/23 18:17:24 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 18:38:24 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ int			fill_parser(t_parser *parser, char *ori)
 			var.o = 0;
 			var.z++;
 		}
-	/*	if ((var.z > 0 || (var.z == 0 && ori[var.i] == '\0')) && var.j)
-			parser[var.b].cmd[var.j] = NULL;*/
 		reset_var(&var);
 		if (ori[var.i] == '\0')
 			break ;
