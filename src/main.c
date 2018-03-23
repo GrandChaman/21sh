@@ -27,12 +27,13 @@ static void	main_routine_2(t_list **head, t_var_m *ms, int *status, t_list **wl)
 	ms->x = 0;
 	while (ms->x < ms->nb)
 	{
+		(void)status;
 		// check_pipe(ms->parser, ms->x, &ms->r_dup);
-		if (!(check_dup(ms->parser, ms->x)))
+	/*	if (!(check_dup(ms->parser, ms->x)))
 		{
 			*status = 1;
 			break ;
-		}
+		}*/
 		el = execute(ms->parser[ms->x], head,
 			&ms->should_exit, ms->shell->ht);
 		if (el.pid > 0 && el.is_piped)
@@ -51,7 +52,7 @@ int			chained_waited(t_list **wl)
 	t_list		*tmp;
 	int			status;
 
-	ft_printf("TOTO %p\n", *wl);
+//	ft_printf("TOTO %p\n", *wl);
 	if (!wl || !*wl)
 		return (-1);
 	tmp = *wl;
@@ -62,7 +63,7 @@ int			chained_waited(t_list **wl)
 		tmp = tmp->next;
 		if (!el)
 			continue;
-		ft_printf("J'attend pour %d. Pipe %d ?\n", el->pid, el->is_piped);
+//		ft_printf("J'attend pour %d. Pipe %d ?\n", el->pid, el->is_piped);
 		waitpid(el->pid, &status, WUNTRACED);
 	}
 	ft_lstdel(wl, NULL);
