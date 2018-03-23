@@ -26,7 +26,7 @@ is_correct_talk.c init_meta.c init_var.c count_argv.c\
 call_heredoc.c check_dup.c check_dup_input.c redirection2.c\
 redirection4.c redirection_input_output.c\
 quote_fill_input_output.c count_2.c\
-check_pipe.c cli_autocomplete.c cli_autocomplete_utils.c \
+pipe_utils.c cli_autocomplete.c cli_autocomplete_utils.c \
 cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
 cli_prompt.c history_utils.c cli_spe_nav.c split_evoluted_2.c\
 fill_struct_2.c check_dup_ft.c env_utils.c hash_table_loader.c \

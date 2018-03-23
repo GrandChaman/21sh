@@ -215,10 +215,8 @@ typedef struct			s_vari
 
 typedef	struct			s_dup
 {
-	int					stdin_copy;
-	int					stdout_copy;
-	int					stderr_copy;
-	int					p[2];
+	int					mpipe[2];
+	int					save_read;
 }						t_dup;
 
 typedef struct			s_var_m
@@ -232,7 +230,9 @@ typedef struct			s_var_m
 	t_dup				r_dup;
 	int					fb;
 }						t_var_m;
-
+void					close_fds_in_parent(t_parser *parser, t_dup *dup_el);
+void					open_fds_in_fork(t_parser *parser, t_dup *dup_el);
+void					init_pipe_in_parent(t_parser *parser, t_dup *dup_el);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 int						gen_hash(t_list *env);
 void					char2d_tolist(t_list **env, char **args);
@@ -259,8 +259,6 @@ int						check_dup_input(t_parser *parser, int x);
 void					ft_easy_output(int *stock, int x, int i,
 	t_parser *parser);
 void					ft_easy2(int x, t_parser *parser);
-void					init_dup(t_dup *r_dup);
-void					init_r_dup(t_dup *r_dup);
 int						check_dup(t_parser *parser, int x);
 void					fill_it(t_vari *var, t_parser *parser, char *ori);
 void					fill_backslashzero(t_vari *var, t_parser *parser);

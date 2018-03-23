@@ -40,10 +40,12 @@ int			launch_builtin(char **cmd, t_list **head, t_parser parser, t_wait_el *el)
 	else if (ft_strcmp(cmd[0], "hash") == 0)
 		return (gen_hash(*head));
 	el->pid = fork();
+
 	if (!el->pid)
 		launch_forked_builtin(cmd, head, parser);
 	else if (el->pid < 0)
 		ft_putendl("21sh: fork error\n");
+		
 	return (0);
 }
 
