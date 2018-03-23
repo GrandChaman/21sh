@@ -30,9 +30,8 @@ t_wait_el	launch(char **args, t_list **head, t_bin_hash_table *ht,
 	int			status;
 	t_bin_hash	*bin;
 	char		**env;
-	static int	mpipe[2];
-	int			save_read_fd;
-	
+	static t_dup dup_el;
+
 	status = 0;
 	bin = NULL;
 	el.pid = -1;
@@ -41,52 +40,18 @@ t_wait_el	launch(char **args, t_list **head, t_bin_hash_table *ht,
 	if (check_if_can_exec(bin, args[0]))
 		return (el);
 	env = list_tochar2d(*head);
-	if (parser.input.pipe && parser.output.pipe)
-		save_read_fd = dup(mpipe[0]);
-	if ((parser.input.pipe && parser.output.pipe) ||
-		(!parser.input.pipe && parser.output.pipe))
-		pipe(mpipe);
+	init_pipe_in_parent(&parser, &dup_el);
 	el.pid = fork();
 	if (el.pid == 0)
 	{
-		if (!(parser.input.pipe) && parser.output.pipe) //debut
-		{
-			close(mpipe[0]);
-			dup2(mpipe[1], 1);
-			close(mpipe[1]);
-		}
-		else if (!(parser.output.pipe) && parser.input.pipe) //fin
-		{
-			close(mpipe[1]);
-			dup2(mpipe[0], 0);
-			close(mpipe[0]);
-		}
-		else if (parser.input.pipe && parser.output.pipe) //sandwitch
-		{
-			dup2(save_read_fd, 0);
-			dup2(mpipe[1], 1);
-			close(save_read_fd);
-			close(mpipe[1]);
-		}
+		open_fds_in_fork(&parser, &dup_el);
 		execve((bin ? bin->path : args[0]), &args[0], env);
 		ft_printf("21sh: %s: execve failed.\n", args[0]);
 		exit(-1);
 	}
 	else if (el.pid < 0)
 		ft_putendl("21sh: fork error\n");
-	if (parser.input.pipe && parser.output.pipe) //sandwitch
-	{
-		close(save_read_fd);
-		close(mpipe[1]);
-	}
-	else if (!(parser.input.pipe) && parser.output.pipe) //debut
-	{
-		close(mpipe[1]);
-	}
-	else if (!(parser.output.pipe) && parser.input.pipe) //fin
-	{
-		close(mpipe[0]);
-	}
+	close_fds_in_parent(&parser, &dup_el);
 	el.is_piped = parser.output.pipe;
 	ft_free2d((void **)env);
 	return (el);

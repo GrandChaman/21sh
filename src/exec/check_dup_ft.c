@@ -31,23 +31,3 @@ void	ft_easy_output(int *stock, int x, int i, t_parser *parser)
 	else if (parser[x].output.meta[i].stderr)
 		*stock = 2;
 }
-
-void	init_r_dup(t_dup *r_dup)
-{
-	if ((r_dup->stdin_copy = dup(0)) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
-	if ((r_dup->stdout_copy = dup(1)) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
-	if ((r_dup->stderr_copy = dup(2)) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
-}
-
-void	init_dup(t_dup *r_dup)
-{
-	if ((dup2(r_dup->stdin_copy, 0)) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
-	if ((dup2(r_dup->stdout_copy, 1)) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
-	if ((dup2(r_dup->stderr_copy, 2)) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
-}
