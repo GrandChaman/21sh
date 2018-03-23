@@ -77,6 +77,7 @@ t_wait_el	execute(t_parser parser, t_list **head, int *should_exit,
 	t_wait_el el;
 
 	el.pid = -1;
+	el.is_piped = parser.output.pipe;
 	if (!parser.cmd || !parser.cmd[0])
 		return (el);
 	if (ft_strcmp(parser.cmd[0], "exit") == 0)
@@ -88,7 +89,6 @@ t_wait_el	execute(t_parser parser, t_list **head, int *should_exit,
 	if (is_built_in(parser.cmd))
 	{
 		launch_builtin(parser.cmd, head, parser, &el);
-		el.is_piped = parser.output.pipe;
 		return (el);
 	}
 	else

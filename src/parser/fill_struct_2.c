@@ -21,6 +21,7 @@ void	fill_backslashzero(t_vari *var, t_parser *parser)
 	}
 	if (var->box == 2 && var->o != 0)
 	{
+		ft_printf("i_output = %d\n", var->i_output);
 		parser[var->b].output.meta[var->i_output].name[var->o] = '\0';
 		var->i_output++;
 		var->box = 1;

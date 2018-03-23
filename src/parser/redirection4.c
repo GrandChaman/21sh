@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+#include "stdio.h"
 
 void		there_is_space(t_vari *var, char *ori)
 {
@@ -23,15 +24,17 @@ static int	redirections4_2(t_vari *var, t_parser *parser, char *ori)
 {
 	if (ori[var->i] && ori[var->i] == '>')
 	{
+		printf("Here\n");
 		fill_std_o(var, parser, ori);
 		var->i++;
 		if (ori[var->i] && ori[var->i] == '>')
 		{
+			printf("Yop\n");
 			var->i++;
 			there_is_space(var, ori);
 			if (ori[var->i] == '\0' || ft_isatoken(ori[var->i]))
 				return (0);
-			parser[var->b].output.meta[var->i_input].double_chevron = 1;
+			parser[var->b].output.meta[var->i_output].double_chevron = 1;
 			return (2);
 		}
 		else
