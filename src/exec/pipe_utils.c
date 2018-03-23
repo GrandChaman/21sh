@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 17:34:03 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/23 13:36:36 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:09:53 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void		init_pipe_in_parent(t_parser *parser, t_dup *dup_el)
 
 void		open_fds_in_fork(t_parser *parser, t_dup *dup_el)
 {
+	int		stderr_save;
+
+	stderr_save = dup(2);
 	if (!(parser->input.pipe) && parser->output.pipe)
 	{
 		close(dup_el->mpipe[0]);
@@ -49,8 +52,9 @@ void		open_fds_in_fork(t_parser *parser, t_dup *dup_el)
 		close(dup_el->save_read);
 		close(dup_el->mpipe[1]);
 	}
-	if (!(check_dup(*parser)))
+	if (!(check_dup(*parser, stderr_save)))
 		exit(-1);
+	close(stderr_save);
 }
 
 void		close_fds_in_parent(t_parser *parser, t_dup *dup_el)

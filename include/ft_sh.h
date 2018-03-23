@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 18:32:21 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:16:59 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,11 +259,11 @@ void					is_space(int *i, char *original);
 void					check_pipe(t_parser *parser);
 void					ft_easy_input(int *stock, int i,
 	t_parser parser);
-int						check_dup_input(t_parser parser);
+int						check_dup_input(t_parser parser, int stderr_fd);
 void					ft_easy_output(int *stock, int i,
 	t_parser parser);
 void					ft_easy2(t_parser parser);
-int						check_dup(t_parser parser);
+int						check_dup(t_parser parser, int stderr_fd);
 void					fill_it(t_vari *var, t_parser *parser, char *ori);
 void					fill_backslashzero(t_vari *var, t_parser *parser);
 void					there_is_pipe_2(t_vari *var, t_parser *parser,
