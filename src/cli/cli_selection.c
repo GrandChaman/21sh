@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 13:52:46 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 14:48:44 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void		paste_select(unsigned long touch)
 	(void)touch;
 	sh = get_ft_shell();
 	len = ft_strlen(sh->select);
+	if (!len)
+		return ;
 	i = 0;
 	while (i < len)
 	{
