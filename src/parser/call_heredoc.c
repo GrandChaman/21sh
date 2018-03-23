@@ -45,7 +45,7 @@ static char	*search_str(t_vari *var, char *ori)
 	return (str);
 }
 
-static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
+static int final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 {
 	while (ft_strcmp(str, tmp) != 0)
 	{
@@ -53,13 +53,18 @@ static void	final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 		ft_fprintf(fd, tmp2);
 		free(tmp2);
 		free(tmp);
-		tmp = read_command(NULL, 0, 1, 0);
+		if ((tmp = read_command(NULL, 0, 1, 0)) == NULL)
+		{
+			free(str);
+			return (-1);
+		}
 	}
 	free(tmp);
 	free(str);
+	return (1);
 }
 
-void		call_heredoc(t_vari *var, char *ori)
+int			call_heredoc(t_vari *var, char *ori)
 {
 	char	*str;
 	char	*tmp;
@@ -68,7 +73,11 @@ void		call_heredoc(t_vari *var, char *ori)
 	char	*tmp2;
 
 	str = search_str(var, ori);
-	tmp = read_command(NULL, 0, 1, 0);
+	if ((tmp = read_command(NULL, 0, 1, 0)) == NULL)
+	{
+		free(str);
+		return (-1);
+	}
 	tmp2 = ft_itoa(var->heredoc);
 	path_file = ft_strjoin("/tmp/21sh_heredoc", tmp2);
 	free(tmp2);
@@ -82,7 +91,9 @@ void		call_heredoc(t_vari *var, char *ori)
 			ft_perror("21sh", "Can't open heredoc file /tmp");
 	}
 	free(path_file);
-	final_heredoc(tmp, str, tmp2, fd);
+	if ((final_heredoc(tmp, str, tmp2, fd)) == -1)
+		return (-1);
 	var->i--;
 	close(fd);
+	return (1);
 }

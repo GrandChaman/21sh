@@ -37,7 +37,7 @@ static void	free_cmd(t_parser *parser, int i)
 	int o;
 
 	o = 0;
-	if (parser[i].cmd)
+	if (parser[i].cmd && parser[i].cmd[o])
 	{
 		while (parser[i].cmd[o])
 		{

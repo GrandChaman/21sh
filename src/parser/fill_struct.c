@@ -37,7 +37,7 @@ static int	after_redirection(t_vari *var, t_parser *parser, char *ori)
 	return (1);
 }
 
-static void	there_is_word(t_vari *var, t_parser *parser, char *ori)
+static int	there_is_word(t_vari *var, t_parser *parser, char *ori)
 {
 	while ((ori[var->i] != ' ' && ori[var->i] != '\n' &&
 	ori[var->i] != ';' && ori[var->i] != '|') && ori[var->i])
@@ -47,7 +47,8 @@ static void	there_is_word(t_vari *var, t_parser *parser, char *ori)
 		there_is_space(var, ori);
 		if (ori[var->i] == '\0' || ori[var->i] == ';' || ori[var->i] == '|')
 			break ;
-		var->boite = redirections4(ori, parser, var);
+		if ((var->boite = redirections4(ori, parser, var)) == -1)
+			return (-1);
 		if (!(after_redirection(var, parser, ori)))
 			break ;
 		fill_it(var, parser, ori);
@@ -56,6 +57,7 @@ static void	there_is_word(t_vari *var, t_parser *parser, char *ori)
 		if (ori[var->i] && (ori[var->i] == '\'' || ori[var->i] == '"'))
 			break ;
 	}
+	return (1);
 }
 
 static void	reset_var(t_vari *var)
@@ -80,7 +82,7 @@ static void	end_fill_parser(t_vari *var, char *ori)
 	var->b++;
 }
 
-void		fill_parser(t_parser *parser, char *ori)
+int			fill_parser(t_parser *parser, char *ori)
 {
 	t_vari var;
 
@@ -93,7 +95,8 @@ void		fill_parser(t_parser *parser, char *ori)
 			there_is_space(&var, ori);
 			if (ori[var.i] == '\0')
 				break ;
-			there_is_word(&var, parser, ori);
+			if ((there_is_word(&var, parser, ori)) == -1)
+				return (-1);
 			fill_backslashzero(&var, parser);
 			if (ori[var.i] == '\0')
 				break ;
@@ -107,4 +110,5 @@ void		fill_parser(t_parser *parser, char *ori)
 			break ;
 		end_fill_parser(&var, ori);
 	}
+	return (1);
 }
