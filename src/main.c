@@ -6,31 +6,11 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 13:39:58 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 14:35:08 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-static void	main_routine_2(t_list **head, t_var_m *ms, t_list **wl)
-{
-	t_wait_el el;
-
-	ms->nb = ms->parser[0].nb;
-	ms->x = 0;
-	while (ms->x < ms->nb)
-	{
-		el = execute(ms->parser[ms->x], head,
-			&ms->should_exit, ms->shell->ht);
-		if (el.pid > 0 && el.is_piped)
-			ft_lstpush_back(wl, &el, sizeof(t_wait_el));
-		else if (el.pid > 0 && !el.is_piped)
-			ft_lstpush_front(wl, &el, sizeof(t_wait_el));
-		if (ms->should_exit)
-			break ;
-		ms->x++;
-	}
-}
 
 int			chained_waited(t_list **wl)
 {
@@ -54,13 +34,37 @@ int			chained_waited(t_list **wl)
 	return (status);
 }
 
+static void	main_routine_2(t_list **head, t_var_m *ms, int *status)
+{
+	t_wait_el	el;
+	t_list		*wait_list;
+
+	wait_list = NULL;
+	ms->nb = ms->parser[0].nb;
+	ms->x = 0;
+	while (ms->x < ms->nb)
+	{
+		el = execute(ms->parser[ms->x], head,
+			&ms->should_exit, ms->shell->ht);
+		if (el.pid > 0 && el.is_piped)
+			ft_lstpush_back(&wait_list, &el, sizeof(t_wait_el));
+		else if (el.pid > 0 && !el.is_piped)
+			ft_lstpush_front(&wait_list, &el, sizeof(t_wait_el));
+		if (!el.is_piped)
+			*status = chained_waited(&wait_list);
+		if (ms->should_exit)
+			break ;
+		ms->x++;
+	}
+	if (el.is_piped)
+		*status = chained_waited(&wait_list);
+}
+
 void		main_routine(t_list **head, int status)
 {
 	t_var_m		ms;
-	t_list		*wait_list;
 
 	ms.fb = 0;
-	wait_list = NULL;
 	ms.shell = get_ft_shell();
 	ms.should_exit = 0;
 	while (!ms.should_exit)
@@ -76,8 +80,7 @@ void		main_routine(t_list **head, int status)
 			free_parser(ms.parser);
 			continue ;
 		}
-		main_routine_2(head, &ms, &wait_list);
-		status = chained_waited(&wait_list);
+		main_routine_2(head, &ms, &status);
 		free_parser(ms.parser);
 		free(ms.cmd);
 	}
