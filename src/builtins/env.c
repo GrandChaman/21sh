@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/22 10:25:40 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 13:43:47 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ void		print_env(t_list *env)
 int			builtin_env(t_list **env, char **args, t_parser parser)
 {
 	int					arg_offset;
+	int					status;
+	t_wait_el			el;
 
 	arg_offset = 1;
+	status = 0;
 	if (!args[arg_offset])
 		print_env(*env);
 	else
@@ -36,7 +39,13 @@ int			builtin_env(t_list **env, char **args, t_parser parser)
 		while (args[arg_offset] && ft_haschar(args[arg_offset], '='))
 			extract_define(env, args[arg_offset++]);
 		if (*(args + arg_offset))
-			launch(args + arg_offset, env, get_ft_shell()->ht, parser);
+		{
+			el = launch(args + arg_offset, env, get_ft_shell()->ht, parser);
+			if (el.pid < 0)
+				return (-1);
+			waitpid(el.pid, &status, WUNTRACED);
+			return (status);
+		}
 		else
 			print_env(*env);
 	}
