@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 14:35:08 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 16:02:39 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			chained_waited(t_list **wl)
 	int			status;
 
 	if (!wl || !*wl)
-		return (-1);
+		return (0);
 	tmp = *wl;
 	status = 1;
 	while (tmp)
@@ -46,6 +46,7 @@ static void	main_routine_2(t_list **head, t_var_m *ms, int *status)
 	{
 		el = execute(ms->parser[ms->x], head,
 			&ms->should_exit, ms->shell->ht);
+		el.is_piped = ms->parser[ms->x].output.pipe;
 		if (el.pid > 0 && el.is_piped)
 			ft_lstpush_back(&wait_list, &el, sizeof(t_wait_el));
 		else if (el.pid > 0 && !el.is_piped)
@@ -71,6 +72,8 @@ void		main_routine(t_list **head, int status)
 	{
 		ms.parser = NULL;
 		ms.cmd = read_command(NULL, status, 0, (!ms.fb ? ms.fb++ : ms.fb));
+		if (!ms.cmd)
+			return ;
 		add_to_history(ms.shell, ms.cmd);
 		if ((ms.cmd && ms.cmd[0] == '\0') ||
 			!((ms.parser = get_parser(ms.cmd))))
