@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 16:50:45 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 11:39:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ int						is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);
 void					is_space(int *i, char *original);
-void					check_pipe(t_parser *parser, int x, t_dup *rdup);
+void					check_pipe(t_parser *parser);
 void					ft_easy_input(int *stock, int x, int i,
 	t_parser *parser);
 int						check_dup_input(t_parser *parser, int x);
