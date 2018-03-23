@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:53:54 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 13:53:56 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/23 15:05:56 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	redirections4_2(t_vari *var, t_parser *parser, char *ori)
 			there_is_space(var, ori);
 			if (ori[var->i] == '\0' || ft_isatoken(ori[var->i]))
 				return (0);
-			parser[var->b].output.meta[var->i_input].double_chevron = 1;
+			parser[var->b].output.meta[var->i_output].double_chevron = 1;
 			return (2);
 		}
 		else
