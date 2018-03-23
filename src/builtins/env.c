@@ -22,14 +22,19 @@ void		print_env(t_list *env)
 	}
 }
 
+static void	in_var(int *arg_offset, int *status)
+{
+	*arg_offset = 1;
+	*status = 0;
+}
+
 int			builtin_env(t_list **env, char **args, t_parser parser)
 {
 	int					arg_offset;
 	int					status;
 	t_wait_el			el;
 
-	arg_offset = 1;
-	status = 0;
+	in_var(&arg_offset, &status);
 	if (!args[arg_offset])
 		print_env(*env);
 	else

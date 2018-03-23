@@ -12,7 +12,8 @@
 
 #include "ft_sh.h"
 
-static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser, t_dup *dup_el)
+static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser,
+	t_dup *dup_el)
 {
 	t_list *copy;
 
@@ -30,7 +31,8 @@ static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser, t_
 	exit(0);
 }
 
-int			launch_builtin(char **cmd, t_list **head, t_parser parser, t_wait_el *el)
+int			launch_builtin(char **cmd, t_list **head, t_parser parser,
+	t_wait_el *el)
 {
 	if (ft_strcmp(cmd[0], "unsetenv") == 0)
 		return (builtin_unsetenv(cmd, head));
