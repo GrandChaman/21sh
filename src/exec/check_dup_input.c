@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_dup_input.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 17:16:10 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/20 17:22:06 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/03/23 19:18:57 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	is_fd(int i, t_parser parser)
+static void	is_fd(int i, t_parser parser, int stderr_fd)
 {
 	int stock;
 
@@ -24,17 +24,20 @@ static void	is_fd(int i, t_parser parser)
 		if (parser.input.meta[i].name[1])
 		{
 			if ((dup2(stock, parser.input.meta[i].name[1] - 48)) == -1)
-				ft_perror("dup", "Dup failed. Aborting");
+			{
+				ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
+				exit(-1);
+			}
 		}
-		else
+		else if ((dup2(stock, 0)) == -1)
 		{
-			if ((dup2(stock, 0)) == -1)
-				ft_perror("dup", "Dup failed. Aborting");
+			ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
+			exit(-1);
 		}
 	}
 }
 
-static void	is_heredoc_2(t_parser parser, int i)
+static void	is_heredoc_2(t_parser parser, int i, int stderr_fd)
 {
 	char	*str;
 	char	*str2;
@@ -44,14 +47,20 @@ static void	is_heredoc_2(t_parser parser, int i)
 	str2 = ft_itoa(parser.input.meta[i].heredoc_number);
 	str = ft_strjoin(str, str2);
 	if ((fd = open(str, O_RDWR, 0777)) == -1)
-		ft_perror("21sh", "Can't open heredoc file /tmp");
+	{
+		ft_fprintf(stderr_fd, "21sh: Can't open heredoc file /tmp\n");
+		exit(-1);
+	}
 	free(str);
 	free(str2);
 	if (dup2(fd, 0) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
+	{
+		ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
+		exit(-1);
+	}
 }
 
-static int	is_normal(t_parser parser, int i)
+static int	is_normal(t_parser parser, int i, int stderr_fd)
 {
 	int fd;
 	int stock;
@@ -59,16 +68,19 @@ static int	is_normal(t_parser parser, int i)
 	stock = 0;
 	if ((fd = open(parser.input.meta[i].name, O_RDWR, 0777)) == -1)
 	{
-		ft_printf("21sh :no such file or directory\n");
+		ft_fprintf(stderr_fd, "21sh: no such file or directory\n");
 		return (0);
 	}
 	ft_easy_input(&stock, i, parser);
 	if (dup2(fd, stock) == -1)
-		ft_perror("dup", "Dup failed. Aborting");
+	{
+		ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
+		exit(-1);
+	}
 	return (1);
 }
 
-int			check_dup_input(t_parser parser)
+int			check_dup_input(t_parser parser, int stderr_fd)
 {
 	int i;
 
@@ -79,12 +91,12 @@ int			check_dup_input(t_parser parser)
 		{
 			if (parser.input.meta[i].name &&
 				parser.input.meta[i].name[0] == '&')
-				is_fd(i, parser);
+				is_fd(i, parser, stderr_fd);
 			else
 			{
 				if (parser.input.meta[i].heredoc_number)
-					is_heredoc_2(parser, i);
-				else if (!(is_normal(parser, i)))
+					is_heredoc_2(parser, i, stderr_fd);
+				else if (!(is_normal(parser, i, stderr_fd)))
 					return (0);
 			}
 			if (parser.input.meta[i].next_exist == 0)
