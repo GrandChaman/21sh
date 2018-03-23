@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 11:18:55 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:26:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 13:52:46 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void		cut_select(unsigned long touch)
 	len = ft_strlen(sh->select);
 	tmp = len;
 	while (len-- > 0)
-		if (sh->cursor == sh->buf.cursor)
+		if (sh->select_size > 0)
 			backspace_command(T_BACKSPACE);
 		else
 			delete_command(T_DELETE);
