@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:44:23 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/22 15:12:10 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 18:58:55 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ int			count_cmd(char *ori)
 				nb++;
 			checkquote(&i, &o, ori);
 			if (!ori[i])
-				break ;
+				return (nb) ;
 			end_cmd(ori, &i, &nb);
-			i++;
+			if (!ori[i++])
+				return (nb) ;
 		}
 	}
 	return (nb);
