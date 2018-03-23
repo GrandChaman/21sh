@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 11:39:32 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 13:36:49 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,8 @@ typedef struct			s_var_m
 	t_dup				r_dup;
 	int					fb;
 }						t_var_m;
+
+t_dup					*get_dup_el(void);
 void					close_fds_in_parent(t_parser *parser, t_dup *dup_el);
 void					open_fds_in_fork(t_parser *parser, t_dup *dup_el);
 void					init_pipe_in_parent(t_parser *parser, t_dup *dup_el);
