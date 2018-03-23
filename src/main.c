@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 15:23:04 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 15:34:13 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			chained_waited(t_list **wl)
 	int			status;
 
 	if (!wl || !*wl)
-		return (-1);
+		return (0);
 	tmp = *wl;
 	status = 1;
 	while (tmp)

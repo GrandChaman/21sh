@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:22 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/23 13:37:10 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 15:29:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	check_if_can_exec(t_bin_hash *bin, char *arg)
 	return (0);
 }
 
-static void	launch_2(t_parser *parser, t_bin_hash *bin, char **args, char **env)
+static void	launch_child(t_parser *parser, t_bin_hash *bin,
+	char **args, char **env)
 {
 	open_fds_in_fork(parser, get_dup_el());
 	execve((bin ? bin->path : args[0]), &args[0], env);
@@ -50,7 +51,7 @@ t_wait_el	launch(char **args, t_list **head, t_bin_hash_table *ht,
 	init_pipe_in_parent(&parser, get_dup_el());
 	el.pid = fork();
 	if (el.pid == 0)
-		launch_2(&parser, bin, args, env);
+		launch_child(&parser, bin, args, env);
 	else if (el.pid < 0)
 		ft_putendl("21sh: fork error\n");
 	close_fds_in_parent(&parser, get_dup_el());
