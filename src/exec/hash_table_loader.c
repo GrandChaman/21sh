@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 13:16:18 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 19:41:09 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/23 20:41:54 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,24 @@ void					free_hash_table(t_bin_hash_table **ht)
 	*ht = 0;
 }
 
-static void				list_file_in_dir(t_list **list, char *path)
+static void				list_file_in_dir(t_list **list, char *path,
+	size_t path_len)
 {
 	DIR				*dir;
 	struct dirent	*dir_data;
 	struct stat		st_data;
 	t_bin_hash		bin;
-	size_t			path_len;
 
 	if (!path || !(dir = opendir(path)))
 		return ;
-	path_len = ft_strlen(path);
 	while ((dir_data = readdir(dir)))
 	{
 		bin.name = ft_strdup(dir_data->d_name);
 		bin.path = ft_strnew(path_len + dir_data->d_namlen + 2);
 		ft_snprintf(bin.path, path_len + dir_data->d_namlen + 2, "%s/%s", path,
 			dir_data->d_name);
-		if (stat(bin.path, &st_data) || ((st_data.st_mode & S_IFMT) != S_IFREG && (st_data.st_mode & S_IFMT) != S_IFLNK))
+		if (stat(bin.path, &st_data) || ((st_data.st_mode & S_IFMT) != S_IFREG
+			&& (st_data.st_mode & S_IFMT) != S_IFLNK))
 		{
 			free(bin.name);
 			free(bin.path);
@@ -110,13 +110,13 @@ t_bin_hash_table		*load_bin_into_hash_table(t_list *env)
 	{
 		if (!tmp_path)
 		{
-			list_file_in_dir(&tmp, path);
+			list_file_in_dir(&tmp, path, ft_strlen(path));
 			break ;
 		}
 		offset = (int)(tmp_path - path) + 1;
 		tmp_path = ft_strsub(path, 0, (int)(tmp_path - path));
 		path += offset;
-		list_file_in_dir(&tmp, tmp_path);
+		list_file_in_dir(&tmp, tmp_path, ft_strlen(path));
 		free(tmp_path);
 	}
 	return (fill_hash_table_form_list(&tmp));
