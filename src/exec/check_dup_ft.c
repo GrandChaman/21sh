@@ -12,22 +12,22 @@
 
 #include "ft_sh.h"
 
-void	ft_easy2(int x, t_parser *parser)
+void	ft_easy2(t_parser parser)
 {
-	if (parser[x].close_stdin)
+	if (parser.close_stdin)
 		close(0);
-	if (parser[x].close_stdout)
+	if (parser.close_stdout)
 		close(1);
-	if (parser[x].close_stderr)
+	if (parser.close_stderr)
 		close(2);
 }
 
-void	ft_easy_output(int *stock, int x, int i, t_parser *parser)
+void	ft_easy_output(int *stock, int i, t_parser parser)
 {
-	if (parser[x].output.meta[i].stdin)
+	if (parser.output.meta[i].stdin)
 		*stock = 0;
-	else if (parser[x].output.meta[i].stdout)
+	else if (parser.output.meta[i].stdout)
 		*stock = 1;
-	else if (parser[x].output.meta[i].stderr)
+	else if (parser.output.meta[i].stderr)
 		*stock = 2;
 }

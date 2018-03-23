@@ -253,13 +253,13 @@ void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);
 void					is_space(int *i, char *original);
 void					check_pipe(t_parser *parser);
-void					ft_easy_input(int *stock, int x, int i,
-	t_parser *parser);
-int						check_dup_input(t_parser *parser, int x);
-void					ft_easy_output(int *stock, int x, int i,
-	t_parser *parser);
-void					ft_easy2(int x, t_parser *parser);
-int						check_dup(t_parser *parser, int x);
+void					ft_easy_input(int *stock, int i,
+	t_parser parser);
+int						check_dup_input(t_parser parser);
+void					ft_easy_output(int *stock, int i,
+	t_parser parser);
+void					ft_easy2(t_parser parser);
+int						check_dup(t_parser parser);
 void					fill_it(t_vari *var, t_parser *parser, char *ori);
 void					fill_backslashzero(t_vari *var, t_parser *parser);
 void					malloc_meta(t_vari *var, t_parser *parser);
