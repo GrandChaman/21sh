@@ -41,11 +41,12 @@ int						compare_with_key(void *e1, void *e2)
 	return (ft_strcmp(tmp->key, cmp));
 }
 
-int						check_if_key_ok(t_env_var e_var, int i)
+int						check_if_key_ok(t_env_var e_var, int i, t_wait_el *el)
 {
 	if (!ft_isalnum(e_var.key[i]))
 	{
 		free(e_var.key);
+		el->pid = 1;
 		return (ft_printf("KEY doesn't allow "
 			"non alphanumeric value\n") && 1);
 	}

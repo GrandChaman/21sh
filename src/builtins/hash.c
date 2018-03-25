@@ -12,10 +12,11 @@
 
 #include "ft_sh.h"
 
-int		gen_hash(t_list *env)
+int		gen_hash(t_list *env, t_wait_el *el)
 {
 	t_ft_sh *sh;
 
+	el->pid = 0;
 	sh = get_ft_shell();
 	if (sh->ht)
 	{
@@ -25,6 +26,7 @@ int		gen_hash(t_list *env)
 	}
 	if (!env || !ft_lstfind(env, "PATH", compare_with_key))
 	{
+		el->pid = 1;
 		return (ft_printf("hash: Can't generate the hash table because"
 			" PATH is not defined\n") && 1);
 	}
