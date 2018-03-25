@@ -35,13 +35,13 @@ int			launch_builtin(char **cmd, t_list **head, t_parser parser,
 	t_wait_el *el)
 {
 	if (ft_strcmp(cmd[0], "unsetenv") == 0)
-		return (builtin_unsetenv(cmd, head));
+		return (builtin_unsetenv(cmd, head, el));
 	else if (ft_strcmp(cmd[0], "setenv") == 0)
-		return (builtin_setenv(cmd, head));
+		return (builtin_setenv(cmd, head, el));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		return (builtin_cd(cmd[1], head));
+		return (builtin_cd(cmd[1], head, el));
 	else if (ft_strcmp(cmd[0], "hash") == 0)
-		return (gen_hash(*head));
+		return (gen_hash(*head, el));
 	init_pipe_in_parent(&parser, get_dup_el());
 	el->pid = fork();
 	if (!el->pid)

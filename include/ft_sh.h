@@ -238,7 +238,7 @@ void					close_fds_in_parent(t_parser *parser, t_dup *dup_el);
 void					open_fds_in_fork(t_parser *parser, t_dup *dup_el);
 void					init_pipe_in_parent(t_parser *parser, t_dup *dup_el);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
-int						gen_hash(t_list *env);
+int						gen_hash(t_list *env, t_wait_el *el);
 void					char2d_tolist(t_list **env, char **args);
 void					free_env_var(void *el, size_t size);
 t_list					*dup_environment(t_list *env);
@@ -251,7 +251,7 @@ unsigned long			dj2b_hash(char *str);
 t_bin_hash				*get_elem_from_ht(t_bin_hash_table *ht, char *name);
 int						launch_builtin(char **cmd, t_list **head,
 	t_parser parser, t_wait_el *el);
-int						check_if_key_ok(t_env_var e_var, int i);
+int						check_if_key_ok(t_env_var e_var, int i, t_wait_el *el);
 int						is_built_in(char **cmd);
 void					param_ins_or_rep(t_list **list, t_env_var *arg);
 void					collect_data_ht(t_list **list, char *str_part);
@@ -322,7 +322,7 @@ t_list					*create_list_from_env(char **env);
 char					**create_env_from_list(t_list **head);
 void					ft_lsterase(t_list **head);
 void					ft_lstdelthis(t_list **head, char *str);
-int						builtin_cd(char *npath, t_list **env);
+int						builtin_cd(char *npath, t_list **env, t_wait_el *el);
 int						builtin_echo(char **args, t_list **env);
 int						builtin_env(t_list **env, char **args, t_parser parser);
 int						builtin_exit(void);
@@ -330,8 +330,8 @@ char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
 void					ft_lst_add_or_modify(int flag, t_list **head,
 	char *name, char *value);
-int						builtin_setenv(char **args, t_list **head);
-int						builtin_unsetenv(char **args, t_list **head);
+int						builtin_setenv(char **args, t_list **head, t_wait_el *el);
+int						builtin_unsetenv(char **args, t_list **head, t_wait_el *el);
 int						ft_problem_dir(char *arg);
 int						too_many_args(char *cmd);
 
