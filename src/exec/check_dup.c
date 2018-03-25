@@ -38,6 +38,8 @@ static void	is_fd(t_parser parser, int i, int stderr_fd)
 			}
 		}
 	}
+	else if (parser.output.meta[i].name[1] && parser.output.meta[i].name[1] == '-')
+		ft_easy2(parser);
 }
 
 static int	is_d_chevron(t_parser parser, int i, int stderr_fd)
