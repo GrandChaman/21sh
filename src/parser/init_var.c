@@ -46,9 +46,15 @@ void	fill_std_i(t_vari *var, t_parser *parser, char *ori)
 		if (ori[var->i - 1] == '0')
 			parser[var->b].input.meta[var->i_input].stdin = 1;
 		else if (ori[var->i - 1] == '1')
+		{
 			parser[var->b].input.meta[var->i_input].stdout = 1;
+			parser[var->b].close_stdout = 1;
+		}
 		else if (ori[var->i - 1] == '2')
+		{
 			parser[var->b].input.meta[var->i_input].stderr = 1;
+			parser[var->b].close_stderr = 1;
+		}
 	}
 	else
 	{
