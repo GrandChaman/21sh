@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-static int		change_dir_routine(char *npath)
+static int		change_dir_str(char *npath)
 {
 	int			res;
 	struct stat	stinfo;
@@ -36,14 +36,34 @@ static int		change_dir_routine(char *npath)
 	return (res);
 }
 
-static int		builtin_cd_1(char *oldpwd_path)
+static int		change_dir_routine(char *npath, t_env_var *home)
+{
+	int			res;
+	char 		*str;
+
+	if (npath && npath[0] == '~')
+	{
+		npath++;
+		str = ft_strjoin(home->value, npath);
+		res = change_dir_str(str);
+		free(str);
+		return (res);
+	}
+	else
+	{
+		res = change_dir_str(npath);
+		return (res);
+	}
+}
+
+static int		builtin_cd_1(char *oldpwd_path, t_env_var *home)
 {
 	int res;
 
 	if (!oldpwd_path)
 		res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));
 	else
-		res = change_dir_routine(oldpwd_path);
+		res = change_dir_routine(oldpwd_path, home);
 	return (res);
 }
 
@@ -54,7 +74,7 @@ static int		builtin_cd_2(t_env_var *home)
 	if (!home || !home->value)
 		return (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n") && 1);
 	else
-		res = change_dir_routine(home->value);
+		res = change_dir_str(home->value);
 	return (res);
 }
 
@@ -64,9 +84,9 @@ static int		builtin_cd_3(char *npath, char *oldpwd_path, t_env_var *home)
 
 	res = 0;
 	if (npath && ft_strcmp(npath, "-") == 0)
-		res = builtin_cd_1(oldpwd_path);
+		res = builtin_cd_1(oldpwd_path, home);
 	else if (npath && ft_strcmp(npath, "-") != 0)
-		res = change_dir_routine(npath);
+		res = change_dir_routine(npath, home);
 	else if (!npath)
 		res = builtin_cd_2(home);
 	return (res);
