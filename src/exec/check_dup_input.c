@@ -35,6 +35,8 @@ static void	is_fd(int i, t_parser parser, int stderr_fd)
 			exit(-1);
 		}
 	}
+	else if (parser.input.meta[i].name[1] && parser.input.meta[i].name[1] == '-')
+		ft_easy2(parser);
 }
 
 static void	is_heredoc_2(t_parser parser, int i, int stderr_fd)
