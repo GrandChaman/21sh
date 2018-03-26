@@ -36,10 +36,10 @@ static int		change_dir_str(char *npath)
 	return (res);
 }
 
-static int		change_dir_routine(char *npath, t_env_var *home)
+int				change_dir_routine(char *npath, t_env_var *home)
 {
 	int			res;
-	char 		*str;
+	char		*str;
 
 	if (npath && npath[0] == '~')
 	{
@@ -54,17 +54,6 @@ static int		change_dir_routine(char *npath, t_env_var *home)
 		res = change_dir_str(npath);
 		return (res);
 	}
-}
-
-static int		builtin_cd_1(char *oldpwd_path, t_env_var *home)
-{
-	int res;
-
-	if (!oldpwd_path)
-		res = (ft_fprintf(STDERR_FILENO, "cd: OLDPWD not defined.\n"));
-	else
-		res = change_dir_routine(oldpwd_path, home);
-	return (res);
 }
 
 static int		builtin_cd_2(t_env_var *home)

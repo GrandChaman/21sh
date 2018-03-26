@@ -115,6 +115,7 @@ int			main(int argc, const char **argv, char **env)
 	}
 	char2d_tolist(&env_lst, env);
 	shell->ht = load_bin_into_hash_table(env_lst);
+	print_ascii_art();
 	main_routine(&env_lst, 0);
 	cli_loader(1);
 	free_hash_table(&shell->ht);
