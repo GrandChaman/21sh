@@ -232,6 +232,9 @@ typedef struct			s_var_m
 	int					fb;
 }						t_var_m;
 
+void					print_ascii_art(void);
+int						change_dir_routine(char *npath, t_env_var *home);
+int						builtin_cd_1(char *oldpwd_path, t_env_var *home);
 void					malloc_meta(t_vari *var, t_parser *parser);
 t_dup					*get_dup_el(void);
 void					close_fds_in_parent(t_parser *parser, t_dup *dup_el);

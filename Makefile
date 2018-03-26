@@ -30,7 +30,8 @@ pipe_utils.c cli_autocomplete.c cli_autocomplete_utils.c \
 cli_autocomplete_graphics.c cli_autocomplete_local_file.c cli_text.c \
 cli_prompt.c history_utils.c cli_spe_nav.c split_evoluted_2.c\
 fill_struct_2.c check_dup_ft.c env_utils.c hash_table_loader.c \
-hash_table.c env_utils_2.c cli_autocomplete_ht.c hash.c
+hash_table.c env_utils_2.c cli_autocomplete_ht.c hash.c cd_2.c\
+ascii_art.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
 CFLAG = -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
