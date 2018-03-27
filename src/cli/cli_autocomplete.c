@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 15:27:31 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/27 16:39:32 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void				complete_missing_autocomplete(t_ft_sh *sh,
 			i++;
 		else
 			break ;
-	insert_in_cli(entry->name + i);
+	insert_in_cli(entry->name + i + (sh->cursor < sh->buf.cursor));
 }
 
 static void				ft_sh_autocomplete_routine(t_ft_sh *sh, char *str_part)
