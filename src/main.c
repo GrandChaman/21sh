@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 19:44:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/27 16:33:42 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,30 @@ int			chained_waited(t_list **wl)
 	return (status);
 }
 
-static void	main_routine_2(t_list **head, t_var_m *ms, int *status)
+static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 {
 	t_wait_el	el;
 	t_list		*wait_list;
 
 	wait_list = NULL;
-	ms->nb = ms->parser[0].nb;
-	ms->x = 0;
-	while (ms->x < ms->nb)
+	m->nb = m->parser[0].nb;
+	m->x = 0;
+	while (m->x < m->nb)
 	{
-		el = execute(ms->parser[ms->x], head,
-			&ms->should_exit, ms->shell->ht);
+		el = execute(m->parser[m->x], head,
+			&m->should_exit, m->shell->ht);
 		if (el.pid < 0)
 			break ;
-		el.is_piped = ms->parser[ms->x].output.pipe;
+		el.is_piped = m->parser[m->x].output.pipe | m->parser[m->x].input.pipe;
 		if (el.pid > 0 && el.is_piped)
-			ft_lstpush_back(&wait_list, &el, sizeof(t_wait_el));
-		else if (el.pid > 0 && !el.is_piped)
 			ft_lstpush_front(&wait_list, &el, sizeof(t_wait_el));
+		else if (el.pid > 0 && !el.is_piped)
+			ft_lstpush_back(&wait_list, &el, sizeof(t_wait_el));
 		if (!el.is_piped)
 			*status = chained_waited(&wait_list);
-		if (ms->should_exit)
+		if (m->should_exit)
 			break ;
-		ms->x++;
+		m->x++;
 	}
 	if (el.is_piped)
 		*status = chained_waited(&wait_list);

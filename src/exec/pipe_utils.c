@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 17:34:03 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/23 19:09:53 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/27 16:21:45 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_dup		*get_dup_el(void)
 void		init_pipe_in_parent(t_parser *parser, t_dup *dup_el)
 {
 	if (parser->input.pipe && parser->output.pipe)
+	{
 		dup_el->save_read = dup(dup_el->mpipe[0]);
+		close(dup_el->mpipe[0]);
+	}
 	if ((parser->input.pipe && parser->output.pipe) ||
 		(!parser->input.pipe && parser->output.pipe))
 		pipe(dup_el->mpipe);
