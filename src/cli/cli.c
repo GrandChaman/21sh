@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 18:34:15 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/27 15:07:45 by bluff            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 			i++;
 			if (ft_isprint(str_part))
 				print_normal_touch(shell, str_part);
-			else
+			else if (str_part != '\n')
 				break ;
 		}
 }
