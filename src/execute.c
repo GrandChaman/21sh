@@ -37,7 +37,7 @@ int			launch_builtin(char **cmd, t_list **head, t_parser parser,
 	if (ft_strcmp(cmd[0], "unsetenv") == 0)
 		return (builtin_unsetenv(cmd, head, el));
 	else if (ft_strcmp(cmd[0], "setenv") == 0)
-		return (builtin_setenv(cmd, head, el));
+		return (builtin_setenv(cmd, head, el, -1));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		return (builtin_cd(cmd[1], head, el));
 	else if (ft_strcmp(cmd[0], "hash") == 0)
