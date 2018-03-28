@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/23 20:46:37 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/28 13:47:57 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ hash_table.c env_utils_2.c cli_autocomplete_ht.c hash.c cd_2.c\
 ascii_art.c
 
 LIBFT_INCLUDE = $(LIBFT_DIR)/include
-CFLAG = -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
+CFLAG = -g3 -Wall -Wextra -Werror -I $(INCLUDE) -I $(LIBFT_INCLUDE)
 CC = cc
 LFLAG = -ltermcap
 BIN = bin
