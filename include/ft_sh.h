@@ -333,8 +333,10 @@ char					*ft_path(t_list **head, char *cmd);
 int						mini_help(char **args);
 void					ft_lst_add_or_modify(int flag, t_list **head,
 	char *name, char *value);
-int						builtin_setenv(char **args, t_list **head, t_wait_el *el, int i);
-int						builtin_unsetenv(char **args, t_list **head, t_wait_el *el);
+int						builtin_setenv(char **args, t_list **head,
+	t_wait_el *el, int i);
+int						builtin_unsetenv(char **args, t_list **head,
+	t_wait_el *el);
 int						ft_problem_dir(char *arg);
 int						too_many_args(char *cmd);
 
