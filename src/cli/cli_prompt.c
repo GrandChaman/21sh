@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 17:32:17 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:29:02 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/28 14:55:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			display_prompt(int last_result)
 	t_ft_sh		*shell;
 
 	res = 4;
-	if ((path = ft_getcwd()))
+	if ((path = getcwd(NULL, MAXPATHLEN)))
 		res += ft_strlen(path);
 	else
 		res += ft_strlen("(null)");

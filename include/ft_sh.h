@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/23 19:16:59 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/28 14:55:47 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,6 @@ int						too_many_args(char *cmd);
 
 t_ft_sh					*get_ft_shell(void);
 int						is_env_correct(void);
-char					*ft_getcwd(void);
 int						print_error(const char *title, const char *message);
 void					apply_terminal_setting(int def);
 int						display_prompt(int last_result);
