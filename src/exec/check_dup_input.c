@@ -12,11 +12,8 @@
 
 #include "ft_sh.h"
 
-static void	is_fd(int i, t_parser parser, int stderr_fd)
+static void	is_fd(int i, t_parser parser, int stderr_fd, int stock)
 {
-	int stock;
-
-	stock = 0;
 	if (!(parser.input.meta[i].name[1] &&
 		parser.input.meta[i].name[1] == '-'))
 	{
@@ -35,7 +32,8 @@ static void	is_fd(int i, t_parser parser, int stderr_fd)
 			exit(-1);
 		}
 	}
-	else if (parser.input.meta[i].name[1] && parser.input.meta[i].name[1] == '-')
+	else if (parser.input.meta[i].name[1] &&
+		parser.input.meta[i].name[1] == '-')
 		ft_easy2(parser);
 }
 
@@ -93,7 +91,7 @@ int			check_dup_input(t_parser parser, int stderr_fd)
 		{
 			if (parser.input.meta[i].name &&
 				parser.input.meta[i].name[0] == '&')
-				is_fd(i, parser, stderr_fd);
+				is_fd(i, parser, stderr_fd, 0);
 			else
 			{
 				if (parser.input.meta[i].heredoc_number)

@@ -90,6 +90,7 @@ int				builtin_cd(char *npath, t_list **env, t_wait_el *el)
 	char			*oldpwd_path;
 	t_env_var		*home;
 	int				res;
+	char 			cwd[1024];
 
 	res = 0;
 	cursor = NULL;
@@ -101,11 +102,20 @@ int				builtin_cd(char *npath, t_list **env, t_wait_el *el)
 		home = (t_env_var*)cursor->content;
 	if ((cursor = ft_lstfind(*env, "OLDPWD", compare_with_key)))
 		oldpwd_path = ((t_env_var*)cursor->content)->value;
-	oldpwd = ft_memalloc(sizeof(t_env_var));
-	oldpwd->value = ft_getcwd();
-	oldpwd->key = ft_strdup("OLDPWD");
-	if ((builtin_cd_3(npath, oldpwd_path, home) != 0))
-		el->pid = 1;
+	if (getcwd(cwd, sizeof(cwd)) && (access(cwd, F_OK) != -1))
+	{
+		oldpwd = ft_memalloc(sizeof(t_env_var));
+		oldpwd->value = ft_getcwd();
+		oldpwd->key = ft_strdup("OLDPWD");
+		if ((builtin_cd_3(npath, oldpwd_path, home) != 0))
+			el->pid = 1;
+	}
+	else
+	{
+		if ((builtin_cd_3(npath, oldpwd_path, home) != 0))
+			el->pid = 1;
+		return (res);
+	}
 	param_ins_or_rep(env, oldpwd);
 	free(oldpwd);
 	return (res);
