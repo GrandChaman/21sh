@@ -43,6 +43,8 @@ int				change_dir_routine(char *npath, t_env_var *home)
 
 	if (npath && npath[0] == '~')
 	{
+		if (!home || !home->value)
+			return (ft_fprintf(STDERR_FILENO, "cd: HOME not defined.\n") && 1);
 		npath++;
 		str = ft_strjoin(home->value, npath);
 		res = change_dir_str(str);
