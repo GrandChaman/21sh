@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/28 14:25:06 by fle-roy          ###   ########.fr        #
+#    Updated: 2018/03/28 14:56:06 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ INCLUDE = include
 VPATH = src:src/cli:src/term:src/parser:src/env:src/builtins:src/exec
 SRC = split_evoluted.c count.c init_parser.c quote.c redirection.c \
 fill_struct.c is_correct.c check_correct.c main.c cli.c cli_init.c \
-terminal_settings.c path_utils.c cli_selection.c term_command.c cli_utils.c \
+terminal_settings.c cli_selection.c term_command.c cli_utils.c \
 cli_nav.c cli_delete.c error.c history_loader.c get_parser.c \
 ft_list_del.c ft_list.c execute.c launch.c help.c \
 echo.c exit.c setenv.c utils_env.c cd.c env.c history.c \

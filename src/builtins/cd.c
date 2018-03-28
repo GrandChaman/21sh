@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:41:18 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/21 16:13:35 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/28 14:55:16 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int				builtin_cd(char *npath, t_list **env, t_wait_el *el)
 	if (getcwd(cwd, sizeof(cwd)) && (access(cwd, F_OK) != -1))
 	{
 		oldpwd = ft_memalloc(sizeof(t_env_var));
-		oldpwd->value = ft_getcwd();
+		oldpwd->value = getcwd(NULL, MAXPATHLEN);
 		oldpwd->key = ft_strdup("OLDPWD");
 		if ((builtin_cd_3(npath, oldpwd_path, home) != 0))
 			el->pid = 1;

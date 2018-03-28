@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/18 16:40:02 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 15:17:11 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/28 14:55:27 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void			collect_data_local_file(t_list **list, char *str_part)
 	}
 	if (!dir && !path)
 	{
-		path = ft_getcwd();
+		path = getcwd(NULL, MAXPATHLEN);
 		if ((dir = opendir(path)))
 			load_dir_autocomplete(dir, list, path,
 				(str_part && str_part[0] ? str_part : NULL));
