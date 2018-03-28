@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:55:43 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/27 15:07:45 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/28 14:24:28 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ void		execute_touch(t_ft_sh *shell, unsigned long rchar)
 		}
 }
 
-int			read_command_routine(void)
+static int	read_command_routine(t_ft_sh *sh)
 {
 	unsigned long	rchar;
 	int				rvalue;
 	unsigned char	tmp[8];
-	t_ft_sh			*sh;
 
 	rchar = 0;
 	rvalue = 1;
@@ -52,7 +51,8 @@ int			read_command_routine(void)
 	{
 		rvalue = read(0, tmp, 8);
 		if (rvalue == -1 || (tmp[0] == '\n' && !sh->autocomplete_cusor)
-		|| tmp[0] == T_CTRL_D || tmp[0] == T_CTRL_C)
+		|| (tmp[0] == T_CTRL_D && !sh->buf.cursor)
+		|| tmp[0] == T_CTRL_C)
 			break ;
 		rchar = *((unsigned long*)tmp);
 		execute_touch(get_ft_shell(), rchar);
@@ -73,11 +73,18 @@ static char	*read_command_outro(t_ft_sh *sh, char lchar, int heredoc)
 	while (sh->cursor < sh->buf.cursor)
 		move_in_terminal(T_RARR);
 	ft_putchar('\n');
-	if ((lchar == T_CTRL_D && !heredoc) ||
-		((lchar == T_CTRL_D || lchar == T_CTRL_C) && heredoc))
+	if (lchar == T_CTRL_C)
+		dbuf_clear(&sh->buf);
+	if ((lchar == T_CTRL_D && !heredoc && !sh->buf.cursor)
+		|| (lchar == T_CTRL_C && heredoc))
 		res = NULL;
+	else if (lchar == T_CTRL_D && heredoc)
+	{
+		res = ft_strnew(1);
+		res[0] = T_CTRL_D;
+	}
 	else
-		res = ft_strdup(get_ft_shell()->buf.buf);
+		res = ft_strdup(sh->buf.buf);
 	sh->cursor = 0;
 	sh->alt_cursor = 0;
 	ft_free((void**)&sh->history_last);
@@ -96,7 +103,7 @@ char		*read_command(char *prompt, int status, int heredoc, int fb)
 	prompt_select(prompt, status, heredoc, fb);
 	sh->is_alt_shell = (prompt || heredoc ? 1 : 0);
 	apply_terminal_setting(0);
-	lchar = read_command_routine();
+	lchar = read_command_routine(sh);
 	if (lchar != T_CTRL_D &&
 		!heredoc && (nprompt = check_correct(get_ft_shell()->buf.buf)))
 	{
