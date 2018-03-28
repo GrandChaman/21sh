@@ -47,7 +47,7 @@ static char		*search_str(t_vari *var, char *ori)
 
 static int		final_heredoc(char *tmp, char *str, char *tmp2, int fd)
 {
-	while (ft_strcmp(str, tmp) != 0)
+	while ((ft_strcmp(str, tmp) != 0) && tmp[0] != T_CTRL_D)
 	{
 		tmp2 = ft_strjoin(tmp, "\n");
 		ft_fprintf(fd, tmp2);
