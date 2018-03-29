@@ -59,7 +59,7 @@ static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 			break ;
 		m->x++;
 	}
-	if (el.is_piped)
+	if (m->parser[m->x].output.pipe | m->parser[m->x].input.pipe)
 		*status = chained_waited(&wait_list);
 }
 
