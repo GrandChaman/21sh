@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 16:26:13 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/27 16:39:32 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/29 13:59:53 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,24 @@ void					collect_data(char *str_part)
 }
 
 static void				complete_missing_autocomplete(t_ft_sh *sh,
-	char *str_part)
+	char *str_part, char *completion)
 {
-	t_ft_autoc_entry	*entry;
 	int					i;
 	char				*tmp;
 
 	i = 0;
-	if (!sh->autocomplete_cusor)
+	if (!completion)
 		return ;
-	entry = (t_ft_autoc_entry*)sh->autocomplete_cusor->content;
 	if (!str_part || !(tmp = ft_strrchr(str_part, '/')))
 		tmp = str_part;
 	if (tmp && tmp[0] == '/')
 		tmp++;
-	while (entry->name[i])
-		if (tmp && entry->name[i] == tmp[i])
+	while (completion[i])
+		if (tmp && completion[i] == tmp[i])
 			i++;
 		else
 			break ;
-	insert_in_cli(entry->name + i + (sh->cursor < sh->buf.cursor));
+	insert_in_cli(completion + i + (sh->cursor < sh->buf.cursor));
 }
 
 static void				ft_sh_autocomplete_routine(t_ft_sh *sh, char *str_part)
@@ -94,6 +92,7 @@ static void				ft_sh_autocomplete_routine(t_ft_sh *sh, char *str_part)
 void					ft_sh_autocomplete(unsigned long touch)
 {
 	char			*str_part;
+	char			*completion;
 	t_ft_sh			*sh;
 
 	sh = get_ft_shell();
@@ -107,8 +106,11 @@ void					ft_sh_autocomplete(unsigned long touch)
 	if (touch == T_ENTER || (sh->autocomplete && !sh->autocomplete->next &&
 		!sh->autocomplete->prev && (sh->autocomplete_cusor = sh->autocomplete)))
 	{
-		complete_missing_autocomplete(sh, str_part);
+		completion = ft_strdup(((t_ft_autoc_entry*)
+			sh->autocomplete_cusor->content)->name);
 		cancel_autocompletion(sh, 0);
+		complete_missing_autocomplete(sh, str_part, completion);
+		free(completion);
 	}
 	free(str_part);
 }
