@@ -31,10 +31,11 @@ static void	is_fd(int i, t_parser parser, int stderr_fd, int stock)
 			ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
 			exit(-1);
 		}
+		close(stock);
 	}
 	else if (parser.input.meta[i].name[1] &&
 		parser.input.meta[i].name[1] == '-')
-		ft_easy2(parser);
+		ft_easy2(parser, i, 1);
 }
 
 static void	is_heredoc_2(t_parser parser, int i, int stderr_fd)
@@ -58,6 +59,7 @@ static void	is_heredoc_2(t_parser parser, int i, int stderr_fd)
 		ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
 		exit(-1);
 	}
+	close(fd);
 }
 
 static int	is_normal(t_parser parser, int i, int stderr_fd)
@@ -77,6 +79,7 @@ static int	is_normal(t_parser parser, int i, int stderr_fd)
 		ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
 		exit(-1);
 	}
+	close(fd);
 	return (1);
 }
 
