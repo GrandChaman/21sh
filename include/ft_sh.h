@@ -232,6 +232,7 @@ typedef struct			s_var_m
 	int					fb;
 }						t_var_m;
 
+void					print_parser(t_parser *parser, int nb);
 void					print_ascii_art(void);
 int						change_dir_routine(char *npath, t_env_var *home);
 int						builtin_cd_1(char *oldpwd_path, t_env_var *home);

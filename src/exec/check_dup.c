@@ -35,9 +35,9 @@ static void	is_fd(t_parser parser, int i, int stderr_fd, int stock)
 			}
 		}
 	}
-	else if (parser.output.meta[i].name[1] &&
+	/*else if (parser.output.meta[i].name[1] &&
 		parser.output.meta[i].name[1] == '-')
-		ft_easy2(parser);
+		ft_easy2(parser);*/
 }
 
 static int	is_d_chevron(t_parser parser, int i, int stderr_fd)
@@ -123,5 +123,6 @@ int			check_dup(t_parser parser, int stderr_fd)
 			i++;
 		}
 	}
+	ft_easy2(parser);
 	return (check_dup_input(parser, stderr_fd));
 }
