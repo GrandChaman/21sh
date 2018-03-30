@@ -12,32 +12,6 @@
 
 #include "ft_sh.h"
 
-static void	is_fd(int i, t_parser parser, int stderr_fd, int stock)
-{
-	if (!(parser.input.meta[i].name[1] &&
-		parser.input.meta[i].name[1] == '-'))
-	{
-		ft_easy_input(&stock, i, parser);
-		if (parser.input.meta[i].name[1])
-		{
-			if ((dup2(stock, parser.input.meta[i].name[1] - 48)) == -1)
-			{
-				ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
-				exit(-1);
-			}
-		}
-		else if ((dup2(stock, 0)) == -1)
-		{
-			ft_fprintf(stderr_fd, "21sh: dup: dup failed\n");
-			exit(-1);
-		}
-		close(stock);
-	}
-	else if (parser.input.meta[i].name[1] &&
-		parser.input.meta[i].name[1] == '-')
-		ft_easy2(parser, i, 1);
-}
-
 static void	is_heredoc_2(t_parser parser, int i, int stderr_fd)
 {
 	char	*str;
@@ -92,10 +66,8 @@ int			check_dup_input(t_parser parser, int stderr_fd)
 	{
 		while (parser.input.meta)
 		{
-			if (parser.input.meta[i].name &&
-				parser.input.meta[i].name[0] == '&')
-				is_fd(i, parser, stderr_fd, 0);
-			else
+			if (!(parser.input.meta[i].name &&
+				parser.input.meta[i].name[0] == '&'))
 			{
 				if (parser.input.meta[i].heredoc_number)
 					is_heredoc_2(parser, i, stderr_fd);
