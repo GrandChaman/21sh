@@ -40,7 +40,18 @@
 
 - Press tab
 - Press a key
-- Press a
+- Press tab
+- Select something
+- Select a folder, then re-hit tab
+- Repeat 3 times
+- Select a folder in the middle the cli
+- Complete at the verge of a newline
+
+### - Navigation
+
+- Use SHIFT-Arrow to navigate word per words
+- Use Alt-arrow to navigate over lines
+- HOME and END touch
 
 ## Commands
 
@@ -256,5 +267,3 @@ cat -e >> file | cat -e << EOF >> file ;
 - \<
 - \<<<
 - \>>>
-
-### - Grouped test (multi command + multi redirection)
