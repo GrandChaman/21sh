@@ -35,6 +35,7 @@ t_parser	*get_parser(char *ori)
 				free_parser(parser);
 			return (NULL);
 		}
+		print_parser(parser, stock);
 		return (parser);
 	}
 	return (NULL);
