@@ -48,7 +48,7 @@ static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 			&m->should_exit, m->shell->ht);
 		if (el.pid < 0)
 			break ;
-		el.is_piped = m->parser[m->x].output.pipe | m->parser[m->x].input.pipe;
+		el.is_piped = m->parser[m->x].output.pipe;
 		if (el.pid > 0 && el.is_piped)
 			ft_lstpush_front(&wait_list, &el, sizeof(t_wait_el));
 		else if (el.pid > 0 && !el.is_piped)
