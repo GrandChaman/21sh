@@ -22,3 +22,11 @@ int		builtin_cd_1(char *oldpwd_path, t_env_var *home)
 		res = change_dir_routine(oldpwd_path, home);
 	return (res);
 }
+
+int		free_oldpwd(t_env_var *oldpwd)
+{
+	free(oldpwd->value);
+	free(oldpwd->key);
+	free(oldpwd);
+	return (0);
+}

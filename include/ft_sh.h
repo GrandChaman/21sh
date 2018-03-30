@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/28 14:55:47 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/03/30 21:57:56 by rfautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,8 @@ typedef struct			s_var_m
 	int					fb;
 }						t_var_m;
 
-void					print_parser(t_parser *parser, int nb);
+int						redirection_input_cleaner(int *i, char *ori);
+int						free_oldpwd(t_env_var *var);
 void					print_ascii_art(void);
 int						change_dir_routine(char *npath, t_env_var *home);
 int						builtin_cd_1(char *oldpwd_path, t_env_var *home);
