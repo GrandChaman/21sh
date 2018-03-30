@@ -34,10 +34,16 @@ static int	redirections3_2(int *i, char *ori)
 		else
 		{
 			if (ori[*i] && ori[*i + 1] && ori[*i] == '&')
+			{
 				if (!ft_isstd(ori[*i + 1]) || (ft_isstd(ori[*i + 1])
 					&& (ori[*i + 2] != ' ' && (ori[*i + 2] != '\n')
 					&& ori[*i + 2] != '\0')))
 					return (0);
+					if (!ori[*i + 1] || (ori[*i + 1] == ' ' || ori[*i + 1] == '\n'))
+						return (0);
+			}
+			if (ori[*i] == '&' && !ori[*i + 1])
+				return (0);
 			there_is_space_space(i, ori);
 			if (ori[*i] == '\0' || ft_isatoken(ori[*i]))
 				return (0);
@@ -70,7 +76,11 @@ static int	just_one_chevron(int *i, char *ori)
 			&& (ori[*i + 2] != ' ' && (ori[*i + 2] != '\n')
 			&& ori[*i + 2] != '\0')))
 			return (0);
+		if (!ori[*i + 1] || (ori[*i + 1] == ' ' || ori[*i + 1] == '\n'))
+			return (0);
 	}
+	if (ori[*i] == '&' && !ori[*i + 1])
+		return (0);
 	there_is_space_space(i, ori);
 	if (ori[*i] == '\0' || ft_isatoken(ori[*i]))
 		return (0);

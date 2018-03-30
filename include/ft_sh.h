@@ -266,7 +266,7 @@ void					ft_easy_input(int *stock, int i,
 int						check_dup_input(t_parser parser, int stderr_fd);
 void					ft_easy_output(int *stock, int i,
 	t_parser parser);
-void					ft_easy2(t_parser parser);
+void					ft_easy2(t_parser parser, int x_meta, int is_input);
 int						check_dup(t_parser parser, int stderr_fd);
 void					fill_it(t_vari *var, t_parser *parser, char *ori);
 void					fill_backslashzero(t_vari *var, t_parser *parser);
