@@ -33,15 +33,8 @@ static int	redirections3_2(int *i, char *ori)
 		}
 		else
 		{
-			if (ori[*i] && ori[*i + 1] && ori[*i] == '&')
-			{
-				if (!ft_isstd(ori[*i + 1]) || (ft_isstd(ori[*i + 1])
-					&& (ori[*i + 2] != ' ' && (ori[*i + 2] != '\n')
-					&& ori[*i + 2] != '\0')))
-					return (0);
-					if (!ori[*i + 1] || (ori[*i + 1] == ' ' || ori[*i + 1] == '\n'))
-						return (0);
-			}
+			if (redirection_input_cleaner(i, ori))
+				return (0);
 			if (ori[*i] == '&' && !ori[*i + 1])
 				return (0);
 			there_is_space_space(i, ori);
