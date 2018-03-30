@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/27 16:33:42 by bluff            ###   ########.fr       */
+/*   Updated: 2018/03/30 15:01:38 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 			break ;
 		m->x++;
 	}
-	if (m->parser[m->x].output.pipe | m->parser[m->x].input.pipe)
+	if (wait_list)
 		*status = chained_waited(&wait_list);
 }
 
