@@ -82,10 +82,12 @@ static int	just_one_chevron(int *i, char *ori)
 
 int			redirections3(int *i, char *ori)
 {
+	if (!i || !ori)
+		return (0);
 	if (ori[*i] && ori[*i + 1] && (ft_isstd(ori[*i])) &&
 		(ori[*i + 1] == '<' || ori[*i + 1] == '>'))
 	{
-		if (ori[*i - 1] != ' ')
+		if (*i > 0 && ori[*i - 1] != ' ')
 			return (0);
 		*i = *i + 1;
 	}
