@@ -33,7 +33,7 @@ static void	malloc_all(t_vari *var, t_parser *parser, char *ori)
 {
 	if (var->z == 0 && var->box == 1)
 		parser[var->b].cmd = (char **)ft_memalloc(sizeof(char *) *
-			(var->nbr_argv));
+			(var->nbr_argv + 1));
 	if (var->box == 1)
 		parser[var->b].cmd[var->z] = (char *)ft_memalloc(sizeof(char) *
 		var->o + 1);
