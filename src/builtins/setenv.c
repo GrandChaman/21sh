@@ -6,14 +6,13 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/04/03 11:25:03 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 14:14:02 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static int		builtin_setenv_2(t_env_var *e_var, char **args, int i,
-	t_wait_el *el)
+static int		builtin_setenv_2(t_env_var *e_var, char **args, int i)
 {
 	e_var->key = ft_strdup(args[1]);
 	while (e_var->key[i])
@@ -21,7 +20,6 @@ static int		builtin_setenv_2(t_env_var *e_var, char **args, int i,
 		if (!ft_isalnum(e_var->key[i]))
 		{
 			free(e_var->key);
-			el->pid = 1;
 			ft_printf("KEY doesn't allow ");
 			return (ft_printf("non alphanumeric value\n") && 1);
 		}
@@ -36,12 +34,11 @@ int				builtin_setenv(char **args, t_list **env, t_wait_el *el, int i)
 	t_env_var	e_var;
 	char		*tmp;
 
-	el->pid = 0;
+	el->pid = -2;
 	tmp = NULL;
 	if (!args[1] || (args[1] && !(tmp = ft_strchr(args[1], '=')) && !args[2]))
 	{
-		return (ft_printf("Usage: setenv KEY[=VALUE] [VALUE]\n")
-			&& (el->pid = 1) && 1);
+		return (ft_printf("Usage: setenv KEY[=VALUE] [VALUE]\n") && 1);
 	}
 	if (tmp)
 	{
@@ -53,7 +50,7 @@ int				builtin_setenv(char **args, t_list **env, t_wait_el *el, int i)
 	}
 	else
 	{
-		if (builtin_setenv_2(&e_var, args, 0, el) != 0)
+		if (builtin_setenv_2(&e_var, args, 0) != 0)
 			return (0);
 	}
 	param_ins_or_rep(env, &e_var);
@@ -64,9 +61,9 @@ int				builtin_unsetenv(char **args, t_list **env, t_wait_el *el)
 {
 	t_list	*tmp;
 
+	el->pid = -2;
 	if (!args[1])
 	{
-		el->pid = 1;
 		return (ft_printf("Usage: unsetenv KEY\n") && 1);
 	}
 	tmp = *env;
