@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/30 15:01:38 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 14:13:27 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int			chained_waited(t_list **wl)
 		tmp = tmp->next;
 		if (!el)
 			continue;
-		waitpid(el->pid, &status, WUNTRACED);
+		if (el->pid >= 0)
+			waitpid(el->pid, &status, WUNTRACED);
 	}
 	ft_lstdel(wl, NULL);
 	return (status);
@@ -46,12 +47,12 @@ static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 	{
 		el = execute(m->parser[m->x], head,
 			&m->should_exit, m->shell->ht);
-		if (el.pid < 0)
+		if (el.pid == -1)
 			break ;
 		el.is_piped = m->parser[m->x].output.pipe;
-		if (el.pid > 0 && el.is_piped)
+		if (el.is_piped)
 			ft_lstpush_front(&wait_list, &el, sizeof(t_wait_el));
-		else if (el.pid > 0 && !el.is_piped)
+		else if (!el.is_piped)
 			ft_lstpush_back(&wait_list, &el, sizeof(t_wait_el));
 		if (!el.is_piped)
 			*status = chained_waited(&wait_list);

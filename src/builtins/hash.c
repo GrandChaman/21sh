@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 10:34:34 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 10:46:29 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 13:55:32 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		gen_hash(t_list *env, t_wait_el *el)
 {
 	t_ft_sh *sh;
 
-	el->pid = 0;
+	el->pid = -2;
 	sh = get_ft_shell();
 	if (sh->ht)
 	{
@@ -26,7 +26,6 @@ int		gen_hash(t_list *env, t_wait_el *el)
 	}
 	if (!env || !ft_lstfind(env, "PATH", compare_with_key))
 	{
-		el->pid = 1;
 		return (ft_printf("hash: Can't generate the hash table because"
 			" PATH is not defined\n") && 1);
 	}

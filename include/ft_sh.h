@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/30 21:57:56 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/04/03 14:18:16 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@
 # define TC_CLEAR "cl"
 # define TC_BELL "vb"
 # define ABS(x) ((x) < 0 ? ((x) * -1) : (x))
-# define SH_HIST_MAX_SIZE 10
+# define SH_HIST_MAX_SIZE 100
 # define EF_OK 1
 # define EF_DENIED 2
 # define EF_NOTFOUND 5
