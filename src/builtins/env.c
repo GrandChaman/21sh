@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 16:26:47 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/23 13:43:47 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 11:01:58 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		print_env(t_list *env)
 	}
 }
 
-static void	in_var(int *arg_offset, int *status)
+static void	init_env_var(int *arg_offset, int *status)
 {
 	*arg_offset = 1;
 	*status = 0;
@@ -34,7 +34,7 @@ int			builtin_env(t_list **env, char **args, t_parser parser)
 	int					status;
 	t_wait_el			el;
 
-	in_var(&arg_offset, &status);
+	init_env_var(&arg_offset, &status);
 	if (!args[arg_offset])
 		print_env(*env);
 	else

@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/22 15:34:23 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 11:25:03 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int				builtin_unsetenv(char **args, t_list **env, t_wait_el *el)
 	{
 		if (!ft_strcmp(((t_env_var*)tmp->content)->key, args[1]))
 		{
+			if (tmp == *env)
+				*env = (*env)->next;
 			ft_lstdelone(&tmp, free_env_var);
 			break ;
 		}
