@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 14:57:06 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/19 13:14:14 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 16:38:24 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int			is_env_correct(void)
 
 	sh = get_ft_shell();
 	res = tgetent(NULL, getenv("TERM"));
-	if (res == -1)
+	if (res == -1 || ft_strcmp(getenv("TERM"), "xterm-256color"))
 		return (!ft_fprintf(2,
-			"TERM environment variable is not set or is incorrect.\n"));
+			"TERM environment variable is not set or is incorrect. "
+			"Works only with \"xterm-256color\"\n"));
 	else if (res == 0)
 		return (!ft_fprintf(2, "TERM info database not found.\n"));
 	return (1);

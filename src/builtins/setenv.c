@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/04/03 14:14:02 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 17:35:06 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ int				builtin_setenv(char **args, t_list **env, t_wait_el *el, int i)
 	el->pid = -2;
 	tmp = NULL;
 	if (!args[1] || (args[1] && !(tmp = ft_strchr(args[1], '=')) && !args[2]))
-	{
 		return (ft_printf("Usage: setenv KEY[=VALUE] [VALUE]\n") && 1);
-	}
 	if (tmp)
 	{
 		e_var.key = ft_strsub(args[1], 0, (int)(tmp - args[1]));
 		while (e_var.key[++i])
 			if (check_if_key_ok(e_var, i, el) == 1)
 				return (1);
-		e_var.value = ft_strdup(tmp + 1);
+		if (!(tmp[1]) && args[2])
+			e_var.value = ft_strdup(args[2]);
+		else
+			e_var.value = ft_strdup(tmp + 1);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:16:42 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/22 15:36:37 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 16:47:10 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int						compare_with_key(void *e1, void *e2)
 
 int						check_if_key_ok(t_env_var e_var, int i, t_wait_el *el)
 {
-	if (!ft_isalnum(e_var.key[i]))
+	if (!ft_isalnum(e_var.key[i]) && e_var.key[i] != '_')
 	{
 		free(e_var.key);
 		el->pid = 1;

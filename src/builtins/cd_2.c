@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfautier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 17:31:10 by rfautier          #+#    #+#             */
-/*   Updated: 2018/03/25 17:31:15 by rfautier         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:30:39 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ int		free_oldpwd(t_env_var *oldpwd)
 {
 	free(oldpwd->value);
 	free(oldpwd->key);
-	free(oldpwd);
 	return (0);
+}
+
+void	set_env_post_cd(t_list **env)
+{
+	t_env_var *env_var;
+
+	env_var = (t_env_var*)ft_memalloc(sizeof(t_env_var));
+	env_var->value = getcwd(NULL, MAXPATHLEN);
+	env_var->key = ft_strdup("PWD");
+	if (env_var->value)
+		param_ins_or_rep(env, env_var);
+	else
+		free_oldpwd(env_var);
+	free(env_var);
 }
