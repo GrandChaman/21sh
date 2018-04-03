@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:56:03 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/04/03 17:28:19 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 17:58:42 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,8 @@ void					char2d_tolist(t_list **env, char **args);
 void					free_env_var(void *el, size_t size);
 t_list					*dup_environment(t_list *env);
 char					**list_tochar2d(t_list *list);
-void					extract_define(t_list **list, const char *param);
+void					extract_define(t_list **list, const char **param,
+	int *offset);
 t_bin_hash_table		*load_bin_into_hash_table(t_list *env);
 int						compare_with_key(void *e1, void *e2);
 void					free_hash_table(t_bin_hash_table **ht);
