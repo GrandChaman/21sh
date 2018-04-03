@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 10:40:09 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/04/03 14:13:27 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 16:26:01 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int			chained_waited(t_list **wl)
 			continue;
 		if (el->pid >= 0)
 			waitpid(el->pid, &status, WUNTRACED);
+		else
+			status = 0;
 	}
 	ft_lstdel(wl, NULL);
 	return (status);

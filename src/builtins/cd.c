@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:41:18 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/04/03 14:14:17 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 17:34:00 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ static int		builtin_cd_3(char *npath, char *oldpwd_path, t_env_var *home)
 int				builtin_cd(char *npath, t_list **env, t_wait_el *el)
 {
 	t_list			*cursor;
-	t_env_var		*oldpwd;
+	t_env_var		*env_var;
 	char			*oldpwd_path;
 	t_env_var		*home;
 
 	cursor = NULL;
-	oldpwd = NULL;
+	env_var = (t_env_var*)ft_memalloc(sizeof(t_env_var));
 	home = NULL;
 	oldpwd_path = NULL;
 	el->pid = -2;
@@ -99,13 +99,14 @@ int				builtin_cd(char *npath, t_list **env, t_wait_el *el)
 		home = (t_env_var*)cursor->content;
 	if ((cursor = ft_lstfind(*env, "OLDPWD", compare_with_key)))
 		oldpwd_path = ((t_env_var*)cursor->content)->value;
-	oldpwd = ft_memalloc(sizeof(t_env_var));
-	oldpwd->value = getcwd(NULL, MAXPATHLEN);
-	oldpwd->key = ft_strdup("OLDPWD");
+	env_var->value = getcwd(NULL, MAXPATHLEN);
+	env_var->key = ft_strdup("OLDPWD");
 	builtin_cd_3(npath, oldpwd_path, home);
-	if (!oldpwd->value)
-		return (free_oldpwd(oldpwd));
-	param_ins_or_rep(env, oldpwd);
-	free(oldpwd);
+	if (env_var->value)
+		param_ins_or_rep(env, env_var);
+	else
+		free_oldpwd(env_var);
+	set_env_post_cd(env);
+	free(env_var);
 	return (0);
 }
