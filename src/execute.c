@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 12:40:03 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/03/23 15:23:26 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 16:09:05 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,28 @@ static void	launch_forked_builtin(char **cmd, t_list **head, t_parser parser,
 int			launch_builtin(char **cmd, t_list **head, t_parser parser,
 	t_wait_el *el)
 {
-	if (ft_strcmp(cmd[0], "unsetenv") == 0)
-		return (builtin_unsetenv(cmd, head, el));
-	else if (ft_strcmp(cmd[0], "setenv") == 0)
-		return (builtin_setenv(cmd, head, el, -1));
-	else if (ft_strcmp(cmd[0], "cd") == 0)
-		return (builtin_cd(cmd[1], head, el));
-	else if (ft_strcmp(cmd[0], "hash") == 0)
-		return (gen_hash(*head, el));
+	int res;
+
 	init_pipe_in_parent(&parser, get_dup_el());
-	el->pid = fork();
-	if (!el->pid)
-		launch_forked_builtin(cmd, head, parser, get_dup_el());
-	else if (el->pid < 0)
-		ft_putendl("21sh: fork error\n");
+	if (ft_strcmp(cmd[0], "unsetenv") == 0)
+		res = builtin_unsetenv(cmd, head, el);
+	else if (ft_strcmp(cmd[0], "setenv") == 0)
+		res = builtin_setenv(cmd, head, el, -1);
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		res = builtin_cd(cmd[1], head, el);
+	else if (ft_strcmp(cmd[0], "hash") == 0)
+		res = gen_hash(*head, el);
+	else
+	{
+		el->pid = fork();
+		if (!el->pid)
+			launch_forked_builtin(cmd, head, parser, get_dup_el());
+		else if (el->pid < 0)
+			ft_putendl("21sh: fork error\n");
+		res = 0;
+	}
 	close_fds_in_parent(&parser, get_dup_el());
-	return (0);
+	return (res);
 }
 
 int			is_built_in(char **cmd)
