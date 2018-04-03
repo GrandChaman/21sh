@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:29:35 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/03/22 15:40:02 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/03 18:08:20 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,17 @@ t_list					*dup_environment(t_list *env)
 	return (res);
 }
 
-void					extract_define(t_list **list, const char *param)
+void					extract_define(t_list **list, const char **param,
+	int *offset)
 {
 	t_env_var	res;
 	int			pos;
 	int			i;
 
 	i = 0;
-	if (!param || !(pos = ft_haschar((char*)param, '=')))
+	if (!param[*offset] || !(pos = ft_haschar((char*)param[*offset], '=')))
 		return ;
-	res.key = ft_strsub(param, 0, pos - 1);
+	res.key = ft_strsub(param[*offset], 0, pos - 1);
 	while (ft_isalnum(res.key[i]))
 		i++;
 	if (res.key[i])
@@ -98,7 +99,12 @@ void					extract_define(t_list **list, const char *param)
 		free(res.key);
 		return ;
 	}
-	res.value = ft_strsub(param, pos, ft_strlen(param) - pos);
+	if (!param[*offset][pos] &&
+		param[*offset + 1])
+		res.value = ft_strdup(param[(*offset)++ + 1]);
+	else
+		res.value = ft_strsub(param[*offset], pos, ft_strlen(param[*offset]) - pos);
+	(*offset)++;
 	param_ins_or_rep(list, &res);
 	return ;
 }
