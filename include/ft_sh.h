@@ -232,6 +232,7 @@ typedef struct			s_var_m
 	int					fb;
 }						t_var_m;
 
+void					create_file(t_parser parser);
 void					set_env_post_cd(t_list **env);
 int						redirection_input_cleaner(int *i, char *ori);
 int						free_oldpwd(t_env_var *var);

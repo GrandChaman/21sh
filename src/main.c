@@ -44,9 +44,10 @@ static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 
 	wait_list = NULL;
 	m->nb = m->parser[0].nb;
-	m->x = 0;
-	while (m->x < m->nb)
+	m->x = -1;
+	while (++m->x < m->nb)
 	{
+		create_file(m->parser[m->x]);
 		el = execute(m->parser[m->x], head,
 			&m->should_exit, m->shell->ht);
 		if (el.pid == -1)
@@ -60,7 +61,6 @@ static void	main_routine_2(t_list **head, t_var_m *m, int *status)
 			*status = chained_waited(&wait_list);
 		if (m->should_exit)
 			break ;
-		m->x++;
 	}
 	if (wait_list)
 		*status = chained_waited(&wait_list);
