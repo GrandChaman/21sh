@@ -6,7 +6,7 @@
 /*   By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:29:35 by fle-roy           #+#    #+#             */
-/*   Updated: 2018/04/03 18:08:20 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/04 10:31:15 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void					extract_define(t_list **list, const char **param,
 		param[*offset + 1])
 		res.value = ft_strdup(param[(*offset)++ + 1]);
 	else
-		res.value = ft_strsub(param[*offset], pos, ft_strlen(param[*offset]) - pos);
+		res.value = ft_strsub(param[*offset], pos,
+			ft_strlen(param[*offset]) - pos);
 	(*offset)++;
 	param_ins_or_rep(list, &res);
 	return ;
