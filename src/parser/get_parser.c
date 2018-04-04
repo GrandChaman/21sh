@@ -12,26 +12,6 @@
 
 #include "ft_sh.h"
 
-static void	creat_file_input(t_parser parser)
-{
-	int fd;
-	int i;
-
-	i = 0;
-	while (parser.input.meta)
-	{
-		if (parser.input.meta[i].name[0] != '&')
-		{
-			if ((fd = open(parser.input.meta[i].name, O_RDWR | O_CREAT
-				| O_EXCL, 0777)) != -1)
-				close(fd);
-		}
-		if (parser.input.meta[i].next_exist == 0)
-			break ;
-		i++;
-	}
-}
-
 void		create_file(t_parser parser)
 {
 	int fd;
@@ -50,7 +30,6 @@ void		create_file(t_parser parser)
 			break ;
 		i++;
 	}
-	creat_file_input(parser);
 }
 
 t_parser	*get_parser(char *ori)
