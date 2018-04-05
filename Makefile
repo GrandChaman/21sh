@@ -6,7 +6,7 @@
 #    By: fle-roy <fle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 13:28:08 by fle-roy           #+#    #+#              #
-#    Updated: 2018/03/30 19:35:02 by rfautier         ###   ########.fr        #
+#    Updated: 2018/04/05 16:46:34 by fle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,9 @@ NAME = 21sh
 NAME_UP = 21SH
 LIBFT = $(addprefix $(LIBFT_DIR)/, bin/libft.a)
 
-all: $(LIBFT) $(NAME)
+all: lib $(NAME)
+lib:
+	@$(MAKE) -C $(LIBFT_DIR)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 $(OBJ_DIR)/%.o: %.c
