@@ -6,23 +6,20 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 13:25:54 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/04/03 17:35:06 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/07 01:34:31 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static int		builtin_setenv_2(t_env_var *e_var, char **args, int i)
+static int		builtin_setenv_2(t_env_var *e_var, char **args, int i,
+	t_wait_el *el)
 {
 	e_var->key = ft_strdup(args[1]);
 	while (e_var->key[i])
 	{
-		if (!ft_isalnum(e_var->key[i]))
-		{
-			free(e_var->key);
-			ft_printf("KEY doesn't allow ");
-			return (ft_printf("non alphanumeric value\n") && 1);
-		}
+		if (check_if_key_ok(*e_var, i, el) == 1)
+			return (1);
 		i++;
 	}
 	e_var->value = ft_strdup(args[2]);
@@ -51,7 +48,7 @@ int				builtin_setenv(char **args, t_list **env, t_wait_el *el, int i)
 	}
 	else
 	{
-		if (builtin_setenv_2(&e_var, args, 0) != 0)
+		if (builtin_setenv_2(&e_var, args, 0, el) != 0)
 			return (0);
 	}
 	param_ins_or_rep(env, &e_var);
