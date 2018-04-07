@@ -6,7 +6,7 @@
 /*   By: rfautier <rfautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 17:34:03 by rfautier          #+#    #+#             */
-/*   Updated: 2018/04/03 15:26:00 by fle-roy          ###   ########.fr       */
+/*   Updated: 2018/04/07 02:41:51 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ void		init_pipe_in_parent(t_parser *parser, t_dup *dup_el)
 	if ((parser->input.pipe && parser->output.pipe) ||
 		(!parser->input.pipe && parser->output.pipe))
 		pipe(dup_el->mpipe);
+}
+
+static void	final_check_dup_and_clean_up(t_parser *parser, int stderr_save)
+{
+	if (!(check_dup(*parser, stderr_save)))
+		exit(-1);
+	close(stderr_save);
 }
 
 void		open_fds_in_fork(t_parser *parser, t_dup *dup_el)
@@ -54,10 +61,9 @@ void		open_fds_in_fork(t_parser *parser, t_dup *dup_el)
 		dup2(dup_el->mpipe[1], 1);
 		close(dup_el->save_read);
 		close(dup_el->mpipe[1]);
+		close(dup_el->mpipe[0]);
 	}
-	if (!(check_dup(*parser, stderr_save)))
-		exit(-1);
-	close(stderr_save);
+	final_check_dup_and_clean_up(parser, stderr_save);
 }
 
 void		close_fds_in_parent(t_parser *parser, t_dup *dup_el)
