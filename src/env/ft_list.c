@@ -6,7 +6,7 @@
 /*   By: vbaudot <vbaudot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 11:29:15 by vbaudot           #+#    #+#             */
-/*   Updated: 2018/02/28 15:29:53 by vbaudot          ###   ########.fr       */
+/*   Updated: 2018/04/07 02:09:04 by fle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char		**create_env_from_list(t_list **head)
 	int		i;
 
 	i = 0;
-	env = (char **)malloc(sizeof(char *) * list_len(head));
+	env = (char **)ft_memalloc(sizeof(char *) * list_len(head));
 	if (*head != NULL)
 	{
 		curr = *head;
